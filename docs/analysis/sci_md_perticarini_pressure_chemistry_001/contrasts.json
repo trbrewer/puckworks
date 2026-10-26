@@ -1,0 +1,4498 @@
+{
+  "actual_base": "b3860d47ae6de6f6592add05cfac78fe9fb00487",
+  "allowances": {
+    "h_C_pp": {
+      "display": "0.05",
+      "exact": "1/20"
+    },
+    "h_tau_s": {
+      "display": "0.5",
+      "exact": "1/2"
+    }
+  },
+  "arithmetic_identities": [
+    {
+      "component_ids": [
+        "J-cibao-T93.4-extra_fine-P9to12",
+        "J-cibao-T93.4-extra_fine-P6to9"
+      ],
+      "composed_coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P12|extra_fine": 1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|extra_fine": -1
+      },
+      "duration_composed": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "positive",
+        "critical_allowance": {
+          "display": "4",
+          "exact": "4"
+        },
+        "lower": {
+          "display": "7",
+          "exact": "7"
+        },
+        "nominal": {
+          "display": "8",
+          "exact": "8"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "9",
+          "exact": "9"
+        }
+      },
+      "duration_residual": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 0,
+        "conditional_status": "structural_zero",
+        "critical_allowance": null,
+        "lower": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal_status": "structural_zero",
+        "printed_tie": false,
+        "radius": {
+          "display": "0",
+          "exact": "0"
+        },
+        "strict_domain": "empty",
+        "units": "s",
+        "upper": {
+          "display": "0",
+          "exact": "0"
+        }
+      },
+      "grind_id": "extra_fine",
+      "residual_coefficients": {},
+      "tds_composed": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "lower": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "0.2",
+          "exact": "1/5"
+        }
+      },
+      "tds_residual": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 0,
+        "conditional_status": "structural_zero",
+        "critical_allowance": null,
+        "lower": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal_status": "structural_zero",
+        "printed_tie": false,
+        "radius": {
+          "display": "0",
+          "exact": "0"
+        },
+        "strict_domain": "empty",
+        "units": "percentage points",
+        "upper": {
+          "display": "0",
+          "exact": "0"
+        }
+      },
+      "total_id": "J-cibao-T93.4-extra_fine-P6to12"
+    },
+    {
+      "component_ids": [
+        "J-cibao-T93.4-extra_coarse-P9to12",
+        "J-cibao-T93.4-extra_coarse-P6to9"
+      ],
+      "composed_coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P12|extra_coarse": 1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|extra_coarse": -1
+      },
+      "duration_composed": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "3.5",
+          "exact": "7/2"
+        },
+        "lower": {
+          "display": "-8",
+          "exact": "-8"
+        },
+        "nominal": {
+          "display": "-7",
+          "exact": "-7"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "-6",
+          "exact": "-6"
+        }
+      },
+      "duration_residual": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 0,
+        "conditional_status": "structural_zero",
+        "critical_allowance": null,
+        "lower": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal_status": "structural_zero",
+        "printed_tie": false,
+        "radius": {
+          "display": "0",
+          "exact": "0"
+        },
+        "strict_domain": "empty",
+        "units": "s",
+        "upper": {
+          "display": "0",
+          "exact": "0"
+        }
+      },
+      "grind_id": "extra_coarse",
+      "residual_coefficients": {},
+      "tds_composed": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "0.3",
+          "exact": "3/10"
+        },
+        "lower": {
+          "display": "-0.7",
+          "exact": "-7/10"
+        },
+        "nominal": {
+          "display": "-0.6",
+          "exact": "-3/5"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "-0.5",
+          "exact": "-1/2"
+        }
+      },
+      "tds_residual": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 0,
+        "conditional_status": "structural_zero",
+        "critical_allowance": null,
+        "lower": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal_status": "structural_zero",
+        "printed_tie": false,
+        "radius": {
+          "display": "0",
+          "exact": "0"
+        },
+        "strict_domain": "empty",
+        "units": "percentage points",
+        "upper": {
+          "display": "0",
+          "exact": "0"
+        }
+      },
+      "total_id": "J-cibao-T93.4-extra_coarse-P6to12"
+    }
+  ],
+  "assumptions": {
+    "EY": "published central-value comparisons only; uncertainty unqualified; no SD/h_C propagation or exact brew ratio",
+    "allowance": "TOTAL declared per-condition perturbation; not measured error, SD, SE, CI, tolerance or added rounding allowance",
+    "box": "C_i*=C_i+delta_i, |delta_i|<=h_C>=0 pp; tau_i*=tau_i+eta_i, |eta_i|<=h_tau>=0 s",
+    "chemical_operator": "refractometer aliquot; three samples; C_bar=sum(C_j)/3; E_bar=sum(C_j/r_j)/3; r_j=dose_j/beverage_j",
+    "classification": [
+      "G1",
+      "NO_GOVERNING_PHYSICS_CHANGE",
+      "RESEARCH_ONLY",
+      "RETROSPECTIVE",
+      "TARGET_EXPOSED",
+      "SOURCE_INTERNAL",
+      "NONSCORING"
+    ],
+    "dependence": "one common original-condition collection; no probabilistic independence; overlapping marginal extrema need not be jointly attainable",
+    "duration": "reported condition duration; statistic, spread, rounding and clock convention unknown",
+    "excluded": [
+      "model fit",
+      "causal/population law",
+      "duration-to-chemistry predictor",
+      "physical mechanism",
+      "rejection of duration-only physical law",
+      "measured flow from 40/tau",
+      "individual masses from EY/TDS means",
+      "sensory/practical equivalence",
+      "EWP comparison",
+      "production adoption",
+      "independent confirmation from TDS and EY"
+    ],
+    "exposure": "sources and preliminary contrasts inspected before PLAN; not preregistered or protected",
+    "grind": "ordinal within coffee; Optimal recipe-defined; no calibrated cross-coffee or Cameron mapping",
+    "illustration": "h_C=0.05 pp and h_tau=0.5 s are conditional illustrations, not authenticated measurement bounds",
+    "lineage": "thesis Table 4.3 = Egidi Table 2; sole canonical identity egidi2024/table2",
+    "native_format": "all three tables: TDS means one decimal; EY means two; TDS SD format varies",
+    "observation_unit": "original published condition summary; join is not raw-shot pairing",
+    "physical_validation": "NOT_ESTABLISHED",
+    "pressure": "native nominal machine labels; reference, sensor node and actual history unknown",
+    "sigma": "reported TDS SD; estimator unspecified; descriptive, including printed zero",
+    "strict_sign": "combine coefficients first; [L0-s*h,L0+s*h]; nonzero L0,s>0: 0<=h<abs(L0)/s; equality unresolved",
+    "temperature": "exact source setting; not measured puck temperature history",
+    "ties": "printed zero is not physical equality; structural identity s=0 has zero radius for all allowances",
+    "unknown": [
+      "raw replicate values",
+      "EY SDs",
+      "relevant covariance",
+      "actual condition masses",
+      "authenticated joint timing/chemistry replicate model",
+      "rounding and measurement accuracy"
+    ]
+  },
+  "comparisons": [
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|extra_fine": -1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|extra_fine": 1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "comparison_id": "J-cibao-T93.4-extra_fine-P6to9",
+      "conditional_joint": "DURATION SIGN UNRESOLVED / TDS SIGN UNRESOLVED",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "lower": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal": {
+          "display": "1",
+          "exact": "1"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "2",
+          "exact": "2"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "-0.03",
+        "exact": "-3/100"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "primary",
+      "grind_id": "extra_fine",
+      "high_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|extra_fine",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": true,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "reason": "printed zero: TDS"
+      },
+      "low_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|extra_fine",
+      "nominal_joint": "LONGER / TDS PRINTED TIE",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-cibao-T93.4-extra_fine-P6to9",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "9",
+      "source_grind_label": "Extra Fine",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "21.77",
+          "tau_s": "74",
+          "tds_mean_pct": "10.9",
+          "tds_sd_pct": "0.16"
+        },
+        "low": {
+          "ey_mean_pct": "21.8",
+          "tau_s": "73",
+          "tds_mean_pct": "10.9",
+          "tds_sd_pct": "0.42"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0",
+          "exact": "0"
+        },
+        "lower": {
+          "display": "-0.1",
+          "exact": "-1/10"
+        },
+        "nominal": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal_status": "reported_zero",
+        "printed_tie": true,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "empty",
+        "units": "percentage points",
+        "upper": {
+          "display": "0.1",
+          "exact": "1/10"
+        }
+      },
+      "temperature_degC": "93.4"
+    },
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|fine": -1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|fine": 1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "comparison_id": "J-cibao-T93.4-fine-P6to9",
+      "conditional_joint": "DURATION SIGN UNRESOLVED / LOWER TDS",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0",
+          "exact": "0"
+        },
+        "lower": {
+          "display": "-1",
+          "exact": "-1"
+        },
+        "nominal": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal_status": "reported_zero",
+        "printed_tie": true,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "empty",
+        "units": "s",
+        "upper": {
+          "display": "1",
+          "exact": "1"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "-0.96",
+        "exact": "-24/25"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "primary",
+      "grind_id": "fine",
+      "high_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|fine",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": true,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.25",
+          "exact": "1/4"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "reason": "printed zero: duration"
+      },
+      "low_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|fine",
+      "nominal_joint": "DURATION PRINTED TIE / LOWER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-cibao-T93.4-fine-P6to9",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "9",
+      "source_grind_label": "Fine",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "20.9",
+          "tau_s": "42",
+          "tds_mean_pct": "10.2",
+          "tds_sd_pct": "0.27"
+        },
+        "low": {
+          "ey_mean_pct": "21.86",
+          "tau_s": "42",
+          "tds_mean_pct": "10.7",
+          "tds_sd_pct": "0.15"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "0.25",
+          "exact": "1/4"
+        },
+        "lower": {
+          "display": "-0.6",
+          "exact": "-3/5"
+        },
+        "nominal": {
+          "display": "-0.5",
+          "exact": "-1/2"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "-0.4",
+          "exact": "-2/5"
+        }
+      },
+      "temperature_degC": "93.4"
+    },
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|optimal": -1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|optimal": 1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "comparison_id": "J-cibao-T93.4-optimal-P6to9",
+      "conditional_joint": "SHORTER / LOWER TDS",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "3",
+          "exact": "3"
+        },
+        "lower": {
+          "display": "-7",
+          "exact": "-7"
+        },
+        "nominal": {
+          "display": "-6",
+          "exact": "-6"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "-5",
+          "exact": "-5"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "-0.58",
+        "exact": "-29/50"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "primary",
+      "grind_id": "optimal",
+      "high_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|optimal",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": false,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "3",
+          "exact": "3"
+        },
+        "reason": null
+      },
+      "low_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|optimal",
+      "nominal_joint": "SHORTER / LOWER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-cibao-T93.4-optimal-P6to9",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "9",
+      "source_grind_label": "Optimal",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "20.77",
+          "tau_s": "25",
+          "tds_mean_pct": "10.3",
+          "tds_sd_pct": "0.0"
+        },
+        "low": {
+          "ey_mean_pct": "21.35",
+          "tau_s": "31",
+          "tds_mean_pct": "10.5",
+          "tds_sd_pct": "0.2"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "lower": {
+          "display": "-0.3",
+          "exact": "-3/10"
+        },
+        "nominal": {
+          "display": "-0.2",
+          "exact": "-1/5"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "-0.1",
+          "exact": "-1/10"
+        }
+      },
+      "temperature_degC": "93.4"
+    },
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|coarse": -1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|coarse": 1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "comparison_id": "J-cibao-T93.4-coarse-P6to9",
+      "conditional_joint": "SHORTER / LOWER TDS",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "2.5",
+          "exact": "5/2"
+        },
+        "lower": {
+          "display": "-6",
+          "exact": "-6"
+        },
+        "nominal": {
+          "display": "-5",
+          "exact": "-5"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "-4",
+          "exact": "-4"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "-0.29",
+        "exact": "-29/100"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "primary",
+      "grind_id": "coarse",
+      "high_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|coarse",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": false,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.25",
+          "exact": "1/4"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "2.5",
+          "exact": "5/2"
+        },
+        "reason": null
+      },
+      "low_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|coarse",
+      "nominal_joint": "SHORTER / LOWER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-cibao-T93.4-coarse-P6to9",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "9",
+      "source_grind_label": "Coarse",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "19.91",
+          "tau_s": "19",
+          "tds_mean_pct": "9.6",
+          "tds_sd_pct": "0.25"
+        },
+        "low": {
+          "ey_mean_pct": "20.2",
+          "tau_s": "24",
+          "tds_mean_pct": "10.1",
+          "tds_sd_pct": "0.17"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "0.25",
+          "exact": "1/4"
+        },
+        "lower": {
+          "display": "-0.6",
+          "exact": "-3/5"
+        },
+        "nominal": {
+          "display": "-0.5",
+          "exact": "-1/2"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "-0.4",
+          "exact": "-2/5"
+        }
+      },
+      "temperature_degC": "93.4"
+    },
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|extra_coarse": -1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|extra_coarse": 1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "comparison_id": "J-cibao-T93.4-extra_coarse-P6to9",
+      "conditional_joint": "SHORTER / LOWER TDS",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "3",
+          "exact": "3"
+        },
+        "lower": {
+          "display": "-7",
+          "exact": "-7"
+        },
+        "nominal": {
+          "display": "-6",
+          "exact": "-6"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "-5",
+          "exact": "-5"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "-0.9",
+        "exact": "-9/10"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "primary",
+      "grind_id": "extra_coarse",
+      "high_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|extra_coarse",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": false,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.3",
+          "exact": "3/10"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "3",
+          "exact": "3"
+        },
+        "reason": null
+      },
+      "low_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|extra_coarse",
+      "nominal_joint": "SHORTER / LOWER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-cibao-T93.4-extra_coarse-P6to9",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "9",
+      "source_grind_label": "Extra Coarse",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "18.24",
+          "tau_s": "15",
+          "tds_mean_pct": "8.9",
+          "tds_sd_pct": "0.14"
+        },
+        "low": {
+          "ey_mean_pct": "19.14",
+          "tau_s": "21",
+          "tds_mean_pct": "9.5",
+          "tds_sd_pct": "0.07"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "0.3",
+          "exact": "3/10"
+        },
+        "lower": {
+          "display": "-0.7",
+          "exact": "-7/10"
+        },
+        "nominal": {
+          "display": "-0.6",
+          "exact": "-3/5"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "-0.5",
+          "exact": "-1/2"
+        }
+      },
+      "temperature_degC": "93.4"
+    },
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|fine": -1,
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|fine": 1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "comparison_id": "J-cibao-T90.4-fine-P6to9",
+      "conditional_joint": "SHORTER / HIGHER TDS",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "1",
+          "exact": "1"
+        },
+        "lower": {
+          "display": "-3",
+          "exact": "-3"
+        },
+        "nominal": {
+          "display": "-2",
+          "exact": "-2"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "-1",
+          "exact": "-1"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "0.78",
+        "exact": "39/50"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "primary",
+      "grind_id": "fine",
+      "high_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|fine",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": false,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "1",
+          "exact": "1"
+        },
+        "reason": null
+      },
+      "low_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|fine",
+      "nominal_joint": "SHORTER / HIGHER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-cibao-T90.4-fine-P6to9",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "9",
+      "source_grind_label": "Fine",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "21.21",
+          "tau_s": "42",
+          "tds_mean_pct": "10.4",
+          "tds_sd_pct": "0.21"
+        },
+        "low": {
+          "ey_mean_pct": "20.43",
+          "tau_s": "44",
+          "tds_mean_pct": "10.2",
+          "tds_sd_pct": "1.04"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "positive",
+        "critical_allowance": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "lower": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "nominal": {
+          "display": "0.2",
+          "exact": "1/5"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "0.3",
+          "exact": "3/10"
+        }
+      },
+      "temperature_degC": "90.4"
+    },
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|optimal": -1,
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|optimal": 1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "comparison_id": "J-cibao-T90.4-optimal-P6to9",
+      "conditional_joint": "SHORTER / HIGHER TDS",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "3",
+          "exact": "3"
+        },
+        "lower": {
+          "display": "-7",
+          "exact": "-7"
+        },
+        "nominal": {
+          "display": "-6",
+          "exact": "-6"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "-5",
+          "exact": "-5"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "0.19",
+        "exact": "19/100"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "primary",
+      "grind_id": "optimal",
+      "high_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|optimal",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": false,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.15",
+          "exact": "3/20"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "3",
+          "exact": "3"
+        },
+        "reason": null
+      },
+      "low_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|optimal",
+      "nominal_joint": "SHORTER / HIGHER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-cibao-T90.4-optimal-P6to9",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "9",
+      "source_grind_label": "Optimal",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "20.53",
+          "tau_s": "26",
+          "tds_mean_pct": "10.3",
+          "tds_sd_pct": "0.15"
+        },
+        "low": {
+          "ey_mean_pct": "20.34",
+          "tau_s": "32",
+          "tds_mean_pct": "10.0",
+          "tds_sd_pct": "0.17"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "positive",
+        "critical_allowance": {
+          "display": "0.15",
+          "exact": "3/20"
+        },
+        "lower": {
+          "display": "0.2",
+          "exact": "1/5"
+        },
+        "nominal": {
+          "display": "0.3",
+          "exact": "3/10"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "0.4",
+          "exact": "2/5"
+        }
+      },
+      "temperature_degC": "90.4"
+    },
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|coarse": -1,
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|coarse": 1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "comparison_id": "J-cibao-T90.4-coarse-P6to9",
+      "conditional_joint": "SHORTER / LOWER TDS",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "2.5",
+          "exact": "5/2"
+        },
+        "lower": {
+          "display": "-6",
+          "exact": "-6"
+        },
+        "nominal": {
+          "display": "-5",
+          "exact": "-5"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "-4",
+          "exact": "-4"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "-0.41",
+        "exact": "-41/100"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "primary",
+      "grind_id": "coarse",
+      "high_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|coarse",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": false,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.2",
+          "exact": "1/5"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "2.5",
+          "exact": "5/2"
+        },
+        "reason": null
+      },
+      "low_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|coarse",
+      "nominal_joint": "SHORTER / LOWER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-cibao-T90.4-coarse-P6to9",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "9",
+      "source_grind_label": "Coarse",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "19.42",
+          "tau_s": "19",
+          "tds_mean_pct": "9.4",
+          "tds_sd_pct": "0.3"
+        },
+        "low": {
+          "ey_mean_pct": "19.83",
+          "tau_s": "24",
+          "tds_mean_pct": "9.8",
+          "tds_sd_pct": "0.29"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "0.2",
+          "exact": "1/5"
+        },
+        "lower": {
+          "display": "-0.5",
+          "exact": "-1/2"
+        },
+        "nominal": {
+          "display": "-0.4",
+          "exact": "-2/5"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "-0.3",
+          "exact": "-3/10"
+        }
+      },
+      "temperature_degC": "90.4"
+    },
+    {
+      "coefficients": {
+        "egidi2024/table2|modoetia|T93.4|P6|fine": -1,
+        "egidi2024/table2|modoetia|T93.4|P9|fine": 1
+      },
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "comparison_id": "J-modoetia-T93.4-fine-P6to9",
+      "conditional_joint": "DURATION SIGN UNRESOLVED / TDS SIGN UNRESOLVED",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0",
+          "exact": "0"
+        },
+        "lower": {
+          "display": "-1",
+          "exact": "-1"
+        },
+        "nominal": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal_status": "reported_zero",
+        "printed_tie": true,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "empty",
+        "units": "s",
+        "upper": {
+          "display": "1",
+          "exact": "1"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "0.02",
+        "exact": "1/50"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "primary",
+      "grind_id": "fine",
+      "high_condition_id": "egidi2024/table2|modoetia|T93.4|P9|fine",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": true,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "reason": "printed zero: duration"
+      },
+      "low_condition_id": "egidi2024/table2|modoetia|T93.4|P6|fine",
+      "nominal_joint": "DURATION PRINTED TIE / HIGHER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-modoetia-T93.4-fine-P6to9",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "9",
+      "source_grind_label": "Fine",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "22.09",
+          "tau_s": "39",
+          "tds_mean_pct": "10.9",
+          "tds_sd_pct": "0.23"
+        },
+        "low": {
+          "ey_mean_pct": "22.07",
+          "tau_s": "39",
+          "tds_mean_pct": "10.8",
+          "tds_sd_pct": "0.25"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "lower": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "0.2",
+          "exact": "1/5"
+        }
+      },
+      "temperature_degC": "93.4"
+    },
+    {
+      "coefficients": {
+        "egidi2024/table2|modoetia|T93.4|P6|optimal": -1,
+        "egidi2024/table2|modoetia|T93.4|P9|optimal": 1
+      },
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "comparison_id": "J-modoetia-T93.4-optimal-P6to9",
+      "conditional_joint": "DURATION SIGN UNRESOLVED / HIGHER TDS",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0",
+          "exact": "0"
+        },
+        "lower": {
+          "display": "-1",
+          "exact": "-1"
+        },
+        "nominal": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal_status": "reported_zero",
+        "printed_tie": true,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "empty",
+        "units": "s",
+        "upper": {
+          "display": "1",
+          "exact": "1"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "0.44",
+        "exact": "11/25"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "primary",
+      "grind_id": "optimal",
+      "high_condition_id": "egidi2024/table2|modoetia|T93.4|P9|optimal",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": true,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.2",
+          "exact": "1/5"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "reason": "printed zero: duration"
+      },
+      "low_condition_id": "egidi2024/table2|modoetia|T93.4|P6|optimal",
+      "nominal_joint": "DURATION PRINTED TIE / HIGHER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-modoetia-T93.4-optimal-P6to9",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "9",
+      "source_grind_label": "Optimal",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "20.87",
+          "tau_s": "26",
+          "tds_mean_pct": "10.4",
+          "tds_sd_pct": "0.28"
+        },
+        "low": {
+          "ey_mean_pct": "20.43",
+          "tau_s": "26",
+          "tds_mean_pct": "10.0",
+          "tds_sd_pct": "0.12"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "positive",
+        "critical_allowance": {
+          "display": "0.2",
+          "exact": "1/5"
+        },
+        "lower": {
+          "display": "0.3",
+          "exact": "3/10"
+        },
+        "nominal": {
+          "display": "0.4",
+          "exact": "2/5"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "0.5",
+          "exact": "1/2"
+        }
+      },
+      "temperature_degC": "93.4"
+    },
+    {
+      "coefficients": {
+        "egidi2024/table2|modoetia|T93.4|P6|coarse": -1,
+        "egidi2024/table2|modoetia|T93.4|P9|coarse": 1
+      },
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "comparison_id": "J-modoetia-T93.4-coarse-P6to9",
+      "conditional_joint": "SHORTER / TDS SIGN UNRESOLVED",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "2",
+          "exact": "2"
+        },
+        "lower": {
+          "display": "-5",
+          "exact": "-5"
+        },
+        "nominal": {
+          "display": "-4",
+          "exact": "-4"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "-3",
+          "exact": "-3"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "-0.67",
+        "exact": "-67/100"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "primary",
+      "grind_id": "coarse",
+      "high_condition_id": "egidi2024/table2|modoetia|T93.4|P9|coarse",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": false,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "2",
+          "exact": "2"
+        },
+        "reason": null
+      },
+      "low_condition_id": "egidi2024/table2|modoetia|T93.4|P6|coarse",
+      "nominal_joint": "SHORTER / LOWER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-modoetia-T93.4-coarse-P6to9",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "9",
+      "source_grind_label": "Coarse",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "19.44",
+          "tau_s": "18",
+          "tds_mean_pct": "9.6",
+          "tds_sd_pct": "0.50"
+        },
+        "low": {
+          "ey_mean_pct": "20.11",
+          "tau_s": "22",
+          "tds_mean_pct": "9.7",
+          "tds_sd_pct": "0.31"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "lower": {
+          "display": "-0.2",
+          "exact": "-1/5"
+        },
+        "nominal": {
+          "display": "-0.1",
+          "exact": "-1/10"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "0",
+          "exact": "0"
+        }
+      },
+      "temperature_degC": "93.4"
+    },
+    {
+      "coefficients": {
+        "egidi2024/table2|modoetia|T90.4|P6|fine": -1,
+        "egidi2024/table2|modoetia|T90.4|P9|fine": 1
+      },
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "comparison_id": "J-modoetia-T90.4-fine-P6to9",
+      "conditional_joint": "DURATION SIGN UNRESOLVED / LOWER TDS",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "lower": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal": {
+          "display": "1",
+          "exact": "1"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "2",
+          "exact": "2"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "-0.4",
+        "exact": "-2/5"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "primary",
+      "grind_id": "fine",
+      "high_condition_id": "egidi2024/table2|modoetia|T90.4|P9|fine",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": false,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "reason": null
+      },
+      "low_condition_id": "egidi2024/table2|modoetia|T90.4|P6|fine",
+      "nominal_joint": "LONGER / LOWER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-modoetia-T90.4-fine-P6to9",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "9",
+      "source_grind_label": "Fine",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "22.18",
+          "tau_s": "42",
+          "tds_mean_pct": "11.0",
+          "tds_sd_pct": "0.3"
+        },
+        "low": {
+          "ey_mean_pct": "22.58",
+          "tau_s": "41",
+          "tds_mean_pct": "11.2",
+          "tds_sd_pct": "0.26"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "lower": {
+          "display": "-0.3",
+          "exact": "-3/10"
+        },
+        "nominal": {
+          "display": "-0.2",
+          "exact": "-1/5"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "-0.1",
+          "exact": "-1/10"
+        }
+      },
+      "temperature_degC": "90.4"
+    },
+    {
+      "coefficients": {
+        "egidi2024/table2|modoetia|T90.4|P6|optimal": -1,
+        "egidi2024/table2|modoetia|T90.4|P9|optimal": 1
+      },
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "comparison_id": "J-modoetia-T90.4-optimal-P6to9",
+      "conditional_joint": "DURATION SIGN UNRESOLVED / TDS SIGN UNRESOLVED",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "lower": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal": {
+          "display": "1",
+          "exact": "1"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "2",
+          "exact": "2"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "0.28",
+        "exact": "7/25"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "primary",
+      "grind_id": "optimal",
+      "high_condition_id": "egidi2024/table2|modoetia|T90.4|P9|optimal",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": true,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "reason": "printed zero: TDS"
+      },
+      "low_condition_id": "egidi2024/table2|modoetia|T90.4|P6|optimal",
+      "nominal_joint": "LONGER / TDS PRINTED TIE",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-modoetia-T90.4-optimal-P6to9",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "9",
+      "source_grind_label": "Optimal",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "20.81",
+          "tau_s": "26",
+          "tds_mean_pct": "10.2",
+          "tds_sd_pct": "0.06"
+        },
+        "low": {
+          "ey_mean_pct": "20.53",
+          "tau_s": "25",
+          "tds_mean_pct": "10.2",
+          "tds_sd_pct": "0.06"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0",
+          "exact": "0"
+        },
+        "lower": {
+          "display": "-0.1",
+          "exact": "-1/10"
+        },
+        "nominal": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal_status": "reported_zero",
+        "printed_tie": true,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "empty",
+        "units": "percentage points",
+        "upper": {
+          "display": "0.1",
+          "exact": "1/10"
+        }
+      },
+      "temperature_degC": "90.4"
+    },
+    {
+      "coefficients": {
+        "egidi2024/table2|modoetia|T90.4|P6|coarse": -1,
+        "egidi2024/table2|modoetia|T90.4|P9|coarse": 1
+      },
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "comparison_id": "J-modoetia-T90.4-coarse-P6to9",
+      "conditional_joint": "SHORTER / LOWER TDS",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "1.5",
+          "exact": "3/2"
+        },
+        "lower": {
+          "display": "-4",
+          "exact": "-4"
+        },
+        "nominal": {
+          "display": "-3",
+          "exact": "-3"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "-2",
+          "exact": "-2"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "-1.01",
+        "exact": "-101/100"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "primary",
+      "grind_id": "coarse",
+      "high_condition_id": "egidi2024/table2|modoetia|T90.4|P9|coarse",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": false,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.25",
+          "exact": "1/4"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "1.5",
+          "exact": "3/2"
+        },
+        "reason": null
+      },
+      "low_condition_id": "egidi2024/table2|modoetia|T90.4|P6|coarse",
+      "nominal_joint": "SHORTER / LOWER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-modoetia-T90.4-coarse-P6to9",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "9",
+      "source_grind_label": "Coarse",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "19.09",
+          "tau_s": "19",
+          "tds_mean_pct": "9.5",
+          "tds_sd_pct": "0.06"
+        },
+        "low": {
+          "ey_mean_pct": "20.10",
+          "tau_s": "22",
+          "tds_mean_pct": "10.0",
+          "tds_sd_pct": "0.29"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "0.25",
+          "exact": "1/4"
+        },
+        "lower": {
+          "display": "-0.6",
+          "exact": "-3/5"
+        },
+        "nominal": {
+          "display": "-0.5",
+          "exact": "-1/2"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "-0.4",
+          "exact": "-2/5"
+        }
+      },
+      "temperature_degC": "90.4"
+    },
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P12|extra_fine": 1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|extra_fine": -1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "comparison_id": "J-cibao-T93.4-extra_fine-P9to12",
+      "conditional_joint": "LONGER / TDS SIGN UNRESOLVED",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "positive",
+        "critical_allowance": {
+          "display": "3.5",
+          "exact": "7/2"
+        },
+        "lower": {
+          "display": "6",
+          "exact": "6"
+        },
+        "nominal": {
+          "display": "7",
+          "exact": "7"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "8",
+          "exact": "8"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "-0.32",
+        "exact": "-8/25"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "secondary",
+      "grind_id": "extra_fine",
+      "high_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P12|extra_fine",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": false,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "3.5",
+          "exact": "7/2"
+        },
+        "reason": null
+      },
+      "low_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|extra_fine",
+      "nominal_joint": "LONGER / HIGHER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-cibao-T93.4-extra_fine-P9to12",
+      "pressure_from_bar": "9",
+      "pressure_to_bar": "12",
+      "source_grind_label": "Extra Fine",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "21.45",
+          "tau_s": "81",
+          "tds_mean_pct": "11.0",
+          "tds_sd_pct": "0.14"
+        },
+        "low": {
+          "ey_mean_pct": "21.77",
+          "tau_s": "74",
+          "tds_mean_pct": "10.9",
+          "tds_sd_pct": "0.16"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "lower": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "0.2",
+          "exact": "1/5"
+        }
+      },
+      "temperature_degC": "93.4"
+    },
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P12|extra_coarse": 1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|extra_coarse": -1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "comparison_id": "J-cibao-T93.4-extra_coarse-P9to12",
+      "conditional_joint": "DURATION SIGN UNRESOLVED / TDS SIGN UNRESOLVED",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "lower": {
+          "display": "-2",
+          "exact": "-2"
+        },
+        "nominal": {
+          "display": "-1",
+          "exact": "-1"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "0",
+          "exact": "0"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "-0.22",
+        "exact": "-11/50"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "secondary",
+      "grind_id": "extra_coarse",
+      "high_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P12|extra_coarse",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": true,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "reason": "printed zero: TDS"
+      },
+      "low_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|extra_coarse",
+      "nominal_joint": "SHORTER / TDS PRINTED TIE",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-cibao-T93.4-extra_coarse-P9to12",
+      "pressure_from_bar": "9",
+      "pressure_to_bar": "12",
+      "source_grind_label": "Extra Coarse",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "18.02",
+          "tau_s": "14",
+          "tds_mean_pct": "8.9",
+          "tds_sd_pct": "0.0"
+        },
+        "low": {
+          "ey_mean_pct": "18.24",
+          "tau_s": "15",
+          "tds_mean_pct": "8.9",
+          "tds_sd_pct": "0.14"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0",
+          "exact": "0"
+        },
+        "lower": {
+          "display": "-0.1",
+          "exact": "-1/10"
+        },
+        "nominal": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal_status": "reported_zero",
+        "printed_tie": true,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "empty",
+        "units": "percentage points",
+        "upper": {
+          "display": "0.1",
+          "exact": "1/10"
+        }
+      },
+      "temperature_degC": "93.4"
+    },
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P12|extra_fine": 1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|extra_fine": -1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "comparison_id": "J-cibao-T93.4-extra_fine-P6to12",
+      "conditional_joint": "LONGER / TDS SIGN UNRESOLVED",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "positive",
+        "critical_allowance": {
+          "display": "4",
+          "exact": "4"
+        },
+        "lower": {
+          "display": "7",
+          "exact": "7"
+        },
+        "nominal": {
+          "display": "8",
+          "exact": "8"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "9",
+          "exact": "9"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "-0.35",
+        "exact": "-7/20"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "secondary",
+      "grind_id": "extra_fine",
+      "high_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P12|extra_fine",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": false,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "4",
+          "exact": "4"
+        },
+        "reason": null
+      },
+      "low_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|extra_fine",
+      "nominal_joint": "LONGER / HIGHER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-cibao-T93.4-extra_fine-P6to12",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "12",
+      "source_grind_label": "Extra Fine",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "21.45",
+          "tau_s": "81",
+          "tds_mean_pct": "11.0",
+          "tds_sd_pct": "0.14"
+        },
+        "low": {
+          "ey_mean_pct": "21.8",
+          "tau_s": "73",
+          "tds_mean_pct": "10.9",
+          "tds_sd_pct": "0.42"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "lower": {
+          "display": "0",
+          "exact": "0"
+        },
+        "nominal": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "0.2",
+          "exact": "1/5"
+        }
+      },
+      "temperature_degC": "93.4"
+    },
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P12|extra_coarse": 1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|extra_coarse": -1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "comparison_id": "J-cibao-T93.4-extra_coarse-P6to12",
+      "conditional_joint": "SHORTER / LOWER TDS",
+      "duration": {
+        "allowance": {
+          "display": "0.5",
+          "exact": "1/2"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "3.5",
+          "exact": "7/2"
+        },
+        "lower": {
+          "display": "-8",
+          "exact": "-8"
+        },
+        "nominal": {
+          "display": "-7",
+          "exact": "-7"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "1",
+          "exact": "1"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "s",
+        "upper": {
+          "display": "-6",
+          "exact": "-6"
+        }
+      },
+      "ey_delta_pp": {
+        "display": "-1.12",
+        "exact": "-28/25"
+      },
+      "ey_uncertainty": "UNQUALIFIED",
+      "family": "secondary",
+      "grind_id": "extra_coarse",
+      "high_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P12|extra_coarse",
+      "joint_strict_region": {
+        "assumptions": "common_original_condition_boxes; declared total allowances; no physical uncertainty bound",
+        "empty": false,
+        "h_C_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_C_upper_exclusive": {
+          "display": "0.3",
+          "exact": "3/10"
+        },
+        "h_tau_lower_inclusive": {
+          "display": "0",
+          "exact": "0"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "3.5",
+          "exact": "7/2"
+        },
+        "reason": null
+      },
+      "low_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|extra_coarse",
+      "nominal_joint": "SHORTER / LOWER TDS",
+      "orientation": "higher nominal pressure minus lower",
+      "predecessor_duration_id": "D-cibao-T93.4-extra_coarse-P6to12",
+      "pressure_from_bar": "6",
+      "pressure_to_bar": "12",
+      "source_grind_label": "Extra Coarse",
+      "source_values": {
+        "high": {
+          "ey_mean_pct": "18.02",
+          "tau_s": "14",
+          "tds_mean_pct": "8.9",
+          "tds_sd_pct": "0.0"
+        },
+        "low": {
+          "ey_mean_pct": "19.14",
+          "tau_s": "21",
+          "tds_mean_pct": "9.5",
+          "tds_sd_pct": "0.07"
+        }
+      },
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 2,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "0.3",
+          "exact": "3/10"
+        },
+        "lower": {
+          "display": "-0.7",
+          "exact": "-7/10"
+        },
+        "nominal": {
+          "display": "-0.6",
+          "exact": "-3/5"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "-0.5",
+          "exact": "-1/2"
+        }
+      },
+      "temperature_degC": "93.4"
+    }
+  ],
+  "condition_accounting": [
+    {
+      "interaction_ids": [
+        "IC-modoetia-coarse-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-modoetia-T90.4-coarse-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "egidi2024/table2|modoetia|T90.4|P6|coarse"
+    },
+    {
+      "interaction_ids": [
+        "IC-modoetia-fine-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-modoetia-T90.4-fine-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "egidi2024/table2|modoetia|T90.4|P6|fine"
+    },
+    {
+      "interaction_ids": [
+        "IC-modoetia-optimal-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-modoetia-T90.4-optimal-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "egidi2024/table2|modoetia|T90.4|P6|optimal"
+    },
+    {
+      "interaction_ids": [
+        "IC-modoetia-coarse-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-modoetia-T90.4-coarse-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "egidi2024/table2|modoetia|T90.4|P9|coarse"
+    },
+    {
+      "interaction_ids": [
+        "IC-modoetia-fine-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-modoetia-T90.4-fine-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "egidi2024/table2|modoetia|T90.4|P9|fine"
+    },
+    {
+      "interaction_ids": [
+        "IC-modoetia-optimal-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-modoetia-T90.4-optimal-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "egidi2024/table2|modoetia|T90.4|P9|optimal"
+    },
+    {
+      "interaction_ids": [
+        "IC-modoetia-coarse-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-modoetia-T93.4-coarse-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "egidi2024/table2|modoetia|T93.4|P6|coarse"
+    },
+    {
+      "interaction_ids": [
+        "IC-modoetia-fine-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-modoetia-T93.4-fine-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "egidi2024/table2|modoetia|T93.4|P6|fine"
+    },
+    {
+      "interaction_ids": [
+        "IC-modoetia-optimal-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-modoetia-T93.4-optimal-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "egidi2024/table2|modoetia|T93.4|P6|optimal"
+    },
+    {
+      "interaction_ids": [
+        "IC-modoetia-coarse-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-modoetia-T93.4-coarse-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "egidi2024/table2|modoetia|T93.4|P9|coarse"
+    },
+    {
+      "interaction_ids": [
+        "IC-modoetia-fine-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-modoetia-T93.4-fine-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "egidi2024/table2|modoetia|T93.4|P9|fine"
+    },
+    {
+      "interaction_ids": [
+        "IC-modoetia-optimal-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-modoetia-T93.4-optimal-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "egidi2024/table2|modoetia|T93.4|P9|optimal"
+    },
+    {
+      "interaction_ids": [
+        "IC-cibao-coarse-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-cibao-T90.4-coarse-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|coarse"
+    },
+    {
+      "interaction_ids": [
+        "IC-cibao-fine-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-cibao-T90.4-fine-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|fine"
+    },
+    {
+      "interaction_ids": [
+        "IC-cibao-optimal-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-cibao-T90.4-optimal-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|optimal"
+    },
+    {
+      "interaction_ids": [
+        "IC-cibao-coarse-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-cibao-T90.4-coarse-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|coarse"
+    },
+    {
+      "interaction_ids": [
+        "IC-cibao-fine-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-cibao-T90.4-fine-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|fine"
+    },
+    {
+      "interaction_ids": [
+        "IC-cibao-optimal-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-cibao-T90.4-optimal-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|optimal"
+    },
+    {
+      "interaction_ids": [],
+      "primary_ids": [],
+      "secondary_ids": [
+        "J-cibao-T93.4-extra_coarse-P9to12",
+        "J-cibao-T93.4-extra_coarse-P6to12"
+      ],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P12|extra_coarse"
+    },
+    {
+      "interaction_ids": [],
+      "primary_ids": [],
+      "secondary_ids": [
+        "J-cibao-T93.4-extra_fine-P9to12",
+        "J-cibao-T93.4-extra_fine-P6to12"
+      ],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P12|extra_fine"
+    },
+    {
+      "interaction_ids": [
+        "IC-cibao-coarse-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-cibao-T93.4-coarse-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|coarse"
+    },
+    {
+      "interaction_ids": [],
+      "primary_ids": [
+        "J-cibao-T93.4-extra_coarse-P6to9"
+      ],
+      "secondary_ids": [
+        "J-cibao-T93.4-extra_coarse-P6to12"
+      ],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|extra_coarse"
+    },
+    {
+      "interaction_ids": [],
+      "primary_ids": [
+        "J-cibao-T93.4-extra_fine-P6to9"
+      ],
+      "secondary_ids": [
+        "J-cibao-T93.4-extra_fine-P6to12"
+      ],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|extra_fine"
+    },
+    {
+      "interaction_ids": [
+        "IC-cibao-fine-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-cibao-T93.4-fine-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|fine"
+    },
+    {
+      "interaction_ids": [
+        "IC-cibao-optimal-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-cibao-T93.4-optimal-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|optimal"
+    },
+    {
+      "interaction_ids": [
+        "IC-cibao-coarse-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-cibao-T93.4-coarse-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|coarse"
+    },
+    {
+      "interaction_ids": [],
+      "primary_ids": [
+        "J-cibao-T93.4-extra_coarse-P6to9"
+      ],
+      "secondary_ids": [
+        "J-cibao-T93.4-extra_coarse-P9to12"
+      ],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|extra_coarse"
+    },
+    {
+      "interaction_ids": [],
+      "primary_ids": [
+        "J-cibao-T93.4-extra_fine-P6to9"
+      ],
+      "secondary_ids": [
+        "J-cibao-T93.4-extra_fine-P9to12"
+      ],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|extra_fine"
+    },
+    {
+      "interaction_ids": [
+        "IC-cibao-fine-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-cibao-T93.4-fine-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|fine"
+    },
+    {
+      "interaction_ids": [
+        "IC-cibao-optimal-T93.4minus90.4-P6to9"
+      ],
+      "primary_ids": [
+        "J-cibao-T93.4-optimal-P6to9"
+      ],
+      "secondary_ids": [],
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|optimal"
+    }
+  ],
+  "counts": {
+    "conditional_interaction_signs": {
+      "negative": 2,
+      "positive": 3,
+      "unresolved": 1
+    },
+    "conditional_primary_joint": {
+      "DURATION SIGN UNRESOLVED / HIGHER TDS": 1,
+      "DURATION SIGN UNRESOLVED / LOWER TDS": 2,
+      "DURATION SIGN UNRESOLVED / TDS SIGN UNRESOLVED": 3,
+      "SHORTER / HIGHER TDS": 2,
+      "SHORTER / LOWER TDS": 5,
+      "SHORTER / TDS SIGN UNRESOLVED": 1
+    },
+    "conditions": 30,
+    "interactions": 6,
+    "nominal_primary_joint": {
+      "DURATION PRINTED TIE / HIGHER TDS": 2,
+      "DURATION PRINTED TIE / LOWER TDS": 1,
+      "LONGER / LOWER TDS": 1,
+      "LONGER / TDS PRINTED TIE": 2,
+      "SHORTER / HIGHER TDS": 2,
+      "SHORTER / LOWER TDS": 6
+    },
+    "primary": 14,
+    "primary_conditions": 28,
+    "secondary": 4
+  },
+  "inputs": [
+    {
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "file_sha256": "2c5fae8319d41c690b7e23ea00ddfc722e08c01ebcd8f012dafb1820a8fc6703",
+      "git_blob_sha1": "0c657a30b7c8e048459e79a0b6e34980cba26f75",
+      "path": "puckworks/data/perticarini2024/ey_tds_cibao.csv"
+    },
+    {
+      "dataset_id": "egidi2024/table2",
+      "file_sha256": "1b5cd8891472d2d432fcb96a59e167d8fcca8b8e70a0a75187d810bf8a8e4419",
+      "git_blob_sha1": "2f83cd9b59349cd2cf0e9b085ccf5ac03263cff5",
+      "path": "puckworks/data/egidi2024/table2_egidi2024_tds_ey.csv"
+    }
+  ],
+  "interactions": [
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|fine": 1,
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|fine": -1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|fine": -1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|fine": 1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "component_conditional_statuses": [
+        "negative",
+        "positive"
+      ],
+      "component_ids": [
+        "J-cibao-T93.4-fine-P6to9",
+        "J-cibao-T90.4-fine-P6to9"
+      ],
+      "component_nominal_statuses": [
+        "negative",
+        "positive"
+      ],
+      "conditional_opposition": "strict_opposite",
+      "grind_id": "fine",
+      "interaction_id": "IC-cibao-fine-T93.4minus90.4-P6to9",
+      "nominal_opposite_directions": true,
+      "opposite_directions_strict_region": {
+        "domain": "0 <= h_C < upper",
+        "empty": false,
+        "h_C_upper_exclusive": {
+          "display": "0.1",
+          "exact": "1/10"
+        }
+      },
+      "orientation": "(C9-C6) at 93.4 minus (C9-C6) at 90.4 degC",
+      "original_values_pct": {
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|fine": "10.2",
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|fine": "10.4",
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|fine": "10.7",
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|fine": "10.2"
+      },
+      "shorter_with_opposite_tds_region": {
+        "domain": "empty: components do not both nominally shorten with opposite TDS",
+        "empty": true,
+        "h_C_upper_exclusive": null,
+        "h_tau_upper_exclusive": null
+      },
+      "source_grind_label": "Fine",
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 4,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "0.175",
+          "exact": "7/40"
+        },
+        "lower": {
+          "display": "-0.9",
+          "exact": "-9/10"
+        },
+        "nominal": {
+          "display": "-0.7",
+          "exact": "-7/10"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.2",
+          "exact": "1/5"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "-0.5",
+          "exact": "-1/2"
+        }
+      }
+    },
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|optimal": 1,
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|optimal": -1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|optimal": -1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|optimal": 1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "component_conditional_statuses": [
+        "negative",
+        "positive"
+      ],
+      "component_ids": [
+        "J-cibao-T93.4-optimal-P6to9",
+        "J-cibao-T90.4-optimal-P6to9"
+      ],
+      "component_nominal_statuses": [
+        "negative",
+        "positive"
+      ],
+      "conditional_opposition": "strict_opposite",
+      "grind_id": "optimal",
+      "interaction_id": "IC-cibao-optimal-T93.4minus90.4-P6to9",
+      "nominal_opposite_directions": true,
+      "opposite_directions_strict_region": {
+        "domain": "0 <= h_C < upper",
+        "empty": false,
+        "h_C_upper_exclusive": {
+          "display": "0.1",
+          "exact": "1/10"
+        }
+      },
+      "orientation": "(C9-C6) at 93.4 minus (C9-C6) at 90.4 degC",
+      "original_values_pct": {
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|optimal": "10.0",
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|optimal": "10.3",
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|optimal": "10.5",
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|optimal": "10.3"
+      },
+      "shorter_with_opposite_tds_region": {
+        "domain": "0 <= h_C < upper AND 0 <= h_tau < upper",
+        "empty": false,
+        "h_C_upper_exclusive": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "h_tau_upper_exclusive": {
+          "display": "3",
+          "exact": "3"
+        }
+      },
+      "source_grind_label": "Optimal",
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 4,
+        "conditional_status": "negative",
+        "critical_allowance": {
+          "display": "0.125",
+          "exact": "1/8"
+        },
+        "lower": {
+          "display": "-0.7",
+          "exact": "-7/10"
+        },
+        "nominal": {
+          "display": "-0.5",
+          "exact": "-1/2"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.2",
+          "exact": "1/5"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "-0.3",
+          "exact": "-3/10"
+        }
+      }
+    },
+    {
+      "coefficients": {
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|coarse": 1,
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|coarse": -1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|coarse": -1,
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|coarse": 1
+      },
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "component_conditional_statuses": [
+        "negative",
+        "negative"
+      ],
+      "component_ids": [
+        "J-cibao-T93.4-coarse-P6to9",
+        "J-cibao-T90.4-coarse-P6to9"
+      ],
+      "component_nominal_statuses": [
+        "negative",
+        "negative"
+      ],
+      "conditional_opposition": "nominal_opposition_not_established",
+      "grind_id": "coarse",
+      "interaction_id": "IC-cibao-coarse-T93.4minus90.4-P6to9",
+      "nominal_opposite_directions": false,
+      "opposite_directions_strict_region": {
+        "domain": "empty: no nominal opposite signs",
+        "empty": true,
+        "h_C_upper_exclusive": null
+      },
+      "orientation": "(C9-C6) at 93.4 minus (C9-C6) at 90.4 degC",
+      "original_values_pct": {
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|coarse": "9.8",
+        "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|coarse": "9.4",
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|coarse": "10.1",
+        "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|coarse": "9.6"
+      },
+      "shorter_with_opposite_tds_region": {
+        "domain": "empty: components do not both nominally shorten with opposite TDS",
+        "empty": true,
+        "h_C_upper_exclusive": null,
+        "h_tau_upper_exclusive": null
+      },
+      "source_grind_label": "Coarse",
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 4,
+        "conditional_status": "unresolved",
+        "critical_allowance": {
+          "display": "0.025",
+          "exact": "1/40"
+        },
+        "lower": {
+          "display": "-0.3",
+          "exact": "-3/10"
+        },
+        "nominal": {
+          "display": "-0.1",
+          "exact": "-1/10"
+        },
+        "nominal_status": "negative",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.2",
+          "exact": "1/5"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "0.1",
+          "exact": "1/10"
+        }
+      }
+    },
+    {
+      "coefficients": {
+        "egidi2024/table2|modoetia|T90.4|P6|fine": 1,
+        "egidi2024/table2|modoetia|T90.4|P9|fine": -1,
+        "egidi2024/table2|modoetia|T93.4|P6|fine": -1,
+        "egidi2024/table2|modoetia|T93.4|P9|fine": 1
+      },
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "component_conditional_statuses": [
+        "unresolved",
+        "negative"
+      ],
+      "component_ids": [
+        "J-modoetia-T93.4-fine-P6to9",
+        "J-modoetia-T90.4-fine-P6to9"
+      ],
+      "component_nominal_statuses": [
+        "positive",
+        "negative"
+      ],
+      "conditional_opposition": "unresolved",
+      "grind_id": "fine",
+      "interaction_id": "IC-modoetia-fine-T93.4minus90.4-P6to9",
+      "nominal_opposite_directions": true,
+      "opposite_directions_strict_region": {
+        "domain": "0 <= h_C < upper",
+        "empty": false,
+        "h_C_upper_exclusive": {
+          "display": "0.05",
+          "exact": "1/20"
+        }
+      },
+      "orientation": "(C9-C6) at 93.4 minus (C9-C6) at 90.4 degC",
+      "original_values_pct": {
+        "egidi2024/table2|modoetia|T90.4|P6|fine": "11.2",
+        "egidi2024/table2|modoetia|T90.4|P9|fine": "11.0",
+        "egidi2024/table2|modoetia|T93.4|P6|fine": "10.8",
+        "egidi2024/table2|modoetia|T93.4|P9|fine": "10.9"
+      },
+      "shorter_with_opposite_tds_region": {
+        "domain": "empty: components do not both nominally shorten with opposite TDS",
+        "empty": true,
+        "h_C_upper_exclusive": null,
+        "h_tau_upper_exclusive": null
+      },
+      "source_grind_label": "Fine",
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 4,
+        "conditional_status": "positive",
+        "critical_allowance": {
+          "display": "0.075",
+          "exact": "3/40"
+        },
+        "lower": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "nominal": {
+          "display": "0.3",
+          "exact": "3/10"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.2",
+          "exact": "1/5"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "0.5",
+          "exact": "1/2"
+        }
+      }
+    },
+    {
+      "coefficients": {
+        "egidi2024/table2|modoetia|T90.4|P6|optimal": 1,
+        "egidi2024/table2|modoetia|T90.4|P9|optimal": -1,
+        "egidi2024/table2|modoetia|T93.4|P6|optimal": -1,
+        "egidi2024/table2|modoetia|T93.4|P9|optimal": 1
+      },
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "component_conditional_statuses": [
+        "positive",
+        "unresolved"
+      ],
+      "component_ids": [
+        "J-modoetia-T93.4-optimal-P6to9",
+        "J-modoetia-T90.4-optimal-P6to9"
+      ],
+      "component_nominal_statuses": [
+        "positive",
+        "reported_zero"
+      ],
+      "conditional_opposition": "nominal_opposition_not_established",
+      "grind_id": "optimal",
+      "interaction_id": "IC-modoetia-optimal-T93.4minus90.4-P6to9",
+      "nominal_opposite_directions": false,
+      "opposite_directions_strict_region": {
+        "domain": "empty: no nominal opposite signs",
+        "empty": true,
+        "h_C_upper_exclusive": null
+      },
+      "orientation": "(C9-C6) at 93.4 minus (C9-C6) at 90.4 degC",
+      "original_values_pct": {
+        "egidi2024/table2|modoetia|T90.4|P6|optimal": "10.2",
+        "egidi2024/table2|modoetia|T90.4|P9|optimal": "10.2",
+        "egidi2024/table2|modoetia|T93.4|P6|optimal": "10.0",
+        "egidi2024/table2|modoetia|T93.4|P9|optimal": "10.4"
+      },
+      "shorter_with_opposite_tds_region": {
+        "domain": "empty: components do not both nominally shorten with opposite TDS",
+        "empty": true,
+        "h_C_upper_exclusive": null,
+        "h_tau_upper_exclusive": null
+      },
+      "source_grind_label": "Optimal",
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 4,
+        "conditional_status": "positive",
+        "critical_allowance": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "lower": {
+          "display": "0.2",
+          "exact": "1/5"
+        },
+        "nominal": {
+          "display": "0.4",
+          "exact": "2/5"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.2",
+          "exact": "1/5"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "0.6",
+          "exact": "3/5"
+        }
+      }
+    },
+    {
+      "coefficients": {
+        "egidi2024/table2|modoetia|T90.4|P6|coarse": 1,
+        "egidi2024/table2|modoetia|T90.4|P9|coarse": -1,
+        "egidi2024/table2|modoetia|T93.4|P6|coarse": -1,
+        "egidi2024/table2|modoetia|T93.4|P9|coarse": 1
+      },
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "component_conditional_statuses": [
+        "unresolved",
+        "negative"
+      ],
+      "component_ids": [
+        "J-modoetia-T93.4-coarse-P6to9",
+        "J-modoetia-T90.4-coarse-P6to9"
+      ],
+      "component_nominal_statuses": [
+        "negative",
+        "negative"
+      ],
+      "conditional_opposition": "nominal_opposition_not_established",
+      "grind_id": "coarse",
+      "interaction_id": "IC-modoetia-coarse-T93.4minus90.4-P6to9",
+      "nominal_opposite_directions": false,
+      "opposite_directions_strict_region": {
+        "domain": "empty: no nominal opposite signs",
+        "empty": true,
+        "h_C_upper_exclusive": null
+      },
+      "orientation": "(C9-C6) at 93.4 minus (C9-C6) at 90.4 degC",
+      "original_values_pct": {
+        "egidi2024/table2|modoetia|T90.4|P6|coarse": "10.0",
+        "egidi2024/table2|modoetia|T90.4|P9|coarse": "9.5",
+        "egidi2024/table2|modoetia|T93.4|P6|coarse": "9.7",
+        "egidi2024/table2|modoetia|T93.4|P9|coarse": "9.6"
+      },
+      "shorter_with_opposite_tds_region": {
+        "domain": "empty: components do not both nominally shorten with opposite TDS",
+        "empty": true,
+        "h_C_upper_exclusive": null,
+        "h_tau_upper_exclusive": null
+      },
+      "source_grind_label": "Coarse",
+      "tds": {
+        "allowance": {
+          "display": "0.05",
+          "exact": "1/20"
+        },
+        "coefficient_l1": 4,
+        "conditional_status": "positive",
+        "critical_allowance": {
+          "display": "0.1",
+          "exact": "1/10"
+        },
+        "lower": {
+          "display": "0.2",
+          "exact": "1/5"
+        },
+        "nominal": {
+          "display": "0.4",
+          "exact": "2/5"
+        },
+        "nominal_status": "positive",
+        "printed_tie": false,
+        "radius": {
+          "display": "0.2",
+          "exact": "1/5"
+        },
+        "strict_domain": "0 <= h < critical_allowance",
+        "units": "percentage points",
+        "upper": {
+          "display": "0.6",
+          "exact": "3/5"
+        }
+      }
+    }
+  ],
+  "observations": [
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "extra_fine",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "109/5",
+      "ey_mean_pct": "21.8",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "extra_fine",
+      "nominal_pressure_bar": "6",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|extra_fine",
+      "source_grind_label": "Extra Fine",
+      "tau_s": "73",
+      "tds_mean_exact": "109/10",
+      "tds_mean_pct": "10.9",
+      "tds_sd_exact": "21/50",
+      "tds_sd_pct": "0.42",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "extra_fine",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "2177/100",
+      "ey_mean_pct": "21.77",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "extra_fine",
+      "nominal_pressure_bar": "9",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|extra_fine",
+      "source_grind_label": "Extra Fine",
+      "tau_s": "74",
+      "tds_mean_exact": "109/10",
+      "tds_mean_pct": "10.9",
+      "tds_sd_exact": "4/25",
+      "tds_sd_pct": "0.16",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "extra_fine",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "429/20",
+      "ey_mean_pct": "21.45",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "extra_fine",
+      "nominal_pressure_bar": "12",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P12|extra_fine",
+      "source_grind_label": "Extra Fine",
+      "tau_s": "81",
+      "tds_mean_exact": "11",
+      "tds_mean_pct": "11.0",
+      "tds_sd_exact": "7/50",
+      "tds_sd_pct": "0.14",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "fine",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "1093/50",
+      "ey_mean_pct": "21.86",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "fine",
+      "nominal_pressure_bar": "6",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|fine",
+      "source_grind_label": "Fine",
+      "tau_s": "42",
+      "tds_mean_exact": "107/10",
+      "tds_mean_pct": "10.7",
+      "tds_sd_exact": "3/20",
+      "tds_sd_pct": "0.15",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "fine",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "209/10",
+      "ey_mean_pct": "20.9",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "fine",
+      "nominal_pressure_bar": "9",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|fine",
+      "source_grind_label": "Fine",
+      "tau_s": "42",
+      "tds_mean_exact": "51/5",
+      "tds_mean_pct": "10.2",
+      "tds_sd_exact": "27/100",
+      "tds_sd_pct": "0.27",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "optimal",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "427/20",
+      "ey_mean_pct": "21.35",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "optimal",
+      "nominal_pressure_bar": "6",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|optimal",
+      "source_grind_label": "Optimal",
+      "tau_s": "31",
+      "tds_mean_exact": "21/2",
+      "tds_mean_pct": "10.5",
+      "tds_sd_exact": "1/5",
+      "tds_sd_pct": "0.2",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "optimal",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "2077/100",
+      "ey_mean_pct": "20.77",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "optimal",
+      "nominal_pressure_bar": "9",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|optimal",
+      "source_grind_label": "Optimal",
+      "tau_s": "25",
+      "tds_mean_exact": "103/10",
+      "tds_mean_pct": "10.3",
+      "tds_sd_exact": "0",
+      "tds_sd_pct": "0.0",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "coarse",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "101/5",
+      "ey_mean_pct": "20.2",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "coarse",
+      "nominal_pressure_bar": "6",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|coarse",
+      "source_grind_label": "Coarse",
+      "tau_s": "24",
+      "tds_mean_exact": "101/10",
+      "tds_mean_pct": "10.1",
+      "tds_sd_exact": "17/100",
+      "tds_sd_pct": "0.17",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "coarse",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "1991/100",
+      "ey_mean_pct": "19.91",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "coarse",
+      "nominal_pressure_bar": "9",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|coarse",
+      "source_grind_label": "Coarse",
+      "tau_s": "19",
+      "tds_mean_exact": "48/5",
+      "tds_mean_pct": "9.6",
+      "tds_sd_exact": "1/4",
+      "tds_sd_pct": "0.25",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "extra_coarse",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "957/50",
+      "ey_mean_pct": "19.14",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "extra_coarse",
+      "nominal_pressure_bar": "6",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P6|extra_coarse",
+      "source_grind_label": "Extra Coarse",
+      "tau_s": "21",
+      "tds_mean_exact": "19/2",
+      "tds_mean_pct": "9.5",
+      "tds_sd_exact": "7/100",
+      "tds_sd_pct": "0.07",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "extra_coarse",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "456/25",
+      "ey_mean_pct": "18.24",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "extra_coarse",
+      "nominal_pressure_bar": "9",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P9|extra_coarse",
+      "source_grind_label": "Extra Coarse",
+      "tau_s": "15",
+      "tds_mean_exact": "89/10",
+      "tds_mean_pct": "8.9",
+      "tds_sd_exact": "7/50",
+      "tds_sd_pct": "0.14",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "extra_coarse",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "901/50",
+      "ey_mean_pct": "18.02",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "extra_coarse",
+      "nominal_pressure_bar": "12",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T93.4|P12|extra_coarse",
+      "source_grind_label": "Extra Coarse",
+      "tau_s": "14",
+      "tds_mean_exact": "89/10",
+      "tds_mean_pct": "8.9",
+      "tds_sd_exact": "0",
+      "tds_sd_pct": "0.0",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "fine",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "2043/100",
+      "ey_mean_pct": "20.43",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "fine",
+      "nominal_pressure_bar": "6",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|fine",
+      "source_grind_label": "Fine",
+      "tau_s": "44",
+      "tds_mean_exact": "51/5",
+      "tds_mean_pct": "10.2",
+      "tds_sd_exact": "26/25",
+      "tds_sd_pct": "1.04",
+      "temperature_degC": "90.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "fine",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "2121/100",
+      "ey_mean_pct": "21.21",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "fine",
+      "nominal_pressure_bar": "9",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|fine",
+      "source_grind_label": "Fine",
+      "tau_s": "42",
+      "tds_mean_exact": "52/5",
+      "tds_mean_pct": "10.4",
+      "tds_sd_exact": "21/100",
+      "tds_sd_pct": "0.21",
+      "temperature_degC": "90.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "optimal",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "1017/50",
+      "ey_mean_pct": "20.34",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "optimal",
+      "nominal_pressure_bar": "6",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|optimal",
+      "source_grind_label": "Optimal",
+      "tau_s": "32",
+      "tds_mean_exact": "10",
+      "tds_mean_pct": "10.0",
+      "tds_sd_exact": "17/100",
+      "tds_sd_pct": "0.17",
+      "temperature_degC": "90.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "optimal",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "2053/100",
+      "ey_mean_pct": "20.53",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "optimal",
+      "nominal_pressure_bar": "9",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|optimal",
+      "source_grind_label": "Optimal",
+      "tau_s": "26",
+      "tds_mean_exact": "103/10",
+      "tds_mean_pct": "10.3",
+      "tds_sd_exact": "3/20",
+      "tds_sd_pct": "0.15",
+      "temperature_degC": "90.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "coarse",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "1983/100",
+      "ey_mean_pct": "19.83",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "coarse",
+      "nominal_pressure_bar": "6",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P6|coarse",
+      "source_grind_label": "Coarse",
+      "tau_s": "24",
+      "tds_mean_exact": "49/5",
+      "tds_mean_pct": "9.8",
+      "tds_sd_exact": "29/100",
+      "tds_sd_pct": "0.29",
+      "temperature_degC": "90.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "coarse",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "cibao",
+      "coffee_label": "Cibao Altura",
+      "dataset_id": "perticarini2024/ey_tds_cibao",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": "",
+      "egidi_table": "",
+      "ey_mean_exact": "971/50",
+      "ey_mean_pct": "19.42",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "coarse",
+      "nominal_pressure_bar": "9",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "perticarini2024/ey_tds_cibao|cibao|T90.4|P9|coarse",
+      "source_grind_label": "Coarse",
+      "tau_s": "19",
+      "tds_mean_exact": "47/5",
+      "tds_mean_pct": "9.4",
+      "tds_sd_exact": "3/10",
+      "tds_sd_pct": "0.3",
+      "temperature_degC": "90.4",
+      "thesis_pdf_page": 102,
+      "thesis_printed_page": 90,
+      "thesis_table": "4.2"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "Fine",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "dataset_id": "egidi2024/table2",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": 6,
+      "egidi_table": "2",
+      "ey_mean_exact": "2207/100",
+      "ey_mean_pct": "22.07",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "fine",
+      "nominal_pressure_bar": "6",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "egidi2024/table2|modoetia|T93.4|P6|fine",
+      "source_grind_label": "Fine",
+      "tau_s": "39",
+      "tds_mean_exact": "54/5",
+      "tds_mean_pct": "10.8",
+      "tds_sd_exact": "1/4",
+      "tds_sd_pct": "0.25",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 103,
+      "thesis_printed_page": 91,
+      "thesis_table": "4.3"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "Fine",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "dataset_id": "egidi2024/table2",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": 6,
+      "egidi_table": "2",
+      "ey_mean_exact": "2209/100",
+      "ey_mean_pct": "22.09",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "fine",
+      "nominal_pressure_bar": "9",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "egidi2024/table2|modoetia|T93.4|P9|fine",
+      "source_grind_label": "Fine",
+      "tau_s": "39",
+      "tds_mean_exact": "109/10",
+      "tds_mean_pct": "10.9",
+      "tds_sd_exact": "23/100",
+      "tds_sd_pct": "0.23",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 103,
+      "thesis_printed_page": 91,
+      "thesis_table": "4.3"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "Optimal",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "dataset_id": "egidi2024/table2",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": 6,
+      "egidi_table": "2",
+      "ey_mean_exact": "2043/100",
+      "ey_mean_pct": "20.43",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "optimal",
+      "nominal_pressure_bar": "6",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "egidi2024/table2|modoetia|T93.4|P6|optimal",
+      "source_grind_label": "Optimal",
+      "tau_s": "26",
+      "tds_mean_exact": "10",
+      "tds_mean_pct": "10.0",
+      "tds_sd_exact": "3/25",
+      "tds_sd_pct": "0.12",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 103,
+      "thesis_printed_page": 91,
+      "thesis_table": "4.3"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "Optimal",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "dataset_id": "egidi2024/table2",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": 6,
+      "egidi_table": "2",
+      "ey_mean_exact": "2087/100",
+      "ey_mean_pct": "20.87",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "optimal",
+      "nominal_pressure_bar": "9",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "egidi2024/table2|modoetia|T93.4|P9|optimal",
+      "source_grind_label": "Optimal",
+      "tau_s": "26",
+      "tds_mean_exact": "52/5",
+      "tds_mean_pct": "10.4",
+      "tds_sd_exact": "7/25",
+      "tds_sd_pct": "0.28",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 103,
+      "thesis_printed_page": 91,
+      "thesis_table": "4.3"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "Coarse",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "dataset_id": "egidi2024/table2",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": 6,
+      "egidi_table": "2",
+      "ey_mean_exact": "2011/100",
+      "ey_mean_pct": "20.11",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "coarse",
+      "nominal_pressure_bar": "6",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "egidi2024/table2|modoetia|T93.4|P6|coarse",
+      "source_grind_label": "Coarse",
+      "tau_s": "22",
+      "tds_mean_exact": "97/10",
+      "tds_mean_pct": "9.7",
+      "tds_sd_exact": "31/100",
+      "tds_sd_pct": "0.31",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 103,
+      "thesis_printed_page": 91,
+      "thesis_table": "4.3"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "Coarse",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "dataset_id": "egidi2024/table2",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": 6,
+      "egidi_table": "2",
+      "ey_mean_exact": "486/25",
+      "ey_mean_pct": "19.44",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "coarse",
+      "nominal_pressure_bar": "9",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "egidi2024/table2|modoetia|T93.4|P9|coarse",
+      "source_grind_label": "Coarse",
+      "tau_s": "18",
+      "tds_mean_exact": "48/5",
+      "tds_mean_pct": "9.6",
+      "tds_sd_exact": "1/2",
+      "tds_sd_pct": "0.50",
+      "temperature_degC": "93.4",
+      "thesis_pdf_page": 103,
+      "thesis_printed_page": 91,
+      "thesis_table": "4.3"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "Fine",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "dataset_id": "egidi2024/table2",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": 6,
+      "egidi_table": "2",
+      "ey_mean_exact": "1129/50",
+      "ey_mean_pct": "22.58",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "fine",
+      "nominal_pressure_bar": "6",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "egidi2024/table2|modoetia|T90.4|P6|fine",
+      "source_grind_label": "Fine",
+      "tau_s": "41",
+      "tds_mean_exact": "56/5",
+      "tds_mean_pct": "11.2",
+      "tds_sd_exact": "13/50",
+      "tds_sd_pct": "0.26",
+      "temperature_degC": "90.4",
+      "thesis_pdf_page": 103,
+      "thesis_printed_page": 91,
+      "thesis_table": "4.3"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "Fine",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "dataset_id": "egidi2024/table2",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": 6,
+      "egidi_table": "2",
+      "ey_mean_exact": "1109/50",
+      "ey_mean_pct": "22.18",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "fine",
+      "nominal_pressure_bar": "9",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "egidi2024/table2|modoetia|T90.4|P9|fine",
+      "source_grind_label": "Fine",
+      "tau_s": "42",
+      "tds_mean_exact": "11",
+      "tds_mean_pct": "11.0",
+      "tds_sd_exact": "3/10",
+      "tds_sd_pct": "0.3",
+      "temperature_degC": "90.4",
+      "thesis_pdf_page": 103,
+      "thesis_printed_page": 91,
+      "thesis_table": "4.3"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "Optimal",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "dataset_id": "egidi2024/table2",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": 6,
+      "egidi_table": "2",
+      "ey_mean_exact": "2053/100",
+      "ey_mean_pct": "20.53",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "optimal",
+      "nominal_pressure_bar": "6",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "egidi2024/table2|modoetia|T90.4|P6|optimal",
+      "source_grind_label": "Optimal",
+      "tau_s": "25",
+      "tds_mean_exact": "51/5",
+      "tds_mean_pct": "10.2",
+      "tds_sd_exact": "3/50",
+      "tds_sd_pct": "0.06",
+      "temperature_degC": "90.4",
+      "thesis_pdf_page": 103,
+      "thesis_printed_page": 91,
+      "thesis_table": "4.3"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "Optimal",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "dataset_id": "egidi2024/table2",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": 6,
+      "egidi_table": "2",
+      "ey_mean_exact": "2081/100",
+      "ey_mean_pct": "20.81",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "optimal",
+      "nominal_pressure_bar": "9",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "egidi2024/table2|modoetia|T90.4|P9|optimal",
+      "source_grind_label": "Optimal",
+      "tau_s": "26",
+      "tds_mean_exact": "51/5",
+      "tds_mean_pct": "10.2",
+      "tds_sd_exact": "3/50",
+      "tds_sd_pct": "0.06",
+      "temperature_degC": "90.4",
+      "thesis_pdf_page": 103,
+      "thesis_printed_page": 91,
+      "thesis_table": "4.3"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "Coarse",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "dataset_id": "egidi2024/table2",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": 6,
+      "egidi_table": "2",
+      "ey_mean_exact": "201/10",
+      "ey_mean_pct": "20.10",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "coarse",
+      "nominal_pressure_bar": "6",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "egidi2024/table2|modoetia|T90.4|P6|coarse",
+      "source_grind_label": "Coarse",
+      "tau_s": "22",
+      "tds_mean_exact": "10",
+      "tds_mean_pct": "10.0",
+      "tds_sd_exact": "29/100",
+      "tds_sd_pct": "0.29",
+      "temperature_degC": "90.4",
+      "thesis_pdf_page": 103,
+      "thesis_printed_page": 91,
+      "thesis_table": "4.3"
+    },
+    {
+      "actual_beverage_mass_g": "UNKNOWN",
+      "authentication": "all condition labels and numerical cells agree; SOURCE_NOTES.md",
+      "canonical_grind_label": "Coarse",
+      "chemical_sample_n": 3,
+      "clock_start_stop": "UNKNOWN",
+      "coffee_id": "modoetia",
+      "coffee_label": "Modœtia",
+      "dataset_id": "egidi2024/table2",
+      "duration_replicate_n": "UNKNOWN",
+      "duration_semantics": "reported condition duration",
+      "duration_statistic": "UNKNOWN",
+      "duration_uncertainty": "UNKNOWN",
+      "egidi_pdf_page": 6,
+      "egidi_table": "2",
+      "ey_mean_exact": "1909/100",
+      "ey_mean_pct": "19.09",
+      "ey_uncertainty": "UNQUALIFIED",
+      "grind_id": "coarse",
+      "nominal_pressure_bar": "9",
+      "pressure_reference_node_history": "UNKNOWN",
+      "rounding_rule": "UNKNOWN",
+      "sigma_estimator": "UNKNOWN",
+      "source_condition_id": "egidi2024/table2|modoetia|T90.4|P9|coarse",
+      "source_grind_label": "Coarse",
+      "tau_s": "19",
+      "tds_mean_exact": "19/2",
+      "tds_mean_pct": "9.5",
+      "tds_sd_exact": "3/50",
+      "tds_sd_pct": "0.06",
+      "temperature_degC": "90.4",
+      "thesis_pdf_page": 103,
+      "thesis_printed_page": 91,
+      "thesis_table": "4.3"
+    }
+  ],
+  "predecessor_sha256": {
+    "docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md": "5ced3568e30903caa887c554f5df1bcc52ce8767052cf28332f89ea402beabf9",
+    "docs/analysis/sci_md_perticarini_pressure_grind_001/SOURCE_NOTES.md": "ddf36df048cb56d18f4a454a77bde1ed646b5d2604ef7a656302a9c1fd3df78f",
+    "docs/analysis/sci_md_perticarini_pressure_grind_001/contrasts.json": "b03b3e9b7b6c11ae18a031f8c7bf7d9f9e0307667b08f9fd91aa1af608df2e07",
+    "docs/analysis/sci_md_perticarini_pressure_grind_001/observations.csv": "145dc7649bb2dac46a6d73591c84c4804a500fcb869483ebd9d8e9972463b0b3",
+    "puckworks/analysis/perticarini2024_pressure_grind.py": "a2d7a02d80cf10d53456bece33b3933e983474d0e0a74c642412ddbb56324f83"
+  },
+  "schema_version": 1,
+  "sources": [
+    {
+      "file_sha256": "248d480cc2ab3353799fcaa886bb1be3f6cfbe7a9f15e1cdf9d4950827424c7f",
+      "inspected_pdf_pages_one_based": [
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103
+      ],
+      "inspected_printed_pages": "85–91",
+      "source_id": "perticarini_thesis",
+      "title": "Predictive Models in Espresso Coffee Percolation",
+      "url": "https://pubblicazioni.unicam.it/retrieve/cf1d5052-f17f-4c11-96e2-07533acdbb41/02_28_24%20-%20Perticarini%20Alessia.pdf"
+    },
+    {
+      "doi": "10.1016/j.chaos.2024.115625",
+      "file_sha256": "1aba69278444d107ce5172eb29ba7b37883491fe0b32dfd9bc8898632e203a33",
+      "inspected_pdf_pages_one_based": [
+        6
+      ],
+      "inspected_printed_pages": "6",
+      "source_id": "egidi_article",
+      "title": "An improved numerical scheme for coffee Extraction Yield evaluation",
+      "url": "https://pubblicazioni.unicam.it/bitstream/11581/485884/1/2024AnImpNumSchEYEval.pdf"
+    }
+  ],
+  "task_id": "SCI-MD-PERTICARINI-PRESSURE-CHEMISTRY-001"
+}

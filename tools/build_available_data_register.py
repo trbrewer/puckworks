@@ -467,7 +467,7 @@ def build() -> dict:
         "result": "docs/analysis/sci_md_cameron_pressure_tamp_001/RESULT.md",
         "last_qualified_task": "SCI-MD-CAMERON-PRESSURE-TAMP-001",
     }
-    # Duration eligibility is scoped to the two existing canonical tables. Their
+    # Duration/chemistry eligibility is scoped to the two existing canonical tables. Their
     # historical chemistry/model qualifications and all other datasets stay intact.
     for dataset_id, coverage in [
         ("perticarini2024/ey_tds_cibao", "18 Cibao rows; 12 at 93.4 C and 6 at 90.4 C"),
@@ -475,24 +475,30 @@ def build() -> dict:
     ]:
         family = family_id(dataset_id)
         families[family].setdefault("dataset_scopes", {})[dataset_id] = {
-            "observer": "reported condition duration in seconds; statistic/spread/rounding/clock unspecified",
+            "observer": "condition-level join: reported duration (statistic/spread/rounding/clock unspecified), refractometer TDS mean/SD and samplewise-calculated EY mean over three chemical extractions",
             "source_internal_or_external": "SOURCE_INTERNAL",
             "target_exposure": "TARGET_EXPOSED",
             "physical_validation": "NOT_ESTABLISHED",
             "eligible_uses": ["retrospective nominal-pressure duration contrasts within coffee-temperature strata",
                               "additive pressure-by-grind contrasts and separate reversal diagnostics",
-                              "exact deterministic entrywise perturbation sensitivity; not timing variability"],
+                              "exact deterministic entrywise perturbation sensitivity; not timing variability",
+                              "joint duration/TDS nominal-pressure response; secondary published EY centers",
+                              "six TDS pressure-by-temperature interactions; opposition uses component domain intersections"],
             "blocked_uses": ["measured puck pressure-drop or flow calibration", "40/tau as measured flow",
                              "per-shot masses from EY/TDS", "duration n=3 or uncertainty from TDS sigma",
                              "intrinsic permeability/resistance or mechanism inference", "population inference",
-                             "independent replication from duplicate publications", "physical validation"],
+                             "independent replication from duplicate publications", "physical validation",
+                             "causal duration-to-chemistry predictor", "SD-to-mean uncertainty",
+                             "exact EY_mean=2*TDS_mean or EY uncertainty from TDS allowances"],
             "missing_joins": ["duration statistic/spread/rounding/start-stop clock", "duration replicate identities",
-                              "actual condition beverage masses", "pressure reference/node/history"],
+                              "actual condition beverage masses", "pressure reference/node/history",
+                              "raw chemical replicates and EY SDs", "relevant covariance and joint timed/chemical replicate model"],
             "coverage": coverage,
             "campaign": "Perticarini Extraction Procedure 1; egidi2024/table2 is the canonical Modoetia identity",
-            "units": "s; degC; native nominal machine bar; ordinal source grind labels",
-            "result": "docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md",
-            "last_qualified_task": "SCI-MD-PERTICARINI-PRESSURE-GRIND-001",
+            "units": "s; TDS/EY percent, contrasts in percentage points; degC; native nominal machine bar; ordinal source grind labels",
+            "duration_result": "docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md",
+            "result": "docs/analysis/sci_md_perticarini_pressure_chemistry_001/RESULT.md",
+            "last_qualified_task": "SCI-MD-PERTICARINI-PRESSURE-CHEMISTRY-001",
             "prior_use_limit": "EY/TDS qualification and model pressure/temperature prediction strength unchanged",
         }
     return {"schema_version": 1, "manifest_path": "puckworks/data/MANIFEST.csv",

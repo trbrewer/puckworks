@@ -469,29 +469,37 @@
             "intrinsic permeability/resistance or mechanism inference",
             "population inference",
             "independent replication from duplicate publications",
-            "physical validation"
+            "physical validation",
+            "causal duration-to-chemistry predictor",
+            "SD-to-mean uncertainty",
+            "exact EY_mean=2*TDS_mean or EY uncertainty from TDS allowances"
           ],
           "campaign": "Perticarini Extraction Procedure 1; egidi2024/table2 is the canonical Modoetia identity",
           "coverage": "12 Modoetia rows; 6 at each temperature; thesis Table 4.3 is the same observations",
+          "duration_result": "docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md",
           "eligible_uses": [
             "retrospective nominal-pressure duration contrasts within coffee-temperature strata",
             "additive pressure-by-grind contrasts and separate reversal diagnostics",
-            "exact deterministic entrywise perturbation sensitivity; not timing variability"
+            "exact deterministic entrywise perturbation sensitivity; not timing variability",
+            "joint duration/TDS nominal-pressure response; secondary published EY centers",
+            "six TDS pressure-by-temperature interactions; opposition uses component domain intersections"
           ],
-          "last_qualified_task": "SCI-MD-PERTICARINI-PRESSURE-GRIND-001",
+          "last_qualified_task": "SCI-MD-PERTICARINI-PRESSURE-CHEMISTRY-001",
           "missing_joins": [
             "duration statistic/spread/rounding/start-stop clock",
             "duration replicate identities",
             "actual condition beverage masses",
-            "pressure reference/node/history"
+            "pressure reference/node/history",
+            "raw chemical replicates and EY SDs",
+            "relevant covariance and joint timed/chemical replicate model"
           ],
-          "observer": "reported condition duration in seconds; statistic/spread/rounding/clock unspecified",
+          "observer": "condition-level join: reported duration (statistic/spread/rounding/clock unspecified), refractometer TDS mean/SD and samplewise-calculated EY mean over three chemical extractions",
           "physical_validation": "NOT_ESTABLISHED",
           "prior_use_limit": "EY/TDS qualification and model pressure/temperature prediction strength unchanged",
-          "result": "docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md",
+          "result": "docs/analysis/sci_md_perticarini_pressure_chemistry_001/RESULT.md",
           "source_internal_or_external": "SOURCE_INTERNAL",
           "target_exposure": "TARGET_EXPOSED",
-          "units": "s; degC; native nominal machine bar; ordinal source grind labels"
+          "units": "s; TDS/EY percent, contrasts in percentage points; degC; native nominal machine bar; ordinal source grind labels"
         }
       },
       "directness": [
@@ -504,7 +512,7 @@
       "fraction_resolution": "UNKNOWN",
       "grinder_count_if_known": "UNKNOWN",
       "historical_task_uses": [
-        "RC-1 EY/TDS range bracket (2.1); retrospective reported-duration contrasts: puckworks.analysis.perticarini2024_pressure_grind (research only; nonscoring)"
+        "RC-1 EY/TDS range bracket (2.1); retrospective reported-duration contrasts: puckworks.analysis.perticarini2024_pressure_grind (research only; nonscoring); joint reported-duration/TDS contrasts: puckworks.analysis.perticarini2024_pressure_chemistry (research only; nonscoring)"
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
@@ -515,7 +523,7 @@
       "measurement_resolution": "UNKNOWN",
       "missing_joins": [],
       "notes": [
-        "p,T absorbed into q,tau (egidi); EY 19-23%; cameron reads ~15% (below bracket, documented); rho/phi_s undefined in Eq4 (\u00a75.8); Table 2 p6 verified identical in all 12 condition labels/numerical rows to Perticarini thesis Table 4.3 printed91/PDF103; same Modoetia observations, no extra campaign or replicates. Native nominal machine bar; duration statistic/spread/rounding/clock unknown; TDS sigma is not duration uncertainty. New descriptive duration use does not upgrade the EY/TDS bracket or model p/T prediction. See docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md; PHYSICAL_VALIDATION=NOT_ESTABLISHED."
+        "p,T absorbed into q,tau (egidi); EY 19-23%; cameron reads ~15% (below bracket, documented); rho/phi_s undefined in Eq4 (\u00a75.8); Table 2 p6 verified identical in all 12 condition labels/numerical rows to Perticarini thesis Table 4.3 printed91/PDF103; same Modoetia observations, no extra campaign or replicates. Native nominal machine bar; duration statistic/spread/rounding/clock unknown; TDS sigma is not duration uncertainty. New descriptive duration use does not upgrade the EY/TDS bracket or model p/T prediction. See docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md; PHYSICAL_VALIDATION=NOT_ESTABLISHED. Joint condition-level duration/TDS response and exact total-allowance sign thresholds: docs/analysis/sci_md_perticarini_pressure_chemistry_001/RESULT.md. Three chemical samples; EY calculated samplewise before averaging. Native TDS means one decimal, EY two; SD estimator unspecified, printed zero not exact mean. No paired-shot covariance, uncertainty propagation or physical-validation upgrade."
       ],
       "observables": [
         "UNKNOWN"
@@ -2633,29 +2641,37 @@
             "intrinsic permeability/resistance or mechanism inference",
             "population inference",
             "independent replication from duplicate publications",
-            "physical validation"
+            "physical validation",
+            "causal duration-to-chemistry predictor",
+            "SD-to-mean uncertainty",
+            "exact EY_mean=2*TDS_mean or EY uncertainty from TDS allowances"
           ],
           "campaign": "Perticarini Extraction Procedure 1; egidi2024/table2 is the canonical Modoetia identity",
           "coverage": "18 Cibao rows; 12 at 93.4 C and 6 at 90.4 C",
+          "duration_result": "docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md",
           "eligible_uses": [
             "retrospective nominal-pressure duration contrasts within coffee-temperature strata",
             "additive pressure-by-grind contrasts and separate reversal diagnostics",
-            "exact deterministic entrywise perturbation sensitivity; not timing variability"
+            "exact deterministic entrywise perturbation sensitivity; not timing variability",
+            "joint duration/TDS nominal-pressure response; secondary published EY centers",
+            "six TDS pressure-by-temperature interactions; opposition uses component domain intersections"
           ],
-          "last_qualified_task": "SCI-MD-PERTICARINI-PRESSURE-GRIND-001",
+          "last_qualified_task": "SCI-MD-PERTICARINI-PRESSURE-CHEMISTRY-001",
           "missing_joins": [
             "duration statistic/spread/rounding/start-stop clock",
             "duration replicate identities",
             "actual condition beverage masses",
-            "pressure reference/node/history"
+            "pressure reference/node/history",
+            "raw chemical replicates and EY SDs",
+            "relevant covariance and joint timed/chemical replicate model"
           ],
-          "observer": "reported condition duration in seconds; statistic/spread/rounding/clock unspecified",
+          "observer": "condition-level join: reported duration (statistic/spread/rounding/clock unspecified), refractometer TDS mean/SD and samplewise-calculated EY mean over three chemical extractions",
           "physical_validation": "NOT_ESTABLISHED",
           "prior_use_limit": "EY/TDS qualification and model pressure/temperature prediction strength unchanged",
-          "result": "docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md",
+          "result": "docs/analysis/sci_md_perticarini_pressure_chemistry_001/RESULT.md",
           "source_internal_or_external": "SOURCE_INTERNAL",
           "target_exposure": "TARGET_EXPOSED",
-          "units": "s; degC; native nominal machine bar; ordinal source grind labels"
+          "units": "s; TDS/EY percent, contrasts in percentage points; degC; native nominal machine bar; ordinal source grind labels"
         }
       },
       "directness": [
@@ -2668,7 +2684,7 @@
       "fraction_resolution": "UNKNOWN",
       "grinder_count_if_known": "UNKNOWN",
       "historical_task_uses": [
-        "retrospective reported-duration contrasts: puckworks.analysis.perticarini2024_pressure_grind (research only; nonscoring); multi-class extraction backlog remains; no model-component consumer",
+        "retrospective reported-duration contrasts: puckworks.analysis.perticarini2024_pressure_grind (research only; nonscoring); multi-class extraction backlog remains; no model-component consumer; joint reported-duration/TDS contrasts: puckworks.analysis.perticarini2024_pressure_chemistry (research only; nonscoring)",
         "NONE YET -- geometry context for the above",
         "NONE YET -- carries the factor-2 a_s convention flag per the card"
       ],
@@ -2683,7 +2699,7 @@
       "measurement_resolution": "UNKNOWN",
       "missing_joins": [],
       "notes": [
-        "18 conditions for Cibao Altura: 5 granulometries incl. extra fine and extra coarse, T 90.4/93.4 degC, p 6/9 bar plus 12 bar on the two extreme grinds only. Extends the registry's grind envelope past egidi2024's Modoetia set in BOTH directions. EY is the thesis's own TDS x brew-ratio product, not an independent measurement -- implied beverage/dose ratio spans 1.95-2.07, consistent with the stated 40+/-2 g out of 20+/-0.1 g. All 18 rows authenticated against Table 4.2 printed90/PDF102. Table 4.3 (Modoetia) verified identical to Egidi Table 2 in all 12 condition labels/numerical rows; retained only as canonical egidi2024/table2, no new dataset or campaign. TDS/EY are condition means; tau is reported condition duration with unspecified statistic/spread/rounding/clock. Native nominal machine pressures; no measured puck-pressure or flow conversion. Chemical summary ratios do not identify per-shot masses. See docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md; PHYSICAL_VALIDATION=NOT_ESTABLISHED.",
+        "18 conditions for Cibao Altura: 5 granulometries incl. extra fine and extra coarse, T 90.4/93.4 degC, p 6/9 bar plus 12 bar on the two extreme grinds only. Extends the registry's grind envelope past egidi2024's Modoetia set in BOTH directions. EY is calculated for each sample as TDS divided by r=dry dose/beverage mass, then averaged; related output, not an independent measurement. Ratios of published means do not identify sample masses or establish EY_mean=2*TDS_mean. All 18 rows authenticated against Table 4.2 printed90/PDF102. Table 4.3 (Modoetia) verified identical to Egidi Table 2 in all 12 condition labels/numerical rows; retained only as canonical egidi2024/table2, no new dataset or campaign. TDS/EY are condition means; tau is reported condition duration with unspecified statistic/spread/rounding/clock. Native nominal machine pressures; no measured puck-pressure or flow conversion. Chemical summary ratios do not identify per-shot masses. See docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md; PHYSICAL_VALIDATION=NOT_ESTABLISHED. Joint condition-level duration/TDS response and exact total-allowance sign thresholds: docs/analysis/sci_md_perticarini_pressure_chemistry_001/RESULT.md. Three chemical samples; EY calculated samplewise before averaging. Native TDS means one decimal, EY two; SD estimator unspecified, printed zero not exact mean. No paired-shot covariance, uncertainty propagation or physical-validation upgrade.",
         "Mean tamped height L and mean extraction time per granulometry per coffee; VST Competition basket, inner radius 29.25 mm, 20+/-0.1 g dose, 20 kgF tamp",
         "Fines/boulder representative radii and fines solid fraction for the six simulated I=1 extractions. a_f, a_b are the two MODES of a bimodal PSD split at 100 um, not independently measured radii. Store WITH the factor-2 a_s convention flag the card records"
       ],
@@ -4085,6 +4101,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "be73982369a24037475749fdadafef603409c6e7bc68daa81d82afef586b379f",
+  "manifest_sha256": "9a0ea165c215ab2e826a8a2a571e74d0e0ea160eb25f53117c45dbbeef56784a",
   "schema_version": 1
 }

@@ -1,0 +1,20 @@
+{
+  "producer": "puckworks.analysis.perticarini2024_pressure_chemistry.figure",
+  "role": "retrospective condition-level joint response comparison",
+  "outputs": ["COMPARISON.svg"],
+  "dataset_ids": ["perticarini2024/ey_tds_cibao", "egidi2024/table2"],
+  "badge": "SOURCE_INTERNAL / CONDITIONAL_PERTURBATION_SENSITIVITY",
+  "data_binding": "contrasts.json primary comparisons; SVG group IDs and exact nominal/lower/upper attributes; Matplotlib axes use those values",
+  "encodings": {
+    "panels": "four coffee x exact temperature strata; all 14 primary pairs, native grind labels",
+    "x": "delta reported duration, seconds; higher nominal pressure minus lower",
+    "y": "delta reported TDS, percentage points; higher nominal pressure minus lower",
+    "zero_axes": "both visible in every panel",
+    "extents": "conditional perturbation ranges: pair half-width 2*h_tau=1 s horizontally and 2*h_C=0.10 pp vertically at illustration; NOT experimental error bars or sample SDs",
+    "labels": "native grinds with callouts; no displacement of data coordinates, including any coincidence",
+    "color": "blue both signs strict; brown at least one unresolved; printed ties retained separately in tables",
+    "secondary": "excluded from figure; visibly separate four-row table in RESULT and secondary.csv"
+  },
+  "rights": "New numerical comparison of attributable factual values; no source artwork, PDF or facsimile redistribution",
+  "ceiling": "Condition summaries and conditional signs only; no regression, mechanistic curve, causality or independent validation. PHYSICAL_VALIDATION=NOT_ESTABLISHED."
+}

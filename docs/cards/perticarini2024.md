@@ -243,6 +243,30 @@ fitted q as a flow-stage value** (see the mass-balance failure above).
   coffee; these are excluded from pressure contrasts. Other tables include model outputs
   and parameters, not a blanket set of condition means. Transcription is the table route.
 
+## Joint reported duration/TDS consumer (2026-10-26)
+
+[SCI-MD-PERTICARINI-PRESSURE-CHEMISTRY-001](../analysis/sci_md_perticarini_pressure_chemistry_001/RESULT.md)
+joins the same original conditions: 14 primary 9−6-bar pairs, six TDS
+pressure-by-temperature interactions and four separate Cibao extreme 12-bar
+pairs. Nominally shorter duration accompanies both lower and higher TDS; exact
+sign-loss thresholds and declared total per-condition perturbations qualify the
+joint directions. These are dependent condition contrasts, not independent
+experiments or paired shots. Published EY is a secondary related central endpoint.
+
+[Targeted chemical qualification](../analysis/sci_md_perticarini_pressure_chemistry_001/SOURCE_NOTES.md):
+prepared beverage aliquot measured by refractometer; three chemical extractions;
+TDS and samplewise-calculated EY averaged separately. With r=dose/beverage,
+E_j=C_j/r_j; nominal recipe targets do not imply E_bar=2*C_bar. All three native
+tables print TDS means to one decimal and EY means to two; SD formatting varies.
+Sigma is descriptive TDS SD (estimator unspecified), including printed zeros;
+no measurement accuracy, mean uncertainty or timing uncertainty is inferred.
+
+Consumer: `puckworks.analysis.perticarini2024_pressure_chemistry`. Same canonical
+identities/publication deduplication, retrospective / target-exposed / nonscoring.
+No model fit, causal duration-to-chemistry relation, EWP comparison or evidence
+strength upgrade; historical EY/TDS range-bracket qualification is unchanged.
+**PHYSICAL_VALIDATION=NOT_ESTABLISHED.**
+
 ## Reported-duration analysis (2026-10-24)
 
 [SCI-MD-PERTICARINI-PRESSURE-GRIND-001](../analysis/sci_md_perticarini_pressure_grind_001/RESULT.md)

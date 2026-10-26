@@ -80,7 +80,12 @@ DISCOVERY_NOTES = {'angeloni2023': ('Fraction and endpoint chemistry; protected 
                'sensitivity: docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md. '
                'Nominal machine pressure only; tau statistic/spread/rounding/clock and actual endpoint '
                'masses unknown. TDS/EY averages and TDS sigma do not establish duration n/uncertainty. '
-               'No measured flow/permeability or model p/T prediction upgrade; PHYSICAL_VALIDATION=NOT_ESTABLISHED.'),
+               'No measured flow/permeability or model p/T prediction upgrade; PHYSICAL_VALIDATION=NOT_ESTABLISHED. '
+               'Joint condition-level duration/TDS contrasts (14 primary, six temperature interactions, '
+               'four Cibao-only secondary; 30 conditions across both coffees), exact total-allowance thresholds and '
+               'published EY centers: docs/analysis/sci_md_perticarini_pressure_chemistry_001/RESULT.md. '
+               'TDS and samplewise EY averaged over three chemical samples; SD descriptive only, '
+               'no joint replicate covariance or physical-validation upgrade.'),
  'ellero2019': ('Figures 2–4 contain nondimensional t_over_tnu, Reynolds number, applied forcing and '
                 'concentration curves across theta, Db and Dr; reference-8 experimental Reynolds points are '
                 'separate.',
@@ -194,7 +199,7 @@ DISCOVERY_NOTES = {'angeloni2023': ('Fraction and endpoint chemistry; protected 
                   'targets. Opaque MATLAB tables require the existing qualified adapter. No new M0, '
                   'same-lot, clock or pressure-boundary equivalence.'),
  'perticarini2024': ('bed_height_time: eight coffee/granulometry/height/time rows; ey_tds_cibao: 18 '
-                     'condition rows with T, p, tau, TDS uncertainty and EY; six granulometry parameter '
+                     'condition rows with T, p, tau, reported TDS SD and EY; six granulometry parameter '
                      'rows.',
                      'All 18 Cibao rows authenticated against thesis Table 4.2. Reported-duration '
                      'contrasts within temperature strata, with restricted 12-bar extreme extension: '
@@ -203,7 +208,12 @@ DISCOVERY_NOTES = {'angeloni2023': ('Fraction and endpoint chemistry; protected 
                      'TDS/EY condition means; tau statistic/spread/rounding/clock unknown; TDS sigma '
                      'is not timing uncertainty. Table 4.1 pooled mean times excluded. Native nominal '
                      'machine bar, unknown actual endpoint masses; no measured flow/permeability '
-                     'or physical-validation upgrade. Approximate grain-family parameters remain context.'),
+                     'or physical-validation upgrade. Approximate grain-family parameters remain context. '
+               'Joint condition-level duration/TDS contrasts (14 primary, six temperature interactions, '
+               'four Cibao-only secondary; 30 conditions across both coffees), exact total-allowance thresholds and '
+               'published EY centers: docs/analysis/sci_md_perticarini_pressure_chemistry_001/RESULT.md. '
+               'TDS and samplewise EY averaged over three chemical samples; SD descriptive only, '
+               'no joint replicate covariance or physical-validation upgrade.'),
  'pocketscience2024': ('Three source-style CSV exports include LRR dose/water/beverage quantities and '
                        'multirow basket sheets. Derived edge-EY means have 12 condition rows; LRR summary '
                        'has two grinder rows.',
