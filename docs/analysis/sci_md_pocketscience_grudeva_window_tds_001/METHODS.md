@@ -2,161 +2,197 @@
 
 Task: `SCI-MD-POCKETSCIENCE-GRUDEVA-WINDOW-TDS-001`.
 Attribution: Pocket Science Coffee (2024); Grudeva thesis and upstream data/code.
-Their permissions remain separate; original data and derived numerical evidence
-remain private.
+Their permissions remain separate. Original data, locators, identities,
+coefficients, numerical results, predictions and draws remain private.
 
-## Disposition
+## Scope and qualification
 
-**BLOCKED before fitting; comparative analysis NOT_RUN.** The existing configured
-manifest and narrow task locators did not resolve the three pinned Grudeva
-originals. This describes availability through the inspected locators, not
-nonexistence of the data. The required nominal-dose passage in the authenticated
-thesis could not be inspected. A public card's dose statement was not substituted.
-The owner subsequently supplied a narrow explicit directory; it was unavailable
-in this execution workspace. No neighboring directories were searched and no
-additional original files were opened.
-
-The initial bounded qualification used 543.645381 seconds of the 900-second
-allowance; the subsequent explicit locator check found no accessible directory.
-Scientific computation used zero seconds. No new transfer implementation, target
-aggregation, source fit, predictions, scoring, bootstrap or scientific freeze was
-completed. This document preserves the requested policy for continuation; it is
-**not a completed pre-scoring freeze**. `STATUS.json` records the exact disposition
-and safe receipts. The public delta is G0 documentation of a blocked G1 input
-qualification; production, registry, predecessor code and artifacts are unchanged.
-
-The one existing artifact needed next is the **Grudeva clock original-source
-bundle**, containing the pinned CSV, notebook and thesis PDF. A narrow explicit
-private locator is sufficient to resume authentication. No download, broad search,
-notebook execution, historical model replay or native EWP run was performed.
-
-## Inspection and authenticated source
-
-The Pocket Science workbook and PR379 private freeze/result and linked artifacts
-were authenticated. One unchanged observer pass matched all 60 cup-qualified
-observations, identities and original ordering against PR379's full-cohort
-`SHOTS.json` and earlier full-cohort records. PR378's 40-row `SHOTS.json` was not
-used as full-cohort authority. The original 57-shot membership is unchanged:
-37 Sworks and 20 VST, 29 traditional and 28 turbo, in 12 fixed conditions.
-Original sectioning exclusions and flush exclusion remain intact.
-
-Grudeva's parser, existing protocol, audit, source card and permission record were
-read. Its original CSV, notebook and thesis were **not inspected in this task**.
-The earlier audit's 13 qualified blocks and 11 complete-chemistry shots are
-historical context, not newly authenticated endpoint membership. No target shots
-have been admitted and no new target-membership hash exists.
-
-Both datasets are historically TARGET_EXPOSED and RETROSPECTIVE. Previous used
-means and Grudeva clock/MASS analyses preclude blindness. Source-only fitting
-would not restore blindness. Unknown sessions, shared calibration, systematic
-error and nominal-dose error remain limitations; they did not cause this stop.
+This is an exposed retrospective source-only comparison, conditional on measured
+collected beverage mass and authenticated nominal target dose. The primary
+comparison is P versus an equally source-trained N on absolute pooled-window
+TDS. It establishes neither blindness, complete-cup transfer, practical adequacy,
+causality nor production readiness. Earlier Pocket Science results remain intact.
 P1 blind-TDS remains OPEN.
 
-## Requested observation and fit policy (not executed)
+Scientific parent/base: PR379 `cc6e3d66eb5192e08e0949373548bb3a04ee69fd`;
+its Git parent: `2425223a872e104345a787984ee5874671258368`.
+PW main is pinned at `21669a427145194e1f4003e3cf1b97dedefe2679`;
+read-only EWP at `f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516`.
+Grudeva upstream authority is `567ad8f3808eb74fbe3e470eaa333161bf2eac1c`.
+No native EWP execution, notebook execution, new acquisition, figure reading,
+historical model replay or closed MASS re-scoring is authorized.
 
-Training uses the unchanged 57 Pocket Science physical shots. The predictor is
-measured dose/final beverage mass, converting raw D/E grams to kg; the primary
-response is direct filtered numeric raw B, including B54 without substituting
-historical derived EY. Raw C is reserved for the source-observation sensitivity.
-Derived EY and regional assays are not predictors or substitute targets.
+Initial configured and explicit locators were unavailable. The owner then
+explicitly authorized a local search, which located all three original files
+with the pinned SHA256 values. Detailed discovery is private. The initial
+blocked packet is preserved; the qualified analysis uses a fresh private bundle.
+Qualification stayed within its 15-minute allowance, excluding owner waiting
+and required QA. Numerical scientific computation is capped at 30 minutes,
+excluding installation and required QA. One implementation/review cycle and at
+most one material correction; no post-score policy tuning.
 
-Target endpoints use each complete shot's 16 regular vials in the nominal
-0–32-second pump/wheel-activation window. Two whole shots with positive-mass
-chemistry gaps are excluded from primary scoring. Unqualified extra blocks and
-terminal liquid remain excluded. Recorded net Weight is the mass authority;
-gross/tare checks and rectangular identity/order must be retained. Zero-mass
-vials contribute zero liquid and solute without inventing TDS or multiplying
-zero by NaN. A positive-mass chemistry gap disqualifies the entire endpoint;
-its mass must never be removed to shorten the denominator.
+Pocket Science workbook SHA256:
+`9e9063baea1e8f67d905b1e2d03a61a4227e26ed2964ae118426be09bced01cc`.
+Primary57 membership:
+`1b7863192edf7d4f672a71b5409d02004d72fb171da8d2581724427fb924f196`.
+PR379 freeze/result are pinned in the runner. Their linked code, input, result
+and saved-artifact receipts authenticate historical context without refitting.
+One unchanged workbook observer pass across the task matched all60 observations,
+identities and original order to PR379's authenticated full-cohort SHOTS.json.
+PR378's SHOTS40 is not full-cohort authority. Membership hashing alone does not
+protect order: explicit full observation/order equality is also required.
 
-For each eligible shot, let B be the sum of all 16 masses in kg, and S the sum
-of qualified mass × recorded TDS/100. Then y = 100 S/B. Independently verify
-the equivalent gram-weighted TDS mean within 1e-10 percentage points. The
-proposed x = 0.0185 kg/B requires the authenticated thesis methods §§2.1–2.2
-to establish that nominal dose's applicability to the experimental shots.
-This is not individually measured dose; the illustrative S2 configuration
-cannot supply authority. No nominal dose has yet been qualified.
+Grudeva originals are authenticated against the existing clock SOURCE.json:
+exp13.csv `291cadb1d06a009f758c158c95b020db551c127333e9dec6f6c581eac320130c`;
+PlotData.ipynb `bccaa696080166f8b31587c17a7268a7c13ce9dd5d19d4beec349f64e2c70dff`;
+thesis `bbe73a303ab0b6838fe727f05d970438c7ba42576a9959f032aa63b88aff84e6`.
+The notebook was inspected statically, not executed. Authenticated thesis
+§§2.1–2.2, printed pages27–30 (PDF pages28–31), establish the window, recipe
+and scope. Printed pages28–29 explicitly link nominal18.5g to the13 experimental
+shots. This is not per-shot measured dose and does not use the illustrative S2
+configuration. The exact passages/location/scope are retained privately;
+the dose-authority receipt SHA256 is pinned in the runner.
 
-The nominal TDS basis is refractometer-equivalent solute per solution mass,
-with Grudeva's supplied dilution correction and no density conversion. Its
-single recorded channel receives no invented filtered/unfiltered designation.
-Whole-cup source and regular-window target observations differ.
+## Cohorts and observations
 
-Fit P = alpha × x and N = mu independently to the same physical source shots,
-with bounds [0,100], using unweighted squared error in absolute TDS percentage
-points. Weighted bootstrap fits use alpha = clip(sum(wxy)/sum(wx²),0,100) and
-mu = clip(sum(wy)/sum(w),0,100). Reuse only valid source-only fitting and
-prediction helpers, not predecessor partitions or target-weight guards.
-Require finite inputs/objectives, nonnegative weights, positive total weight
-and denominator; verify BVLS at tolerance 1e-14 and raw predictions within
-1e-10 percentage points. Active bounds are reported. Raw predictions outside
-[0,100] and all extrapolated targets remain scored.
+Source: exactly57 physical Pocket Science shots,37 Sworks+20 VST,
+29 traditional+28 turbo,12 original conditions. Preserve original ordering,
+sectioning exclusions, grinder/style mapping and condition tuples. Ten flushes
+remain excluded. No new LOCO fitting: each arm fits once to the full source.
+Source x is measured dose/final beverage mass; raw D/E grams convert to kg.
+Primary y is direct filtered numeric raw B, including B54. Raw C is reserved
+for the source-observation sensitivity. No derived EY, historical Y54 or
+regional-assay predictors/targets. Preparation N means paper, not model N.
 
-## Requested inference and decisions (not executed)
+Target: the first13 source-qualified physical blocks, each with16 regular
+vials, in original rectangular order. Two whole shots have positive-mass
+chemistry gaps and are excluded from the primary11. Their precise identities
+and gap provenance are frozen privately. The unqualified extra block and
+terminal vials remain excluded. The nominal0–32s window begins with simultaneous
+pump/wheel activation; no first-drip realignment or full-cup extrapolation.
+The unchanged parser reproduces208 regular slots,26 structural-zero vials,
+180 positive-mass chemistry observations and two unavailable positive-mass
+chemistry observations. No independent compaction of mass and chemistry columns.
 
-Primary RMSE gives equal weight to each of the 11 physical target endpoints.
-Also report MAE, signed prediction-minus-observation bias, individual errors,
-coverage and support. Vial weighting defines an endpoint; vials are not
-independent target replicates. There is no target condition-balanced metric.
+Recorded Weight is mass authority; preserve gross/tare checks. For each eligible
+shot, B=sum16 recorded net masses in kg and S=sum positive-mass vial
+mass_kg×recorded_TDS_percent/100. Then y=100S/B and x=0.0185/B. Require finite
+nonnegative vial masses and positive total B. Zero-mass vials contribute zero
+liquid/solute without inventing TDS or computing0×NaN. A positive-mass chemistry
+gap disqualifies the whole endpoint; never shorten its denominator.
+Independently verify y=sum(m_g×TDS_percent)/sum(m_g), explicitly handling
+structural zeros, within absolute1e-10 TDSpp.
 
-Use 2,000 paired draws for each resampled analysis, initializing
-`numpy.random.SeedSequence(20261027).spawn(2)` identically per analysis for
-separate source and target streams. Resample source physical shots within
-the 12 fixed conditions at their original sizes. Independently resample whole
-target shots. Share both multiplicity vectors across P/N, refit source only,
-and score with target weights. Zero individual target weights are valid;
-positive total target weight is required. Save attempted vectors and checks.
-A failed draw stops that campaign; preserve failed and unattempted counts
-and never present successful-only intervals as completed inference.
+Both nominal bases are refractometer-equivalent solute per solution mass.
+Grudeva includes the supplied dilution correction; no density conversion or
+invented filtered/unfiltered channel label. Freeze source/target x ranges and
+every target extrapolation before fitting; retain every qualified target.
+Vial weighting defines each endpoint, while shots receive equal primary weight.
 
-Delta = RMSE(P) − RMSE(N); gain = 1 − RMSE(P)/RMSE(N). A zero N loss leaves
-gain undefined without epsilon. Report percentile 95% intervals for both
-RMSEs and paired contrasts. The primary absolute-delta interval determines:
+## Frozen arms and arithmetic checks
 
-- upper < 0: `P_WINDOW_TRANSFER_ADDED_VALUE_OVER_N`;
-- lower > 0: `N_LOWER_WINDOW_TRANSFER_LOSS`;
+P=alpha×x and N=mu each independently fit one scalar on identical source
+physical-shot squared TDS error, bounds[0,100]. Point weights are one.
+Weighted fits use alpha=clip(sum(wxy)/sum(wx²),0,100) and
+mu=clip(sum(wy)/sum(w),0,100). Reuse the explicit P/N source-only fitter and
+prediction/oracle helpers, without changing predecessor globals. Prediction
+accepts coefficients and target x only; target y never enters fitting.
+No target means, offsets, dose adjustments, affine rescue or calibration.
+
+Require finite inputs/objectives, nonnegative weights, positive total training
+weight and P denominator. Independently verify BVLS bounded least squares,
+tol1e-14, and source/target predictions within absolute1e-10 TDSpp for point,
+bootstrap and deletion fits. This tolerance concerns arithmetic, not measurement
+precision or independent human review. Active bounds are reported, not automatic
+failures. Predict raw values and score domain excursions outside[0,100] unchanged.
+No nesting assertion, GSA campaign or additional model family.
+
+## Loss, paired intervals and decision
+
+Primary loss is RMSE across11 physical target endpoints. Also report MAE,
+signed prediction-minus-observation bias, individual errors, adverse/worst cases,
+coverage, support, coefficients and predictions privately. No target
+condition-balanced metric or pooled-liquid pseudo-shot.
+
+Delta=RMSE(P)−RMSE(N); gain=1−RMSE(P)/RMSE(N). If N loss is zero, gain is
+undefined without epsilon, while absolute contrasts remain valid.
+Each analysis uses2000 paired draws. Initialize NumPy SeedSequence(20261027),
+spawn two independent source/target streams, identically for each analysis.
+Resample source shots within12 fixed conditions at original sizes; independently
+resample whole target shots at target cohort size. Share both multiplicity
+vectors across P/N, refit source only on every draw, predict all original target
+rows, and score with target multiplicities. Individual target zero weights are
+valid; positive total target weight is required. Save both vectors and all draw
+scores, contrasts, fit checks, active bounds and domain flags.
+
+Report percentile95% CIs for each RMSE and paired delta/gain, plus requested,
+completed, failed, unattempted and undefined counts. Stop at a failed draw and
+retain its vectors; no successful-only interval substitutes for a completed
+required campaign. Any failed necessary inference is INCOMPLETE.
+Primary absolute-delta CI determines:
+
+- upper<0: `P_WINDOW_TRANSFER_ADDED_VALUE_OVER_N`;
+- lower>0: `N_LOWER_WINDOW_TRANSFER_LOSS`;
 - otherwise, including zero endpoints: `WINDOW_TRANSFER_COMPARISON_UNRESOLVED`.
 
-Gain grades are worse (<0), small ([0,0.10)), moderate ([0.10,0.25)) and
-large (≥0.25). Report the point grade and every CI-intersected grade. Reclassify
-unchanged estimates under all nine lower {0.075,0.10,0.125} × upper
-{0.1875,0.25,0.3125} reporting boundaries; do not refit or interpret these as
-measurement-error assumptions or practical acceptance limits.
+Zero is no improvement, not an adequacy, equivalence or noninferiority margin.
+Gain grades: worse<0; small[0,0.10); moderate[0.10,0.25); large≥0.25. Report the
+point and every CI-intersected grade. Reclassify unchanged estimates under all
+nine lower{0.075,0.10,0.125}×upper{0.1875,0.25,0.3125} combinations. These are
+reporting boundaries, not measurement robustness or practical acceptance.
 
-Exactly three sensitivities are prescribed: source raw C refitting with the
-same 11 target endpoints and its own bootstrap; literal recorded positive-mass
-zero TDS with all 13 qualified blocks, complete denominators and its own
-bootstrap; and influence diagnostics deleting each source condition with refit
-or each target shot while retaining the full-source fit. Deletion ranges are
-not confidence intervals. No ALL60-source factorial or target calibration.
+## Exactly three sensitivities and limitations
 
-Intervals would condition on source conditions and assumed within-condition
-source/whole-target-shot exchangeability. They omit unknown target settings,
-sessions, order, nominal-dose error, shared calibration/dilution/systematic
-error, observer differences and prior selection. They are not simultaneous
-intervals, complete-cup transfer, blind validation or new-campaign guarantees.
+1. Refit the same57 source shots on raw C, evaluate the same11 recorded-channel
+   target endpoints, and run its own paired bootstrap. Only source observation
+   changes; Grudeva is not called unfiltered.
+2. Refit filtered source and include all13 qualified target blocks, interpreting
+   the two recorded positive-mass zeros literally. Retain all16 masses per
+   denominator and use its own13-shot bootstrap. This is an alternative
+   observation assumption, not13 primary chemistry-qualified targets.
+3. Delete each of12 source conditions, refit and score all11 primary targets.
+   Delete each of11 target shots, retain the full-source fit and score10.
+   Report ranges, ties and reversals as influence diagnostics, not CIs.
 
-## Reproduction and continuation
+Report exactly which interval conclusion changes; no favorable observer
+selection, ALL60-source factorial, reverse transfer or additional endpoint.
+Both datasets are TARGET_EXPOSED/RETROSPECTIVE. Previous used means and
+clock/MASS analyses preclude blindness; procedural separation does not restore
+it. Intervals assume source within-condition and target whole-shot
+exchangeability. They omit unknown settings/sessions/order, nominal-dose error,
+shared calibration/dilution/systematic error, observer differences and prior
+selection. They are not simultaneous or new-campaign validation intervals.
+Source whole cups and target windows differ, confounded with campaign effects.
 
-Start from the exact PR379 parent recorded in `STATUS.json`. Resolve private
-Pocket Science inputs inside code using the existing affine runner's configured
-resolver; authenticate pinned bytes and receipts before use. Supply the one
-missing Grudeva bundle through a configured or narrow explicit locator; never
-print locators, configuration, directory listings or raw discovery output.
-Authenticate all three original SHA256 values, preserve parser semantics and
-record the actual thesis passage/location and its scope privately. Stop if
-the nominal dose is absent, contradictory or inapplicable.
+## Reproduction and handoff
 
-Only after all required inputs qualify may the scoped implementation and
-synthetic checks proceed. Freeze memberships, dose authority, observation,
-code/method hashes, source-only policy, seed, decisions and sensitivities before
-comparative scoring. The implementation, scientific freeze, target identities,
-numerical outputs and new bootstrap records are currently NOT_RUN. Private
-blocked receipts include qualification/inspection, source membership,
-nominal-dose status, empty score/prediction schemas and campaign accounting.
-Public receipts contain no private locators or observation values.
+Use the qualified private input bundle authenticated by its ARTIFACTS.json,
+including SOURCE_SHOTS, original Grudeva records, LOCATORS, qualification and
+nominal-dose receipts. A reproduction copies only the frozen private inputs to
+a fresh external directory, retaining authenticated original locators. The
+runner resolves paths inside code and authenticates bytes rather than filenames.
+The initial once-only workbook inspection receipt is reused and verified against
+PR379; no second original observer pass or historical campaign is required.
+Never print private paths/configuration or raw discovery. With a private
+WINDOW_EVIDENCE locator configured by the owner:
 
-The single subsequent candidate remains
-`SCI-MD-WADSWORTH-HELD-COFFEE-PERMEABILITY-001`, requiring qualification of the
-existing 21 permeability records' sample/error semantics. It was not executed.
-No target calibration or affine rescue follows this blocked transfer.
+```sh
+python tools/pocketscience_grudeva_window_tds.py freeze --output "$WINDOW_EVIDENCE"
+python tools/pocketscience_grudeva_window_tds.py run --output "$WINDOW_EVIDENCE"
+```
+
+`freeze` records source/target membership, support, dose authority, code/method
+hashes, policy, seed, comparisons, decisions and sensitivities before scoring.
+`run` rechecks all frozen hashes and refuses an existing attempt. CLI output is
+safe status/hashes only. Private RESULT.md≤750 words/2 pages and SUMMARY.md≤120
+words accompany complete JSON/CSVs, predictions, draws and artifact hashes.
+Source/identity/basis/dose drift, leakage, arithmetic failure, invalid inference,
+exhausted budget or an unfixed material defect stop with precise evidence.
+
+Public output is first-party code, synthetic tests, methods and safe status/hash
+receipts only. Preserve predecessor artifacts/defaults and corrected pytest
+configuration. Draft PR380 remains stacked on PR379 while unmerged; no merge or
+auto-merge. The single next candidate is
+SCI-MD-WADSWORTH-HELD-COFFEE-PERMEABILITY-001: qualify sample/error semantics of
+existing21 records before any held-coffee comparison. Do not execute it here;
+reassess priority if genuinely unexposed existing data become executable.
