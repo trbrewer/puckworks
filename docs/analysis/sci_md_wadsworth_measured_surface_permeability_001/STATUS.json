@@ -1,0 +1,95 @@
+{
+  "pins": {
+    "pw_main": "21669a427145194e1f4003e3cf1b97dedefe2679",
+    "base_scientific_parent": "7c04a644c7b74be53ffb1cf611ebfb7ab06c5fd2",
+    "base_git_parent": "097e5c7f0bdc1bef38d56938374f936003d55a39",
+    "pr380_git_parent": "d41af1d08cda65864fdbdf5c6e1814cc027c5ef1",
+    "ewp_read_only": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516"
+  },
+  "source_sha256": "3b0139fe02108d3dfcd1441d9e4062e86d9b7e1a8505141a7beefd9366ebf20f",
+  "source_blob": "37b4136bfa1a84df159f41c01245000288db4ebf",
+  "source_bytes": 2315,
+  "CRLF": 23,
+  "parent_manifest_sha256": "4d81a65e5020868cef1b65102ef4c7c6f810f29e5ef097a356b047a229981599",
+  "parent_freeze_sha256": "1f2ccc1c4ce94f0d1654d113b322a936a924664f12c108978d056d4da417d624",
+  "parent_result_sha256": "7a724f317f638e303e69bbd403ebf742efc98ee18baa8292e17c47dc5b7c4467",
+  "parent_membership_sha256": "f72c57505fab4b7bf42876970c89207b36f3f1975e0b79081b09ca10563a8821",
+  "parent_annotated_fold_sha256": "4db17f4379b600c6ccca735ec4f96fc48f2f490240ad0b07c155eb1dd8e2a8fe",
+  "augmented_observation_sha256": "901e04ce19ab3b29a1a77f7617e5f975c70f661fa7579df1d9a335f6527c68e2",
+  "annotated_fold_sha256": "5b5966ceeaf0cd815cd6bfb69237461bffb30bc3193b8d74406ee592950b63f4",
+  "samples": 22,
+  "endpoints": 21,
+  "coffees": 2,
+  "espresso_shots": 0,
+  "excluded": [
+    [
+      "Guayacan",
+      2
+    ]
+  ],
+  "exposure": [
+    "SOURCE_INTERNAL",
+    "TARGET_EXPOSED",
+    "RETROSPECTIVE"
+  ],
+  "conditioning": {
+    "S3": [
+      "s_p_connected_per_m",
+      "phi_p_connected"
+    ],
+    "E3": [
+      "R_mean_m",
+      "phi_p_connected"
+    ],
+    "W3": [
+      "R_mean_m",
+      "phi_p_connected"
+    ],
+    "N": []
+  },
+  "basis": "TDS/EY NOT_APPLICABLE; no density conversion",
+  "inspection": "Exact requested source/code/test/method/status/provenance/permission files and original paper methods3.3-3.5 text; known private parent manifest authenticated; no broad search, figures or raw acquisition",
+  "inherited_repair": "Two affected cases pass with all30 scalar comparisons and unchanged depletion/conservation checks; no pytest downgrade; historical PR381 failure preserved",
+  "task": "SCI-MD-WADSWORTH-MEASURED-SURFACE-PERMEABILITY-001",
+  "status": "COMPLETED_PRIVATE",
+  "governance_class": "G1 exposed retrospective representation comparison",
+  "qualification_seconds": 387.1,
+  "qualification_cap_seconds": 1200,
+  "scientific_cap_seconds": 1800,
+  "implementation_review_cycles": 1,
+  "material_pre_score_corrections": 1,
+  "correction": "Bind the known parent ARTIFACTS manifest digest before trusting its entries",
+  "qualification_sha256": "b1789dc783eac5ed6424fabcccb3b4dffb21b02b7c34dae6dbf4a84970b19941",
+  "numerical_results": "PRIVATE_ONLY; no new scores or coefficients committed",
+  "review": "One author review; independent SVD/QR numerical checks are not independent human review",
+  "P1_blind_TDS": "OPEN",
+  "next_candidate": "SCI-MD-TRIGONELLINE-RECIPE-INCREMENT-001",
+  "next_candidate_execution": "NOT_RUN; fresh matched-capacity/tuning/support/refitting/uncertainty/budget review required",
+  "verification": {
+    "affected_assay_cases": "PASS:2, all30 scalar leaves",
+    "focused": "PASS:16 including2 assay cases",
+    "offline": "PASS:7430 passed,68 skipped,65 deselected,1 warning in1446.52s; full suite run once",
+    "hosted": "NOT_RUN_AT_LOCAL_COMMIT",
+    "lint": "PASS",
+    "mypy": "PASS:19 source files",
+    "registry": "PASS:66, ACKNOWLEDGED_EXCEPTION:1",
+    "statusdoc": "PASS",
+    "scientific_baseline": "Exact-parent baseline evidence reused; scientific baseline files unchanged",
+    "diff_check": "PASS: exactly five new task files and narrow assay-test repair",
+    "frozen_hashes_and_parent_bundle": "PASS: unchanged after scoring"
+  },
+  "parent_QA_disposition": "Historical PR381 failed full suite preserved unchanged",
+  "parent_scientific_changes": false,
+  "production_changes": false,
+  "native_solver_runs": 0,
+  "separate_parent_campaigns": 0,
+  "new_raw_acquisition": false,
+  "freeze_sha256": "f44693c947ddae7a62a503bbdcbeb8a97406fb5b07ae49d196b9feef0161e2d9",
+  "numerical_result_sha256": "35d44b6a42429374cc7c2643062cc3c00b1623919721af02ab2150bae9ea3e3e",
+  "methods_sha256": "ab96dfe110b70512af5091627a49ba334838071853f74ddaeefc8b681d531a40",
+  "scientific_computation_seconds": 7.764578209025785,
+  "required_campaign": "2000/2000 draws, all32 deletions; no failed/unattempted draws",
+  "retained_arm_reproduction": "PASS: point and all2000 saved draw predictions/scores/weights exact; no separate parent campaign",
+  "saved_arithmetic_verification_sha256": "3cba0405075230279fe2a972dd2019f17d2793c1063f9655c1b8dca4fae4d0fd",
+  "local_verification_completed_utc": "2026-10-27T23:17:07.595864+00:00"
+}

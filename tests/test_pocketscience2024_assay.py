@@ -44,7 +44,22 @@ def test_constructive_global_nonidentifiability(sheet):
     a,b=nonidentifiability_example()
     anchor=AnchorPolicy(.03,.0026,'MODEL_DERIVED')
     x,y=[forward_assay(s,recovery(sheet),anchor) for s in (a,b)]
-    assert dataclasses.asdict(x.assay)==pytest.approx(dataclasses.asdict(y.assay))
+    def compare_leaves(actual, expected):
+        assert type(actual) is type(expected)
+        if isinstance(expected, dict):
+            assert tuple(actual) == tuple(expected)
+            return sum(compare_leaves(actual[key], expected[key]) for key in expected)
+        if isinstance(expected, tuple):
+            assert len(actual) == len(expected)
+            return sum(compare_leaves(av, bv) for av, bv in zip(actual, expected))
+        if expected is None:
+            assert actual is None
+            return 0
+        assert isinstance(expected, (int, float))
+        assert actual == pytest.approx(expected)
+        return 1
+
+    assert compare_leaves(dataclasses.asdict(x.assay), dataclasses.asdict(y.assay)) == 15
     assert x.sections[0]['solid_depletion_kg'] != y.sections[0]['solid_depletion_kg']
     for s in (a,b):
         assert sum(j.initial_model_soluble_kg for j in s)==pytest.approx(sum(j.remaining_solid_soluble_kg+j.retained_dissolved_solute_kg for j in s)+anchor.cup_solute_kg)
