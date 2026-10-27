@@ -1,0 +1,41 @@
+{
+  "P1_blind_TDS": "OPEN",
+  "bases_git_parent": "499930653969f473136b2c5303b00d09b8945c68",
+  "ewp_read_only_sha": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+  "exposure": "SOURCE_INTERNAL / TARGET_EXPOSED / RETROSPECTIVE / CONDITIONAL_ON_MEASURED_FINAL_BEVERAGE_MASS",
+  "fold_sha256": {
+    "ALL60": "ee687e95c7205170cc5025f91e660a745a9eccb1d4fd7f3f7eeef55c4a539807",
+    "primary": "8985caa049b1699a7b56c986ce811342e0750e881f4fdd6b758b13c28edf5127"
+  },
+  "freeze_sha256": "223028d54749d8f847ca051b92ace472f7f64b898c2a461302446fe765b4e226",
+  "historical_verification": "All three PR375 M/P/N point and inline draw results agree within 1e-10; exact saved multiplicities; no separate historical campaigns or PR378 replay",
+  "inspection": "One original observer pass; all60 matched against earlier full-cohort records and PR378 SOURCE_SHOTS; PR378 SHOTS40 not used as full cohort",
+  "local_verification_completed_utc": "2026-10-27T15:08:40.734215+00:00",
+  "material_scientific_corrections": 0,
+  "membership_sha256": "1b7863192edf7d4f672a71b5409d02004d72fb171da8d2581724427fb924f196",
+  "native_EWP_runs": 0,
+  "numerical_result_sha256": "62653cb4127cfc89c8b4c0417a83810852f96eab88e240c4a94c26254f916011",
+  "pr374_ancestor": "2f93c216f02700e28801418a3069684fff0ba9ea",
+  "pr375_loco_reference": "9f8c6c7cf894872908f3ea212c69209db13c602a",
+  "predecessor_preservation": "Scientific code/tests/methods and private artifacts unchanged",
+  "production_changes": false,
+  "publication": "Code, synthetic tests, methods and safe hashes/status only; numerical results and locators private",
+  "pw_branch_base_and_scientific_parent": "2425223a872e104345a787984ee5874671258368",
+  "pw_main": "21669a427145194e1f4003e3cf1b97dedefe2679",
+  "review": "One author implementation/review cycle; numerical checks are not independent human review",
+  "scientific_computation": "Completed within 30-minute cap",
+  "source_sha256": "9e9063baea1e8f67d905b1e2d03a61a4227e26ed2964ae118426be09bced01cc",
+  "status": "COMPLETED_PRIVATE",
+  "task": "SCI-MD-POCKETSCIENCE-AFFINE-TDS-001",
+  "verification": {
+    "diff_check": "PASS",
+    "focused": "PASS: 71 cases",
+    "hosted": "NOT_RUN_AT_LOCAL_COMMIT; consult draft PR for subsequent hosted checks",
+    "lint": "PASS",
+    "mypy": "PASS: 19 files",
+    "offline": "PASS: 7472 passed, 32 skipped, 74 deselected; zero failures/errors",
+    "registry": "PASS: 66 gates plus one acknowledged exception",
+    "scientific_baseline": "PASS: 5 passed",
+    "statusdoc": "PASS"
+  }
+}
