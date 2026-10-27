@@ -1,0 +1,32 @@
+{
+  "P1_blind_TDS": "OPEN",
+  "ewp_read_only_sha": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+  "exposure": "SOURCE_INTERNAL / TARGET_EXPOSED / RETROSPECTIVE / CONDITIONAL_ON_MEASURED_FINAL_BEVERAGE_MASS",
+  "freeze_sha256": "48bfd9e5de9659486e754fad72860b3f77cedb5324901ae3097ab6e49749d5f6",
+  "material_scientific_corrections": 0,
+  "membership_sha256": "1b7863192edf7d4f672a71b5409d02004d72fb171da8d2581724427fb924f196",
+  "native_EWP_runs": 0,
+  "numerical_result_sha256": "1b548e74f24e7e576c6bf1b831109ae7fce9d6bf27575d7d73986a2f0b3253d5",
+  "production_changes": false,
+  "publication": "Code, methods and safe status/hashes only; numerical artifacts in configured private evidence",
+  "pw_base": "21669a427145194e1f4003e3cf1b97dedefe2679",
+  "review": "Single author implementation/review cycle; independent least-squares arithmetic verification, not independent human review",
+  "source_sha256": "9e9063baea1e8f67d905b1e2d03a61a4227e26ed2964ae118426be09bced01cc",
+  "status": "PRIVATE_ANALYSIS_COMPLETED",
+  "task": "SCI-MD-POCKETSCIENCE-CUP-TDS-001",
+  "verification": {
+    "diff_check": "PASS",
+    "final_qa_threads": 1,
+    "focused": "22 passed",
+    "hosted_ci": "PENDING_DRAFT_PR",
+    "initial_qa_run": "Interrupted due to 127 BLAS threads; no scientific result rerun",
+    "lint": "PASS",
+    "mypy": "PASS (19 files)",
+    "offline": "7333 passed, 68 skipped, 65 deselected",
+    "offline_seconds": 1411.19,
+    "registry": "66 PASS + 1 acknowledged exception",
+    "scientific_baseline": "5 passed, 7 skipped",
+    "scientific_material_corrections": 0,
+    "statusdoc": "PASS"
+  }
+}
