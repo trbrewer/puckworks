@@ -5,11 +5,14 @@ on:
       - 'puckworks/analysis/pocketscience2024_assay.py'
       - 'puckworks/analysis/pocketscience_cup_tds.py'
       - 'puckworks/analysis/pocketscience_pooled_scaling.py'
+      - 'puckworks/analysis/pocketscience_cross_basket_tds.py'
       - 'tests/test_pocketscience2024_assay.py'
       - 'tests/test_pocketscience_cup_tds.py'
       - 'tests/test_pocketscience_pooled_scaling.py'
+      - 'tests/test_pocketscience_cross_basket_tds.py'
       - 'tools/pocketscience_cup_tds.py'
       - 'tools/pocketscience_pooled_scaling.py'
+      - 'tools/pocketscience_cross_basket_tds.py'
       - '.github/workflows/pocketscience-assay.yml'
 permissions:
   contents: read
@@ -22,4 +25,4 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -e '.[reconstruct]' pytest
-      - run: pytest -q tests/test_pocketscience2024_assay.py tests/test_pocketscience_cup_tds.py tests/test_pocketscience_pooled_scaling.py
+      - run: pytest -q tests/test_pocketscience2024_assay.py tests/test_pocketscience_cup_tds.py tests/test_pocketscience_pooled_scaling.py tests/test_pocketscience_cross_basket_tds.py
