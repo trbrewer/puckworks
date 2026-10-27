@@ -52,8 +52,6 @@ select = ["F"]
 ignore = ["F841"]
 
 [tool.pytest.ini_options]
-# Synthetic runner receipts import checkout-local tools under both pytest launchers.
-pythonpath = ["."]
 # WP5: CI lanes select DIFFERENT marked sets (quick-pr excludes these; slow-science runs slow).
 markers = [
     "protected_target_integrity: segregated post-freeze QA that may read protected target bytes",
