@@ -1,0 +1,31 @@
+{
+  "P1_blind_TDS": "OPEN",
+  "ewp_read_only_sha": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+  "exposure": "SOURCE_INTERNAL / TARGET_EXPOSED / RETROSPECTIVE / CONDITIONAL_ON_MEASURED_FINAL_BEVERAGE_MASS",
+  "freeze_sha256": "cdad2b189075198368efdcd5b46953df4ef0d38a20a662ff4e24ebb160c595e5",
+  "material_corrections": 0,
+  "membership_sha256": "1b7863192edf7d4f672a71b5409d02004d72fb171da8d2581724427fb924f196",
+  "native_EWP_runs": 0,
+  "numerical_result_sha256": "fdf422e40b9ccd7598c3d99be10a211a6a41b342c89943a9a87232845811d868",
+  "parent_preservation": "Full-precision reproduction PASS; parent artifacts unchanged",
+  "production_changes": false,
+  "publication": "Code, methods and safe hashes/status only; all numerical outputs private",
+  "pw_main": "21669a427145194e1f4003e3cf1b97dedefe2679",
+  "pw_parent_and_branch_base": "2f93c216f02700e28801418a3069684fff0ba9ea",
+  "review": "One author implementation/review cycle plus independent numerical solvers; no independent human review",
+  "status": "COMPLETED_PRIVATE",
+  "task": "SCI-MD-POCKETSCIENCE-POOLED-SCALING-001",
+  "verification": {
+    "diff_check": "PASS",
+    "focused": "28 passed",
+    "hosted_ci": "PENDING_DRAFT_PR",
+    "lint": "PASS",
+    "mypy": "PASS, 19 files",
+    "offline": "7339 passed, 68 skipped, 65 deselected",
+    "offline_seconds": 1432.13,
+    "registry": "66 PASS + 1 acknowledged exception",
+    "scientific_baseline": "5 passed, 7 skipped",
+    "scientific_corrections": 0,
+    "statusdoc": "PASS"
+  }
+}
