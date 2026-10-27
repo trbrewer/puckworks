@@ -1,0 +1,126 @@
+{
+  "P1_blind_TDS": "OPEN",
+  "active_bounds": "NOT_RUN",
+  "analysis_status": "NOT_RUN",
+  "bases_git_parent": "2425223a872e104345a787984ee5874671258368",
+  "blocker": "AUTHENTICATED_GRUDEVA_ORIGINAL_BUNDLE_UNAVAILABLE_VIA_CONFIGURED_AND_EXPLICIT_LOCATORS",
+  "bootstrap": {
+    "primary": {
+      "completed": 0,
+      "failed": 0,
+      "requested": 2000,
+      "status": "NOT_RUN",
+      "unattempted": 2000,
+      "undefined_gains": null
+    },
+    "source_observation": {
+      "completed": 0,
+      "failed": 0,
+      "requested": 2000,
+      "status": "NOT_RUN",
+      "unattempted": 2000,
+      "undefined_gains": null
+    },
+    "target_literal_zero": {
+      "completed": 0,
+      "failed": 0,
+      "requested": 2000,
+      "status": "NOT_RUN",
+      "unattempted": 2000,
+      "undefined_gains": null
+    }
+  },
+  "draft_dependency": "PR379 while unmerged; merge and auto-merge prohibited",
+  "ewp_read_only_sha": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+  "explicit_locator_check": {
+    "neighbors_searched": false,
+    "originals_opened": 0,
+    "receipt_sha256": "8fd834e91916a906f84cb9e79b5f4b61b6f998cadb6ababd73710748037e5ad6",
+    "status": "UNAVAILABLE_IN_EXECUTION_WORKSPACE"
+  },
+  "exposure": "Both datasets TARGET_EXPOSED / RETROSPECTIVE; intended source-only transfer conditional on measured collected beverage mass and authenticated nominal target dose",
+  "governance": "G0 blocked-status documentation; intended G1 input qualification stopped before scientific freeze",
+  "grades_and_nine_boundary_checks": "NOT_RUN",
+  "grudeva_upstream_authority": "567ad8f3808eb74fbe3e470eaa333161bf2eac1c",
+  "historical_scientific_replays": 0,
+  "implementation": "NOT_RUN_AFTER_MANDATORY_INPUT_STOP",
+  "initial_blocked_receipt_sha256": "74b00d43d44865262b748b88870e7750ef2393ae70f1bfd8799616ab767bebe0",
+  "initial_qualification_seconds": 543.645381,
+  "inspection": "Original Pocket Science workbook once; PR379 linked private receipts/manifests and earlier full-cohort records authenticated; Grudeva parser/protocol/audit/card/permission records inspected; Grudeva originals and nominal-dose passage not inspected",
+  "limits": "Unknown sessions/settings/order, nominal-dose error, shared calibration/dilution/systematic error, cross-campaign observers and previous model selection; no blindness, complete-cup transfer, adequacy, causality or production claim",
+  "local_verification_completed_utc": "2026-10-27T16:15:48.504513+00:00",
+  "methods_sha256": "19efa07802d122adbee62dd0f3a83482fdfe2c2b0e5e21b9cea4c6bdd231e19d",
+  "native_EWP_runs": 0,
+  "new_downloads": 0,
+  "next_candidate_execution": "NOT_RUN",
+  "notebook_executed": false,
+  "one_existing_artifact_needed": "Existing Grudeva clock original-source bundle: pinned exp13.csv, PlotData.ipynb and thesis PDF; narrow private locator needed",
+  "paired_intervals": "NOT_RUN",
+  "pr375_loco_reference": "9f8c6c7cf894872908f3ea212c69209db13c602a",
+  "predecessor_preservation": "No predecessor code/tests/methods or original/private predecessor artifacts changed",
+  "prediction_domain_flags": "NOT_RUN",
+  "primary_decision": "NOT_RUN",
+  "private_blocked_result_sha256": "40969342416f972c855e07008270c74c6a3c6b24116ed4781243aa90a582224b",
+  "production_changes": false,
+  "pw_branch_base_and_scientific_parent": "cc6e3d66eb5192e08e0949373548bb3a04ee69fd",
+  "pw_main": "21669a427145194e1f4003e3cf1b97dedefe2679",
+  "qualification_cap_seconds": 900,
+  "review": "Author documentation review only; no independent human scientific review",
+  "scientific_computation_seconds": 0,
+  "scientific_freeze_sha256": null,
+  "scores": "NOT_RUN",
+  "sensitivities": {
+    "condition_and_shot_influence": "NOT_RUN",
+    "source_observation": "NOT_RUN",
+    "target_literal_zero": "NOT_RUN"
+  },
+  "single_next_candidate": "SCI-MD-WADSWORTH-HELD-COFFEE-PERMEABILITY-001",
+  "source": {
+    "all60_original_observations_and_order_match": true,
+    "ancestor57_membership_sha256": "1b7863192edf7d4f672a71b5409d02004d72fb171da8d2581724427fb924f196",
+    "basket_counts": {
+      "Sworks": 37,
+      "VST": 20
+    },
+    "conditions": 12,
+    "new_membership_receipt_sha256": "f966614ec7a67bb3f74b79e4e4fc00ae1c8ad9b351f1cadc8b435d968754f1c3",
+    "observer_passes": 1,
+    "physical_n": 57,
+    "pr379_freeze_sha256": "223028d54749d8f847ca051b92ace472f7f64b898c2a461302446fe765b4e226",
+    "pr379_result_sha256": "62653cb4127cfc89c8b4c0417a83810852f96eab88e240c4a94c26254f916011",
+    "status": "AUTHENTICATED",
+    "style_counts": {
+      "traditional": 29,
+      "turbo": 28
+    },
+    "workbook_sha256": "9e9063baea1e8f67d905b1e2d03a61a4227e26ed2964ae118426be09bced01cc"
+  },
+  "status": "BLOCKED",
+  "support": "NOT_RUN",
+  "target": {
+    "admitted_physical_n": 0,
+    "expected_original_sha256": {
+      "PlotData.ipynb": "bccaa696080166f8b31587c17a7268a7c13ce9dd5d19d4beec349f64e2c70dff",
+      "exp13.csv": "291cadb1d06a009f758c158c95b020db551c127333e9dec6f6c581eac320130c",
+      "thesis.pdf": "bbe73a303ab0b6838fe727f05d970438c7ba42576a9959f032aa63b88aff84e6"
+    },
+    "historically_reported_literal_zero_sensitivity_n": 13,
+    "historically_reported_primary_n": 11,
+    "new_membership_sha256": null,
+    "nominal_dose_authority": "NOT_QUALIFIED: original thesis methods passage unavailable; public card not substituted",
+    "status": "NOT_AUTHENTICATED"
+  },
+  "task": "SCI-MD-POCKETSCIENCE-GRUDEVA-WINDOW-TDS-001",
+  "verification": {
+    "diff_check": "PASS",
+    "documentation_receipts": "PASS",
+    "focused": "Existing source/parser and P/N synthetic checks included in offline suite; new task-specific checks NOT_RUN because implementation stopped",
+    "hosted": "NOT_RUN_AT_LOCAL_COMMIT; consult draft PR for subsequent hosted checks",
+    "lint": "PASS: PASS",
+    "mypy": "PASS: PASS",
+    "offline": "PASS: 7472 passed, 32 skipped, 74 deselected, 10 warnings in 1532.30s (0:25:32)",
+    "registry": "PASS: PASS",
+    "scientific_baseline": "PASS: 5 passed, 7573 deselected, 1 warning in 213.74s (0:03:33)",
+    "statusdoc": "PASS: PASS"
+  }
+}
