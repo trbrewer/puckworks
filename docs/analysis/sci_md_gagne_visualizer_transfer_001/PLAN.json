@@ -1,0 +1,107 @@
+{
+  "task": "SCI-MD-GAGNE-VISUALIZER-TRANSFER-001",
+  "governance_class": "G1; NO_GOVERNING_PHYSICS_CHANGE; RESEARCH_ONLY",
+  "status": "QUALIFICATION_STOP_NO_TRANSFER_FREEZE",
+  "chronology": {
+    "rules_authority": "User task fixed semantic qualification, selection, fitting and scoring rules before inspection. This record serializes those rules and the stop after qualification; it is not a fitted-parameter freeze.",
+    "qualification_start_utc": "2026-10-26T23:34:39Z",
+    "qualification_end_utc": "2026-10-26T23:39:12.358862+00:00",
+    "qualification_cap_seconds": 1800,
+    "qualification_wall_seconds_upper_bound": 274,
+    "scientific_cap_seconds_after_qualification": 5400,
+    "scientific_clock_started": false
+  },
+  "refs": {
+    "verified_remote_main": "21669a427145194e1f4003e3cf1b97dedefe2679",
+    "branch_parent": "3de205c29183164853887021878d56b6478b2d33",
+    "parent_pr": 372,
+    "parent_state": "OPEN_DRAFT_UNMERGED",
+    "stacked_base_branch": "research/sci-md-gagne-conditional-pressure-001",
+    "read_only_ewp_main": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+    "relevant_main_changes_since_user_base": [],
+    "parent_delta": "Eight added source-comparison files; no changes to Visualizer normalization/store/provenance. Parent results and all historical files remain unchanged."
+  },
+  "question": "Does source-only all-11 Gagné empirical decay B improve later conditional machine gauge-pressure prediction over N on one authenticated existing PLAY-002 cohort? W is secondary.",
+  "planned_claim": "FROZEN_CROSS_DATASET_CONDITIONAL_TRANSFER_ON_HISTORICALLY_EXPOSED_RECORDS",
+  "actual_claim": "BLOCKED_QUALIFICATION_ONLY_NO_TRANSFER_RESULT",
+  "qualification": {
+    "records": {
+      "COHORT_DEFINITIONS.json": "2c525b1d95dda23526383d10cbf9e74c8eb73ddc9b2ce49a8c55bb9654da8bf4",
+      "COHORT_MEMBERSHIP_PLAY_002.parquet": "c739d6584bfd96f0bf6c837eab4dc490b13a99df20870da60c4c558a1044fa05"
+    },
+    "route": "Existing owner configuration -> private manifest -> retained PLAY-002/preflight authorities; no guessed private paths, crawl or corpus rebuild.",
+    "essential_rules": [
+      "Achieved machine pressure with declared gauge-bar basis; command separate; no puck-face claim.",
+      "Native showerhead volume flow with justified mL/s conversion; no scale-flow, command-flow or density substitution.",
+      "Actual basket-temperature semantics and units distinct from mix, setpoint and other machine sensors.",
+      "Authenticated native elapsed-time zero and compatible post-bloom protocol.",
+      "Native 42<=t<47 anchor and 47<=t<=75 evaluation; no gap stretching, resampling or padded scoring.",
+      "Physical-shot identity/version crosswalk, duplicate-upload handling and source-target disjointness including Gagné copies.",
+      "Existing research permission; no raw redistribution."
+    ],
+    "selection": "Apply semantic/protocol/support rules without suffix pressure or historical/new errors. Choose largest authenticated physical-shot count; stable private cohort ID breaks ties; retain all qualifying physical shots. No switch after errors.",
+    "stop": "All existing candidate memberships lack required source authority. No cohort selected; later support, physical deduplication and disjointness cannot be authenticated. This is not corpus exhaustion.",
+    "sampling_rule_status": "NOT_REACHED: no target time/Q/T/P arrays opened; no target numerical support acceptance rule or prediction freeze fabricated.",
+    "calibration": "Unknown calibration/location/latency systematics remain separate from unresolved essential quantity semantics; no zero-uncertainty assignment."
+  },
+  "conditional_methods_not_executed": {
+    "fit": "Exactly one primary all-11 deployment B fit would reuse PR372 equation, h(T), a/log-L source bounds, native midpoint MSE, nine starts, 200 calls/start and training-only jaxgsa screening. No LOO average, best-fold selection, changed bounds, target GSA or target-global fit.",
+    "screening": "ST<0.01 fixes transformed coordinate to reference 0.5; report ST uncertainty; diagnostic only, no physical identification/refutation.",
+    "arms": {
+      "B": "g=h(T)*(a+(1-a)*exp(-v/L)); two source-trained shape parameters",
+      "N": "g=1; zero shape parameters",
+      "W": "g=h(T); zero shape parameters",
+      "h": "exp((14514/8.314)*(1/T-1/365.15))",
+      "all": "Zero target-global parameters; same one early-anchor amplitude A=sum(w*Q*g*P)/sum(w*(Q*g)^2); prediction=A*Q*g. Measured late Q/T; no autonomous forecast."
+    },
+    "freeze": "Serialize numerical a, L in mL, bounds, screening, optimizer and code/source hashes before any suffix pressure access. No such deployment fit or freeze exists here.",
+    "adapter": "Process shots separately or task-local ragged adapter; native midpoint cells; integrate logged Q from 42 s; no fixed 24/134 target counts, endpoint normalization, future maxima or P>1 mask.",
+    "score": "sqrt(mean_physical_shots(time-weighted MSE)) gauge bar; primary B/N; secondary B/W and W/N; differences, relative gains, RMSE/MAE/bias/worst/adverse cases/physical coverage.",
+    "conditional_ci": {
+      "replicates": 2000,
+      "seed": 20261026,
+      "design": "Authenticated independent sessions and shots within sessions when supported; otherwise explicitly within-cohort exchangeable-shot paired bootstrap. Insufficient independent units => NOT_ESTIMABLE, never zero-width."
+    },
+    "source_training_inclusive_ci": {
+      "replicates": 1000,
+      "design": "Independent source plus target resamples; source physical-shot multiplicity refits with unchanged source screening/bounds/fitting policy; paired target resamples; report invalid replicates."
+    },
+    "bands": {
+      "worse": "G<0",
+      "small": "0<=G<0.10",
+      "moderate": "0.10<=G<0.25",
+      "large": "G>=0.25",
+      "meaning": "Descriptive error-reduction bands; not sensory, adequacy or physical-validation thresholds. Report every CI-intersected grade.",
+      "sensitivity": "All nine independent 0.75/1/1.25 multipliers of 10% and 25% boundaries; no prediction changes."
+    },
+    "systematic_sensitivities_predeclared_in_user_task": [
+      "Coherent Q drift 1+d*(t-42)/33, d=-0.20,0,+0.20; flow/volume/anchors consistent. All 3x3 source/target drift combinations; source-perturbed B refit only on Gagné before target scoring.",
+      "One auxiliary h=1 B fit on Gagné, unchanged transfer; N remains g=1, W remains h(T). Cannot replace primary.",
+      "Target drift is source-inspired stress, not target calibration bound; flag target T outside 365.44–370.00 K and TR 295–365 K domain."
+    ],
+    "numerical_target_bar": 0.001,
+    "independent_reduction": "Independent score reduction and suffix-pressure-replacement invariance required if scoring reached; neither a measurement-accuracy claim nor executed here.",
+    "decision": "Resolved positive B/N gain supports conditional reuse only on selected cohort; negative favors N; zero-spanning unresolved, not equivalence. Report source-training/drift ranking dependence; no adequacy or causation."
+  },
+  "source_file_sha256": {
+    "AGENTS.md": "f33ecfc5274dc8a2b7ae8a01c1df13214fffccdf9bad302f3b079592e7872a58",
+    "CLAUDE.md": "24e27b14f190c88fc573b85bd372e43ec1803e6dae96b4e7dceab70d5790b328",
+    "docs/ONBOARDING.md": "5d5aa48d1bc7373d98bee2c5a10b0d1450f7a64127e2cda39b1d04cb2d6eea7b",
+    "docs/data/ESPRESSO_DATA_GUIDE.md": "4a98e11868bfcfdbb0d54ddfcd51f2e1b63007f7fa7f7516a8364b6b79589e6e",
+    "docs/data/AVAILABLE_DATA_FIRST_POLICY.md": "c253a36c886f1b5feb8e3656294784653f2461c355ea625c0907e59557c7ced4",
+    "puckworks/data/MANIFEST.csv": "9a0ea165c215ab2e826a8a2a571e74d0e0ea160eb25f53117c45dbbeef56784a",
+    "puckworks/data/AVAILABLE_DATA_REGISTER.json": "c7200471a939fbbd6bfc4a422e6b303512354a1e9843f71df178018480cba2de",
+    "puckworks/analysis/gagne_conditional_pressure.py": "348536b53fa825f3eb6fb84f5bb4dbbb8f8c7c6d8230b111c9cd3f5fb8de4244",
+    "tools/gagne_conditional_pressure.py": "d5fba0d525469996daf2e4c60669361b1a3633c9d7a4b6baa398c9f0d42c76de",
+    "tests/test_gagne_conditional_pressure.py": "56594179bd2d760338e1eea919103e8d92a6fc3cbe91a2607581a1f3b8dd45fe",
+    "puckworks/lib/visualizer_harvest.py": "6a8913ef0ba7adf546f403d12878c077c4709430cccf87c138f48990a8f0dc4b",
+    "puckworks/data/visualizer_store.py": "169746b42abcdf18bff3c8e71a51164421b2b6c4ba826571666fc240e5f9530b",
+    "puckworks/data/visualizer/PROVENANCE.md": "d69557244f38cfae8e937cebf426a5c58e17f5a2d354a5b79e84551d1eaa960c",
+    "puckworks/data/visualizer/reconciliation/ewp_rwb_001/RESULT.md": "69a8046be6e39057b046f985cd7efe38d8e5d8777a3ff072ad6809c773abb40f",
+    "docs/analysis/sci_md_gagne_conditional_pressure_001/PLAN.json": "189226b7ce5fa17795b74ee215654c5d8c3d7b2597d615e2cf92af971e28d009",
+    "docs/analysis/sci_md_gagne_conditional_pressure_001/COMPARISONS.json": "b791d7a2463bd3793e98d284771435210fd2c4d697a2d92271fe3539d09b3f20",
+    "docs/analysis/sci_md_gagne_conditional_pressure_001/RESULT.md": "2e2fa2ed08701e9faf7370795627fe4691b168438e69f05534bdc2025ead6169",
+    "docs/analysis/sci_md_gagne_conditional_pressure_001/EXPOSURE_DELTA.csv": "1c98d431a0f0ad793dc33ade579acc0df1d8326a929581b414b8d70b0faa762c"
+  },
+  "delivery": "One bounded qualification implementation retained privately, one independent scientific review, at most one material correction; task-only documentation draft PR stacked on PR372, unmerged and auto-merge disabled. No public adapter/scorer manufactured after stop."
+}
