@@ -1,0 +1,60 @@
+{
+  "P1_blind_TDS": "OPEN",
+  "PR382_FREEZE_sha256": "f44693c947ddae7a62a503bbdcbeb8a97406fb5b07ae49d196b9feef0161e2d9",
+  "PR382_RESULT_sha256": "35d44b6a42429374cc7c2643062cc3c00b1623919721af02ab2150bae9ea3e3e",
+  "folds_sha256": "0d1ee9e7f5359b764065919d6100c6bdf2d304ddcdb752e879391ef411b0d3a0",
+  "freeze_sha256": "0285fcac3166335b3f34017cc1439e350322a98b41c065549e040891ff31a0e4",
+  "historical_decisions_and_QA_records": "PRESERVED",
+  "implementation_review_cycles": 1,
+  "independent_human_review": false,
+  "material_prescore_corrections": 0,
+  "membership_sha256": "f72c57505fab4b7bf42876970c89207b36f3f1975e0b79081b09ca10563a8821",
+  "native_EWP_runs": 0,
+  "observations_sha256": "901e04ce19ab3b29a1a77f7617e5f975c70f661fa7579df1d9a335f6527c68e2",
+  "pins": {
+    "EWP": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+    "base": "6a97530d746269cf9e9d46dbcbdfd83e54a2caf5",
+    "base_parent_PR382": "9f311e70bd08ae16387c9ac40aa9c71595f95a65",
+    "main": "21669a427145194e1f4003e3cf1b97dedefe2679"
+  },
+  "post_freeze_scientific_corrections": 0,
+  "private_draw_authentication": "UNANCHORED_NUMERICAL_CONSISTENCY_ONLY",
+  "production_changes": false,
+  "qa": {
+    "coverage_percent": 80,
+    "editable_install_before_child_CLI": true,
+    "historical_PR381_PR382_PR383_records": "PRESERVED",
+    "hosted": "REPORT_SEPARATELY_ON_PULL_REQUEST",
+    "lint": "PASS",
+    "local": "PASS",
+    "mypy": "PASS",
+    "offline": {
+      "deselected": 65,
+      "full_suite_runs": 1,
+      "passed": 7460,
+      "seconds": 1449.69,
+      "skipped": 68,
+      "warnings": 1
+    },
+    "registry": "PASS",
+    "scientific_baseline": {
+      "deselected": 7581,
+      "passed": 5,
+      "seconds": 211.84,
+      "skipped": 7
+    },
+    "status_document": "PASS",
+    "synthetic_prefit_passed": 14
+  },
+  "reporting_metadata_note": "Explicit installation-time exclusion documented; no scientific code, estimates or decisions changed",
+  "scientific_result_sha256": "53047168134f6b646b46298153ca900e907d566d80464fc7caad49f8ae72a91b",
+  "source_rows_or_numerical_results_in_git": false,
+  "source_sha256": "3b0139fe02108d3dfcd1441d9e4062e86d9b7e1a8505141a7beefd9366ebf20f",
+  "status": "COMPLETED_PRIVATE",
+  "successor": {
+    "execution": "NOT_RUN",
+    "justification": "NOT_JUSTIFIED",
+    "task": "SCI-MD-WADSWORTH-SOLID-FRACTION-PREFACTOR-001"
+  },
+  "task": "SCI-MD-WADSWORTH-PERCOLATION-KC-TRANSFER-001"
+}
