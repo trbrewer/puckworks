@@ -1,0 +1,57 @@
+{
+  "P1_blind_TDS": "OPEN",
+  "PR381_failed_suite_record": "PRESERVED",
+  "PR382_narrow_repair": "UNCHANGED",
+  "governance": "G1_RESEARCH_ONLY_NO_GOVERNING_PHYSICS_CHANGE",
+  "historical_decisions": "UNCHANGED",
+  "implementation_review_cycles": 1,
+  "independent_human_review": false,
+  "native_EWP_runs": 0,
+  "pins": {
+    "base": "9f311e70bd08ae16387c9ac40aa9c71595f95a65",
+    "ewp": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+    "main": "21669a427145194e1f4003e3cf1b97dedefe2679",
+    "parent": "7c04a644c7b74be53ffb1cf611ebfb7ab06c5fd2",
+    "scientific_baseline": "de31200f272711ca6b2e9fc5dc7c4881c406ab56"
+  },
+  "post_freeze_scientific_corrections": 0,
+  "private_bindings": {
+    "augmented_projection_sha256": "cd1c87ed772be4152429c708317ac98c0675a47c9e08b6b81fb95eb31e31bc7c",
+    "fold_sha256": "e5b714c345e35aff05e5ef669b99377efa1a0805ff642868b5be185e3bc0ca20",
+    "freeze_sha256": "f57d5c346bb005663b31d9172a27a748595f25441c506017263fd4a82c82eb40",
+    "membership_sha256": "2def87315f5a3d1710c9bf845962c1e14820582c6bdebfcd2075594f5da0eef5",
+    "qualification_sha256": "9f7757887fd92d93ebee994ecdc053cad17a2f8be3f9df8d3f7feb0c3bc6c6d1",
+    "scientific_result_sha256": "2915540c6307c59e5e28803275b92efb24e936764116183dda0addb29d4e43d5",
+    "selected_models_sha256": "eebff1520473e4468b4fe1d382ed474b322ed3323a1c802b4e80e1c81f7a91fa"
+  },
+  "production_adoption_authorized": false,
+  "qa": {
+    "coverage_percent": 80,
+    "focused_followup_passed": 2,
+    "hosted": "REPORT_SEPARATELY_ON_PULL_REQUEST",
+    "initial_failure_preserved": true,
+    "initial_offline": {
+      "deselected": 74,
+      "failed": 2,
+      "passed": 7534,
+      "seconds": 1500.94,
+      "skipped": 32
+    },
+    "lint": "PASS",
+    "local": "RESOLVED_WITH_DISCLOSED_INITIAL_SETUP_FAILURE",
+    "mypy": "PASS",
+    "prefit_synthetic_passed": 16,
+    "registry": "PASS",
+    "scientific_baseline_passed": 5,
+    "status_document": "PASS"
+  },
+  "scientific_result_location": "PRIVATE_OUTSIDE_GIT",
+  "source_rows_or_numerical_results_in_git": false,
+  "status": "COMPLETE",
+  "successor": {
+    "execution": "NOT_RUN",
+    "justification": "NOT_JUSTIFIED",
+    "task": "SCI-MD-TRIGONELLINE-RECIPE-INCREMENT-HELD-DESIGN-001"
+  },
+  "task": "SCI-MD-TRIGONELLINE-RECIPE-CAMPAIGN-TRANSFER-001"
+}
