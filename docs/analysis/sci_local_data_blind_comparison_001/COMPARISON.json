@@ -1,0 +1,390 @@
+{
+  "P1_unblocking_scope": "No specific additional existing unexposed record/access item was authenticated. Shot notebook/basis records for the already-exposed Waszkiewicz means could repair semantics but cannot restore F non-exposure; additional Angeloni/Vaca records remain UNKNOWN.",
+  "blind_score_occurred": false,
+  "blockers": [
+    "F target means already used in calibration and previous evaluation; cannot be made blind by a new replicate split.",
+    "Unresolved chemistry physical-shot and campaign identity; no authenticated chemistry-to-hydraulic-brew join.",
+    "Percent header alone does not qualify absolute mass-percent TDS; fraction beverage masses and clock alignment missing.",
+    "No qualified existing common F/E observer/input adapter for these records: historical F uses assumed temperature, density approximation, Pannusch geometry, and aggregate 9-bar flow. PR369 F/E uses source-specific constant inputs. Mechanical column/unit adaptation cannot supply the missing semantics."
+  ],
+  "change_class": "NO_GOVERNING_PHYSICS_CHANGE",
+  "checks": {
+    "focused": {
+      "historical_inputs": "UNCHANGED",
+      "paired_scoring": "NOT_APPLICABLE_NO_SCORE",
+      "public_path_scan": "PASS",
+      "reproduction": "PASS; two identical regenerations",
+      "result_words": 712,
+      "shot_grouping": "PASS; replicate columns never converted to physical-shot counts",
+      "target_substitution_invariance": "PASS on both mixed CSV schemas",
+      "unit_contract": "PASS; no mass-percent or density inference"
+    },
+    "git_diff_check": "PASS",
+    "hosted_ci": "NOT_STARTED; final state reported on draft PR",
+    "lint": "PASS: ruff check tools/local_data_blind_comparison.py puckworks/ tests/",
+    "mypy": "PASS: no issues in 19 source files",
+    "registry_gates": {
+      "command": "from puckworks.registry import run_all_gates; run_all_gates()",
+      "elapsed_s": 41.9886248880066,
+      "returncode": 0,
+      "summary": "PASSED (PASS=66, ACKNOWLEDGED_EXCEPTION=1)"
+    },
+    "repository_quick": {
+      "command": "pytest -q -m \"not slow and not live and not gpu and not external_data\"",
+      "elapsed_s": 1450.3383050949778,
+      "returncode": 0,
+      "summary": "7318 passed, 72 skipped, 65 deselected, 1 warning in 1448.73s (0:24:08)"
+    },
+    "scientific_baseline": {
+      "command": "pytest -q -m \"scientific_baseline and not live and not gpu and not external_data\"",
+      "elapsed_s": 215.56315691000782,
+      "returncode": 0,
+      "summary": "5 passed, 7 skipped, 7443 deselected in 214.87s (0:03:34)"
+    }
+  },
+  "confidence_intervals": "NOT_ESTIMABLE",
+  "costs": {
+    "detailed_group_limit": 3,
+    "discovery_elapsed_s": 407,
+    "discovery_limit_s": 2700,
+    "discovery_started_utc": "2026-10-26T17:04:52Z",
+    "discovery_stopped_utc": "2026-10-26T17:11:39Z",
+    "gsa_evaluations": 0,
+    "model_computation_elapsed_s": 0,
+    "model_computation_limit_s": 7200,
+    "objective_evaluations": 0,
+    "optimizer_starts": 0,
+    "predictions": 0,
+    "repository_checks_separate": true,
+    "score_calls": 0
+  },
+  "decision": "No scored model comparison: prior finite-rate target exposure and unresolved physical-shot/basis/input contracts prevent the requested blind test.",
+  "evidence_sha256": {
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/CONFIG.json": "8ec9d483a810daf758825a6f718fc1ac24c356c41688084589be89cb25ade048",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/HOLDOUT_MAP.csv": "60ed57dd261df7596a4f5f9f00a4875e413cd92ec99b100c4d0df105d879c965",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/NUMERICS.json": "39596efc1d19863f23a7ab06e09315689a14593e6c1e856019f66b9bc8344e52",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/PARAMETERS.json": "529b4296c1e1f961c9ee31c2be75e30489b2abac3b20e81e5c7d5fd99e0b4860",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/SCORES.csv": "04743e32f336823a4479366f8ad6ef49b37117ad35a324b79c3e7ad2a65ec5e9",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/SOURCE.json": "997bbac9420fbd0d8f06ccc28406bb1f23ab466c181875785aa17f63d99f23b1",
+    "docs/figures/paper_a/results.json": "b8463b11d5b0376adfe556e2687e545f9b918a8792aa627f7b929210c9ee20f9",
+    "puckworks/analysis/pannusch_equilibrium_limit.py": "86089414e560d75763a2cc2759b3fce210d6b1407a76479d3ff99fdea31f22a5",
+    "puckworks/analysis/pannusch_fair_tds.py": "6d942d40c1d2774ccde310d9743a24e322aa5325e9974d3e6af2c74411916388",
+    "puckworks/data/AVAILABLE_DATA_REGISTER.json": "c7200471a939fbbd6bfc4a422e6b303512354a1e9843f71df178018480cba2de",
+    "puckworks/data/LOCAL_CORPUS_SNAPSHOT.json": "50680d5c54aa2161910138caff53dfb786546e08d1e26c0a6fbe1193d2a2038d",
+    "puckworks/data/waszkiewicz2025/PROVENANCE.md": "7aff3b3d27d47d5a679d0b85a0ec1dbdb4ee7d84dcece332f2d5eff625c08c24",
+    "puckworks/validation/slow/external_waszkiewicz.py": "793e2621f589deaa60edd979b8c924442b2a9e41e6100473c00b048431ab7ed5"
+  },
+  "ewp_exact_later_benchmark_sha256": {
+    "dependencies/puckworks.lock.json": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10",
+    "docs/EXTERNAL_ESPRESSO_DATA.md": "1505ec378649b69566bf674ae05f99c846ab6ca4222ef390948b6904b01b606c",
+    "docs/analysis/sci_md_010/BREW_RESULTS.csv": "3a293f6a702f9cad357afe08689f07a2b54924f069355f4b6e7b7fc95dfd2e5f",
+    "docs/analysis/sci_md_010/FOLD_ASSIGNMENTS.csv": "f825deec8ea10481e9282b3a17971a52da5a72e6450a00663534561e9a11d4fa",
+    "docs/analysis/sci_md_010/METRIC_CONTRACT.json": "b4f13f1aa512a41a07c9649aeabaae1cc582cbe65bff0bf585803aef261a833d",
+    "scripts/sci_md_010_core.py": "fd174c5d71bc9cb72246e696209bde03f26dff804550e0483b3a44d9d596dfdc"
+  },
+  "exposure": {
+    "B": "UNKNOWN for a prospective low-order empirical form; the exposed author sigmoid is a different model, not proof of exposure of every empirical predictor.",
+    "E": "UNKNOWN for the exact complete-equilibrium arm on this outcome; no affirmative non-exposure record established.",
+    "F": "EXPOSED: Pannusch TDS means were used for target-specific amplitude fitting, rate sweeps and temperature/flow-floor sensitivity; stored execution receipt exists. Raw replicates below those means cannot restore blindness.",
+    "N": "UNKNOWN: no frozen training/test contract for a training-only mean.",
+    "author_sigmoid": "EXPOSED for these fraction TDS means; distinguish from proposed arms."
+  },
+  "figure": "NOT_APPLICABLE_NO_SCORE",
+  "fit_sha256": null,
+  "gains": null,
+  "governance_scope": "G1 bounded source/exposure qualification; stopped before pre-score freeze",
+  "identities": {
+    "ewp_production_pin": "fc61c4670ec7bf801e40bb391aab16048b8da26b",
+    "ewp_readonly_main": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+    "existing_private_manifest_content_identity": "f46181ee8c461fab055b73511148dd26888c7c5b3cb1bc908aad6ab9db2bb766",
+    "main_moved": false,
+    "pr369_implementation": "598bb9c288a5428064d7ec4163282364e9ab7a52",
+    "puckworks_start": "f38ad4285a5daae54b9325ca52d3b0e7d04d05ac"
+  },
+  "methods": {
+    "bands": {
+      "assignments": "NOT_APPLICABLE; no gain",
+      "boundaries": [
+        0,
+        0.1,
+        0.25
+      ],
+      "boundary_factors": [
+        0.75,
+        1,
+        1.25
+      ],
+      "combinations_required_if_scored": 9,
+      "names": [
+        "worse",
+        "small",
+        "moderate",
+        "large"
+      ]
+    },
+    "bootstrap": {
+      "ci95": "NOT_ESTIMABLE; no predictions scored",
+      "executed_replicates": 0,
+      "hierarchy": "NOT_SELECTED: authenticated experimental units unavailable",
+      "interpretation": "Any executable future CI must keep paired physical units/windows together; conditional on fits unless training uncertainty is separately propagated; unknown assay/systematic errors excluded.",
+      "required_replicates": 2000,
+      "seed": 20261026
+    },
+    "conditional_prediction": "NOT_SELECTED",
+    "ey_definition": "100 * cup_solute_mass / actual_dry_dose",
+    "fair_independent_refits": "NOT_RUN",
+    "freeze": "NOT_REACHED; no new split, parameter distributions, fit, or prediction freeze",
+    "gsa": "NOT_RUN after exposure/input stop; PR369 local Jacobian is not Sobol ST and is not reused as a jaxgsa receipt.",
+    "historical_metric_distinction": "PR369 reported mean of individual shot RMSEs, not the requested square root of condition-balanced MSE. Its scores were retained, not rescored or compared numerically with a new metric.",
+    "model_families_considered": {
+      "B": "existing simple fraction-mean or low-order regression, form not selected",
+      "E": "existing Pannusch complete-equilibrium limit",
+      "F": "existing Pannusch finite-rate TDS",
+      "N": "training-only mean"
+    },
+    "numerics": {
+      "allowance_tds_pp": null,
+      "engineering_target_tds_pp": 0.05,
+      "qualification": "NOT_RUN",
+      "resolved_ordering": false
+    },
+    "optimizer_limit_per_mechanistic_arm": {
+      "starts": 4,
+      "total_objective_evaluations": 600
+    },
+    "required_primary_loss": "sqrt(mean_conditions(mean_physical_shots(sum_observed_windows(w * TDS_error**2))))",
+    "tds_definition": "100 * solute_mass / beverage_mass; mass-percent",
+    "weights": "Measured beverage-mass fractions within each shot; gaps preserved; shots equal within condition, conditions equal."
+  },
+  "next_action": "Separate P3 task: assess full EWP native execution budget before comparing it with the retained empirical quadratic on the exact exposed 56 brews, 11 folds and SCI-MD-010 observer/metric contract. Do not execute P3 here.",
+  "original_inspection": {
+    "W-INPUT-CONSTANTS": {
+      "accepted_copy": "puckworks/data/waszkiewicz2025/constants.csv",
+      "inspection": {
+        "fields": [
+          "parameter",
+          "value",
+          "comment"
+        ],
+        "parameters": [
+          {
+            "comment": "diameter 56mm",
+            "parameter": "r_basket__m",
+            "value": "2.80E-02"
+          },
+          {
+            "comment": "water at 90 deg C",
+            "parameter": "mu__Pas",
+            "value": "3.15E-04"
+          },
+          {
+            "comment": "approximate",
+            "parameter": "h_zero__m",
+            "value": "1.00E-02"
+          },
+          {
+            "comment": "approximate",
+            "parameter": "dose__g",
+            "value": "18.5"
+          }
+        ],
+        "shot_specific": false
+      },
+      "sha256": "0428390dae9c3032adb31d155dfc21b56ee34f0b407e8089fee3a31e47abf4ee"
+    },
+    "W-INPUT-PSD": {
+      "accepted_copy": "puckworks/data/waszkiewicz2025/mastersizer_psd.csv",
+      "inspection": {
+        "column_counts": [
+          48,
+          48,
+          48,
+          48
+        ],
+        "kind": "size bins and three PSD series; not chemistry shots",
+        "rows": 4
+      },
+      "sha256": "61e59fb7d108ca11c7bc3fc32ea954fe7ca4fbb783042e0784d2b76f0fa99a27"
+    },
+    "W-TDS-MEAN": {
+      "accepted_copy": "puckworks/data/waszkiewicz2025/tds_fractions.csv",
+      "inspection": {
+        "fields": [
+          "time__s",
+          "tds__percent",
+          "tds_std__percent"
+        ],
+        "nonempty_target_cells_by_column": [
+          12,
+          11
+        ],
+        "physical_shots": "UNKNOWN",
+        "shot_campaign_or_mass_fields": [],
+        "time_centres_s": [
+          2.5,
+          7.5,
+          12.5,
+          17.5,
+          22.5,
+          27.5,
+          32.5,
+          37.5,
+          42.5,
+          47.5,
+          52.5,
+          57.5
+        ],
+        "time_rows": 12
+      },
+      "sha256": "f22ee533f4c3e4c4c2587192a9aefa9af43bf8d47dd4456a611bfd92fb673847"
+    },
+    "W-TDS-RAW": {
+      "accepted_copy": "puckworks/data/waszkiewicz2025/tds_fractions_replicates.csv",
+      "inspection": {
+        "fields": [
+          "time_s",
+          "tds_percent_1",
+          "tds_percent_2",
+          "tds_percent_3"
+        ],
+        "nonempty_target_cells_by_column": [
+          12,
+          11,
+          11
+        ],
+        "physical_shots": "UNKNOWN",
+        "shot_campaign_or_mass_fields": [],
+        "time_centres_s": [
+          2.5,
+          7.5,
+          12.5,
+          17.5,
+          22.5,
+          27.5,
+          32.5,
+          37.5,
+          42.5,
+          47.5,
+          52.5,
+          57.5
+        ],
+        "time_rows": 12
+      },
+      "sha256": "8900260934232051d4c54b565453f24c65d729743bd2fca480e00d0ef65bc239"
+    }
+  },
+  "paired_differences": null,
+  "prediction_sha256": null,
+  "retained_results": {
+    "cameron": {
+      "D_S_m2_s": 6.25e-10,
+      "author_Ds_star_m2_s": 6.25e-10,
+      "historical_homogeneous_curve_rmse_EY_pp_approx": 7.1024,
+      "new_execution_or_digitization": false,
+      "october_1_sparse_octave_executions": "EXISTING; retained, not rerun"
+    },
+    "pr369": {
+      "F_engineering_target_tds_pp": 0.05,
+      "F_numerical_allowance_tds_pp": 0.1215848215,
+      "F_target_compliance": "NONCOMPLIANT",
+      "evaluation_shots": 12,
+      "evaluation_windows": 72,
+      "mean_shot_rmse_tds_pp": {
+        "B": 0.9031681148,
+        "E": 4.2827388651,
+        "F": 1.1799010976
+      },
+      "rerun": false,
+      "training_shots": 15,
+      "training_windows": 90
+    },
+    "waszkiewicz_hydraulics": {
+      "folds": 11,
+      "full_EWP": "NOT_ADJUDICATED; absent from retained comparison",
+      "metric_is_TDS_error": false,
+      "normalized_flow_loss": {
+        "mean": 0.3178679861,
+        "quadratic": 0.1532500175,
+        "reduced_Darcy": 0.2989424256
+      },
+      "physical_brews": 56,
+      "rerun": false
+    }
+  },
+  "review": {
+    "checks": [
+      "Configured originals independently inspected through structure-only reader; chemistry values withheld",
+      "12 rows/three series distinguished from UNKNOWN physical chemistry shots; no join to 56 hydraulic brews",
+      "Percent basis, mass/clock/assay and source-specific observer limitations confirmed",
+      "F exposure confirmed by code and both historical execution blocks; E/B/N correctly UNKNOWN",
+      "Synthetic target substitution invariant; two reproductions byte-identical",
+      "13 historical evidence hashes matched starting commit; no model/scorer run",
+      "No specific existing unexposed access item authenticated; separate exposed P3 budget assessment justified"
+    ],
+    "findings": "No substantive corrections required. Software QA/CI are separate.",
+    "line_ending_addendum": {
+      "later_QA_receipts": "Reviewer explicitly permits completion of QA receipt fields without another scientific audit when substantive content is unchanged.",
+      "reviewed_artifact_sha256": {
+        "docs/analysis/sci_local_data_blind_comparison_001/COMPARISON.csv": "9a9e41bff4d329eceb867d4b483512add386ef3b6fe89a4706936940816aaf6e",
+        "docs/analysis/sci_local_data_blind_comparison_001/COMPARISON.json": "7e2d8a6e1eeceb5330df2fd53b46e1324a6d2b7e6d40ad1ad2aad0867d433143",
+        "docs/analysis/sci_local_data_blind_comparison_001/EXPOSURE_DELTA.csv": "bc50cf82cf0e9100fa0d9a7fb486273a01a9a8f227b108218d252e5fee5507e0",
+        "docs/analysis/sci_local_data_blind_comparison_001/RESULT.md": "e93b512ae04c60c23300efe97611bc74ad7fd68aff7f5a904804afe68145ebc3",
+        "tools/local_data_blind_comparison.py": "997980fbfb6ec9b5f1ccad63ab9d5e3b854dde413b77ed5b8ff68d1e9a61e0ab"
+      },
+      "scope": "Only LF CSV output/writer, runner hash, and review/check metadata changed. RESULT and scientific evidence unchanged; two reproductions identical; staged whitespace check passed.",
+      "state": "APPROVED"
+    },
+    "post_review_delta": "CSV line endings normalized to LF for git diff --check; runner CSV writer sets LF. Review/check receipt fields completed. No scientific conclusion/input or RESULT change.",
+    "process": "One independent review, same existing process as PR369; not human review or independent experimental confirmation.",
+    "reviewed_artifact_sha256": {
+      "docs/analysis/sci_local_data_blind_comparison_001/COMPARISON.csv": "e57fbde59616b8e0662ec2e2b6a0747b93854b12a837cd33c277d1143f8da1f6",
+      "docs/analysis/sci_local_data_blind_comparison_001/COMPARISON.json": "ddc5681e7d6e6bbadd23d492710fbfb05f1e3c2ef79b849d4a5ea603514f4224",
+      "docs/analysis/sci_local_data_blind_comparison_001/EXPOSURE_DELTA.csv": "da9b1863b4d06250dfc55f462b5ffbc9e5a1bdd0cd9d4a236ae64845d9f3519a",
+      "docs/analysis/sci_local_data_blind_comparison_001/RESULT.md": "e93b512ae04c60c23300efe97611bc74ad7fd68aff7f5a904804afe68145ebc3",
+      "tools/local_data_blind_comparison.py": "1643b42cdbbff1e8ea13c172aba626b96894e9925c44d1e90455cf9a405c158a"
+    },
+    "reviewer": "Independent nonhuman scientific reviewer in separate agent context",
+    "scientific_payload_sha256_excluding_review_and_checks": "0be88708468ba69b6b6bf3fe32da57f4c99d0ffe8e8125a5b204d7f5094bd1a5",
+    "state": "APPROVED_FOR_BLOCKED_UNSCORED_DISPOSITION"
+  },
+  "runner_sha256": "997980fbfb6ec9b5f1ccad63ab9d5e3b854dde413b77ed5b8ff68d1e9a61e0ab",
+  "scope": {
+    "authenticated_chemistry_physical_shots": "UNKNOWN",
+    "candidate_chemistry_values_returned_to_analysis": false,
+    "collection_exhausted": false,
+    "detailed_original_measurement_groups": 1,
+    "general_register_refresh": false,
+    "metadata_only_additional_record_families": [
+      "angeloni2023",
+      "vacaguerra2023a"
+    ],
+    "mixed_file_reader": "Only clock numbers, headers and nonempty masks are returned; chemistry strings are neither converted to numbers nor used to select/fix/fit any model.",
+    "selected_test_shots": 0,
+    "selected_training_shots": 0,
+    "selection_before_candidate_values": "Waszkiewicz separate fraction chemistry first: raw replicate fields plus source constants/PSD available. Angeloni/Vaca additional-record identity only: no distinct original identified in the scoped manifest routing. Existing represented summaries not reopened.",
+    "source_reported_replicate_series": 3,
+    "whole_corpus_rescan": false
+  },
+  "scores": null,
+  "source_semantics": {
+    "absolute_mass_percent_basis": "UNKNOWN: inspected CSV headers do not authenticate the solute/beverage mass denominator or instrument calibration.",
+    "attribution": "Waszkiewicz et al., Under pressure: Poroelastic regulation of flow in espresso brewing; Zenodo 10.5281/zenodo.18046315; data CC-BY-4.0; author GPLv3 code not ingested.",
+    "clock": "12 centres from 2.5 to 57.5 s; prior provenance describes five-second collection. Activation-versus-first-drop alignment remains unresolved; no inferred boundaries or masses used.",
+    "inputs": "Original constants and PSD structure inspected. Approximate basket radius 0.028 m, bed height 0.01 m and dose 18.5 g do not supply shot-specific temperature, measured fraction masses or a qualified Pannusch PSD/geometry mapping.",
+    "known_uncertainty": "Mean file carries tds_std__percent; first time row lacks this field and two raw replicate cells. Dispersion semantics and independence not authenticated.",
+    "mean_origin": "formatted_measurements/tds.csv",
+    "native_target": "optical TDS percent as published",
+    "raw_origin": "measurements_tds_calibration/tds.csv",
+    "shot_linkage": "Three replicate columns are present; no brew/campaign/condition IDs or collection masses. Legacy narrative calls them three shots, but this is not an authenticated physical-shot join. No join to the 56 hydraulic brews.",
+    "unknown_uncertainty": [
+      "assay calibration/recovery",
+      "analytical versus brew replication",
+      "mass/clock covariance",
+      "density and its uncertainty",
+      "campaign/batch dependence",
+      "aggregation estimator"
+    ]
+  },
+  "status": "BLOCKED",
+  "task": "SCI-LOCAL-DATA-BLIND-COMPARISON-001"
+}
