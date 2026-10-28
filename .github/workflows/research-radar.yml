@@ -35,7 +35,7 @@ concurrency:
 
 jobs:
   scan:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     permissions:
       contents: read
@@ -86,7 +86,7 @@ jobs:
 
   plan:
     needs: scan
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       contents: read
@@ -169,7 +169,7 @@ jobs:
       && needs.scan.outputs.publish == 'true'
       && needs.scan.outputs.status == 'success'
       && (github.event_name == 'workflow_dispatch' || vars.ENABLE_RESEARCH_RADAR_PUBLISH == 'true')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       contents: read

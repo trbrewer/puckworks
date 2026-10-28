@@ -15,9 +15,9 @@ authors = [
 requires-python = ">=3.10"
 # Minimum bounds justified by the APIs actually used: numpy>=2.0 (the code calls np.trapezoid,
 # which replaced np.trapz in numpy 2.0 — see models/fasano2000_partI, models/romancorrochano2017),
-# scipy>=1.13 (first scipy with numpy-2.0 support). No upper caps — added only if a concrete
-# incompatibility appears. The min-deps CI lane proves these floors on Python 3.10.
-dependencies = ["numpy>=2.0", "scipy>=1.13"]
+# scipy>=1.13 (first scipy with numpy-2.0 support). Upper caps require an explicit review
+# before adopting a new major version. The min-deps CI lane proves these floors on Python 3.10.
+dependencies = ["numpy>=2.0,<3", "scipy>=1.13,<2"]
 classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -31,15 +31,15 @@ puckworks-pull = "puckworks.product._pull_cli:main"
 [project.optional-dependencies]
 lb = ["taichi"]
 radar = ["pyyaml"]   # research-radar query-config parsing (tools/research_radar.py); not a core dep
-dev = ["pytest", "ruff", "pytest-cov", "mypy", "pyyaml", "markdown-it-py"]   # coverage + type-check baselines (P1.3); pyyaml for radar tests; markdown-it-py for the submission scanner
+dev = ["pytest<10", "ruff", "pytest-cov", "mypy", "pyyaml", "markdown-it-py"]   # coverage + type-check baselines (P1.3); pyyaml for radar tests; markdown-it-py for the submission scanner
 reconstruct = ["openpyxl>=3.1"]  # external CC-BY-NC Pannusch workbook reconstruction; not runtime
 submission = ["markdown-it-py"]   # structural CommonMark parsing for tools/paper_a_consistency.py (round-11 P1-6); NOT a core dep
-figures = ["matplotlib"]
+figures = ["matplotlib<4"]
 harvest = ["requests"]
 release = ["build", "twine", "pip-tools"]   # pip-tools: fully-resolved hashed lock (P0.5)
-viz = ["matplotlib", "pillow", "imageio"]
+viz = ["matplotlib<4", "pillow", "imageio"]
 viz3d = ["pyvista", "vtk"]
-webapp = ["streamlit>=1.30", "matplotlib"]   # dev-only Codespaces UI (apps/lab_app.py); NOT a core dep
+webapp = ["streamlit>=1.30", "matplotlib<4"]   # dev-only Codespaces UI (apps/lab_app.py); NOT a core dep
 
 [tool.ruff]
 line-length = 100
