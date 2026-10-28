@@ -1,0 +1,280 @@
+{
+  "task": "SCI-MD-GAGNE-VISUALIZER-TRANSFER-001",
+  "decision": "BLOCKED",
+  "transfer_complete": false,
+  "selected_target_alias": null,
+  "candidate_universe_alias": "VIS-PLAY002-EXISTING",
+  "coverage": {
+    "membership_rows": 6655,
+    "unique_membership_api_records": 6655,
+    "cohorts": 213,
+    "contributor_labels_not_sessions": 139,
+    "membership_duplicates_by_api_id": 0,
+    "joined_canonical_index_rows": 6655,
+    "qualified_cohorts": 0,
+    "admitted_target_physical_shots": 0,
+    "actual_candidate_physical_shots": null,
+    "actual_candidate_sessions": null
+  },
+  "eligibility_flow": [
+    {
+      "stage": "Retained PLAY-002 membership",
+      "api_records": 6655,
+      "cohorts": 213
+    },
+    {
+      "stage": "Canonical version join",
+      "api_records": 6655,
+      "cohorts": 213,
+      "unmatched_records": 0
+    },
+    {
+      "stage": "Essential channel/protocol/physical-identity authority",
+      "blocked_records": 6655,
+      "blocked_cohorts": 213,
+      "qualified_cohorts": 0
+    },
+    {
+      "stage": "Native numerical support, source-copy and cross-upload physical deduplication",
+      "status": "NOT_REACHED_SEMANTIC_STOP; identity authority absent, not passed",
+      "physical_shots": null
+    },
+    {
+      "stage": "Deterministic selection / prediction freeze / score",
+      "status": "NOT_RUN",
+      "selected_cohorts": 0
+    }
+  ],
+  "semantic_findings": {
+    "pressure": "Normalizer maps achieved espresso_pressure bar to pressure__Pa by 1e5, inverse /1e5; goal is separate. Record-linked native gauge-reference/source authority is absent. Unknown sensor location/calibration does not imply puck-face equivalence.",
+    "flow": "All memberships are CANONICAL_ONLY_NO_RAW_PAYLOAD. espresso_flow -> flow_reported__native retains volumetric-or-mass-or-proxy ambiguity. No showerhead-volume authority or justified mL/s conversion.",
+    "temperature": "Code maps espresso_temperature_basket degC to temperature_basket__K by +273.15 and keeps mix/goal separate. Without native parser/device mapping this does not authenticate actual basket measurement.",
+    "clock": "Common serialized timeframe -> time__s; native integration zero/profile unavailable. PLAY-002 preprocess instead shifted by pressure-inferred onset and resampled at 0.1 s. That derived time/mass-flow data cannot authenticate this native post-bloom contract.",
+    "identity": "Unique API IDs, HMAC private record IDs and canonical versions are not physical shots. No retained upload-to-physical-shot/session crosswalk or Gagné-copy exclusion authority; no contributor-to-session inference.",
+    "prior_recovery": "Existing EWP-RWB-001 result: 1004 explicit Beanconqueror records have zero pressure-bearing overlap, remaining 22165 unresolved. Not rerun.",
+    "rights": "Existing owner-attested permission supports research on public API-accessible records. Raw redistribution remains prohibited. Visualizer and contributing public-shot users acknowledged collectively."
+  },
+  "snapshot": {
+    "classification": "current-state",
+    "manifest_identity": "f46181ee8c461fab055b73511148dd26888c7c5b3cb1bc908aad6ab9db2bb766",
+    "source_aggregate_sha256": "49deea49c9554f53826b767a2295cff3fed358f55d8ea770fd683b27e861f249",
+    "integrity": {
+      "n_logical_records": 23169,
+      "n_stored_versions": 23169,
+      "n_revisions": 0,
+      "n_same_timestamp_conflicts": 0,
+      "n_missing_updated_at": 0
+    },
+    "method": "CorpusSnapshot.integrity_stats and its shared canonical latest_index_rows rule; index-only membership/version join. Existing shard bytes hashed, never deserialized. No corpus reconciliation/rebuild or structural guessing."
+  },
+  "inspection": {
+    "membership_fields": [
+      "private_record_id",
+      "private_contributor_id",
+      "private_cohort_id",
+      "cohort_label",
+      "shot_label",
+      "family",
+      "dose_band"
+    ],
+    "analysis_universe_fields": [
+      "private_record_id",
+      "parser_family",
+      "control_evidence",
+      "quality_action"
+    ],
+    "preflight_record_fitness_fields": [
+      "record_id",
+      "parser_family",
+      "parser_confidence",
+      "control_evidence"
+    ],
+    "canonical_index_fields_inspected": [
+      "id",
+      "updated_at",
+      "content_sha256"
+    ],
+    "original_or_normalized_trace_values_inspected": [],
+    "field_maps_reviewed_in_code_only": [
+      "timeframe/time__s",
+      "espresso_pressure/pressure__Pa",
+      "espresso_pressure_goal/pressure_goal__Pa",
+      "espresso_flow/flow_reported__native",
+      "espresso_flow_goal/flow_goal_reported__native",
+      "espresso_flow_weight/mass_flow_from_scale__kg_per_s",
+      "espresso_temperature_basket/temperature_basket__K",
+      "espresso_temperature_mix/temperature_mix__K",
+      "espresso_temperature_goal/temperature_goal__K",
+      "espresso_state_change/state_change"
+    ],
+    "target_pressure_values_accessed": false,
+    "target_input_values_accessed": false,
+    "historical_PLAY_model_losses_accessed": false,
+    "cohort_selection_exposure": "Historical pressure families were derived from complete pressure traces; membership required scale-mass support and dose. Existing pressure/input exposure persists despite no new values inspected. No blind or independent-campaign claim.",
+    "model_specific": "B/N/W had PR372 source exposure; no new source fit or target prediction/score here. Earlier PLAY H0/H2/T0 arms are different models: their full-pressure inputs, mass targets and pressure-based cohort construction remain historical exposure, not newly blind records."
+  },
+  "losses_bar": {
+    "B": null,
+    "N": null,
+    "W": null
+  },
+  "comparisons": {
+    "B/N": {
+      "status": "NOT_RUN_QUALIFICATION_BLOCKED",
+      "difference_bar": null,
+      "relative_gain": null,
+      "paired_target_ci95": null,
+      "source_training_inclusive_ci95": null,
+      "point_grade": null,
+      "interval_grades": null
+    },
+    "B/W": {
+      "status": "NOT_RUN_QUALIFICATION_BLOCKED",
+      "difference_bar": null,
+      "relative_gain": null,
+      "paired_target_ci95": null,
+      "source_training_inclusive_ci95": null,
+      "point_grade": null,
+      "interval_grades": null
+    },
+    "W/N": {
+      "status": "NOT_RUN_QUALIFICATION_BLOCKED",
+      "difference_bar": null,
+      "relative_gain": null,
+      "paired_target_ci95": null,
+      "source_training_inclusive_ci95": null,
+      "point_grade": null,
+      "interval_grades": null
+    }
+  },
+  "secondary_metrics": "NOT_RUN: RMSE, MAE, bias, worst errors, adverse cases and source/target temperature excursions",
+  "bootstrap": {
+    "target_requested": 2000,
+    "source_plus_target_requested": 1000,
+    "completed": 0,
+    "invalid": 0,
+    "status": "NOT_RUN; zero invalid is not 0/0 successful uncertainty estimation"
+  },
+  "sensitivities": {
+    "source_target_drift_3x3": "NOT_RUN",
+    "h_equals_one_auxiliary_B": "NOT_RUN",
+    "nine_gain_boundary_combinations": "NOT_RUN"
+  },
+  "source_comparison_preserved_not_transfer": {
+    "physical_shots": 11,
+    "exposure": "TARGET_EXPOSED",
+    "losses_bar": {
+      "V": 0.7947663624,
+      "B": 0.7911455687,
+      "N": 0.9183211864,
+      "W": 0.9644044888
+    },
+    "V_minus_B_bar": 0.003621,
+    "V_minus_B_ci95_bar": [
+      0.002547,
+      0.004736
+    ],
+    "B_N_gain": 0.13849,
+    "B_N_gain_ci95": [
+      0.09041,
+      0.19291
+    ],
+    "source_bootstrap_completed": 1000,
+    "primary_a_lower_bound": 0.18903338233466987,
+    "both_coordinates_sensitive": true,
+    "boundary_interpretation": "Not physical identification or insensitivity. No all-11 deployment fit exists; no averaging LOO parameters or selecting a best fold."
+  },
+  "cost": {
+    "qualification_wall_seconds_upper_bound": 274,
+    "qualification_cap_seconds": 1800,
+    "scientific_computation_seconds": 0,
+    "source_fits": 0,
+    "target_predictions": 0,
+    "scored_physical_shots": 0,
+    "new_api_shot_requests": 0,
+    "native_EWP_runs": 0
+  },
+  "public_safe_source_receipts_sha256": {
+    "PLAY002:config/COHORT_DEFINITIONS.json": "2c525b1d95dda23526383d10cbf9e74c8eb73ddc9b2ce49a8c55bb9654da8bf4",
+    "PLAY002:private_data/COHORT_MEMBERSHIP_PLAY_002.parquet": "c739d6584bfd96f0bf6c837eab4dc490b13a99df20870da60c4c558a1044fa05",
+    "PLAY002:private_data/ANALYSIS_UNIVERSE.parquet": "a59ba02ab430d17af55344111d29b41efd578f4d8f69b161689e7ffd8bc80913",
+    "PREFLIGHT:private_tables/RECORD_FITNESS.parquet": "2d81493fe2ff6e41db3ee47d4239ac3f9050d7c3f6432fadbee44d2bc40a4857",
+    "PLAY002:authority/AUTHORITY.json": "720b65428a98d4d6090a8ce85da032742e019466424ad1714ca10b477534df98",
+    "PREFLIGHT:authority/PRIVATE_PATHS.json": "7ce4b30170ab5360ed9977135c5d00bdd28de2546bb2cad5f409f354e4008d82",
+    "PLAY002:scripts/run_all.py": "376118d7df82516f16bd12bea4d3469fd58a8effdab5c086c9be4dece3ec1c53",
+    "PLAY002:scripts/common.py": "d2b59df3940091ed8870e6e78c8bd9c91e1cd74c2a393ec8c8883c4e1ee8c97c",
+    "PLAY002:config/ANALYSIS_UNIVERSE_SPEC.json": "893e8f77e1f04cd02820f0ff7e0023a73ac7c0bced64a4a91d497aa29e3f1a09",
+    "PLAY002:config/PREPROCESSING_SPEC.json": "553b60b85adcf88c882b294f0b3e7d798b51952946bc16d8ad3b37e3a7dccad4",
+    "PREFLIGHT:scripts/preflight.py": "cdc72f2cfc57d05015d8b09f26097b5c996765867697d64f92168d0577db0ff7",
+    "PREFLIGHT:report/REPORT.md": "b86577ebd36b82a4659a4bdda0e30fcf42bf517406e0bd4f4f46b9e8d0227b20",
+    "PREFLIGHT:report/DECISION.json": "59c5952170fc9747d24a17f9b7d5bda900fd16b2fe692046735e440c9423d279",
+    "PREFLIGHT:report/API_GAP_PLAN.json": "e1554c51fba6795366fda9562c3d6df8d0b5e77c61a0be2e6e08f52d913f9b10",
+    "MACHINE_PRIORS:corpus_census/CENSUS_COVERAGE_SUMMARY.json": "77a440df1065f5d090aa87b9c8fba72ab3479fb273cf2afe980fb45bf79a3d87"
+  },
+  "private_artifact_sha256": {
+    "qualify.py": "704d913b853de01002f6f3b5f682f25e777b3e46196354641fc0b8e3d6d97b0c",
+    "qualification_private.json": "65165f7004b2c7fa64aedb6b6a6df7aebc1ac0ef78ab04c99c9657b11b699723",
+    "membership_version_lineage.parquet": "cbc6cf3475078b31af5e5947bf56d76e1b6405a2c7b214cf1b753388d7174027",
+    "cohort_eligibility.parquet": "8ad45fa1e7e809fd38dc160ab6f6960254d7667596303caf3d847582117a0864"
+  },
+  "verification": {
+    "review": {
+      "verdict": "PASS",
+      "material_findings": [],
+      "material_corrections": 0,
+      "reviewer": "Independent Codex sub-agent /root/scientific_review",
+      "scope": "One scientific review; metadata-only reproduction, no target arrays, historical PLAY losses or fits. Independently verified all 15 input receipts, membership/version joins, source hashes, private counts and public privacy. Blocker justified without puck-face calibration or full-EWP demands.",
+      "reviewed_sha256": {
+        "AGGREGATE_SCORES.csv": "5961eb7df1e968ed82bd6b89b69f573986fed03543ec5696a928e523836d6fe3",
+        "COMPARISONS.json": "8335bcd1856857bf55b9ba3c0c66528cbe6eef00a0064efe9faf005a3ee0c8a2",
+        "EXPOSURE_DELTA.csv": "7be1edca5ed4f6d7e6bfe1d29b6fcf66da6d28fa14b5fba822b76f1d867f3d19",
+        "PLAN.json": "7549dce8f189070f4416f321ce265ebfe9d55ad77d583fa4d22ef713dbf6b3a4",
+        "RESULT.md": "415e8756f6e909b9cd39031237875b32d9141132fd61a30cbb41318d7065a2c0"
+      }
+    },
+    "repository_checks": {
+      "offline_pytest": {
+        "passed": 7332,
+        "skipped": 72,
+        "deselected": 65,
+        "seconds": 1423.75,
+        "log_sha256": "f8deef90b262aa9f6600e1ff6631496e242ac568012553a76e4497475254717f"
+      },
+      "offline_selector": "not slow and not live and not release and not gpu and not external_data",
+      "scientific_baseline": {
+        "passed": 5,
+        "skipped": 7,
+        "deselected": 7457,
+        "seconds": 210.87,
+        "log_sha256": "0f7e5f79e405a82fd7564dcb05616c3c10c8617922c842ceed9f02bebf5f01d2"
+      },
+      "registry": "PASS=66; ACKNOWLEDGED_EXCEPTION=1",
+      "registry_log_sha256": "84a2094e42d4a220c258ff65aab3de84c3404bb1b987f84a3fd98d3e18b6aa66",
+      "ruff": "PASS: puckworks/ tests/",
+      "statusdoc": "PASS: --verify --no-commit-check",
+      "diff_whitespace": "PASS",
+      "private_path_and_identifier_scan": "PASS",
+      "historical_source_file_hashes": "PASS: every PLAN-bound source unchanged",
+      "initial_QA_attempts": "Interrupted only to cap BLAS threads; no test failure. Preserved private logs: offline 637 passed/9 skipped before interrupt; baseline 4 passed/7 skipped before interrupt. Final complete runs above supersede those QA attempts. No scientific correction.",
+      "BLAS_environment": "OPENBLAS_NUM_THREADS=1; OMP_NUM_THREADS=1; MKL_NUM_THREADS=1",
+      "hosted_CI": "Not yet run at local commit; draft PR will trigger repository workflows."
+    },
+    "numerical_transfer_checks": "NOT_REACHED; no transfer implementation or predictions",
+    "material_corrections": 0,
+    "print": {
+      "result_words": 722,
+      "plain_summary_words": 80,
+      "A4_pages": 2,
+      "body_font_pt": 10.5,
+      "pdf_sha256": "8a738b6c4efd0187abf52371e1feafe6d3f9e324bfc0a0f02c53b5c75ba8726c"
+    },
+    "administrative_delta": "Review, print and QA receipts added after scientific review; no reviewed scientific keys, source files, RESULT or other task files changed."
+  },
+  "next_task": {
+    "id": "VIS-PLAY002-NATIVE-EXPORT-RECOVERY-001",
+    "objective": "Recover the existing original native shot exports and matching profiles, with a record-keyed parser/device/channel/clock declaration and physical-shot/session/duplicate crosswalk for retained pressure-bearing PLAY-002 membership. Deliver evidence; do not repeat semantics-only investigation or score without that evidence.",
+    "unsent_request": "Please provide, privately, the already-existing original uploaded native shot files and matching profiles for pressure-bearing records in the retained PLAY-002 membership, keyed to its API record/version IDs. Include parser/device versions; achieved pressure gauge reference and units; native showerhead-flow quantity, units and derivation; actual basket-temperature channel and units; elapsed-zero and bloom/phase definitions; and an upload-to-physical-shot/session crosswalk identifying duplicate uploads and any copies of the 11 Gagné source shots. Please distinguish unknown calibration, sensor location and timing uncertainty from missing units. Full native samples must support 42–75 s. Common chart arrays, field names, contributor hashes or profile shape alone will not supply this authority. Confirm the existing internal-research permission covers these exports. No new experiment or corpus crawl is requested.",
+    "sent": false
+  },
+  "P1_blind_TDS_goal": "OPEN"
+}

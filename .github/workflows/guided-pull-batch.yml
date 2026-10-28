@@ -39,7 +39,7 @@ concurrency:
 jobs:
   batch:
     name: build wheel + run the comparison batch
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     permissions:
       contents: read
@@ -57,10 +57,10 @@ jobs:
       # review is completed — the rights preflight diagnostic is uploaded and the job fails clearly.
       LAB_EXECUTION_CONTEXT: PUBLIC_ARTIFACT
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: "3.12"
       - name: build the exact current wheel + record its SHA-256
@@ -72,7 +72,7 @@ jobs:
       - name: install the wheel + viz extra into an isolated venv (outside the source tree)
         run: |
           python -m venv "$RUNNER_TEMP/venv"
-          "$RUNNER_TEMP/venv/bin/python" -m pip install --quiet "$(ls dist/*.whl)" matplotlib
+          "$RUNNER_TEMP/venv/bin/python" -m pip install --quiet "$(ls dist/*.whl)" "matplotlib<4"
       - name: run the batch comparison (rights preflight first; inputs + provenance via env)
         # GITHUB_SHA / GITHUB_RUN_ID are GitHub-provided; LAB_WHEEL_SHA256 was recorded above. A blocked
         # public request writes only out/lab.rights_preflight.json (no scientific output) and fails.

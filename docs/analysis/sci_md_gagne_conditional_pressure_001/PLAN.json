@@ -1,0 +1,314 @@
+{
+  "task": "SCI-MD-GAGNE-CONDITIONAL-PRESSURE-001",
+  "frozen_utc": "2026-10-26T22:47:33.070873+00:00",
+  "status": "FROZEN_BEFORE_FITTING",
+  "base": "21669a427145194e1f4003e3cf1b97dedefe2679",
+  "ewp": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+  "intervening_main_changes": [],
+  "change": "NO_GOVERNING_PHYSICS_CHANGE; research-only new conditional predictor",
+  "exposure": "TARGET_EXPOSED; retrospective within-session conditional evaluation; not blind",
+  "sources": {
+    "AGENTS.md": "f33ecfc5274dc8a2b7ae8a01c1df13214fffccdf9bad302f3b079592e7872a58",
+    "CLAUDE.md": "24e27b14f190c88fc573b85bd372e43ec1803e6dae96b4e7dceab70d5790b328",
+    "docs/ONBOARDING.md": "5d5aa48d1bc7373d98bee2c5a10b0d1450f7a64127e2cda39b1d04cb2d6eea7b",
+    "docs/data/ESPRESSO_DATA_GUIDE.md": "4a98e11868bfcfdbb0d54ddfcd51f2e1b63007f7fa7f7516a8364b6b79589e6e",
+    "docs/data/AVAILABLE_DATA_FIRST_POLICY.md": "c253a36c886f1b5feb8e3656294784653f2461c355ea625c0907e59557c7ced4",
+    "puckworks/data/MANIFEST.csv": "9a0ea165c215ab2e826a8a2a571e74d0e0ea160eb25f53117c45dbbeef56784a",
+    "puckworks/data/AVAILABLE_DATA_REGISTER.json": "c7200471a939fbbd6bfc4a422e6b303512354a1e9843f71df178018480cba2de",
+    "puckworks/data/__init__.py": "d9d06e0aa7812d5a39fabe7d9fc9b992a27577aa71791f4763ef9251e967e09b",
+    "puckworks/analysis/gagne2021_resistance.py": "79355158b3c55f65078c8a49ae5f2987a5e7ff2bc80131a9ee5e5b6e7d3fb026",
+    "puckworks/data/gagne2021/resistance_decline_summary.csv": "5b7b5c93b12e2914e8359a445df5f56ad89302a341d6a24a9bd75a746519f319",
+    "puckworks/data/gagne2021/grinder_arm_summary.csv": "e543bb9bbcc6cd873f9d71398c1128de9cf9dc16c786eb7be0fdb80d2b36f3ed",
+    "puckworks/data/g10_liquor_rheology/telisromero2001_closures.csv": "bf4b641d342f629858bd15e2b175c7aaca0ccea3db14a39e04d1070a3de265aa",
+    "docs/cards/gagne2021.md": "6860060ac378fd7c11ab41940b4af605a6ab773154add2a9b1ffa39017e73e2d",
+    "docs/future/PAPER_B2_VISCOSITY_GAGNE_RESERVED.md": "b07b346782fd036589c9089a11c3a29ed160cc803cc2c4d90911652c8af9c134",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/HOLDOUT_MAP.csv": "60ed57dd261df7596a4f5f9f00a4875e413cd92ec99b100c4d0df105d879c965",
+    "puckworks/data/gagne2021/shotfiles/20210302T094131.shot": "b16bc5162b145cba7231eb91104712dd77ce75463bedf0c2ef310bd1facc170d",
+    "puckworks/data/gagne2021/shotfiles/20210302T095711.shot": "24511a79ebb5c9f767d90319a8398ba3e3426e0b9e594d862a9b198182ea51e5",
+    "puckworks/data/gagne2021/shotfiles/20210302T100621.shot": "3721def757ebb2e0c3a332cf954d009ca6f1a059630e78d51adcd6a52928ff68",
+    "puckworks/data/gagne2021/shotfiles/20210302T101611.shot": "e5effe701160a2193f0bbcc685e32a16cdfb42e023356cb26fa668c900921dcf",
+    "puckworks/data/gagne2021/shotfiles/20210302T102557.shot": "76a6198792ccc03e3eb1323a2dba69722cdeb56a1a569c7f5b0f2a8f8851ec70",
+    "puckworks/data/gagne2021/shotfiles/20210302T103452.shot": "fd0012f2f0551b2a08457c33b64af7057969a6493e1d9bb7cd3e81d3788a36e7",
+    "puckworks/data/gagne2021/shotfiles/20210302T104228.shot": "1cacdc0f8fea62e25f1dadaf07034868fd986c9ba1a8291470fd4a11688d9a3d",
+    "puckworks/data/gagne2021/shotfiles/20210302T105039.shot": "6d04b52179a2d8e5207a734eaccc614e70c3afc1ec5d95724186504f4076684e",
+    "puckworks/data/gagne2021/shotfiles/20210302T105912.shot": "1c968e31aa0e45623aeddbbff26007dc84da9d66d75b5a341ab45da487de5a68",
+    "puckworks/data/gagne2021/shotfiles/20210302T110700.shot": "b9a399bda59706bf6ecf740ea05dc877fc73a175dbcc64c57096300fd28a8d53",
+    "puckworks/data/gagne2021/shotfiles/20210302T111600.shot": "36fa47808d6de12d0b57696ce19af1668e8af35d65e6a8235dae830b995befdb"
+  },
+  "prior_PR370": {
+    "commit": "b2961ff41df433a2854bf2ea26d9b215b25385a6",
+    "files": {
+      "docs/analysis/sci_local_data_blind_comparison_001/COMPARISON.csv": "9a9e41bff4d329eceb867d4b483512add386ef3b6fe89a4706936940816aaf6e",
+      "docs/analysis/sci_local_data_blind_comparison_001/COMPARISON.json": "bf96cbdabda4471892c902e7cdcfc34a954e15df1cbe57c5a69cabb606beb923",
+      "docs/analysis/sci_local_data_blind_comparison_001/EXPOSURE_DELTA.csv": "bc50cf82cf0e9100fa0d9a7fb486273a01a9a8f227b108218d252e5fee5507e0",
+      "docs/analysis/sci_local_data_blind_comparison_001/RESULT.md": "e93b512ae04c60c23300efe97611bc74ad7fd68aff7f5a904804afe68145ebc3",
+      "tools/local_data_blind_comparison.py": "997980fbfb6ec9b5f1ccad63ab9d5e3b854dde413b77ed5b8ff68d1e9a61e0ab"
+    },
+    "scope": "read as prior exposure evidence; not merged or executed"
+  },
+  "external_inspection": {
+    "manifest_identity": "f46181ee8c461fab055b73511148dd26888c7c5b3cb1bc908aad6ab9db2bb766",
+    "method": "configured manifest only; 11 accessible external shot copies byte-identical to tracked originals; no corpus rescan",
+    "limit": "byte identity establishes accepted-copy lineage, not original instrument calibration or independent source custody"
+  },
+  "shots": [
+    {
+      "id": "20210302T094131",
+      "anchor_count": 24,
+      "evaluation_count": 134,
+      "anchor_index_sha256": "752caaa2f27d6c4d72a59cdec9496a9bc4de7cd54e206a2cee6b29a21b7d55aa",
+      "evaluation_index_sha256": "c72960b2808477729aa68db1171dc4ec85575b72441dd2b16359df5760ef34cc"
+    },
+    {
+      "id": "20210302T095711",
+      "anchor_count": 24,
+      "evaluation_count": 134,
+      "anchor_index_sha256": "752caaa2f27d6c4d72a59cdec9496a9bc4de7cd54e206a2cee6b29a21b7d55aa",
+      "evaluation_index_sha256": "c72960b2808477729aa68db1171dc4ec85575b72441dd2b16359df5760ef34cc"
+    },
+    {
+      "id": "20210302T100621",
+      "anchor_count": 24,
+      "evaluation_count": 134,
+      "anchor_index_sha256": "752caaa2f27d6c4d72a59cdec9496a9bc4de7cd54e206a2cee6b29a21b7d55aa",
+      "evaluation_index_sha256": "c72960b2808477729aa68db1171dc4ec85575b72441dd2b16359df5760ef34cc"
+    },
+    {
+      "id": "20210302T101611",
+      "anchor_count": 24,
+      "evaluation_count": 134,
+      "anchor_index_sha256": "752caaa2f27d6c4d72a59cdec9496a9bc4de7cd54e206a2cee6b29a21b7d55aa",
+      "evaluation_index_sha256": "c72960b2808477729aa68db1171dc4ec85575b72441dd2b16359df5760ef34cc"
+    },
+    {
+      "id": "20210302T102557",
+      "anchor_count": 24,
+      "evaluation_count": 134,
+      "anchor_index_sha256": "752caaa2f27d6c4d72a59cdec9496a9bc4de7cd54e206a2cee6b29a21b7d55aa",
+      "evaluation_index_sha256": "c72960b2808477729aa68db1171dc4ec85575b72441dd2b16359df5760ef34cc"
+    },
+    {
+      "id": "20210302T103452",
+      "anchor_count": 24,
+      "evaluation_count": 134,
+      "anchor_index_sha256": "752caaa2f27d6c4d72a59cdec9496a9bc4de7cd54e206a2cee6b29a21b7d55aa",
+      "evaluation_index_sha256": "c72960b2808477729aa68db1171dc4ec85575b72441dd2b16359df5760ef34cc"
+    },
+    {
+      "id": "20210302T104228",
+      "anchor_count": 24,
+      "evaluation_count": 134,
+      "anchor_index_sha256": "752caaa2f27d6c4d72a59cdec9496a9bc4de7cd54e206a2cee6b29a21b7d55aa",
+      "evaluation_index_sha256": "c72960b2808477729aa68db1171dc4ec85575b72441dd2b16359df5760ef34cc"
+    },
+    {
+      "id": "20210302T105039",
+      "anchor_count": 24,
+      "evaluation_count": 134,
+      "anchor_index_sha256": "752caaa2f27d6c4d72a59cdec9496a9bc4de7cd54e206a2cee6b29a21b7d55aa",
+      "evaluation_index_sha256": "c72960b2808477729aa68db1171dc4ec85575b72441dd2b16359df5760ef34cc"
+    },
+    {
+      "id": "20210302T105912",
+      "anchor_count": 24,
+      "evaluation_count": 134,
+      "anchor_index_sha256": "0479111e71e6c5ddfaf26484ec8cc12f39b15bc45f137d688f88f37173449e59",
+      "evaluation_index_sha256": "8e9d5d46aca75798b29b53aba4b81af1cccbbe34fa0efcbd5ddb1689b407e768"
+    },
+    {
+      "id": "20210302T110700",
+      "anchor_count": 24,
+      "evaluation_count": 134,
+      "anchor_index_sha256": "752caaa2f27d6c4d72a59cdec9496a9bc4de7cd54e206a2cee6b29a21b7d55aa",
+      "evaluation_index_sha256": "c72960b2808477729aa68db1171dc4ec85575b72441dd2b16359df5760ef34cc"
+    },
+    {
+      "id": "20210302T111600",
+      "anchor_count": 24,
+      "evaluation_count": 134,
+      "anchor_index_sha256": "752caaa2f27d6c4d72a59cdec9496a9bc4de7cd54e206a2cee6b29a21b7d55aa",
+      "evaluation_index_sha256": "c72960b2808477729aa68db1171dc4ec85575b72441dd2b16359df5760ef34cc"
+    }
+  ],
+  "observer": {
+    "anchor": "42 <= t < 47",
+    "evaluation": "47 <= t <= 75",
+    "clock": "native elapsed seconds; no pressure-dependent masking",
+    "quadrature": "midpoint-cell weights: interior adjacent-time midpoints, outer cells clipped/extended to exact window endpoints; constant endpoint continuation within each window; sums 5 and 28 seconds; no pressure interpolation",
+    "volume": "piecewise-linear Q, trapezoid from 42; Q alone interpolated at 42 and 75; volume span to exactly 75 used for bounds",
+    "units": {
+      "P": "bar machine gauge pressure; absolute level prediction (not thermodynamic absolute pressure)",
+      "Q": "logged showerhead mL/s; not beverage g/s",
+      "T": "basket degC + 273.15 to K",
+      "v": "mL logged volume; not beverage mass"
+    },
+    "amplitude": "sum_anchor(w*Q*g*P)/sum_anchor(w*(Q*g)^2)",
+    "conditioning": "each arm receives measured early P and all selected Q/T; late Q/T conditional replay, not autonomous machine forecast"
+  },
+  "models": {
+    "p": 6.07,
+    "R": 8.314,
+    "h": "exp((14514/R)*(1/T-1/365.15))",
+    "V": "C0=100*(1-a**(1/p)); C=C0*exp(-v/L); g=h*(1-C/100)**(-p)",
+    "B": "g=h*(a+(1-a)*exp(-v/L))",
+    "N": "g=1",
+    "W": "g=h",
+    "prediction": "A*Q*g",
+    "claim": "C is a latent response coordinate, not measured TDS, solved solute inventory or viscosity causation",
+    "TR_domain": "Xw 76-90 mass percent; T 295-365 K; industrial extract; dilution Xw>90 and all selected temperatures extrapolated; not validated water viscosity"
+  },
+  "fit": {
+    "split": "11 leave-one-physical-shot-out; every copy excluded from training",
+    "objective": "equally physical-shot weighted time-weighted later pressure MSE; bootstrap multiplicity weights",
+    "coordinates": [
+      "a",
+      "logL"
+    ],
+    "bounds": {
+      "a": [
+        0.18903338233466987,
+        1.0
+      ],
+      "L": "[0.1,10] * median training 42-75 logged-volume span; median includes bootstrap multiplicity"
+    },
+    "transform": "affine map a and logL rectangle to [0,1]^2",
+    "starts": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.5
+      ],
+      [
+        0.0,
+        1.0
+      ],
+      [
+        0.5,
+        0.0
+      ],
+      [
+        0.5,
+        0.5
+      ],
+      [
+        0.5,
+        1.0
+      ],
+      [
+        1.0,
+        0.0
+      ],
+      [
+        1.0,
+        0.5
+      ],
+      [
+        1.0,
+        1.0
+      ]
+    ],
+    "optimizer": "scipy L-BFGS-B, analytic cost+gradient, max 200 objective evaluations/start enforced; maxiter 200, maxls 20, ftol 1e-11, gtol 1e-7",
+    "fixed": "ST<0.01 fixes corresponding transformed coordinate at 0.5; remaining dimensions reported; nine starts retained even if duplicates; all starts/cost/boundaries/convergence retained privately",
+    "initialization": "no all-data fit, no warm starts or fitted-parameter cache"
+  },
+  "gsa": {
+    "library": "jaxgsa 1.3.1; training-only scalar MSE diagnostic",
+    "design": "Sobol/Saltelli scrambled, independent uniform a and logL bounds, base N=512, no second order",
+    "seed": 20261026,
+    "bootstrap": 200,
+    "ci": "95% percentile, saltelli-jansen; no thresholding of CIs; wide/near-threshold remains uncertain",
+    "bootstrap_policy": "recompute training-only ST with multiplicity in every bootstrap training fit, same design and 200 sensitivity bootstraps; cache only per-shot design losses, never fitted optima",
+    "documentation": "https://danielepessina.github.io/jaxgsa/api/sobol.html"
+  },
+  "score": {
+    "primary": "sqrt(mean_shots(time_weighted_MSE)); not mean of RMSE",
+    "secondary": [
+      "per-shot RMSE bar",
+      "MAE bar",
+      "signed prediction-minus-observed bias bar",
+      "maximum absolute error bar",
+      "coverage",
+      "normalized apparent-resistance RMSE: ((P_hat-P)/Q) divided by N anchor least-squares amplitude; Q>0 on evaluation window"
+    ],
+    "pairs": [
+      "V/B",
+      "V/N",
+      "B/N",
+      "V/W",
+      "B/W",
+      "W/N"
+    ],
+    "difference": "L_first-L_second bar",
+    "gain": "1-L_first/L_second",
+    "bootstrap": {
+      "replicates": 1000,
+      "seed": 20261026,
+      "unit": "physical shot identities sampled with replacement, n=11; retain counts; evaluate each included identity with own early anchor, exclude all its copies in training; average test MSE weighted by counts; refit both arms",
+      "ci": "paired 2.5/97.5 percentiles; invalid replicates explicit; no time-sample bootstrap; conditional same-session exchangeability, no systematic sensor error"
+    },
+    "bands": {
+      "worse": [
+        null,
+        0
+      ],
+      "small": [
+        0,
+        0.1
+      ],
+      "moderate": [
+        0.1,
+        0.25
+      ],
+      "large": [
+        0.25,
+        null
+      ]
+    },
+    "boundary_sensitivity": "all 9 independent products of lower/upper boundary multipliers [0.75,1,1.25], same predictions; report all bands intersected by CIs",
+    "influence": "leave-one-identity-out reduction of fixed OOF losses plus per-shot paired MSE; descriptive, no outlier deletion"
+  },
+  "sensitivities": [
+    {
+      "name": "flow_minus20",
+      "flow_drift": -0.2,
+      "h": true
+    },
+    {
+      "name": "flow_plus20",
+      "flow_drift": 0.2,
+      "h": true
+    },
+    {
+      "name": "no_temperature",
+      "flow_drift": 0,
+      "h": false
+    }
+  ],
+  "sensitivity_rule": "Q*=1+drift*(t-42)/33 for 42..75; rebuild volume/anchor/prediction; refit training, rescreen identically; no new CIs or model search",
+  "numerics": {
+    "dtype": "float64",
+    "target_bar": 0.001,
+    "reference": "same nine starts/bounds/screening; tighter ftol 1e-14, gtol 1e-10 and max 200 evaluations/start; independent math.fsum score reduction on all primary OOF arrays",
+    "budget_seconds": 5400,
+    "clock": "entire scientific execution including GSA, bootstrap, sensitivities and reference; wall clock",
+    "failure": "retain completed checkpoint; missing CIs unresolved, never zero"
+  },
+  "decision": "resolved V advantage over B and N retains V for conditional prediction; resolved disadvantage retains better simpler comparator; zero-spanning gain intervals unresolved; no external practical-adequacy margin; no viscosity causation/permeability/latent chemistry/EWP/P1 claim",
+  "verification": [
+    "unit handling",
+    "complete held-shot exclusion",
+    "anchor-only conditioning including suffix-pressure replacement",
+    "bootstrap multiplicity",
+    "independent score reduction"
+  ],
+  "delivery": "one implementation, one independent scientific review, at most one material correction; draft PR unmerged auto-merge disabled; detailed traces/fit logs/bootstrap/private source receipts outside Git",
+  "pre_fit_amendment": {
+    "reason": "20210302T111600 has Q=0 at two anchor samples (42.121,42.299 s); all evaluation Q positive and anchor sum(w*Q^2)>0",
+    "change": "secondary normalization uses finite anchor N amplitude instead of mean(P/Q); retain all native samples; no primary/model/fit changes",
+    "prior_plan_sha256": "1f5e4a60df50fc96abd87273dd17a137a2fc17ab303ddf07bae43431ee8c42d8",
+    "timing": "before any optimization/GSA/score; only direct objective/gradient smoke call attempted and blocked at input validation"
+  }
+}
