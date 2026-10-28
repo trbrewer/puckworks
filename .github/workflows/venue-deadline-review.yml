@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   remind:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     # Unattended (scheduled) issue writes are DISABLED BY DEFAULT: a scheduled run posts the monthly
     # reminder only if the repo variable ENABLE_VENUE_REMINDERS == 'true' (a human's recorded opt-in,

@@ -26,7 +26,7 @@ concurrency:
 # are unchanged. See the Hargarten swelling kinetics VERIFICATION.md follow-up.
 jobs:
   quick:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Ordinary budget raised 30 -> 60 minutes in the PR #357 G0 completion (2026-10-24).
     # At head 3e22e7c5, Python 3.12 timed out at 98% and 99%; coverage completed the
     # same selected suite in 1821.72 s: 7031 passed, 71 skipped, 64 deselected, 80% coverage.
@@ -96,7 +96,7 @@ jobs:
     # Prove the declared lower bounds actually work (P0.5): install the MINIMUM numpy/scipy on the
     # oldest supported interpreter and run the offline suite. If this goes red, the pyproject floor
     # is wrong — not a mystery. Not a required check until the maintainer opts in.
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Ordinary budget raised 30 -> 60 minutes with `quick` in the PR #357 G0 completion.
     # At head 3e22e7c5 this lane timed out on both attempts; the Python 3.12 coverage
     # run needed 1821.72 s for the same selected suite, before job setup/cleanup costs.
@@ -115,7 +115,7 @@ jobs:
       # It is installed here so the round-11 P1-6 structural scan actually RUNS on this lane
       # rather than reporting NOT RUN: a check that cannot look must not look like a check
       # that looked and found nothing.
-      - run: pip install "numpy==2.0.*" "scipy==1.13.*" pytest markdown-it-py pyyaml && pip install -e . --no-deps
+      - run: pip install "numpy==2.0.*" "scipy==1.13.*" "pytest<10" markdown-it-py pyyaml && pip install -e . --no-deps
       - name: offline suite on the declared minimum dependencies
         run: |
           selector="not slow and not live and not gpu and not external_data"
@@ -143,7 +143,7 @@ jobs:
 
   quality-mypy:
     # Keep static analysis independently bounded so it cannot consume the coverage budget.
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: ${{ github.repository == 'trbrewer/puckworks' && github.event_name == 'pull_request' && github.event.pull_request.number == 356 && 360 || 25 }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -162,7 +162,7 @@ jobs:
     # Repeated #322 coverage timeouts justify this bounded 45-minute limit.
     # The suite, seven-module coverage scope, and 70% floor are unchanged.
     # Investigate any further timeout; do not automatically increase this limit.
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: ${{ github.repository == 'trbrewer/puckworks' && github.event_name == 'pull_request' && github.event.pull_request.number == 356 && 360 || 45 }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0

@@ -40,7 +40,7 @@ concurrency:
 jobs:
   verify:
     name: README governance + pulse (read-only)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       contents: read
@@ -78,7 +78,7 @@ jobs:
       && github.ref == 'refs/heads/main'
       && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
       && (github.event_name == 'workflow_dispatch' || vars.ENABLE_README_GOVERNANCE_NOTE == 'true')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       contents: read

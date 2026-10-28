@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   remind:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     # Scheduled comment writes are DISABLED BY DEFAULT: a scheduled run posts only when the repo
     # variable ENABLE_PUBLIC_EXPERIENCE_REMINDERS == 'true' (a human's recorded opt-in). A manual

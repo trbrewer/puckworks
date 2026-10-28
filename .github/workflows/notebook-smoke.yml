@@ -34,7 +34,7 @@ concurrency:
 jobs:
   hermetic-dev-wheel:
     name: Mode 1 — hermetic (current dev wheel, no network)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
       MPLBACKEND: Agg
@@ -65,7 +65,7 @@ jobs:
           ls dist/*.whl
 
       - name: notebook execution tooling (CPU only)
-        run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel matplotlib
+        run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel "matplotlib<4"
 
       - name: execute the notebook offline against the local wheel (outside the checkout)
         env:
@@ -85,7 +85,7 @@ jobs:
 
   public-release-wheel:
     name: Mode 2 — canonical v0.3.0 release (download + hash-verify)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
       MPLBACKEND: Agg
@@ -101,7 +101,7 @@ jobs:
         run: python tools/release_record.py --verify-all
 
       - name: notebook execution tooling (CPU only)
-        run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel matplotlib
+        run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel "matplotlib<4"
 
       - name: execute the notebook DEFAULT path (downloads + verifies v0.3.0), outside the checkout
         run: |
@@ -123,7 +123,7 @@ jobs:
 
   laboratory-hermetic:
     name: Guided Pull Laboratory notebook — hermetic (current dev wheel, no network)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
       MPLBACKEND: Agg
@@ -154,7 +154,7 @@ jobs:
           ls dist/*.whl
 
       - name: notebook execution tooling (CPU only)
-        run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel matplotlib
+        run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel "matplotlib<4"
 
       - name: execute the Laboratory notebook offline against the local wheel (outside the checkout)
         env:

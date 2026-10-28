@@ -36,7 +36,7 @@ concurrency:
 jobs:
   experience:
     name: guided pull — tests + installed-wheel report + hermetic notebook
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
       MPLBACKEND: Agg
@@ -104,7 +104,7 @@ jobs:
           PY
 
       - name: notebook execution tooling (CPU only)
-        run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel matplotlib
+        run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel "matplotlib<4"
 
       - name: execute the guided notebook hermetically (PUCKWORKS_WHEEL, no network, outside checkout)
         run: |

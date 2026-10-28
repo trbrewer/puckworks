@@ -30,7 +30,7 @@ concurrency:
 jobs:
   build-wheel:
     name: build one core wheel
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -60,7 +60,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-24.04, windows-latest, macos-latest]
     defaults:
       run:
         shell: bash          # bash is available on all three runners, incl. Windows
@@ -108,7 +108,7 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/pwtests"
           cp tests/conftest.py tests/test_public_api.py "$RUNNER_TEMP/pwtests/"
-          python -m pip install --quiet pytest
+          python -m pip install --quiet "pytest<10"
           cd "$RUNNER_TEMP/pwtests"
           python -m pytest test_public_api.py -q
 
@@ -126,7 +126,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-24.04, windows-latest, macos-latest]
     defaults:
       run:
         shell: bash
