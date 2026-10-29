@@ -1,4 +1,4 @@
-"""PRESSURE-PEAK B0: data checks and conditional mechanism screen.
+"""PRESSURE-PEAK B0/B0b: data checks and mechanism screens.
 
 Waszkiewicz et al. (2025), Zenodo 10.5281/zenodo.18046315, CC-BY-4.0
 data; source GPL programs are read for method documentation, never imported.
@@ -26,6 +26,19 @@ synthetic ODE recovery and finite differences independently verify them. Fitting
 uses a 0.5-s pressure grid; predictions use all 1000 source samples. The numerical
 endpoint difference is reported. Use --prior-fit-seconds to count previous
 fitting attempts against the cumulative 7200-second limit.
+
+B0b --timecourse uses raw line pressure primarily, seed 20261030, and the same
+equations, folds and endpoint observer. --timecourse-checks-only computes T1--T3
+from saved B0 coefficients. Full-trace losses score stable pressure +5 s through
+B0's last clean sample, with terminal events removed before flow smoothing.
+State history still begins at stable pressure; it is not reset at the scoring
+boundary. T4/T5 use 200 whole-brew refits for slope, nominal-condition peak and
+late trend. Mean-trend signs determine the 8/11 agreement check; interval-based
+rising/declining/unresolved categories are reported separately, since an interval
+containing zero does not establish flatness. The per-pressure smooth curve uses
+the evaluated brews and is an explicitly ineligible, optimistic fit ceiling.
+Fast jamming uses integration steps that resolve its relaxation rate, preventing
+numerical overshoot below Qcrit. The old B0 mode and saved results are unchanged.
 """
 
 from __future__ import annotations
@@ -35,8 +48,9 @@ import csv
 import json
 import time
 import multiprocessing
+import random
 from concurrent.futures import ProcessPoolExecutor
-from dataclasses import replace
+from dataclasses import dataclass, replace
 from pathlib import Path
 
 import numpy as np
@@ -528,6 +542,503 @@ def data_checks(brews, observed_flow, raw, out):
     return rows, rows[0]["verdict"] == "DOWNTURN SURVIVES"
 
 
+# B0b is an additive research mode. B0's equations, CLI and saved results above
+# retain their original meanings; only the new mode uses raw pressure primarily.
+B0B_SEED = 20261030
+B0B_OUT = A.ROOT / "docs/research/PRESSURE_PEAK_STAGE_B0B"
+
+
+@dataclass
+class Course:
+    brews: A.Brews
+    t: np.ndarray
+    pressure: np.ndarray
+    flow: np.ndarray
+    mask: np.ndarray
+    late_weights: np.ndarray
+    observed_trend: np.ndarray
+    ends: np.ndarray
+
+
+def clean_course(t, pressure, mass):
+    """B0 terminal detector, applied BEFORE differentiation and smoothing.
+
+    The detector identifies the first post-100-s pressure departure exceeding
+    max(.5 bar, 10%) or mass loss exceeding 5 g. The preceding sample is last
+    usable. Stable-pressure alignment is supplied unchanged by raw_trace.
+    """
+    typical = np.median(pressure[(t >= 90) & (t <= 100)])
+    event = np.flatnonzero((t[1:] > 100) &
+                          ((np.abs(pressure[1:]-typical) > max(.5, .1*typical)) |
+                           (np.diff(mass) < -5)))
+    end = event[0] if len(event) else len(t)-1
+    use = (t >= 0) & (np.arange(len(t)) <= end)
+    t, pressure, mass = t[use], pressure[use], mass[use]
+    flow = savgol_filter(np.gradient(mass, t), 31, 1)
+    late = t >= t[-1]-30
+    return t, pressure, flow, A.slope(t[late], flow[late])
+
+
+def load_course(brews, raw, step=.5, basket=False, omit_low=False, observed_flow=None):
+    """Keep 0--5 s as initial-state history, score only t>=5 s.
+
+    Native flow uses the source's 31-point, order-one Savitzky--Golay observer.
+    The 100-s endpoint retains its original stored observer and pressure grid.
+    No state, onset shift or per-brew coefficient is fitted. Array padding beyond
+    a brew's clean end is masked from every loss and trend.
+    """
+    selected = np.flatnonzero(brews.condition > 3) if omit_low else np.arange(len(brews.ids))
+    view = pressure_view(brews, observed_flow, 1.) if basket else brews
+    view = replace(view, ids=[brews.ids[i] for i in selected], condition=view.condition[selected],
+                   pressure=view.pressure[selected], target=view.target[selected],
+                   windows={k: v[selected] for k, v in view.windows.items()},
+                   fold=[view.fold[i] for i in selected])
+    native = [clean_course(*raw_trace(raw / "measurements_time_dependent" / f"{shot}.txt")[:3])
+              for shot in view.ids]
+    ends = np.array([r[0][-1] for r in native])
+    t = np.arange(0., np.ceil(max(ends)/step)*step+step/2, step)
+    p = np.array([np.interp(t, r[0], r[1]) for r in native])
+    q = np.array([np.interp(t, r[0], r[2]) for r in native])
+    if basket:
+        a, b, c = A.MACHINE
+        p -= a*q*q+b*q+c
+    mask = (t[None, :] >= 5) & (t[None, :] <= ends[:, None])
+    late = (t[None, :] >= ends[:, None]-30) & (t[None, :] <= ends[:, None])
+    centered = t[None, :]-(late*t).sum(axis=1)[:, None]/late.sum(axis=1)[:, None]
+    late_weights = centered*late/(centered**2*late).sum(axis=1)[:, None]
+    return Course(view, t, np.maximum(p, 0.), q, mask, late_weights,
+                  np.array([r[3] for r in native]), ends)
+
+
+@njit(cache=True)
+def _course_derivative(state, pressure, lock_pressure, parameters, kind):
+    """Reuse B0 state/sensitivity equations; kind 0=C4, 1=D1, 2=D2, 3=D3."""
+    n = len(parameters)
+    mobility = parameters[0]
+    dm = np.zeros(n)
+    if kind == 0:
+        mobility *= np.exp(-pressure/parameters[1])
+        dm[1] = mobility*pressure/parameters[1]
+    elif kind == 1 or kind == 3:
+        phi = max(PHI-(1-PHI)*lock_pressure/parameters[1], 0.)
+        mobility *= (phi/PHI)**3*((1-PHI)/(1-phi))**2
+        if phi > 0:
+            dm[1] = mobility*(3/phi+2/(1-phi))*(1-PHI)*lock_pressure/parameters[1]
+    dm[0] = mobility
+    beta = parameters[-2] if kind >= 2 else 0.
+    crit = parameters[-1] if kind >= 2 else 0.
+    mc = parameters[2] if kind != 2 else 1.
+    return _state_derivative(state, pressure, mobility, dm, beta, crit, mc, kind != 2)
+
+
+@njit(cache=True)
+def _course_ode(pressure, t, parameters, kind):
+    n = len(parameters)
+    values = np.empty(pressure.shape)
+    jac = np.empty((pressure.shape[0], pressure.shape[1], n))
+    for i in range(pressure.shape[0]):
+        state = np.zeros(2+2*n)
+        lock = pressure[i, 0]
+        for j in range(len(t)):
+            p0 = pressure[i, j]
+            k1 = _course_derivative(state, p0, lock, parameters, kind)
+            values[i, j] = k1[0]
+            jac[i, j] = k1[2:2+n]
+            if j+1 == len(t):
+                break
+            dt, p1 = t[j+1]-t[j], pressure[i, j+1]
+            elapsed = 0.
+            while elapsed < dt-1e-12:
+                pa = p0+(p1-p0)*elapsed/dt
+                k1 = _course_derivative(state, pa, lock, parameters, kind)
+                step = dt-elapsed
+                if kind >= 2:
+                    # Trace fits can select much faster jamming than endpoint
+                    # fits. Resolve its local relaxation rate (including the
+                    # sensitivity equations), rather than letting RK4 overshoot
+                    # below Qcrit and create spurious permanent resistance.
+                    inner = np.exp(-state[0]/parameters[2]) if kind == 3 else 0.
+                    factor = np.exp(inner)
+                    rate = parameters[-2]*k1[0]/(factor+state[1])
+                    if kind == 3:
+                        rate += inner*k1[0]/parameters[2]
+                    step = min(step, .25/max(rate, 1e-12))
+                pm = p0+(p1-p0)*(elapsed+step/2)/dt
+                pb = p0+(p1-p0)*(elapsed+step)/dt
+                k2 = _course_derivative(state+step*k1/2, pm, lock, parameters, kind)
+                k3 = _course_derivative(state+step*k2/2, pm, lock, parameters, kind)
+                k4 = _course_derivative(state+step*k3, pb, lock, parameters, kind)
+                state += step*(k1+2*k2+2*k3+k4)/6
+                elapsed += step
+    return values, jac
+
+
+def predict_course(model, parameters, pressure, t):
+    """Flow at all times, plus Jacobian (log coordinates except linear B1)."""
+    p = np.maximum(pressure, 0.)
+    if model == "B1":
+        jac = np.stack([np.ones_like(p), p, p*p], axis=-1)
+        q = jac @ np.asarray(parameters)
+        return np.maximum(q, 0.), jac*(q > 0)[..., None]
+    return _course_ode(p, t, np.asarray(parameters), ("C4", "D1", "D2", "D3").index(model))
+
+
+def course_endpoint(model, parameters, pressure, t):
+    """Unchanged endpoint observer; resolve fast fitted jamming before reading it."""
+    if model in {"D2", "D3"}:
+        return predict_course(model, parameters, pressure, t)[0][:, -1]
+    return predict(model, parameters, pressure, t)
+
+
+def fit_course(model, course, train, multiplicity, budget):
+    """Equal conditions, equal brews, equal duration-normalized within-brew loss.
+
+    Fit the prescribed scoring window; never treat samples as independent brews.
+    B0 bounds and two initial guesses are retained, with analytic sensitivities.
+    """
+    started = time.monotonic()
+    p, target, mask = course.pressure[train], course.flow[train], course.mask[train]
+    cond = course.brews.condition
+    weight = np.array([multiplicity[i]/(len(course.brews.groups)-1)/np.sum(cond == cond[i])
+                       for i in train])
+    root_weight = np.sqrt(weight[:, None]*mask/mask.sum(axis=1)[:, None])
+    if model == "B1":
+        design = np.stack([np.ones_like(p), p, p*p], axis=-1)
+        value = np.linalg.lstsq((design*root_weight[..., None]).reshape(-1, 3),
+                               (target*root_weight).ravel(), rcond=None)[0]
+        budget.elapsed += time.monotonic()-started
+        budget.check(time.monotonic())
+        return value
+    lower, upper, starts = FIT_SETTINGS[model]
+    cache_x, cache = None, None
+
+    def evaluate(x):
+        nonlocal cache_x, cache
+        budget.check(started)
+        if cache_x is None or not np.array_equal(cache_x, x):
+            cache_x = x.copy()
+            q, jac = predict_course(model, np.exp(x), p, course.t)
+            cache = ((q-target)*root_weight).ravel(), (jac*root_weight[..., None]).reshape(-1, len(x))
+        return cache
+
+    try:
+        fits = [least_squares(lambda x: evaluate(x)[0], np.log(s),
+                             jac=lambda x: evaluate(x)[1], bounds=(np.log(lower), np.log(upper)),
+                             ftol=1e-7, xtol=1e-7, gtol=1e-7, x_scale="jac", max_nfev=500)
+                for s in starts]
+        valid = [f for f in fits if f.success and np.isfinite(f.fun).all()]
+        if not valid:
+            best = min(fits, key=lambda f: f.cost)
+            retry = least_squares(lambda x: evaluate(x)[0], best.x, jac=lambda x: evaluate(x)[1],
+                                  bounds=(np.log(lower), np.log(upper)), method="dogbox",
+                                  x_scale="jac", ftol=1e-7, xtol=1e-7, gtol=1e-7, max_nfev=1500)
+            if not retry.success or not np.isfinite(retry.fun).all():
+                raise RuntimeError(f"{model}: trace fit failed; no resample omitted")
+            valid = [retry]
+        return np.exp(min(valid, key=lambda f: f.cost).x)
+    finally:
+        budget.elapsed += time.monotonic()-started
+
+
+def course_folds(model, course, multiplicity, budget):
+    values = np.empty_like(course.flow)
+    endpoint = np.empty(len(course.brews.ids))
+    coefficients = {}
+    for group in course.brews.groups:
+        train = np.flatnonzero((course.brews.condition != course.brews.condition[group[0]]) &
+                               (multiplicity > 0))
+        coef = fit_course(model, course, train, multiplicity, budget)
+        values[group] = predict_course(model, coef, course.pressure[group], course.t)[0]
+        endpoint[group] = course_endpoint(model, coef, course.brews.pressure[group], course.brews.t)
+        coefficients[course.brews.fold[group[0]]] = coef.tolist()
+    return values, endpoint, coefficients
+
+
+def brew_samples(brews, count):
+    rng = np.random.default_rng(B0B_SEED)
+    samples = []
+    for _ in range(count):
+        multiplicity = np.zeros(len(brews.ids), dtype=int)
+        for group in brews.groups:
+            multiplicity += np.bincount(rng.choice(group, len(group)), minlength=len(brews.ids))
+        samples.append(multiplicity)
+    return samples
+
+
+def condition_means(brews, values, multiplicity):
+    return np.array([np.average(values[g], weights=multiplicity[g]) for g in brews.groups])
+
+
+def trend_sign(bounds):
+    # Numerical zero only; no new practical trend tolerance is introduced.
+    return "RISING" if bounds[0] > 1e-10 else "DECLINING" if bounds[1] < -1e-10 else "FLAT/UNRESOLVED"
+
+
+def mean_trend_sign(value):
+    return "POSITIVE" if value > 1e-10 else "NEGATIVE" if value < -1e-10 else "ZERO"
+
+
+def trend_correlation(pressures, trends):
+    return float(np.corrcoef(pressures, trends)[0, 1]) if np.ptp(trends) > 1e-12 else 0.
+
+
+def trend_summary(brews, values, draws=None):
+    means = condition_means(brews, values, np.ones(len(values)))
+    pressure = condition_means(brews, brews.pressure[:, -1], np.ones(len(values)))
+    if draws is None:
+        draws = np.array([condition_means(brews, values, m) for m in brew_samples(brews, 1000)])
+    bounds = [A.interval(draws[:, j]) for j in range(len(brews.groups))]
+    pressure_draws = [condition_means(brews, brews.pressure[:, -1], m)
+                      for m in brew_samples(brews, len(draws))]
+    correlations = [trend_correlation(p, row) for p, row in zip(pressure_draws, draws)]
+    return {"mean": means.tolist(), "interval": bounds, "sign": [trend_sign(b) for b in bounds],
+            "pressure_correlation": trend_correlation(pressure, means),
+            "pressure_correlation_interval": A.interval(correlations)}
+
+
+def aggregate_trend_rows(stage, scenario, model, course, values, draws=None):
+    summary = trend_summary(course.brews, values, draws)
+    observed = trend_summary(course.brews, course.observed_trend)
+    rows = []
+    for j, (p, group) in enumerate(zip(np.unique(course.brews.condition), course.brews.groups)):
+        rows.append({"stage": stage, "scenario": scenario, "candidate": model,
+                     "pressure condition bar": p, "brews": len(group),
+                     "clean end range s": json.dumps([float(course.ends[group].min()),
+                                                        float(course.ends[group].max())]),
+                     "trend g/s/s": summary["mean"][j], "trend interval": json.dumps(summary["interval"][j]),
+                     "trend sign": summary["sign"][j], "observed sign": observed["sign"][j],
+                     "observed trend g/s/s": observed["mean"][j],
+                     "mean trend sign": mean_trend_sign(summary["mean"][j]),
+                     "observed mean trend sign": mean_trend_sign(observed["mean"][j]),
+                     "sign agreement": "Y" if mean_trend_sign(summary["mean"][j]) ==
+                                              mean_trend_sign(observed["mean"][j]) else "N",
+                     "interval-class agreement": "Y" if summary["sign"][j] == observed["sign"][j] else "N",
+                     "interval source": "200 refits of brews within conditions" if draws is not None
+                                        else "1000 brew resamples; no refit",
+                     "trend-pressure correlation": summary["pressure_correlation"],
+                     "correlation interval": json.dumps(summary["pressure_correlation_interval"]),
+                     "observed 5-10s mean flow g/s": float(course.flow[group][:, (course.t >= 5) &
+                                                                     (course.t <= 10)].mean())})
+    return rows, summary
+
+
+def existing_timecourse(brews, observed_flow, raw, out):
+    """T1--T3: saved B0 coefficients only; no optimizer is called."""
+    residuals, trends = [], []
+    stored = A.read_csv(OUT / "RESULT_TABLE.csv")
+    for basket in (False, True):
+        scenario = "RAW PRIMARY" if not basket else "BASKET SENSITIVITY"
+        course = load_course(brews, raw, step=.1, basket=basket, observed_flow=observed_flow)
+        if not basket:
+            rows, _ = aggregate_trend_rows("T2 observed", scenario, "OBSERVED", course, course.observed_trend)
+            trends += rows
+        for model in MODELS:
+            row = next(r for r in stored if r["candidate"] == model and
+                       r["pressure"] == ("basket primary" if basket else "raw sensitivity"))
+            coefficients = json.loads(row["parameters"])["by_fold"]
+            q, endpoint = np.empty_like(course.flow), np.empty(len(brews.ids))
+            for group in course.brews.groups:
+                coef = coefficients[course.brews.fold[group[0]]]
+                q[group] = predict_course(model, coef, course.pressure[group], course.t)[0]
+                endpoint[group] = predict(model, coef, course.brews.pressure[group], course.brews.t)
+            error = endpoint-brews.target
+            draws = np.array([condition_means(brews, error, m) for m in brew_samples(brews, 1000)])
+            for j, (p, group) in enumerate(zip(np.unique(brews.condition), brews.groups)):
+                residuals.append({"scenario": scenario, "candidate": model, "pressure condition bar": p,
+                                  "brews": len(group), "residual predicted-observed g/s": float(error[group].mean()),
+                                  "residual interval": json.dumps(A.interval(draws[:, j])),
+                                  "source": "B0 saved held-out coefficients; no refit"})
+            rows, _ = aggregate_trend_rows("T3 existing fit", scenario, model, course,
+                                           (q*course.late_weights).sum(axis=1))
+            trends += rows
+    write_csv(out / "RESIDUALS.csv", residuals)
+    write_csv(out / "LATE_TRENDS.csv", trends)
+    return residuals, trends
+
+
+def paired_course_loss(brews, squared):
+    """SCI-MD-010 paired conditions-then-brews bootstrap, B0b's new seed.
+
+    squared has model x brew entries: endpoint squared error OR each brew's
+    duration-normalized mean trace squared error. The metric remains mean fold
+    RMSE, not pooled RMSE. No time points are resampled as independent units.
+    """
+    groups = [np.flatnonzero(np.array(brews.fold) == f).tolist() for f in sorted(set(brews.fold))]
+    rng = random.Random(B0B_SEED)
+    draws = []
+    for _ in range(1000):
+        selected = [rng.choice(groups) for _ in groups]
+        loss = np.zeros(len(squared))
+        for group in selected:
+            picked = [rng.choice(group) for _ in group]
+            loss += np.sqrt(squared[:, picked].mean(axis=1))
+        draws.append(loss/len(groups))
+    return np.array(draws)
+
+
+def _course_refit(arguments):
+    model, course, sample, deadline = arguments
+    try:
+        from numba import set_num_threads
+        set_num_threads(1)
+    except ImportError:
+        pass
+    budget = A.FitBudget(max(0., deadline-time.monotonic()))
+    values, endpoint, _ = course_folds(model, course, sample, budget)
+    slope, peak = refit_response(course.brews, endpoint, sample)
+    trends = condition_means(course.brews, (values*course.late_weights).sum(axis=1), sample)
+    return slope, peak, trends
+
+
+def course_refits(model, course, count, budget, workers):
+    if count < 200:
+        raise ValueError("B0b requires at least 200 refits")
+    started = time.monotonic()
+    deadline = started+budget.limit-budget.elapsed
+    args = [(model, course, m, deadline) for m in brew_samples(course.brews, count)]
+    executor = ProcessPoolExecutor(max_workers=workers, mp_context=multiprocessing.get_context("spawn"))
+    try:
+        result = []
+        for value in executor.map(_course_refit, args, chunksize=1):
+            result.append(value)
+            if len(result) % 25 == 0:
+                print(json.dumps({"candidate": model, "refits_complete": len(result),
+                                  "phase_seconds": time.monotonic()-started}), flush=True)
+    finally:
+        executor.shutdown(wait=True, cancel_futures=True)
+        budget.elapsed += time.monotonic()-started
+    return {"slope": A.interval([r[0] for r in result]), "peak": A.interval([r[1] for r in result]),
+            "trends": np.array([r[2] for r in result])}
+
+
+def b0b_pass(model, comparison, refit, agreement, primary=True):
+    return (primary and model not in {"D3", "SMOOTH CEILING"} and comparison in {"TIE", "BETTER"}
+            and -.176 <= refit["slope"][0] <= refit["slope"][1] <= -.020
+            and refit["peak"][0] <= 7 and refit["peak"][1] >= 5 and agreement >= 8)
+
+
+def smooth_ceiling(course, multiplicity):
+    """Optimistic within-condition smooth mean, NOT pressure-held-out prediction.
+
+    All brews in a condition contribute, including the evaluated brew. Fixed
+    10-s cubic B-spline knots and no pressure-law restriction: a descriptive
+    achievable-fit ceiling, explicitly ineligible for comparison or solver PASS.
+    """
+    from scipy.interpolate import make_lsq_spline
+    values, endpoint = np.empty_like(course.flow), np.empty(len(course.brews.ids))
+    knots_by_group = {}
+    for group in course.brews.groups:
+        w = multiplicity[group, None]*course.mask[group]/course.mask[group].sum(axis=1)[:, None]
+        total = w.sum(axis=0)
+        use = total > 0
+        t = course.t[use]
+        mean = (w*course.flow[group]).sum(axis=0)[use]/total[use]
+        knots = np.r_[[t[0]]*4, np.arange(10., t[-1]-1, 10.), [t[-1]]*4]
+        curve = make_lsq_spline(t, mean, knots, k=3, w=np.sqrt(total[use]))
+        values[group] = curve(course.t)
+        endpoint[group] = curve(100.)
+        knots_by_group[str(course.brews.condition[group[0]])] = {"knots_s": knots.tolist(),
+                                                               "coefficients": curve.c.tolist()}
+    return values, endpoint, knots_by_group
+
+
+def timecourse_screen(brews, observed_flow, raw, out, refits, prior, workers, resume):
+    """T4 raw primary; basket and T5 low-pressure omissions are sensitivities."""
+    budget = A.FitBudget()
+    budget.elapsed = prior
+    rows = A.read_csv(out / "RESULT_TABLE.csv") if resume and (out / "RESULT_TABLE.csv").exists() else []
+    trends = A.read_csv(out / "LATE_TRENDS.csv")
+    trends = [r for r in trends if r["stage"] in {"T2 observed", "T3 existing fit"} or resume]
+    scenarios = [(False, False, "T4 RAW PRIMARY"), (True, False, "T4 BASKET SENSITIVITY"),
+                 (False, True, "T5 RAW >3 BAR SENSITIVITY"), (True, True, "T5 BASKET >3 BAR SENSITIVITY")]
+    for basket, omit_low, scenario in scenarios:
+        course = load_course(brews, raw, basket=basket, omit_low=omit_low, observed_flow=observed_flow)
+        fine = load_course(brews, raw, step=.1, basket=basket, omit_low=omit_low, observed_flow=observed_flow)
+        baseline_endpoint, baseline_trace = None, None
+        for model in (*MODELS, "SMOOTH CEILING"):
+            existing = next((r for r in rows if r["scenario"] == scenario and r["candidate"] == model), None)
+            if existing is not None and model != "B1":
+                continue
+            if existing is None:
+                print(json.dumps({"fitting": model, "scenario": scenario, "fit_seconds": budget.elapsed}), flush=True)
+            if model == "SMOOTH CEILING":
+                ceiling_started = time.monotonic()
+                q, endpoint, coef = smooth_ceiling(fine, np.ones(len(fine.brews.ids)))
+                samples = brew_samples(fine.brews, refits)
+                results = []
+                for sample in samples:
+                    budget.check(ceiling_started)
+                    results.append(smooth_ceiling(fine, sample)[:2])
+                responses = [refit_response(fine.brews, e, m) for (_, e), m in zip(results, samples)]
+                refit = {"slope": A.interval([r[0] for r in responses]),
+                         "peak": A.interval([r[1] for r in responses]),
+                         "trends": np.array([condition_means(fine.brews, (v*fine.late_weights).sum(axis=1), m)
+                                             for (v, _), m in zip(results, samples)])}
+                numeric = 0.
+                budget.elapsed += time.monotonic()-ceiling_started
+            else:
+                if existing is not None:
+                    coef = json.loads(existing["parameters"])["by_fold"]
+                else:
+                    _, _, coef = course_folds(model, course, np.ones(len(course.brews.ids)), budget)
+                q, endpoint = np.empty_like(fine.flow), np.empty(len(fine.brews.ids))
+                numeric = 0.
+                for group in fine.brews.groups:
+                    c = coef[fine.brews.fold[group[0]]]
+                    q[group] = predict_course(model, c, fine.pressure[group], fine.t)[0]
+                    endpoint[group] = course_endpoint(model, c, fine.brews.pressure[group], fine.brews.t)
+                    coarse_q = predict_course(model, c, course.pressure[group], course.t)[0]
+                    interp = np.array([np.interp(course.t, fine.t, v) for v in q[group]])
+                    numeric = max(numeric, float(np.max(np.abs(coarse_q-interp)[course.mask[group]])))
+                if existing is None:
+                    refit = course_refits(model, course, refits, budget, workers)
+            endpoint_se = (endpoint-fine.brews.target)**2
+            trace_se = ((q-fine.flow)**2*fine.mask).sum(axis=1)/fine.mask.sum(axis=1)
+            if model == "B1":
+                baseline_endpoint, baseline_trace = endpoint_se, trace_se
+                if existing is not None:
+                    continue
+            endpoint_draws = paired_course_loss(fine.brews, np.array([baseline_endpoint, endpoint_se]))
+            trace_draws = paired_course_loss(fine.brews, np.array([baseline_trace, trace_se]))
+            loss = lambda se: float(np.mean([np.sqrt(se[g].mean()) for g in fine.brews.groups]))
+            endpoint_ci = A.interval(endpoint_draws[:, 1])
+            comparison_ci = A.interval(endpoint_draws[:, 1]-endpoint_draws[:, 0])
+            comparison = A.comparison(comparison_ci) if model != "SMOOTH CEILING" else "INELIGIBLE CEILING"
+            response = A.response_diagnostics(fine.brews, endpoint, seed=B0B_SEED)
+            predicted_trends = (q*fine.late_weights).sum(axis=1)
+            trend_rows, ts = aggregate_trend_rows("T4/T5 refit", scenario, model, fine, predicted_trends, refit["trends"])
+            agreement = sum(r["sign agreement"] == "Y" for r in trend_rows)
+            row = {"scenario": scenario, "candidate": model,
+                   "baseline": "B1 refitted to traces in the same scenario/folds",
+                   "parameters": json.dumps({"names": PARAMETERS.get(model, ["cubic spline coefficients"]),
+                                              "by_condition" if model == "SMOOTH CEILING" else "by_fold": coef,
+                                              "Phi_fixed": PHI if model in {"D1", "D3"} else None}),
+                   "full-trace RMSE g/s": loss(trace_se), "full-trace RMSE interval": json.dumps(A.interval(trace_draws[:, 1])),
+                   "full-trace CAPABILITY": A.capability(A.interval(trace_draws[:, 1]), response["slope"]),
+                   "endpoint RMSE g/s": loss(endpoint_se), "endpoint RMSE interval": json.dumps(endpoint_ci),
+                   "CAPABILITY": A.capability(endpoint_ci, response["slope"]),
+                   "delta versus B1 g/s": loss(endpoint_se)-loss(baseline_endpoint),
+                   "delta interval": json.dumps(comparison_ci), "COMPARISON": comparison,
+                   "slope g/s/bar": response["slope"], "slope interval no-refit": json.dumps(response["slope_interval"]),
+                   "slope interval refit": json.dumps(refit["slope"]), "peak nominal bar": response["peak"],
+                   "peak interval no-refit": json.dumps(response["peak_interval"]), "peak interval refit": json.dumps(refit["peak"]),
+                   "late-trend agreement": f"{agreement}/{len(fine.brews.groups)}",
+                   "late-trend interval-class agreement":
+                   f"{sum(r['interval-class agreement'] == 'Y' for r in trend_rows)}/{len(fine.brews.groups)}",
+                   "trend-pressure correlation": ts["pressure_correlation"],
+                   "correlation interval refit": json.dumps(ts["pressure_correlation_interval"]),
+                   "refit count": refits, "eligibility": "EXPLORATORY (5 parameters)" if model == "D3" else
+                   "IN-SAMPLE CEILING" if model == "SMOOTH CEILING" else "REFERENCE" if model == "B1" else "ELIGIBLE",
+                   "PASS": "Y" if b0b_pass(model, comparison, refit, agreement, scenario == "T4 RAW PRIMARY") else "N",
+                   "maximum 0.5s/0.1s trace difference g/s": numeric, "cumulative fitting seconds": budget.elapsed}
+            rows.append(row)
+            trends += trend_rows
+            write_csv(out / "RESULT_TABLE.csv", rows)
+            write_csv(out / "LATE_TRENDS.csv", trends)
+            print(json.dumps({k: v for k, v in row.items() if k != "parameters"}), flush=True)
+    return rows, budget.elapsed
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--ewp", type=Path, required=True)
@@ -537,6 +1048,8 @@ def main():
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--checks-only", action="store_true")
     mode.add_argument("--screen", action="store_true")
+    mode.add_argument("--timecourse", action="store_true", help="B0b T1--T5; raw pressure primary")
+    mode.add_argument("--timecourse-checks-only", action="store_true", help="B0b T1--T3; stored fits only")
     parser.add_argument("--refits", type=int, default=200)
     parser.add_argument("--prior-fit-seconds", type=float, default=0,
                         help="Carry previous fitting time into the two-hour limit")
@@ -545,6 +1058,18 @@ def main():
     args = parser.parse_args()
     brews = A.load_brews(args.data, args.ewp)
     q = flow_history(brews, args.data)
+    if args.timecourse or args.timecourse_checks_only:
+        out = B0B_OUT if args.out == OUT else args.out
+        if not args.resume:
+            existing_timecourse(brews, q, args.raw, out)
+        if args.timecourse:
+            try:
+                _, elapsed = timecourse_screen(brews, q, args.raw, out, args.refits,
+                                               args.prior_fit_seconds, args.workers, args.resume)
+                print(json.dumps({"total_fit_seconds": elapsed}), flush=True)
+            except TimeoutError:
+                raise SystemExit("Fitting exceeded two hours: STOP; incomplete rows remain unscored")
+        return
     rows, proceed = data_checks(brews, q, args.raw, args.out)
     for row in rows:
         print(json.dumps({k: v for k, v in row.items()
