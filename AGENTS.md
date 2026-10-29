@@ -3,6 +3,8 @@
 Follow [CLAUDE.md](CLAUDE.md) and [onboarding](docs/ONBOARDING.md).
 Use the existing minimum-necessary-governance standard.
 
+Do not create or start successor tasks. Each task ends with a recommendation; only the owner starts the next task.
+
 ## External espresso data — start here
 
 Read the [espresso data guide](docs/data/ESPRESSO_DATA_GUIDE.md) before proposing scientific work.

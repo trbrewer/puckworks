@@ -1,0 +1,61 @@
+{
+  "task": "SCI-MD-PERTICARINI-HELD-COFFEE-TDS-001",
+  "scientific_status": "COMPLETED_PRIVATE",
+  "public_scope": "Code, synthetic tests, frozen methods and safe hashes only; numerical results private.",
+  "pins": {
+    "EWP": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+    "base": "08e02ccc1a7da6e2a323678ccdba60f3181e6f94",
+    "base_parent": "6a97530d746269cf9e9d46dbcbdfd83e54a2caf5",
+    "chemistry": "fab67de4e82f3b76352df794056a53d70f32029d",
+    "duration": "7bc013d4e00e416fb747d4c37e3cc514dc2e098d",
+    "main": "21669a427145194e1f4003e3cf1b97dedefe2679"
+  },
+  "source_SHA256": [
+    "2c5fae8319d41c690b7e23ea00ddfc722e08c01ebcd8f012dafb1820a8fc6703",
+    "1b5cd8891472d2d432fcb96a59e167d8fcca8b8e70a0a75187d810bf8a8e4419"
+  ],
+  "freeze_sha256": "d5cee48a2f85082649642eff125dc68fa8dde28d789506a6a312e86863761867",
+  "result_science_sha256": "ac12533ea1b21bcd8a63a2e6d15d34917954665264e547ac56e4525631e77b93",
+  "numerical_verification_sha256": "2020ee73ed0463fdeda4da33f3cb81c000967185ce9e5d695860358ff36a0512",
+  "observations_sha256": "3e5e1db69a73b030ab60dde999f42db296699be029d7e7397332d4899bfce1c1",
+  "membership_sha256": "f4d99c4ad91b728c10d726e90e6a249a3ace66490606f9c7fa922fd4c492c4a1",
+  "folds_sha256": "14504329ed02b94b3b26600fc66147df48bdc3f0b3bfa0b8c781e675b17fc5f6",
+  "blocks_sha256": "c4ea2568317dc85f501c942f4b236381cf728c1f68040409e13e7757d58e10c3",
+  "combinations_sha256": "3f6b7b997136d04129232f48389f83e8497905ff57888694b58a7e2638816df3",
+  "prefit_tests": "13 passed",
+  "local_QA": {
+    "local": "PASS",
+    "focused_prefit": {
+      "passed": 13,
+      "seconds": 2.33
+    },
+    "offline_suite": {
+      "passed": 7473,
+      "skipped": 68,
+      "deselected": 65,
+      "warnings": 1,
+      "seconds": 1436.69,
+      "runs": 1
+    },
+    "coverage_percent": 80,
+    "scientific_baseline": {
+      "passed": 5,
+      "skipped": 7,
+      "deselected": 7594,
+      "seconds": 210.91
+    },
+    "ruff": "PASS",
+    "mypy": "PASS (19 core files)",
+    "registry": "PASS=66; ACKNOWLEDGED_EXCEPTION=1",
+    "statusdoc": "PASS via --verify; initial --check printed usage and was not verification",
+    "diff_check": "PASS",
+    "historical_QA": "PR381 failures, PR382 narrow repair, PR383 initial failed suite/full-suite not repeated, PR384 reporting-accounting correction preserved.",
+    "independent_human_review": false
+  },
+  "hosted_QA": "REPORT_SEPARATELY_ON_PULL_REQUEST",
+  "P1_blind_TDS": "OPEN",
+  "next_candidate": "SCI-MD-PERTICARINI-HELD-GRIND-TDS-001",
+  "next_status": "NOT_RUN; justification retained privately",
+  "historical_decisions": "UNCHANGED",
+  "independent_human_review": false
+}
