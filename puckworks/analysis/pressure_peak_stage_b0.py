@@ -69,6 +69,27 @@ with OPENBLAS_NUM_THREADS=1 and NUMBA_NUM_THREADS=1. Public output is aggregate
 only; individual onset detections and point-fit checkpoints stay local. Fixed-fit
 paired loss intervals resample conditions then brews; refit response intervals
 resample brews within conditions. Peaks retain nominal condition coordinates.
+
+B0d --air-screen uses seed 20261101 and the unchanged B0c detector/ONSET.csv.
+Timing targets never enter hydraulic predictions. W1/WD1 fit offset, scale and
+compaction; W2/WD2 additionally fit atmospheric air fraction and are EXPLORATORY.
+The minimum region cannot identify an offset separately from infiltration time.
+WD1/WD2 use the D1 permeability, with/without Boyle air, for like-form comparison.
+T2 fixes training-fold timing compaction/air coefficients and fits only flow
+scale and Mc to endpoints. F1/F2 fit scale, compaction and s0; Mc is inherited
+from a reference endpoint fit inside that same training fold. No timing or
+hydraulic target from a held-out pressure enters these calibrations.
+The consistency check compares extrema of P*k(P)*kr(P), excluding delivered
+mass. D1's modulus is expressed as its air-free conductance peak. Air-bearing
+extrema are recomputed, not identified with the exponential compaction scale.
+All scores use LOPO fits; descriptive full-cohort parameter/peak intervals are
+separate. T2 checks independently flow-fitted reference/F coefficients, never
+its own timing-fixed coefficient (which would agree by construction). Full-model
+nominal endpoint peaks are retained separately. Endpoints keep the 1000-point
+observer; the 201-point fitting quadrature is checked explicitly. Late trends
+use the inherited last-30-s observer on a 0.1-s grid, including bootstrap refits.
+Each pressure view uses 200 paired whole-brew refits. m=2/4 and basket pressure
+are sensitivities; the m=3 prior rows repeat the primary fit without new evidence.
 """
 
 from __future__ import annotations
@@ -85,7 +106,7 @@ from pathlib import Path
 
 import numpy as np
 from scipy.signal import savgol_filter
-from scipy.optimize import least_squares
+from scipy.optimize import least_squares, brentq
 
 from puckworks.analysis import pressure_peak_stage_a as A
 
@@ -1445,6 +1466,509 @@ def swelling_screen(brews, observed_flow, raw, out, count, prior, workers, resum
     return rows, budget.elapsed
 
 
+# B0d: timing is a separate target, never a hydraulic state/input. The only
+# cross-observable inputs are training-fold TIMING PARAMETERS, fixed in T2.
+B0D_SEED = 20261101
+B0D_OUT = A.ROOT / "docs/research/PRESSURE_PEAK_STAGE_B0D"
+P_ATM = 1.01325  # bar; standard atmosphere, matching the Foster card
+_D1_PEAK_PHI = (4+PHI-np.sqrt((4+PHI)**2-24*PHI))/4
+D1_PEAK_RATIO = (PHI-_D1_PEAK_PHI)/(1-PHI)  # air-free argmax(P*k_D1)/Ydry
+_INVERSE_COEFFICIENTS = 1/(np.arange(1., 20.)*np.cumprod(np.arange(1., 20.)))
+
+
+def boyle_saturation(pressure, s0):
+    """Gauge P in bar. s0 is air fraction at zero gauge pressure, not Sr water."""
+    return 1-s0*P_ATM/(np.asarray(pressure)+P_ATM)
+
+
+def air_conductance(pressure, pstar, s0=0., exponent=3, kind=0):
+    """P*k*kr; excludes scale and delivered-mass relaxation.
+
+    For D1 (kind=1), pstar reparameterizes Ydry as its air-free conductance
+    peak. For C4 it is the exponential scale. With air, the actual peak is
+    computed separately; comparing the exponential scale alone is not fair.
+    """
+    p = np.asarray(pressure)
+    k = np.exp(-p/pstar) if kind == 0 else locked_ratio(p, pstar/D1_PEAK_RATIO)
+    return p*k*boyle_saturation(p, s0)**exponent
+
+
+def conductance_peak(pstar, s0=0., exponent=3, kind=0):
+    if s0 == 0:
+        return float(pstar)
+    young = pstar/D1_PEAK_RATIO
+
+    def derivative(p):
+        compaction = -1/pstar
+        if kind:
+            phi = PHI-(1-PHI)*p/young
+            compaction = -(1-PHI)/young*(3/phi+2/(1-phi))
+        air = exponent*s0*P_ATM/((p+P_ATM)*(p+P_ATM-s0*P_ATM))
+        return 1/p+compaction+air
+
+    high = young*PHI/(1-PHI)*(1-1e-10) if kind else pstar*(exponent+2)+P_ATM
+    return float(brentq(derivative, 1e-8, high))
+
+
+def timing_specs():
+    return {"W0": (-1, 0), "W1": (0, 0), "WD1": (1, 0),
+            **{name+suffix: (kind, m) for suffix, m in (("", 3), ("-m2", 2), ("-m4", 4))
+               for name, kind in (("W2", 0), ("WD2", 1))}}
+
+
+def timing_predict(parameters, pressure, kind=0, exponent=0):
+    if kind == -1:
+        return np.polynomial.polynomial.polyval(pressure, parameters)
+    t0, c, pstar, s0 = parameters
+    return t0+c/air_conductance(pressure, pstar, s0, exponent, kind)
+
+
+def _b0d_solve(evaluate, starts, lower, upper, budget):
+    """Shared bounded least squares; failed optimizations never become draws."""
+    started = time.monotonic()
+    cache_x, cached = None, None
+
+    def value(x):
+        nonlocal cache_x, cached
+        budget.check(started)
+        if cache_x is None or not np.array_equal(cache_x, x):
+            cache_x, cached = x.copy(), evaluate(x)
+        return cached
+
+    try:
+        fits = [least_squares(lambda x: value(x)[0], np.clip(s, lower+1e-10, upper-1e-10),
+                             jac=lambda x: value(x)[1], bounds=(lower, upper), x_scale="jac",
+                             ftol=1e-8, xtol=1e-8, gtol=1e-8, max_nfev=500) for s in starts]
+        valid = [r for r in fits if r.success and np.isfinite(r.fun).all()]
+        if not valid:
+            best = min(fits, key=lambda r: r.cost)
+            retry = least_squares(lambda x: value(x)[0], best.x, jac=lambda x: value(x)[1],
+                                  bounds=(lower, upper), method="dogbox", x_scale="jac",
+                                  ftol=1e-8, xtol=1e-8, gtol=1e-8, max_nfev=1500)
+            if not retry.success or not np.isfinite(retry.fun).all():
+                raise RuntimeError("B0d fit failed; no failed resample is discarded")
+            valid = [retry]
+        return min(valid, key=lambda r: r.cost).x
+    finally:
+        budget.elapsed += time.monotonic()-started
+
+
+def fit_timing(pressure, delay, weights, kind, exponent, budget):
+    root = np.sqrt(weights)
+    if kind == -1:
+        design = np.column_stack([np.ones(len(pressure)), pressure, pressure**2])
+        return np.linalg.lstsq(design*root[:, None], delay*root, rcond=None)[0]
+    # The declared 0--14-bar domain must have positive D1 permeability. This
+    # forcing-domain bound uses no held-out timing or flow observations.
+    minimum = 14*(1-PHI)/PHI*D1_PEAK_RATIO*1.00001 if kind else .5
+    lower = np.array([0., np.log(.0001), np.log(minimum), 0.])
+    upper = np.array([120., np.log(1e4), np.log(100.), 1.])
+    free = np.arange(4 if exponent else 3)
+
+    def evaluate(x):
+        z = np.zeros(4); z[free] = x
+        t0, c, pstar, s0 = z[0], np.exp(z[1]), np.exp(z[2]), z[3]
+        term = c/air_conductance(pressure, pstar, s0, exponent, kind)
+        comp = pressure/pstar
+        if kind:
+            shift = (1-PHI)*pressure*D1_PEAK_RATIO/pstar
+            phi = PHI-shift
+            comp = shift*(3/phi+2/(1-phi))
+        air = exponent*P_ATM/(pressure+P_ATM)/boyle_saturation(pressure, s0)
+        jac = np.column_stack([np.ones(len(pressure)), term, -term*comp, term*air])
+        return (t0+term-delay)*root, jac[:, free]*root[:, None]
+
+    starts = [np.array([a, np.log(c), np.log(p), s])[free]
+              for a, c, p, s in ((0., 15., 6., .2), (8., 3., 5., .8), (10., 1., 8., .95))]
+    x = _b0d_solve(evaluate, starts, lower[free], upper[free], budget)
+    return np.array([x[0], np.exp(x[1]), np.exp(x[2]), x[3] if exponent else 0.])
+
+
+@njit(cache=True)
+def _delivered_scalar(exposure):
+    x = exposure
+    for _ in range(8):
+        series = 0.
+        for k in range(19):
+            series -= np.expm1(-(k+1)*x)*_INVERSE_COEFFICIENTS[k]
+        x = max(0., x-(x+series-exposure)/np.exp(np.exp(-x)))
+    return x
+
+
+@njit(cache=True)
+def _air_capacity(p, lock, a, pstar, s0, exponent, kind):
+    comp = p/pstar
+    k = np.exp(-comp)
+    if kind:
+        shift = (1-PHI)*lock*D1_PEAK_RATIO/pstar
+        phi = max(PHI-shift, 0.)
+        k = (phi/PHI)**3*((1-PHI)/(1-phi))**2
+        comp = shift*(3/phi+2/(1-phi)) if phi > 0 else 0.
+    saturation = 1-s0*P_ATM/(p+P_ATM)
+    base = a*p*k*saturation**exponent
+    air = -exponent*P_ATM/(p+P_ATM)/max(saturation, 1e-15)
+    return base, base*comp, base*air
+
+
+@njit(cache=True)
+def air_endpoint(parameters, pressure, t, kind=0, exponent=3):
+    """Exact separated state with trapezoid exposure, matching the B0 observer.
+
+    Parameters a, Pstar, Mc, s0; Jacobian coordinates log(a), log(Pstar),
+    log(Mc), s0. No measured timing, mass or flow enters this prediction.
+    """
+    a, pstar, mc, s0 = parameters
+    result = np.empty(len(pressure)); jac = np.empty((len(pressure), 4))
+    for i in range(len(pressure)):
+        lock = max(pressure[i, 0], 0.)
+        prev = _air_capacity(lock, lock, a, pstar, s0, exponent, kind)
+        total = np.zeros(3)
+        for j in range(1, len(t)):
+            now = _air_capacity(max(pressure[i, j], 0.), lock, a, pstar, s0, exponent, kind)
+            for k in range(3):
+                total[k] += (prev[k]+now[k])*(t[j]-t[j-1])/2
+            prev = now
+        exposure = total[0]/mc
+        x = _delivered_scalar(exposure)
+        factor = np.exp(-np.exp(-x))
+        q = prev[0]*factor
+        common = q*np.exp(-x)*factor/mc
+        result[i] = q
+        jac[i, 0] = q+common*total[0]
+        jac[i, 1] = prev[1]*factor+common*total[1]
+        jac[i, 2] = -common*total[0]
+        jac[i, 3] = prev[2]*factor+common*total[2]
+    return result, jac
+
+
+@njit(cache=True)
+def air_trends(parameters, pressure, t, late_weights, kind=0, exponent=3):
+    """Unchanged last-30-s observer; no outflow onset used as an input."""
+    a, pstar, mc, s0 = parameters
+    result = np.zeros(len(pressure))
+    for i in range(len(pressure)):
+        lock = max(pressure[i, 0], 0.)
+        previous = _air_capacity(lock, lock, a, pstar, s0, exponent, kind)[0]
+        total = 0.
+        for j in range(len(t)):
+            now = _air_capacity(max(pressure[i, j], 0.), lock, a, pstar, s0, exponent, kind)[0]
+            if j:
+                total += (previous+now)*(t[j]-t[j-1])/2
+            if late_weights[i, j] != 0:
+                x = _delivered_scalar(total/mc)
+                result[i] += late_weights[i, j]*now*np.exp(-np.exp(-x))
+            previous = now
+    return result
+
+
+def fit_air_flow(pressure, t, target, weights, kind, exponent, mode, reference, timing, budget):
+    """Reference: a,Pstar,Mc; T2: a,Mc; F: a,Pstar,s0 with fold-fixed Mc."""
+    root = np.sqrt(weights)
+    template = np.array(reference, dtype=float)
+    lower = np.array([np.log(.001), np.log(.1 if not kind else 10*D1_PEAK_RATIO), np.log(.01), 0.])
+    upper = np.array([np.log(20.), np.log(100. if not kind else 1e6*D1_PEAK_RATIO), np.log(1000.), 1.])
+    if mode == "REFERENCE":
+        free = np.array([0, 1, 2]); template[3] = 0.
+        candidates = [template.copy(), np.array([2., 12. if not kind else 300*D1_PEAK_RATIO, 150., 0.])]
+    elif mode == "T2":
+        free = np.array([0, 2]); template[1], template[3] = timing[2], timing[3]
+        candidates = [template.copy() for _ in range(2)]
+        candidates[0][2], candidates[1][2] = 20., 300.
+    else:
+        free = np.array([0, 1, 3])
+        candidates = [template.copy(), template.copy()]
+        for c, s in zip(candidates, (.2, .8)):
+            c[1] *= .8; c[3] = s
+    z = template.copy(); z[:3] = np.log(z[:3])
+
+    def evaluate(x):
+        trial = z.copy(); trial[free] = x; trial[:3] = np.exp(trial[:3])
+        q, jac = air_endpoint(trial, pressure, t, kind, exponent)
+        return (q-target)*root, jac[:, free]*root[:, None]
+
+    starts = []
+    for c in candidates:
+        c[:3] = np.log(c[:3]); starts.append(c[free])
+    best = _b0d_solve(evaluate, starts, lower[free], upper[free], budget)
+    z[free] = best; z[:3] = np.exp(z[:3])
+    return z
+
+
+def flow_specs():
+    specs = {"B1": (-1, 0, "REFERENCE", None), "C4": (0, 0, "REFERENCE", "W1"),
+             "D1": (1, 0, "REFERENCE", "WD1")}
+    for name, (kind, m) in timing_specs().items():
+        if name != "W0":
+            specs["T2-"+name] = (kind, m, "T2", name)
+    for suffix, m in (("", 3), ("-m2", 2), ("-m4", 4)):
+        for name, kind, timing in (("F1", 0, "W2"), ("F2", 1, "WD2")):
+            specs[name+suffix] = (kind, m, "F", timing+suffix)
+    return specs
+
+
+def timing_peak(parameters, kind, exponent):
+    if kind == -1:
+        a, b, c = parameters
+        p = np.clip(-b/(2*c), 1., 13.) if c > 0 else (1. if b+14*c > 0 else 13.)
+        return float(p)
+    return conductance_peak(parameters[2], parameters[3], exponent, kind)
+
+
+def air_joint_fit(brews, course, pressure, delay, sample, budget):
+    """Full-cohort coefficients are descriptive only; all scores use LOPO fits.
+
+    Each bootstrap repeats both observables' calibrations. A fold's timing,
+    reference Mc and hydraulic coefficients use only its training brews.
+    """
+    n = len(brews.ids)
+    timing = {m: {"prediction": np.empty(n), "by_fold": {}} for m in timing_specs()}
+    flow = {m: {"endpoint": np.empty(n), "trends": np.empty(n), "by_fold": {}} for m in flow_specs()}
+    fit_t = np.linspace(0., 100., 201)
+    fit_p = np.array([np.interp(fit_t, brews.t, p) for p in brews.pressure])
+    for held in [None, *brews.groups]:
+        train = np.flatnonzero(sample > 0) if held is None else np.flatnonzero(
+            (sample > 0) & (brews.condition != brews.condition[held[0]]))
+        weights = np.array([sample[i]/np.sum(brews.condition == brews.condition[i]) for i in train])
+        weights /= weights.sum()
+        fold = "DESCRIPTIVE_ALL" if held is None else brews.fold[held[0]]
+        for model, (kind, m) in timing_specs().items():
+            coef = fit_timing(pressure[train], delay[train], weights, kind, m, budget)
+            timing[model]["by_fold"][fold] = coef.tolist()
+            if held is not None:
+                timing[model]["prediction"][held] = timing_predict(coef, pressure[held], kind, m)
+        references = {}
+        for model, (kind, m, mode, timed) in flow_specs().items():
+            if model == "B1":
+                coef = A.fit("B1", brews.pressure[train], brews.t, brews.target[train], weights, budget)
+            else:
+                reference = np.array([1., 5. if kind == 0 else 200*D1_PEAK_RATIO, 60., 0.]) if mode == "REFERENCE" else references[kind]
+                coef = fit_air_flow(fit_p[train], fit_t, brews.target[train], weights, kind, m, mode,
+                                    reference, timing[timed]["by_fold"][fold], budget)
+                if mode == "REFERENCE":
+                    references[kind] = coef
+            flow[model]["by_fold"][fold] = coef.tolist()
+            if held is not None:
+                if model == "B1":
+                    q = predict_course("B1", coef, course.pressure[held], course.t)[0]
+                    flow[model]["endpoint"][held] = A.predict("B1", coef, brews.pressure[held], brews.t)
+                    flow[model]["trends"][held] = (q*course.late_weights[held]).sum(axis=1)
+                else:
+                    flow[model]["endpoint"][held] = air_endpoint(coef, brews.pressure[held], brews.t, kind, m)[0]
+                    flow[model]["trends"][held] = air_trends(coef, course.pressure[held], course.t, course.late_weights[held], kind, m)
+    return {"timing": timing, "flow": flow}
+
+
+def _air_refit(arguments):
+    brews, course, pressure, delay, sample, deadline = arguments
+    result = air_joint_fit(brews, course, pressure, delay, sample,
+                           A.FitBudget(max(0., deadline-time.monotonic())))
+    timing, flow = {}, {}
+    for model, (kind, m) in timing_specs().items():
+        coef = result["timing"][model]["by_fold"]["DESCRIPTIVE_ALL"]
+        timing[model] = {"parameters": coef, "minimum": timing_peak(coef, kind, m)}
+    for model, (kind, m, _, _) in flow_specs().items():
+        r = result["flow"][model]
+        coef = r["by_fold"]["DESCRIPTIVE_ALL"]
+        flow[model] = {"parameters": coef, "response": refit_response(brews, r["endpoint"], sample),
+                       "trends": condition_means(brews, r["trends"], sample).tolist(),
+                       "conductance_peak": conductance_peak(coef[1], coef[3], m, kind) if kind >= 0 else None}
+    return {"timing": timing, "flow": flow}
+
+
+def b0d_onsets(brews, raw):
+    """Reuse the detector and verify against every primary B0c onset aggregate."""
+    detections, pressure, _ = measure_onsets(brews, raw)
+    delay = detections[:, 1]
+    if not np.isfinite(delay).all():
+        raise ValueError("B0c primary onset cohort is incomplete")
+    rows = A.read_csv(B0C_OUT / "ONSET.csv")
+    for r in rows:
+        if r["check"] == "condition onset" and float(r["threshold scale"]) == 1:
+            group = brews.condition == float(r["pressure condition bar"])
+            np.testing.assert_allclose(delay[group].mean(), float(r["delay mean s"]), atol=1e-12)
+            assert int(r["detected"]) == int(group.sum())
+    return delay, pressure
+
+
+def _interval_overlap(left, right):
+    return max(left[0], right[0]) <= min(left[1], right[1])
+
+
+def air_replay(brews, course, pressure, saved):
+    """Reproduce scored predictions using aggregate fold coefficients only."""
+    result = {"timing": {}, "flow": {}}
+    for model, (kind, m) in timing_specs().items():
+        bank = saved["timing"][model]["by_fold"]
+        prediction = np.empty(len(brews.ids))
+        for group in brews.groups:
+            prediction[group] = timing_predict(bank[brews.fold[group[0]]], pressure[group], kind, m)
+        result["timing"][model] = {"prediction": prediction, "by_fold": bank}
+    for model, (kind, m, _, _) in flow_specs().items():
+        bank = saved["flow"][model]["by_fold"]
+        endpoint, trends = np.empty(len(brews.ids)), np.empty(len(brews.ids))
+        for group in brews.groups:
+            coef = np.asarray(bank[brews.fold[group[0]]])
+            if model == "B1":
+                endpoint[group] = A.predict(model, coef, brews.pressure[group], brews.t)
+                q = predict_course(model, coef, course.pressure[group], course.t)[0]
+                trends[group] = (q*course.late_weights[group]).sum(axis=1)
+            else:
+                endpoint[group] = air_endpoint(coef, brews.pressure[group], brews.t, kind, m)[0]
+                trends[group] = air_trends(coef, course.pressure[group], course.t, course.late_weights[group], kind, m)
+        result["flow"][model] = {"endpoint": endpoint, "trends": trends, "by_fold": bank}
+    return result
+
+
+def air_numerical_checks(brews, original, precise):
+    fit_t = np.linspace(0., 100., 201)
+    fit_p = np.array([np.interp(fit_t, brews.t, p) for p in brews.pressure])
+    rows = {}
+    for model, (kind, m, _, _) in flow_specs().items():
+        prediction = np.empty(len(brews.ids))
+        for group in brews.groups:
+            coef = np.asarray(precise["flow"][model]["by_fold"][brews.fold[group[0]]])
+            prediction[group] = A.predict("B1", coef, fit_p[group], fit_t) if kind == -1 else air_endpoint(coef, fit_p[group], fit_t, kind, m)[0]
+        rows[model] = {"maximum endpoint integration difference g/s": float(np.max(np.abs(
+            prediction-precise["flow"][model]["endpoint"]))),
+            "maximum late-trend grid difference g/s/s": float(np.max(np.abs(
+                original["flow"][model]["trends"]-precise["flow"][model]["trends"])))}
+    return rows
+
+
+def air_rows(brews, course, delay, point, draws, scenario):
+    """Intervals of descriptive material scales and matched conductance peaks
+    are distinct from refitted LOPO full-model endpoint peak intervals.
+    """
+    timing_rows, flow_rows, timing_intervals, flow_intervals = [], [], {}, {}
+    loss = lambda se: float(np.mean([np.sqrt(se[g].mean()) for g in brews.groups]))
+    source = "Waszkiewicz et al. (2025), doi:10.5281/zenodo.18046315, CC-BY-4.0"
+    for model, (kind, m) in timing_specs().items():
+        r = point["timing"][model]; coef = r["by_fold"]["DESCRIPTIVE_ALL"]
+        values = np.array([d["timing"][model]["parameters"] for d in draws])
+        interval = A.interval([d["timing"][model]["minimum"] for d in draws])
+        timing_intervals[model] = interval
+        timing_rows.append({"scenario": scenario, "candidate": model, "m": m,
+                            "delay RMSE s": loss((r["prediction"]-delay)**2),
+                            "Pstar timing bar": coef[2] if kind >= 0 else "",
+                            "Pstar timing interval bar": json.dumps(A.interval(values[:, 2])) if kind >= 0 else "",
+                            "minimum delay pressure bar": timing_peak(coef, kind, m),
+                            "minimum delay pressure interval bar": json.dumps(interval),
+                            "s0 interval": json.dumps(A.interval(values[:, 3])) if m else "",
+                            "t0 interval s": json.dumps(A.interval(values[:, 0])) if kind >= 0 else "",
+                            "parameters by fold": json.dumps(r["by_fold"]),
+                            "eligibility": "EXPLORATORY; four timing parameters" if m else "REFERENCE" if kind == -1 else "THREE PARAMETERS",
+                            "refit count": len(draws), "seed": B0D_SEED, "source": source})
+    for model, (kind, m, _, _) in flow_specs().items():
+        if kind >= 0:
+            flow_intervals[model] = A.interval([d["flow"][model]["conductance_peak"] for d in draws])
+    baseline = point["flow"]["B1"]["endpoint"]-brews.target
+    observed = condition_means(brews, course.observed_trend, np.ones(len(delay)))
+    for model, (kind, m, mode, timed) in flow_specs().items():
+        r = point["flow"][model]; coef = r["by_fold"]["DESCRIPTIVE_ALL"]
+        error = r["endpoint"]-brews.target
+        paired = paired_course_loss(brews, np.array([baseline**2, error**2]), B0D_SEED)
+        delta = A.interval(paired[:, 1]-paired[:, 0]); comparison = A.comparison(delta)
+        response = A.response_diagnostics(brews, r["endpoint"], seed=B0D_SEED)
+        slope_interval = A.interval([d["flow"][model]["response"][0] for d in draws])
+        peak_interval = A.interval([d["flow"][model]["response"][1] for d in draws])
+        trends = condition_means(brews, r["trends"], np.ones(len(delay)))
+        agreement = sum(mean_trend_sign(a) == mean_trend_sign(b) for a, b in zip(trends, observed))
+        # T2 checks independent flow-fitted coefficients, not its own fixed
+        # timing coefficients (whose agreement would be true by construction).
+        check_model = model
+        if mode == "T2":
+            check_model = ("F1" if kind == 0 else "F2")+("" if m == 3 else f"-m{m}") if m else ("C4" if kind == 0 else "D1")
+        overlap = _interval_overlap(flow_intervals[check_model], timing_intervals[timed]) if timed else False
+        eligible = scenario == "RAW PRIMARY" and "-m" not in model and not (mode == "T2" and m)
+        passed = overlap and eligible and b0b_pass(model, comparison, {"slope": slope_interval, "peak": peak_interval}, agreement)
+        row = {"scenario": scenario, "candidate": model, "m": m, "fit target": "FLOW ENDPOINTS",
+               "endpoint RMSE g/s": loss(error**2), "endpoint RMSE interval": json.dumps(A.interval(paired[:, 1])),
+               "delta versus B1 g/s": loss(error**2)-loss(baseline**2), "delta interval": json.dumps(delta),
+               "COMPARISON": comparison, "CAPABILITY": A.capability(A.interval(paired[:, 1]), response["slope"]),
+               "slope g/s/bar": response["slope"], "slope interval refit": json.dumps(slope_interval),
+               "full-model peak nominal bar": response["peak"], "full-model peak interval refit": json.dumps(peak_interval),
+               "late-trend agreement": f"{agreement}/11", "late-trend means g/s/s": json.dumps(trends.tolist()),
+               "late-trend intervals refit": json.dumps([A.interval([d["flow"][model]["trends"][j] for d in draws]) for j in range(11)]),
+               "Pstar compaction flow bar": coef[1] if kind >= 0 else "",
+               "Pstar compaction flow interval bar": json.dumps(A.interval([d["flow"][model]["parameters"][1] for d in draws])) if kind >= 0 else "",
+               "conductance peak flow bar": conductance_peak(coef[1], coef[3], m, kind) if kind >= 0 else "",
+               "conductance peak flow interval bar": json.dumps(flow_intervals[model]) if kind >= 0 else "",
+               "matched timing law": timed or "", "conductance peak timing interval bar": json.dumps(timing_intervals[timed]) if timed else "",
+               "independent flow consistency candidate": check_model if timed else "",
+               "independent flow consistency interval bar": json.dumps(flow_intervals[check_model]) if timed else "",
+               "Pstar flow estimation": "FIXED FROM TRAINING TIMING" if mode == "T2" else "FLOW FIT",
+               "Pstar compaction timing interval bar": json.dumps(A.interval([d["timing"][timed]["parameters"][2] for d in draws])) if timed else "",
+               "s0 flow": coef[3] if kind >= 0 else "",
+               "s0 flow interval": json.dumps(A.interval([d["flow"][model]["parameters"][3] for d in draws])) if kind >= 0 else "",
+               "Pstar overlap": "Y" if overlap else "N", "PASS": "Y" if passed else "N",
+               "parameters by fold": json.dumps(r["by_fold"]), "refit count": len(draws), "seed": B0D_SEED,
+               "eligibility": "PRIMARY" if eligible else "EXPLORATORY TIMING TRANSFER" if mode == "T2" and m else "SENSITIVITY",
+               "source": source}
+        if kind == 1:
+            alternate = ("W2"+("" if m == 3 else f"-m{m}")) if m else "W1"
+            row["exponential timing law"] = alternate
+            row["exponential timing peak interval bar"] = json.dumps(timing_intervals[alternate])
+            row["exponential timing overlap"] = "Y" if _interval_overlap(flow_intervals[check_model], timing_intervals[alternate]) else "N"
+        for label, low, high in (("1-3.5", 1., 3.5), ("4-6", 4., 6.)):
+            means = condition_means(brews, error, np.ones(len(delay)))
+            row[f"endpoint residual {label} bar g/s"] = float(means[(np.unique(brews.condition) >= low) & (np.unique(brews.condition) <= high)].mean())
+        flow_rows.append(row)
+    # Only an exponent-shape prior was found: it already fixes m=3. These
+    # requested additional rows are explicitly duplicates, not new evidence.
+    for model in ("F1", "F2"):
+        row = dict(next(r for r in flow_rows if r["candidate"] == model))
+        row["candidate"] += "-PRIOR"
+        row["prior constraint"] = "Analog m=3 only; no source bound on s0; identical to m=3 row"
+        flow_rows.append(row)
+    return timing_rows, flow_rows
+
+
+def air_screen(brews, observed_flow, raw, out, count, prior, workers, resume):
+    if count < 200:
+        raise ValueError("B0d requires at least 200 whole-brew refits")
+    budget = A.FitBudget(); budget.elapsed = prior
+    delay, pressure = b0d_onsets(brews, raw)
+    timing_rows = A.read_csv(out / "TIMING_FITS.csv") if resume and (out / "TIMING_FITS.csv").exists() else []
+    flow_rows = A.read_csv(out / "RESULT_TABLE.csv") if resume and (out / "RESULT_TABLE.csv").exists() else []
+    for view, scenario in enumerate(("RAW PRIMARY", "BASKET SENSITIVITY")):
+        if any(r["scenario"] == scenario for r in flow_rows):
+            continue
+        course = load_course(brews, raw, step=.1, observed_flow=observed_flow, basket=bool(view))
+        coarse = load_course(brews, raw, observed_flow=observed_flow, basket=bool(view))
+        view_brews = course.brews
+        point = air_joint_fit(view_brews, course, pressure[:, view], delay, np.ones(len(delay)), budget)
+        # Local derived checkpoints contain no raw source records.
+        path = A.ROOT / f".b0-b0d-point-{view}.json"
+        path.write_text(json.dumps({k: {m: {f: v.tolist() if isinstance(v, np.ndarray) else v for f, v in r.items()}
+                                            for m, r in group.items()} for k, group in point.items()}))
+        print(json.dumps({"point_complete": scenario, "fit_seconds": budget.elapsed}), flush=True)
+        started = time.monotonic(); deadline = started+budget.limit-budget.elapsed
+        args = [(view_brews, course, pressure[:, view], delay, sample, deadline)
+                for sample in brew_samples(brews, count, B0D_SEED)]
+        executor = ProcessPoolExecutor(max_workers=workers, mp_context=multiprocessing.get_context("spawn"))
+        draws = []
+        try:
+            for result in executor.map(_air_refit, args, chunksize=1):
+                draws.append(result)
+                if len(draws) % 10 == 0:
+                    print(json.dumps({"scenario": scenario, "joint_refits": len(draws), "seconds": time.monotonic()-started}), flush=True)
+        finally:
+            executor.shutdown(wait=True, cancel_futures=True)
+            budget.elapsed += time.monotonic()-started
+        (A.ROOT / f".b0-b0d-refits-{view}.json").write_text(json.dumps(draws))
+        rough = air_replay(view_brews, coarse, pressure[:, view], point)
+        numerics = air_numerical_checks(view_brews, rough, point)
+        tr, fr = air_rows(view_brews, course, delay, point, draws, scenario)
+        for r in fr:
+            r["cumulative fitting seconds"] = budget.elapsed
+            r.update(numerics[r["candidate"].removesuffix("-PRIOR")])
+        timing_rows += tr; flow_rows += fr
+        write_csv(out / "TIMING_FITS.csv", timing_rows); write_csv(out / "RESULT_TABLE.csv", flow_rows)
+        print(json.dumps({"completed": scenario, "fit_seconds": budget.elapsed,
+                          "results": [{k: r[k] for k in ("candidate", "endpoint RMSE g/s", "COMPARISON", "Pstar overlap", "PASS")} for r in fr]}), flush=True)
+    return timing_rows, flow_rows, budget.elapsed
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--ewp", type=Path, required=True)
@@ -1458,6 +1982,7 @@ def main():
     mode.add_argument("--timecourse-checks-only", action="store_true", help="B0b T1--T3; stored fits only")
     mode.add_argument("--onset-only", action="store_true", help="B0c T1 native onset detection and power law")
     mode.add_argument("--swelling-screen", action="store_true", help="B0c T1--T4; raw primary, onset +2 s")
+    mode.add_argument("--air-screen", action="store_true", help="B0d timing-only and trapped-air endpoint screen")
     parser.add_argument("--refits", type=int, default=200)
     parser.add_argument("--prior-fit-seconds", type=float, default=0,
                         help="Carry previous fitting time into the two-hour limit")
@@ -1466,6 +1991,14 @@ def main():
     args = parser.parse_args()
     brews = A.load_brews(args.data, args.ewp)
     q = flow_history(brews, args.data)
+    if args.air_screen:
+        try:
+            _, _, elapsed = air_screen(brews, q, args.raw, B0D_OUT if args.out == OUT else args.out,
+                                        args.refits, args.prior_fit_seconds, args.workers, args.resume)
+            print(json.dumps({"total_fit_seconds": elapsed}), flush=True)
+        except TimeoutError:
+            raise SystemExit("Fitting exceeded two hours: STOP; incomplete rows remain unscored")
+        return
     if args.onset_only or args.swelling_screen:
         out = B0C_OUT if args.out == OUT else args.out
         if args.onset_only:
