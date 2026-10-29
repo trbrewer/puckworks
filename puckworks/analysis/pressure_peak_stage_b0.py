@@ -39,6 +39,36 @@ containing zero does not establish flatness. The per-pressure smooth curve uses
 the evaluated brews and is an explicitly ineligible, optimistic fit ceiling.
 Fast jamming uses integration steps that resolve its relaxation rate, preventing
 numerical overshoot below Qcrit. The old B0 mode and saved results are unchanged.
+
+B0c --onset-only / --swelling-screen use seed 20261031. Native sustained outflow
+requires baseline-relative mass >0.5 g AND smoothed flow >0.1 g/s continuously
+for 2 s; onset is the start of that interval. The baseline is median cup mass
+in stable pressure -2--0 s. Both thresholds have joint x0.5/x1.5 sensitivities.
+The inherited stable-pressure clock starts after the last out-of-band sample
+among the first 501 records: the band is median pressure +/-min(10%,0.5 bar).
+Terminal exclusions and the source 31-point Savitzky--Golay observer are retained.
+This is operational cup-outflow timing, including transport and detection lag;
+it is not a direct image of front breakthrough or grain-wetting duration.
+
+T1 fits log(delay)=log(c)-n*log(P/bar), equal conditions and equal brews, with
+unconstrained n and 1000 whole-brew bootstraps. P is median stable +0--2-s line
+pressure; observed-flow-derived basket pressure is sensitivity only. T2 changes
+only the scoring mask to measured onset +2 s, never state initialization or the
+SCI-MD-010 100-s endpoint. E1/E3 predict onset from training-fold T1 coefficients;
+E2 uses measured onset and is diagnostic/ineligible. All three apply exp(-delay/
+tau) once to conductance inside the original delivered-mass evolution. Mc is
+fixed from that fold's C4/D1 reference fit. There are three free hydraulic
+parameters, plus estimated nuisance inputs; 200 whole-brew
+refits re-estimate those inputs inside each training fold. The 10--240-s weak
+tau bound comes from the documented Hargarten grain-swelling proxy, not a
+conductance-rate measurement. B0c never uses the stop/restart brew.
+
+Example: python -m puckworks.analysis.pressure_peak_stage_b0 --swelling-screen
+--ewp /path/to/espresso-whole-pull --raw /path/to/upstream --workers 16 --refits 200
+with OPENBLAS_NUM_THREADS=1 and NUMBA_NUM_THREADS=1. Public output is aggregate
+only; individual onset detections and point-fit checkpoints stay local. Fixed-fit
+paired loss intervals resample conditions then brews; refit response intervals
+resample brews within conditions. Peaks retain nominal condition coordinates.
 """
 
 from __future__ import annotations
@@ -754,8 +784,8 @@ def course_folds(model, course, multiplicity, budget):
     return values, endpoint, coefficients
 
 
-def brew_samples(brews, count):
-    rng = np.random.default_rng(B0B_SEED)
+def brew_samples(brews, count, seed=B0B_SEED):
+    rng = np.random.default_rng(seed)
     samples = []
     for _ in range(count):
         multiplicity = np.zeros(len(brews.ids), dtype=int)
@@ -856,7 +886,7 @@ def existing_timecourse(brews, observed_flow, raw, out):
     return residuals, trends
 
 
-def paired_course_loss(brews, squared):
+def paired_course_loss(brews, squared, seed=B0B_SEED):
     """SCI-MD-010 paired conditions-then-brews bootstrap, B0b's new seed.
 
     squared has model x brew entries: endpoint squared error OR each brew's
@@ -864,7 +894,7 @@ def paired_course_loss(brews, squared):
     RMSE, not pooled RMSE. No time points are resampled as independent units.
     """
     groups = [np.flatnonzero(np.array(brews.fold) == f).tolist() for f in sorted(set(brews.fold))]
-    rng = random.Random(B0B_SEED)
+    rng = random.Random(seed)
     draws = []
     for _ in range(1000):
         selected = [rng.choice(groups) for _ in groups]
@@ -1039,6 +1069,382 @@ def timecourse_screen(brews, observed_flow, raw, out, refits, prior, workers, re
     return rows, budget.elapsed
 
 
+# B0c: scoring starts at measured sustained outflow +2 s. State histories still
+# start at stable pressure, preserving the B0b reference equations. Only this
+# additive mode uses the onset law and swelling conductance multiplier.
+B0C_SEED = 20261031
+B0C_OUT = A.ROOT / "docs/research/PRESSURE_PEAK_STAGE_B0C"
+B0C_MODELS = ("B1", "C4", "D1", "E1", "E2", "E3")
+TAU_BOUNDS = (10., 240.)  # Weak proxy bound; provenance/limitations in SWELLING_PRIOR.md.
+
+
+def sustained_onset(t, mass, flow, mass_threshold=.5, flow_threshold=.1, hold=2.):
+    """First qualifying interval's START, not its confirmation time.
+
+    Inputs begin at first stable pressure; mass is relative to the pre-stable
+    baseline. Both strict thresholds must hold continuously for at least hold
+    seconds on native samples. An undetected onset is NaN, never imputed.
+    """
+    good = (mass > mass_threshold) & (flow > flow_threshold)
+    start = None
+    for j, qualifies in enumerate(good):
+        if not qualifies:
+            start = None
+        elif start is None:
+            start = j
+        if start is not None and t[j]-t[start] >= hold:
+            return float(t[start])
+    return float("nan")
+
+
+def measure_onsets(brews, raw):
+    """Read originals; preserve B0's stable alignment and terminal detector.
+
+    Pressure input to the onset law is the median during stable +0--2 s, before
+    outflow. Basket pressure subtracts the same observed-flow calibration used
+    by B0b. Individual detections stay in an ignored local derived-data file.
+    """
+    detections, pressure, stable, private = [], [], [], []
+    for shot in brews.ids:
+        t0, p0, m0, _ = raw_trace(raw / "measurements_time_dependent" / f"{shot}.txt")
+        t, p, q, _ = clean_course(t0, p0, m0)
+        pre = (t0 >= -2) & (t0 <= 0)
+        baseline = np.median(m0[pre]) if pre.any() else m0[0]
+        mass = np.interp(t, t0, m0)-baseline
+        onset = [sustained_onset(t, mass, q, .5*s, .1*s) for s in (.5, 1., 1.5)]
+        early = t <= 2
+        a, b, c = A.MACHINE
+        pressures = [float(np.median(p[early])),
+                     float(np.median(np.maximum(p-a*q*q-b*q-c, 0.)[early]))]
+        detections.append(onset)
+        pressure.append(pressures)
+        stable.append(float(-t0[0]))
+        private.append({"brew": shot, "stable elapsed from first record s": -t0[0],
+                        "outflow elapsed s": -t0[0]+onset[1], "delay s": onset[1],
+                        "delay lower thresholds s": onset[0], "delay upper thresholds s": onset[2]})
+    write_csv(A.ROOT / ".b0-b0c-onsets.csv", private)
+    return np.array(detections), np.array(pressure), np.array(stable)
+
+
+def onset_power_fit(brews, pressure, delay, train, multiplicity):
+    """Equal-condition weighted log fit: delay=c*(P/bar)^(-n).
+
+    n is unconstrained: no inverse-pressure conclusion is built into the fit.
+    No hydraulic target or held-out onset enters a training-fold calibration.
+    """
+    if not np.isfinite(delay[train]).all() or np.any(delay[train] <= 0):
+        raise ValueError("Power law requires detected positive delays for every selected brew")
+    weight = np.array([multiplicity[i]/np.sum(brews.condition == brews.condition[i]) for i in train])
+    design = np.column_stack([np.ones(len(train)), -np.log(pressure[train])])
+    value = np.linalg.lstsq(design*np.sqrt(weight[:, None]),
+                           np.log(delay[train])*np.sqrt(weight), rcond=None)[0]
+    return np.array([np.exp(value[0]), value[1]])
+
+
+def onset_report(brews, raw, out):
+    detections, pressure, stable = measure_onsets(brews, raw)
+    samples = brew_samples(brews, 1000, B0C_SEED)
+    rows = []
+    for j, scale in enumerate((.5, 1., 1.5)):
+        for view, name in enumerate(("RAW PRIMARY", "BASKET SENSITIVITY")):
+            delay = detections[:, j]
+            for group in brews.groups:
+                found = group[np.isfinite(delay[group])]
+                boot = [np.average(delay[found], weights=m[found]) for m in samples
+                        if m[found].sum() > 0]
+                rows.append({"check": "condition onset", "pressure view": name,
+                             "threshold scale": scale, "pressure condition bar": brews.condition[group[0]],
+                             "mass threshold g": .5*scale, "flow threshold g/s": .1*scale, "hold s": 2.,
+                             "brews": len(group), "detected": len(found), "undetected": len(group)-len(found),
+                             "early pressure mean bar": float(pressure[group, view].mean()),
+                             "stable elapsed mean s": float(stable[group].mean()),
+                             "outflow elapsed mean s": float(np.mean(stable[found]+delay[found])) if len(found) else "",
+                             "delay mean s": float(delay[found].mean()) if len(found) else "",
+                             "delay interval s": json.dumps(A.interval(boot)) if boot else "",
+                             "interpretation": "FULL COHORT" if len(found) == len(group) else "UNDETECTED; no imputation"})
+            if np.isfinite(delay).all():
+                train = np.arange(len(delay))
+                coef = onset_power_fit(brews, pressure[:, view], delay, train, np.ones(len(delay)))
+                fits = np.array([onset_power_fit(brews, pressure[:, view], delay, train, m) for m in samples])
+                rows.append({"check": "power law", "pressure view": name, "threshold scale": scale,
+                             "c seconds at 1 bar": coef[0], "c interval": json.dumps(A.interval(fits[:, 0])),
+                             "n": coef[1], "n interval": json.dumps(A.interval(fits[:, 1])),
+                             "interpretation": "Equal-condition log fit; n unconstrained; 1000 brew bootstraps"})
+            else:
+                rows.append({"check": "power law", "pressure view": name, "threshold scale": scale,
+                             "interpretation": "NOT ESTIMABLE ON FULL COHORT: undetected onsets"})
+    for row in rows:
+        row["source"] = "Waszkiewicz et al. (2025), doi:10.5281/zenodo.18046315, CC-BY-4.0; native traces"
+        row["seed"] = B0C_SEED
+    write_csv(out / "ONSET.csv", rows)
+    if not np.isfinite(detections[:, 1]).all():
+        raise ValueError("Primary onsets incomplete: stop before trace refits; no cohort changes")
+    return detections[:, 1], pressure
+
+
+def retime_course(course, delay):
+    """Only the loss mask changes; neither pressure/state history nor endpoint."""
+    mask = (course.t[None, :] >= delay[:, None]+2) & (course.t[None, :] <= course.ends[:, None])
+    if np.any(mask.sum(axis=1) == 0):
+        raise ValueError("Empty post-onset trace")
+    return replace(course, mask=mask)
+
+
+@njit(cache=True)
+def _swell_course(parameters, pressure, t, delay, mc, kind):
+    values = np.empty(pressure.shape)
+    jac = np.empty((pressure.shape[0], pressure.shape[1], 3))
+    for i in range(len(pressure)):
+        ratio = delay[i]/parameters[2]
+        base = np.array([parameters[0]*np.exp(-ratio), parameters[1], mc])
+        q, dj = _course_ode(pressure[i:i+1], t, base, kind)
+        values[i] = q[0]
+        jac[i, :, 0] = dj[0, :, 0]
+        jac[i, :, 1] = dj[0, :, 1]
+        jac[i, :, 2] = dj[0, :, 0]*ratio
+    return values, jac
+
+
+def predict_swelling(model, parameters, pressure, t, delay, mc):
+    """S multiplies conductance inside both Q and dM/dt, once per brew.
+
+    E1/E2 use C4, E3 uses D1; Mc is fixed from the corresponding training-fold
+    reference. Three free hydraulic parameters: a, compaction scale, tau.
+    The onset law and Mc are estimated nuisance inputs, not free hydraulic
+    parameters; every refit resamples and re-estimates them within training.
+    """
+    return _swell_course(np.asarray(parameters, dtype=float), np.maximum(pressure, 0.), t,
+                         np.asarray(delay), float(mc), 1 if model == "E3" else 0)
+
+
+def fit_swelling(model, course, train, multiplicity, delay, reference, budget):
+    started = time.monotonic()
+    p, target, mask = course.pressure[train], course.flow[train], course.mask[train]
+    cond = course.brews.condition
+    weight = np.array([multiplicity[i]/(len(course.brews.groups)-1)/np.sum(cond == cond[i]) for i in train])
+    root = np.sqrt(weight[:, None]*mask/mask.sum(axis=1)[:, None])
+    base = "D1" if model == "E3" else "C4"
+    lower = np.array([*FIT_SETTINGS[base][0][:2], TAU_BOUNDS[0]])
+    upper = np.array([*FIT_SETTINGS[base][1][:2], TAU_BOUNDS[1]])
+    cache_x, cache = None, None
+
+    def evaluate(x):
+        nonlocal cache_x, cache
+        budget.check(started)
+        if cache_x is None or not np.array_equal(cache_x, x):
+            cache_x = x.copy()
+            q, jac = predict_swelling(model, np.exp(x), p, course.t, delay[train], reference[2])
+            cache = ((q-target)*root).ravel(), (jac*root[..., None]).reshape(-1, 3)
+        return cache
+
+    try:
+        fits = []
+        for tau in (15., 60., 200.):
+            initial = np.clip([reference[0]*np.exp(np.median(delay[train])/tau), reference[1], tau],
+                              lower*1.00001, upper/1.00001)
+            fits.append(least_squares(lambda x: evaluate(x)[0], np.log(initial),
+                                      jac=lambda x: evaluate(x)[1], bounds=(np.log(lower), np.log(upper)),
+                                      x_scale="jac", ftol=1e-7, xtol=1e-7, gtol=1e-7, max_nfev=500))
+        valid = [f for f in fits if f.success and np.isfinite(f.fun).all()]
+        if not valid:
+            best = min(fits, key=lambda f: f.cost)
+            retry = least_squares(lambda x: evaluate(x)[0], best.x, jac=lambda x: evaluate(x)[1],
+                                  bounds=(np.log(lower), np.log(upper)), method="dogbox", x_scale="jac",
+                                  ftol=1e-7, xtol=1e-7, gtol=1e-7, max_nfev=1500)
+            if not retry.success or not np.isfinite(retry.fun).all():
+                raise RuntimeError(f"{model}: swelling fit failed; no resample omitted")
+            valid = [retry]
+        return np.exp(min(valid, key=lambda f: f.cost).x)
+    finally:
+        budget.elapsed += time.monotonic()-started
+
+
+def swelling_folds(course, measured_delay, early_pressure, multiplicity, budget):
+    """Joint folds share reference fits; fixed inputs never use held-out brews."""
+    n = len(course.brews.ids)
+    result = {m: {"q": np.empty_like(course.flow), "endpoint": np.empty(n), "coefficients": {}}
+              for m in B0C_MODELS}
+    # Calibrate onset inputs before any hydraulic fit, separately in each fold.
+    onset_bank = {}
+    for group in course.brews.groups:
+        train = np.flatnonzero((course.brews.condition != course.brews.condition[group[0]]) & (multiplicity > 0))
+        onset_bank[course.brews.fold[group[0]]] = onset_power_fit(
+            course.brews, early_pressure, measured_delay, train, multiplicity)
+    for group in course.brews.groups:
+        train = np.flatnonzero((course.brews.condition != course.brews.condition[group[0]]) & (multiplicity > 0))
+        fold = course.brews.fold[group[0]]
+        onset_coef = onset_bank[fold]
+        predicted_delay = onset_coef[0]*early_pressure**(-onset_coef[1])
+        references = {}
+        for model in B0C_MODELS:
+            if model in {"B1", "C4", "D1"}:
+                coef = fit_course(model, course, train, multiplicity, budget)
+                references[model] = coef
+                q = predict_course(model, coef, course.pressure[group], course.t)[0]
+                endpoint = course_endpoint(model, coef, course.brews.pressure[group], course.brews.t)
+                record = {"free": coef.tolist()}
+            else:
+                ref = references["D1" if model == "E3" else "C4"]
+                delay = measured_delay if model == "E2" else predicted_delay
+                coef = fit_swelling(model, course, train, multiplicity, delay, ref, budget)
+                q = predict_swelling(model, coef, course.pressure[group], course.t, delay[group], ref[2])[0]
+                endpoint = predict_swelling(model, coef, course.brews.pressure[group], course.brews.t,
+                                             delay[group], ref[2])[0][:, -1]
+                record = {"free": coef.tolist(), "Mc_fixed_g": float(ref[2]),
+                          "onset_c_fixed_s": float(onset_coef[0]), "onset_n_fixed": float(onset_coef[1])}
+            result[model]["q"][group] = q
+            result[model]["endpoint"][group] = endpoint
+            result[model]["coefficients"][fold] = record
+    return result
+
+
+def _swelling_refit(arguments):
+    course, delay, pressure, sample, deadline = arguments
+    budget = A.FitBudget(max(0., deadline-time.monotonic()))
+    result = swelling_folds(course, delay, pressure, sample, budget)
+    return {m: {"response": refit_response(course.brews, r["endpoint"], sample),
+                "trends": condition_means(course.brews, (r["q"]*course.late_weights).sum(axis=1), sample)}
+            for m, r in result.items()}
+
+
+def swelling_refits(course, delay, pressure, count, budget, workers):
+    if count < 200:
+        raise ValueError("B0c requires at least 200 whole-brew refits")
+    started = time.monotonic()
+    deadline = started+budget.limit-budget.elapsed
+    args = [(course, delay, pressure, sample, deadline)
+            for sample in brew_samples(course.brews, count, B0C_SEED)]
+    executor = ProcessPoolExecutor(max_workers=workers, mp_context=multiprocessing.get_context("spawn"))
+    results = []
+    try:
+        for value in executor.map(_swelling_refit, args, chunksize=1):
+            results.append(value)
+            if len(results) % 10 == 0:
+                print(json.dumps({"joint_refits_complete": len(results),
+                                  "phase_seconds": time.monotonic()-started}), flush=True)
+    finally:
+        executor.shutdown(wait=True, cancel_futures=True)
+        budget.elapsed += time.monotonic()-started
+    return {model: {"slope": A.interval([r[model]["response"][0] for r in results]),
+                    "peak": A.interval([r[model]["response"][1] for r in results]),
+                    "trends": np.array([r[model]["trends"] for r in results])}
+            for model in B0C_MODELS}
+
+
+def swelling_predict_saved(course, delay, pressure, coefficients):
+    result = {}
+    for model, records in coefficients.items():
+        q, endpoint = np.empty_like(course.flow), np.empty(len(delay))
+        for group in course.brews.groups:
+            record = records[course.brews.fold[group[0]]]
+            coef = record["free"]
+            if model in {"B1", "C4", "D1"}:
+                q[group] = predict_course(model, coef, course.pressure[group], course.t)[0]
+                endpoint[group] = course_endpoint(model, coef, course.brews.pressure[group], course.brews.t)
+            else:
+                d = delay if model == "E2" else record["onset_c_fixed_s"]*pressure**(-record["onset_n_fixed"])
+                q[group] = predict_swelling(model, coef, course.pressure[group], course.t, d[group], record["Mc_fixed_g"])[0]
+                endpoint[group] = predict_swelling(model, coef, course.brews.pressure[group], course.brews.t,
+                                                   d[group], record["Mc_fixed_g"])[0][:, -1]
+        result[model] = {"q": q, "endpoint": endpoint, "coefficients": records}
+    return result
+
+
+def swelling_rows(course, result, scenario, stage, refits=None):
+    brews = course.brews
+    base = result["B1"]["endpoint"]-brews.target
+    samples = brew_samples(brews, 1000, B0C_SEED)
+    observed_means = condition_means(brews, course.observed_trend, np.ones(len(base)))
+    rows = []
+    loss = lambda se: float(np.mean([np.sqrt(se[g].mean()) for g in brews.groups]))
+    for model, r in result.items():
+        error = r["endpoint"]-brews.target
+        trace_error = ((r["q"]-course.flow)*course.mask).sum(axis=1)/course.mask.sum(axis=1)
+        trace_se = ((r["q"]-course.flow)**2*course.mask).sum(axis=1)/course.mask.sum(axis=1)
+        edraw = paired_course_loss(brews, np.array([base**2, error**2]), B0C_SEED)
+        tdraw = paired_course_loss(brews, np.array([trace_se]), B0C_SEED)
+        bounds = A.interval(edraw[:, 1])
+        delta = A.interval(edraw[:, 1]-edraw[:, 0])
+        comparison = A.comparison(delta)
+        response = A.response_diagnostics(brews, r["endpoint"], seed=B0C_SEED)
+        trends = (r["q"]*course.late_weights).sum(axis=1)
+        means = condition_means(brews, trends, np.ones(len(base)))
+        agreement = sum(mean_trend_sign(a) == mean_trend_sign(b) for a, b in zip(means, observed_means))
+        refit = refits[model] if refits is not None else None
+        passed = (model != "E2" and refit is not None and b0b_pass(
+            model, comparison, refit, agreement, scenario == "RAW PRIMARY"))
+        comp_name = "Ydry_bar" if model == "E3" else "Pstar_bar"
+        row = {"scenario": scenario, "stage": stage, "candidate": model,
+               "parameters": json.dumps({"names": PARAMETERS[model] if model in PARAMETERS else
+                                          ["a_g_s_bar", comp_name, "tau_s"], "by_fold": r["coefficients"]}),
+               "baseline": "B1, same scenario and fit stage", "endpoint RMSE g/s": loss(error**2),
+               "endpoint RMSE interval": json.dumps(bounds), "CAPABILITY": A.capability(bounds, response["slope"]),
+               "delta versus B1 g/s": loss(error**2)-loss(base**2), "delta interval": json.dumps(delta),
+               "COMPARISON": comparison, "full-trace RMSE g/s": loss(trace_se),
+               "full-trace RMSE interval": json.dumps(A.interval(tdraw[:, 0])),
+               "slope g/s/bar": response["slope"], "slope interval no-refit": json.dumps(response["slope_interval"]),
+               "slope interval refit": json.dumps(refit["slope"]) if refit else "",
+               "peak nominal bar": response["peak"], "peak interval no-refit": json.dumps(response["peak_interval"]),
+               "peak interval refit": json.dumps(refit["peak"]) if refit else "",
+               "late-trend agreement": f"{agreement}/11", "late-trend means g/s/s": json.dumps(means.tolist()),
+               "late-trend intervals refit": json.dumps([A.interval(refit["trends"][:, j]) for j in range(len(means))]) if refit else "",
+               "refit count": len(refit["trends"]) if refit else 0,
+               "eligibility": "CONDITIONAL; measured onset; ineligible" if model == "E2" else
+               "EXISTING FIT DIAGNOSTIC" if refit is None else "REFERENCE" if model == "B1" else "ELIGIBLE",
+               "PASS": "Y" if passed else "N"}
+        for label, band in (("1-3.5 bar", (1., 3.5)), ("4-6 bar", (4., 6.))):
+            selected = (np.unique(brews.condition) >= band[0]) & (np.unique(brews.condition) <= band[1])
+            for kind, residual in (("endpoint", error), ("trace", trace_error)):
+                center = condition_means(brews, residual, np.ones(len(base)))[selected].mean()
+                draws = [condition_means(brews, residual, s)[selected].mean() for s in samples]
+                row[f"{kind} residual {label} g/s"] = float(center)
+                row[f"{kind} residual {label} interval"] = json.dumps(A.interval(draws))
+        rows.append(row)
+    return rows
+
+
+def swelling_screen(brews, observed_flow, raw, out, count, prior, workers, resume):
+    budget = A.FitBudget()
+    budget.elapsed = prior
+    delay, early_pressure = onset_report(brews, raw, out)
+    rows = A.read_csv(out / "RESULT_TABLE.csv") if resume and (out / "RESULT_TABLE.csv").exists() else []
+    old_rows = A.read_csv(B0B_OUT / "RESULT_TABLE.csv")
+    for view, scenario in enumerate(("RAW PRIMARY", "BASKET SENSITIVITY")):
+        if any(r["scenario"] == scenario and r["stage"] == "T4 REFIT" for r in rows):
+            continue
+        course = retime_course(load_course(brews, raw, basket=bool(view), observed_flow=observed_flow), delay)
+        fine = retime_course(load_course(brews, raw, step=.1, basket=bool(view), observed_flow=observed_flow), delay)
+        existing = {r["candidate"]: {f: {"free": c} for f, c in json.loads(r["parameters"])["by_fold"].items()}
+                    for r in old_rows if r["scenario"] == "T4 "+scenario and r["candidate"] in {"B1", "C4", "D1"}}
+        old_result = swelling_predict_saved(fine, delay, early_pressure[:, view], existing)
+        rows = [r for r in rows if r["scenario"] != scenario]
+        rows += swelling_rows(fine, old_result, scenario, "T2 EXISTING")
+        write_csv(out / "RESULT_TABLE.csv", rows)
+        print(json.dumps({"fitting": scenario, "fit_seconds": budget.elapsed}), flush=True)
+        point = swelling_folds(course, delay, early_pressure[:, view], np.ones(len(delay)), budget)
+        coef = {m: r["coefficients"] for m, r in point.items()}
+        # Ignored checkpoint is derived fit output, never source rows or a record system.
+        (A.ROOT / f".b0-b0c-point-{view}.json").write_text(json.dumps(coef))
+        precise = swelling_predict_saved(fine, delay, early_pressure[:, view], coef)
+        print(json.dumps({"point_fits_complete": scenario, "fit_seconds": budget.elapsed,
+                          "endpoint_RMSE": {m: float(np.mean([np.sqrt(np.mean((r['endpoint'][g]-brews.target[g])**2))
+                                                               for g in brews.groups])) for m, r in precise.items()}}), flush=True)
+        refit = swelling_refits(course, delay, early_pressure[:, view], count, budget, workers)
+        new_rows = swelling_rows(fine, precise, scenario, "T4 REFIT", refit)
+        for row in new_rows:
+            m = row["candidate"]
+            interp = np.array([np.interp(course.t, fine.t, q) for q in precise[m]["q"]])
+            row["maximum 0.5s/0.1s trace difference g/s"] = float(np.max(np.abs(interp-point[m]["q"])[course.mask]))
+            row["cumulative fitting seconds"] = budget.elapsed
+        rows += new_rows
+        write_csv(out / "RESULT_TABLE.csv", rows)
+        print(json.dumps({"completed": scenario, "fit_seconds": budget.elapsed,
+                          "verdicts": [{k: r[k] for k in ("candidate", "endpoint RMSE g/s", "COMPARISON",
+                                        "slope interval refit", "peak interval refit", "late-trend agreement", "PASS")}
+                                       for r in new_rows]}), flush=True)
+    return rows, budget.elapsed
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--ewp", type=Path, required=True)
@@ -1050,6 +1456,8 @@ def main():
     mode.add_argument("--screen", action="store_true")
     mode.add_argument("--timecourse", action="store_true", help="B0b T1--T5; raw pressure primary")
     mode.add_argument("--timecourse-checks-only", action="store_true", help="B0b T1--T3; stored fits only")
+    mode.add_argument("--onset-only", action="store_true", help="B0c T1 native onset detection and power law")
+    mode.add_argument("--swelling-screen", action="store_true", help="B0c T1--T4; raw primary, onset +2 s")
     parser.add_argument("--refits", type=int, default=200)
     parser.add_argument("--prior-fit-seconds", type=float, default=0,
                         help="Carry previous fitting time into the two-hour limit")
@@ -1058,6 +1466,18 @@ def main():
     args = parser.parse_args()
     brews = A.load_brews(args.data, args.ewp)
     q = flow_history(brews, args.data)
+    if args.onset_only or args.swelling_screen:
+        out = B0C_OUT if args.out == OUT else args.out
+        if args.onset_only:
+            onset_report(brews, args.raw, out)
+        else:
+            try:
+                _, elapsed = swelling_screen(brews, q, args.raw, out, args.refits,
+                                             args.prior_fit_seconds, args.workers, args.resume)
+                print(json.dumps({"total_fit_seconds": elapsed}), flush=True)
+            except TimeoutError:
+                raise SystemExit("Fitting exceeded two hours: STOP; incomplete rows remain unscored")
+        return
     if args.timecourse or args.timecourse_checks_only:
         out = B0B_OUT if args.out == OUT else args.out
         if not args.resume:
