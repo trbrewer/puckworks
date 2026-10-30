@@ -105,8 +105,8 @@ def test_replay_hierarchy_and_ramp_are_separate():
     assert result["curve_status"] == "CONSISTENT_IDEALISATION_FOLD_SCORE"
     assert result["score_checks_total"] == 11
     effect = S.ramp_effect(np.full(11, 2.), np.ones(11))
-    assert effect["ramp_effect_median_g_s"] == 1.
-    assert json.loads(effect["ramp_effect_range_g_s"]) == [1., 1.]
+    np.testing.assert_allclose(effect["ramp_effect_median_g_s"], 1., rtol=1e-12, atol=0)
+    np.testing.assert_allclose(json.loads(effect["ramp_effect_range_g_s"]), [1., 1.], rtol=1e-12, atol=0)
 
 
 def test_saved_csv_values_and_cohort_selection_are_reproduced():
@@ -158,7 +158,8 @@ def test_ranking_uses_scored_fractions_then_miss_fractions_then_rmse():
     ranked = S.rank_rows(rows)
     assert [r["candidate"] for r in ranked] == ["two_of_three", "miss_one_of_three", "one_of_two", "two_of_four", "miss_one_of_four", "miss_one_of_two"]
     one = next(r for r in rows if r["candidate"] == "one_of_two")
-    assert one["scored_count"] == 2 and one["meets_fraction"] == .5
+    assert one["scored_count"] == 2
+    np.testing.assert_allclose(one["meets_fraction"], .5, rtol=1e-12, atol=0)
     assert next(r for r in rows if r["candidate"] == "missing")["scored_count"] == 0
 
 
@@ -180,11 +181,24 @@ def test_observed_bootstrap_preserves_saved_condition_means():
     for actual, expected in zip(observed["means"], saved):
         assert actual["pressure_bar"] == expected["pressure"]
         assert actual["mean_g_s"] == pytest.approx(expected["mean"], abs=1e-12)
-    assert observed == S.observed_response()
+    repeated = S.observed_response()
+    assert observed.keys() == repeated.keys()
+    assert observed["bootstrap_count"] == repeated["bootstrap_count"]
+    assert observed["seed"] == repeated["seed"]
+    # roundoff tolerance for cross-version numerics; not a scientific tolerance
+    np.testing.assert_allclose(observed["peak_bar"], repeated["peak_bar"], rtol=1e-12, atol=0)
+    np.testing.assert_allclose(observed["peak_interval_bar"], repeated["peak_interval_bar"], rtol=1e-12, atol=0)
+    assert len(observed["means"]) == len(repeated["means"])
+    for actual, expected in zip(observed["means"], repeated["means"]):
+        assert actual.keys() == expected.keys()
+        assert actual["pressure_bar"] == expected["pressure_bar"]
+        assert actual["brews"] == expected["brews"]
+        np.testing.assert_allclose(actual["mean_g_s"], expected["mean_g_s"], rtol=1e-12, atol=0)
+        np.testing.assert_allclose(actual["interval_g_s"], expected["interval_g_s"], rtol=1e-12, atol=0)
     assert 4 <= observed["peak_bar"] <= 8
     recorded = S.read_rows(S.OUTPUT / "SCORECARD.csv")[0]
-    assert float(recorded["observed_continuous_peak_bar"]) == observed["peak_bar"]
-    assert json.loads(recorded["observed_continuous_peak_interval_bar"]) == observed["peak_interval_bar"]
+    np.testing.assert_allclose(observed["peak_bar"], float(recorded["observed_continuous_peak_bar"]), rtol=1e-12, atol=0)
+    np.testing.assert_allclose(observed["peak_interval_bar"], json.loads(recorded["observed_continuous_peak_interval_bar"]), rtol=1e-12, atol=0)
     assert observed["bootstrap_count"] == 1000 and observed["seed"] == 20261102
 
 
@@ -218,7 +232,7 @@ def test_committed_scorecard_reproduces_saved_values_and_consistency_checks():
             assert len(checks) == 11
             assert sum(c["within_tolerance"] for c in checks) == int(actual["curve_checks_passed"])
             for check in checks:
-                assert check["tolerance_g_s"] == max(.02, .05 * abs(check["saved_endpoint_mean_g_s"]))
+                np.testing.assert_allclose(check["tolerance_g_s"], max(.02, .05 * abs(check["saved_endpoint_mean_g_s"])), rtol=1e-12, atol=0)
                 assert check["within_tolerance"] == (check["deviation_g_s"] <= check["tolerance_g_s"])
         if actual["check_tier"] == "PREDICTION":
             checked = S.replay_check(json.loads(actual["replay_endpoint_means_g_s"]), json.loads(actual["saved_endpoint_reference_g_s"]))
@@ -241,8 +255,8 @@ def test_reported_model_peaks_reproduce_saved_fold_grid_maxima():
         peaks = np.array(json.loads(row["continuous_peak_by_fold_bar"]))
         assert len(peaks) == 11
         np.testing.assert_allclose((peaks - 1) / .05, np.round((peaks - 1) / .05), atol=1e-12)
-        assert float(row["continuous_peak_median_bar"]) == np.median(peaks)
-        assert json.loads(row["continuous_peak_fold_range_bar"]) == [peaks.min(), peaks.max()]
+        np.testing.assert_allclose(np.median(peaks), float(row["continuous_peak_median_bar"]), rtol=1e-12, atol=0)
+        np.testing.assert_allclose([peaks.min(), peaks.max()], json.loads(row["continuous_peak_fold_range_bar"]), rtol=1e-12, atol=0)
         assert row["continuous_peak_interpretation"] == S.peak_interpretation(row)
         if row["check_tier"] == "AGGREGATE":
             assert "weaker check (aggregate only)" in row["continuous_peak_interpretation"]
