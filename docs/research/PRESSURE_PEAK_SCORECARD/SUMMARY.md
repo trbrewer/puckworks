@@ -46,25 +46,29 @@ Grades are MEETS, NEAR or MISSES. There is no overall PASS.
 | C1-exp | A | MEETS | MISSES | MISSES | NOT_SCORED | NOT_SCORED | 2 | cannot say |
 | C3 | A | MEETS | MISSES | MISSES | NOT_SCORED | NOT_SCORED | 3 | cannot say |
 | C4 | A | MEETS | NEAR | NEAR | NOT_SCORED | NOT_SCORED | 3 | higher* |
-| B1 | A | MEETS | NEAR | MISSES | NOT_SCORED | NOT_SCORED | 3 REFERENCE | cannot say |
+| B1 | A | N/A (reference) | NEAR | MISSES | NOT_SCORED | NOT_SCORED | 3 REFERENCE | cannot say |
 | D1 | B0 | MEETS | MEETS | MISSES | NOT_SCORED | NOT_SCORED | 3 | unused |
 | D2 | B0 | MEETS | MISSES | MISSES | NOT_SCORED | NOT_SCORED | 3 | unused |
 | C4 | B0 | MEETS | NEAR | MEETS | NOT_SCORED | NOT_SCORED | 3 | unused |
-| B1 | B0 | MEETS | NEAR | MISSES | NOT_SCORED | NOT_SCORED | 3 REFERENCE | unused |
+| B1 | B0 | N/A (reference) | NEAR | MISSES | NOT_SCORED | NOT_SCORED | 3 REFERENCE | unused |
 | C4 | B0b | NEAR | NEAR | MEETS | MEETS | NOT_SCORED | 3 | NOT_AVAILABLE |
 | D1 | B0b | NEAR | MEETS | NEAR | MEETS | NOT_SCORED | 3 | NOT_AVAILABLE |
 | D2 | B0b | NEAR | MISSES | MISSES | NEAR | NOT_SCORED | 3 | NOT_AVAILABLE |
 | D3 | B0b | NEAR | NEAR | NEAR | MEETS | NOT_SCORED | 5 EXPLORATORY | NOT_AVAILABLE |
-| B1 | B0b | MEETS | NEAR | MISSES | NEAR | NOT_SCORED | 3 REFERENCE | NOT_AVAILABLE |
+| B1 | B0b | N/A (reference) | NEAR | MISSES | NEAR | NOT_SCORED | 3 REFERENCE | NOT_AVAILABLE |
 | E1 | B0c | MEETS | NEAR | MEETS | MEETS | NOT_SCORED | 3 + 3n | unused |
 | E3 | B0c | MEETS | MEETS | MISSES | MEETS | NOT_SCORED | 3 + 3n | unused |
 | E2 | B0c | MEETS | MEETS | MEETS | MEETS | NOT_SCORED | 3 + 1n INELIGIBLE | unused |
-| B1 | B0c | MEETS | NEAR | MISSES | NEAR | NOT_SCORED | 3 REFERENCE | unused |
+| B1 | B0c | N/A (reference) | NEAR | MISSES | NEAR | NOT_SCORED | 3 REFERENCE | unused |
 | F1 | B0d | MEETS | MEETS | MISSES | MEETS | NO | 3 + 1n | NOT_AVAILABLE |
 | F2 | B0d | MEETS | MEETS | MISSES | MEETS | NO | 3 + 1n | NOT_AVAILABLE |
-| B1 | B0d | MEETS | NEAR | MISSES | NEAR | NOT_AVAILABLE | 3 REFERENCE | NOT_AVAILABLE |
+| B1 | B0d | N/A (reference) | NEAR | MISSES | NEAR | NOT_AVAILABLE | 3 REFERENCE | NOT_AVAILABLE |
 
 B0c/E1, B0d/F1 lead: E1 matches the endpoint capability, high-pressure slope and resolved late-trend bands, while F1 matches endpoint capability, the saved peak interval and resolved trends. E1's saved peak interval remains one grid step high; F1 declines too steeply and its air-inclusive conductance peak disagrees with wetting timing. E1 therefore looks like a peak-location near miss on these criteria, whereas F1 retains a mechanism-consistency shortfall; neither interpretation establishes physical validation.
+
+Across candidates there is a trade-off: forms that place the peak at 5–7 bar decline too steeply above 9 bar (F1, F2), while forms with the observed high-pressure slope peak near 8 bar (E1, C4). No single saved form yet captures both.
+
+E1's constant-pressure idealisation peaks at 7.70 bar (weaker check (aggregate only)) and F1's at 7.40 bar, both above the observed continuous estimate of 6.125 [5.907, 6.327] bar (95% interval); this comparison is descriptive and leaves grades unchanged.
 
 **Advisory leaders:** 1. B0c/E1; 2. B0d/F1. Full ranking and diagnostics below.
 
@@ -72,47 +76,69 @@ B0c/E1, B0d/F1 lead: E1 matches the endpoint capability, high-pressure slope and
 
 **Owner choice:** select E1 for a bounded EWP reproduction exercise; it leads the capability ranking without a missed graded criterion, while its peak-location and weaker aggregate-check limitations must remain explicit. No implementation is started.
 
-**Second recommended action:** Test whether modelling the measured start-up pressure ramp (rather than constant pressure) moves the predicted flow peak toward 6 bar, using saved fits only.
+The pooled median absolute ramp effect is **0.022 g/s**, or 6.9–10.3% of eligible-candidate endpoint RMSEs (8.9% of their median, 0.242 g/s). The maximum is 0.196 g/s at 13 bar (E3); the largest effects concentrate at 2 and 13 bar, outside the 4–8 bar peak region.
 
-Trigger uses the largest absolute effect (0.196 g/s), which exceeds half the typical eligible-candidate endpoint RMSE (0.242/2 = 0.121 g/s); the typical absolute effect (0.022 g/s) is below that threshold.
+**Optional / low priority:** Test whether modelling the measured start-up pressure ramp (rather than constant pressure) moves the predicted flow peak toward 6 bar, using saved fits only; typical effect is ~10% of model error and concentrated away from the peak region.
 
 <details><summary>Full advisory ranking, replay checks, ramp effects, methods and sources</summary>
 
-**Advisory ranking:** 1. B0c/E1 (3 MEETS, 0 MISSES, RMSE/B1 0.845); 2. B0d/F1 (3 MEETS, 1 MISSES, RMSE/B1 0.720); 3. B0d/F2 (3 MEETS, 1 MISSES, RMSE/B1 0.854); 4. B0c/E3 (3 MEETS, 1 MISSES, RMSE/B1 0.869); 5. B0b/D1 (2 MEETS, 0 MISSES, RMSE/B1 0.666); 6. B0b/C4 (2 MEETS, 0 MISSES, RMSE/B1 0.695); 7. B0/C4 (2 MEETS, 0 MISSES, RMSE/B1 0.734); 8. B0/D1 (2 MEETS, 1 MISSES, RMSE/B1 0.799); 9. A/C4 (1 MEETS, 0 MISSES, RMSE/B1 0.734); 10. B0/D2 (1 MEETS, 2 MISSES, RMSE/B1 0.751); 11. A/C1-exp (1 MEETS, 2 MISSES, RMSE/B1 0.982); 12. A/C3 (1 MEETS, 2 MISSES, RMSE/B1 0.983); 13. B0b/D2 (0 MEETS, 2 MISSES, RMSE/B1 0.896).
+**Advisory ranking:** 1. B0c/E1 (MEETS 3/4 scored, MISSES 0/4, RMSE/B1 0.845); 2. B0d/F1 (MEETS 3/4 scored, MISSES 1/4, RMSE/B1 0.720); 3. B0d/F2 (MEETS 3/4 scored, MISSES 1/4, RMSE/B1 0.854); 4. B0c/E3 (MEETS 3/4 scored, MISSES 1/4, RMSE/B1 0.869); 5. B0/C4 (MEETS 2/3 scored, MISSES 0/3, RMSE/B1 0.734); 6. B0/D1 (MEETS 2/3 scored, MISSES 1/3, RMSE/B1 0.799); 7. B0b/D1 (MEETS 2/4 scored, MISSES 0/4, RMSE/B1 0.666); 8. B0b/C4 (MEETS 2/4 scored, MISSES 0/4, RMSE/B1 0.695); 9. A/C4 (MEETS 1/3 scored, MISSES 0/3, RMSE/B1 0.734); 10. B0/D2 (MEETS 1/3 scored, MISSES 2/3, RMSE/B1 0.751); 11. A/C1-exp (MEETS 1/3 scored, MISSES 2/3, RMSE/B1 0.982); 12. A/C3 (MEETS 1/3 scored, MISSES 2/3, RMSE/B1 0.983); 13. B0b/D2 (MEETS 0/4 scored, MISSES 2/4, RMSE/B1 0.896).
 
 The initial all-curve consistency failure was due to start-up pressure history, not curve code: all checkable replays reproduced saved results (8 rows at prediction level, 11 at aggregate level). The signed ramp-effect median is -0.009 g/s, with range [-0.196, +0.112] g/s; the largest magnitudes occur at 13 and 2 bar. Here 'start-up pressure history' includes the nominal-versus-recorded pressure contrast, which is nonzero even for memoryless B1; the check does not isolate a causal start-up contribution.
 
-The typical absolute ramp effect is 0.022 g/s (pooled median), below endpoint RMSEs of 0.211–0.349 g/s, but its largest value, 0.196 g/s, is comparable: start-up pressure history is a first-order factor for flow at 100 s in those largest-effect conditions, under this combined history-and-pressure-coordinate contrast.
-
 Observed descriptive quadratic peak: **6.125 [5.907, 6.327] bar** (95% whole-brew bootstrap, 1000 resamples, seed 20261102; fit restricted to 4–8 bar).
+
+| Row | Continuous peak, bar | Interval, bar | Interpretation |
+|---|---|---|---|
+| Observed (quadratic, 4–8 bar) | 6.125 | [5.907, 6.327] | 95% whole-brew bootstrap interval |
+| A/C1-exp | 8.90 | [8.20, 9.55] | constant-pressure idealisation; weaker check (aggregate only); fold range |
+| A/C3 | 8.90 | [8.15, 9.60] | constant-pressure idealisation; weaker check (aggregate only); fold range |
+| A/C4 | 7.95 | [7.60, 8.25] | constant-pressure idealisation; weaker check (aggregate only); fold range |
+| A/B1 | 8.40 | [7.65, 8.60] | constant-pressure idealisation; fold range |
+| B0/D1 | 7.75 | [7.40, 8.05] | constant-pressure idealisation; fold range |
+| B0/D2 | 13.00 | [13.00, 13.00] | constant-pressure idealisation; fold range |
+| B0/C4 | 7.95 | [7.60, 8.25] | constant-pressure idealisation; fold range |
+| B0/B1 | 8.40 | [7.65, 8.60] | constant-pressure idealisation; fold range |
+| B0b/C4 | 7.80 | [7.30, 8.05] | constant-pressure idealisation; weaker check (aggregate only); fold range |
+| B0b/D1 | 7.45 | [7.25, 7.70] | constant-pressure idealisation; weaker check (aggregate only); fold range |
+| B0b/D2 | 10.20 | [7.55, 10.40] | constant-pressure idealisation; weaker check (aggregate only); fold range |
+| B0b/D3 | 7.50 | [7.25, 7.70] | constant-pressure idealisation; weaker check (aggregate only); fold range |
+| B0b/B1 | 8.10 | [7.35, 8.20] | constant-pressure idealisation; weaker check (aggregate only); fold range |
+| B0c/E1 | 7.70 | [7.15, 7.90] | constant-pressure idealisation; weaker check (aggregate only); fold range |
+| B0c/E3 | 7.45 | [7.05, 7.65] | constant-pressure idealisation; weaker check (aggregate only); fold range |
+| B0c/B1 | 8.25 | [7.50, 8.40] | constant-pressure idealisation; weaker check (aggregate only); fold range |
+| B0d/F1 | 7.40 | [6.95, 7.65] | constant-pressure idealisation; fold range |
+| B0d/F2 | 7.60 | [7.00, 7.85] | constant-pressure idealisation; fold range |
+| B0d/B1 | 8.40 | [7.65, 8.60] | constant-pressure idealisation; fold range |
+
 Every curve below and in FIGURE.png is labelled **descriptive evaluation of saved fits — not a prediction**. Continuous model peaks and fold ranges are in SCORECARD.csv; FIGURE.png plots the requested unique curves (F1 is also a ranked leader). Constant line pressure from stable-clock zero to 100 s is a descriptive forcing convention, not a reconstruction of variable measured histories. No new mechanism fit, resampling of model parameters, or modification of earlier outputs occurred.
-Ranking counts only the four graded criteria; NOT_SCORED contributes neither MEETS nor MISSES. Timing, complexity and restart are not ranking grades. B1 has its saved TIE capability label and is excluded from ranking; D3 is EXPLORATORY and E2 is INELIGIBLE. B0's raw sensitivity is promoted to this scorecard's primary; basket results occupy separate, ungraded CSV columns. Each stage uses its own B1 and saved interval method, so the cross-stage ranking is advisory, not a new matched statistical comparison.
+Ranking uses the fraction of scored criteria graded MEETS, then the fraction graded MISSES (lower first), then endpoint RMSE/B1. Only MEETS, NEAR and MISSES enter the denominator; NOT_SCORED and NOT_AVAILABLE enter neither numerator nor denominator. Timing, complexity and restart are not ranking grades. B1 accuracy is N/A (reference), and B1 is excluded from ranking; D3 is EXPLORATORY and E2 is INELIGIBLE. B0's raw sensitivity is promoted to this scorecard's primary; basket results occupy separate, ungraded CSV columns. Each stage uses its own B1 and saved interval method, so the cross-stage ranking is advisory, not a new matched statistical comparison.
 Complexity lists free fitted parameters + n fixed training-estimated nuisance inputs; no coefficients were refitted here. Restart higher* copies Stage A: 'higher (consistent direction; continued delivery, no pause benefit)'; full source statements are in the CSV. Whole-brew resampling samples each existing brew as a unit within its pressure condition, preserving the cohort and its duplicate exclusion.
 Resolved observed late trends confirmed from LATE_TRENDS.csv: 2, 3.5, 4, 5, 6 bar, all rising; no difference from the owner's set. Original x/11 counts remain ungraded in the CSV.
 Replay and ramp effects are separate. PREDICTION checks compare replayed versus saved held-out condition-mean endpoints, tolerance 0.015 g/s. B0 references are reconstructed from saved condition residuals plus observed means; A/B1 shares exactly the same fold coefficients and observer. B0d references are condition aggregates extracted from the original saved endpoint cache, with coefficients checked against RESULT_TABLE.csv; individual brews are not exported. No per-fold scores were saved for the remaining A/B0b/B0c rows: their strongest check is AGGREGATE, one score comparison at max(0.005 g/s, 1% of saved RMSE). Their per-prediction checks remain NOT_AVAILABLE, not 11 independent successes. There is no 121-check matrix. E1/E3 retain fold-fixed onset coefficients and Mc; their onset pressure input interpolates saved early-pressure means from training conditions only (nearest endpoint beyond that fold's training range). Stable-pressure zero, original initial states and B0d air terms are preserved. Solid lines are constant-pressure idealisations; aggregate-only lines are lighter and labelled weaker check (aggregate only). INCONSISTENT curves would be dashed and excluded from peak interpretation. Grades always use saved intervals.
 
-| Curve (all: descriptive evaluation of saved fits — not a prediction) | Status | Check tier | Prediction checks | Score checks | Largest check deviation, g/s | Constant-pressure idealisation peak median [fold range], bar |
-|---|---|---|---|---|---|---|
-| A/C1-exp | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) | 8.90 [8.20, 9.55]; weaker check (aggregate only) |
-| A/C3 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) | 8.90 [8.15, 9.60]; weaker check (aggregate only) |
-| A/C4 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) | 7.95 [7.60, 8.25]; weaker check (aggregate only) |
-| A/B1 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 2.22e-16 at 4 bar | 8.40 [7.65, 8.60] |
-| B0/D1 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 2.22e-16 at 4 bar | 7.75 [7.40, 8.05] |
-| B0/D2 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 4.44e-16 at 5 bar | 13.00 [13.00, 13.00] |
-| B0/C4 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 4.44e-16 at 5 bar | 7.95 [7.60, 8.25] |
-| B0/B1 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 2.22e-16 at 4 bar | 8.40 [7.65, 8.60] |
-| B0b/C4 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) | 7.80 [7.30, 8.05]; weaker check (aggregate only) |
-| B0b/D1 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) | 7.45 [7.25, 7.70]; weaker check (aggregate only) |
-| B0b/D2 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) | 10.20 [7.55, 10.40]; weaker check (aggregate only) |
-| B0b/D3 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) | 7.50 [7.25, 7.70]; weaker check (aggregate only) |
-| B0b/B1 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) | 8.10 [7.35, 8.20]; weaker check (aggregate only) |
-| B0c/E1 (INTERPOLATED_INPUTS) | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) | 7.70 [7.15, 7.90]; weaker check (aggregate only) |
-| B0c/E3 (INTERPOLATED_INPUTS) | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) | 7.45 [7.05, 7.65]; weaker check (aggregate only) |
-| B0c/E2 | NOT_AVAILABLE | NOT_AVAILABLE | NOT_AVAILABLE | NOT_AVAILABLE | NOT_AVAILABLE | NOT_AVAILABLE |
-| B0c/B1 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) | 8.25 [7.50, 8.40]; weaker check (aggregate only) |
-| B0d/F1 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 0 at 1 bar | 7.40 [6.95, 7.65] |
-| B0d/F2 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 0 at 1 bar | 7.60 [7.00, 7.85] |
-| B0d/B1 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 0 at 1 bar | 8.40 [7.65, 8.60] |
+| Curve (all: descriptive evaluation of saved fits — not a prediction) | Status | Check tier | Prediction checks | Score checks | Largest check deviation, g/s |
+|---|---|---|---|---|---|
+| A/C1-exp | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) |
+| A/C3 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) |
+| A/C4 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) |
+| A/B1 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 2.22e-16 at 4 bar |
+| B0/D1 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 2.22e-16 at 4 bar |
+| B0/D2 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 4.44e-16 at 5 bar |
+| B0/C4 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 4.44e-16 at 5 bar |
+| B0/B1 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 2.22e-16 at 4 bar |
+| B0b/C4 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) |
+| B0b/D1 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) |
+| B0b/D2 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) |
+| B0b/D3 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) |
+| B0b/B1 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) |
+| B0c/E1 (INTERPOLATED_INPUTS) | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) |
+| B0c/E3 (INTERPOLATED_INPUTS) | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) |
+| B0c/E2 | NOT_AVAILABLE | NOT_AVAILABLE | NOT_AVAILABLE | NOT_AVAILABLE | NOT_AVAILABLE |
+| B0c/B1 | CONSISTENT_IDEALISATION_AGGREGATE | AGGREGATE | NOT_AVAILABLE | 1/1 | 0 (score) |
+| B0d/F1 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 0 at 1 bar |
+| B0d/F2 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 0 at 1 bar |
+| B0d/B1 | CONSISTENT_IDEALISATION | PREDICTION | 11/11 | NOT_AVAILABLE | 0 at 1 bar |
 
 Ramp effect = constant nominal-pressure endpoint minus measured-history replay at each fold's held-out condition. It includes nominal-versus-recorded pressure differences, evidenced by B1's nonzero contrast despite having no memory; it does not isolate a causal start-up contribution. The table gives the signed median and range across the original held-out conditions; every pressure's signed value is in SCORECARD.csv. The check tier shown for each result is the replay evidence supporting that ramp contrast.
 

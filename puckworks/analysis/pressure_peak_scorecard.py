@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import re
 import signal
 import time
 from contextlib import contextmanager
@@ -153,7 +154,7 @@ def metrics(stage, source, baseline):
         "paired_delta_g_s": float(field(source, "delta versus B1 g/s")),
         "paired_delta_interval_g_s": json.dumps(delta),
         "saved_comparison": source["COMPARISON"],
-        "accuracy_grade": accuracy_grade(rmse, base, source["COMPARISON"]),
+        "accuracy_grade": "N/A (reference)" if source["candidate"] == "B1" else accuracy_grade(rmse, base, source["COMPARISON"]),
         "trace_rmse_g_s": float(trace) if trace != NS else NS,
         "trace_rmse_interval_g_s": source.get("full-trace RMSE interval", NS),
         "b1_trace_rmse_g_s": float(trace_base) if trace_base != NS else NS,
@@ -285,9 +286,12 @@ def rank_rows(rows):
     for row in rows:
         row["meets_count"] = sum(row[key] == "MEETS" for key in GRADES)
         row["misses_count"] = sum(row[key] == "MISSES" for key in GRADES)
-        row["advisory_rank"] = "EXCLUDED" if row["flag"] else ""
-    eligible = sorted((r for r in rows if not r["flag"]), key=lambda r: (
-        -r["meets_count"], r["misses_count"], r["endpoint_rmse_ratio_to_b1"], r["stage"], r["candidate"]))
+        row["scored_count"] = sum(row[key] in {"MEETS", "NEAR", "MISSES"} for key in GRADES)
+        row["meets_fraction"] = row["meets_count"] / row["scored_count"] if row["scored_count"] else NA
+        row["misses_fraction"] = row["misses_count"] / row["scored_count"] if row["scored_count"] else NA
+        row["advisory_rank"] = "EXCLUDED" if row["flag"] or not row["scored_count"] else ""
+    eligible = sorted((r for r in rows if not r["flag"] and r["scored_count"]), key=lambda r: (
+        -r["meets_fraction"], r["misses_fraction"], r["endpoint_rmse_ratio_to_b1"], r["stage"], r["candidate"]))
     for rank, row in enumerate(eligible, 1):
         row["advisory_rank"] = rank
     return eligible
@@ -665,8 +669,8 @@ def markdown_table(rows):
 
 
 def ranking_text(rows):
-    return "; ".join(f"{r['advisory_rank']}. {r['stage']}/{r['candidate']} ({r['meets_count']} MEETS, "
-                     f"{r['misses_count']} MISSES, RMSE/B1 {r['endpoint_rmse_ratio_to_b1']:.3f})" for r in rank_rows(rows)) + "."
+    return "; ".join(f"{r['advisory_rank']}. {r['stage']}/{r['candidate']} (MEETS {r['meets_count']}/{r['scored_count']} scored, "
+                     f"MISSES {r['misses_count']}/{r['scored_count']}, RMSE/B1 {r['endpoint_rmse_ratio_to_b1']:.3f})" for r in rank_rows(rows)) + "."
 
 
 def write_summary(rows, observed, omitted, elapsed, cpu, path):
@@ -679,17 +683,20 @@ def write_summary(rows, observed, omitted, elapsed, cpu, path):
     reading = (f"{leaders} lead: E1 matches the endpoint capability, high-pressure slope and resolved late-trend bands, while F1 matches endpoint capability, the saved peak interval and resolved trends. "
                "E1's saved peak interval remains one grid step high; F1 declines too steeply and its air-inclusive conductance peak disagrees with wetting timing. "
                "E1 therefore looks like a peak-location near miss on these criteria, whereas F1 retains a mechanism-consistency shortfall; neither interpretation establishes physical validation.")
+    tradeoff = "Across candidates there is a trade-off: forms that place the peak at 5–7 bar decline too steeply above 9 bar (F1, F2), while forms with the observed high-pressure slope peak near 8 bar (E1, C4). No single saved form yet captures both."
     unavailable = [f"{r['stage']}/{r['candidate']}: {r['continuous_peak_note'] or r['replay_check_note']}" for r in rows if r["curve_status"] == NA]
     unavailable += ["B0d/B1: timing pair NOT_AVAILABLE (no air-inclusive reference law).",
                     "B0b and B0d restart statements NOT_AVAILABLE; no stage-specific direction was saved."]
     interval = observed["peak_interval_bar"]
     effects = [abs(x["constant_minus_replay_g_s"]) for r in rows if r["ramp_effect_by_pressure"] != NA for x in json.loads(r["ramp_effect_by_pressure"])]
-    errors = [r["endpoint_rmse_g_s"] for r in rows if r["ramp_effect_by_pressure"] != NA]
-    ramp_reading = (f"The typical absolute ramp effect is {np.median(effects):.3f} g/s (pooled median), below endpoint RMSEs of {min(errors):.3f}–{max(errors):.3f} g/s, "
-                    f"but its largest value, {max(effects):.3f} g/s, is comparable: start-up pressure history is a first-order factor for flow at 100 s in those largest-effect conditions, "
-                    "under this combined history-and-pressure-coordinate contrast.")
+    errors = [r["endpoint_rmse_g_s"] for r in ranked]
+    typical_rmse = float(np.median(errors))
+    typical_effect = float(np.median(effects))
+    ramp_reading = (f"The pooled median absolute ramp effect is **{typical_effect:.3f} g/s**, "
+                    f"or {100*typical_effect/max(errors):.1f}–{100*typical_effect/min(errors):.1f}% of eligible-candidate endpoint RMSEs "
+                    f"({100*typical_effect/typical_rmse:.1f}% of their median, {typical_rmse:.3f} g/s). "
+                    f"The maximum is {max(effects):.3f} g/s at 13 bar (E3); the largest effects concentrate at 2 and 13 bar, outside the 4–8 bar peak region.")
     signed = [x["constant_minus_replay_g_s"] for r in rows if r["ramp_effect_by_pressure"] != NA for x in json.loads(r["ramp_effect_by_pressure"])]
-    typical_rmse = float(np.median([r["endpoint_rmse_g_s"] for r in ranked]))
     replay_reading = ("The initial all-curve consistency failure was due to start-up pressure history, not curve code: "
                       "all checkable replays reproduced saved results (8 rows at prediction level, 11 at aggregate level).")
     if not all(r["curve_status"].startswith("CONSISTENT_IDEALISATION") for r in rows if r["check_tier"] != NA):
@@ -699,25 +706,32 @@ def write_summary(rows, observed, omitted, elapsed, cpu, path):
                        "which is nonzero even for memoryless B1; the check does not isolate a causal start-up contribution.")
     next_actions = ["**Owner choice:** select E1 for a bounded EWP reproduction exercise; it leads the capability ranking without a missed graded criterion, "
                     "while its peak-location and weaker aggregate-check limitations must remain explicit. No implementation is started."]
-    if max(effects) >= .5 * typical_rmse:
-        next_actions += ["", "**Second recommended action:** Test whether modelling the measured start-up pressure ramp (rather than constant pressure) moves the predicted flow peak toward 6 bar, using saved fits only.", "",
-                         f"Trigger uses the largest absolute effect ({max(effects):.3f} g/s), which exceeds half the typical eligible-candidate endpoint RMSE "
-                         f"({typical_rmse:.3f}/2 = {.5*typical_rmse:.3f} g/s); the typical absolute effect ({np.median(effects):.3f} g/s) is below that threshold."]
-    results = [markdown_table(rows), "", reading, "",
+    optional_action = ("**Optional / low priority:** Test whether modelling the measured start-up pressure ramp (rather than constant pressure) moves the predicted flow peak toward 6 bar, using saved fits only; "
+                       "typical effect is ~10% of model error and concentrated away from the peak region.")
+    e1 = next(r for r in rows if (r["stage"], r["candidate"]) == ("B0c", "E1"))
+    f1 = next(r for r in rows if (r["stage"], r["candidate"]) == ("B0d", "F1"))
+    peak_reading = "E1/F1 continuous-peak comparison NOT_AVAILABLE: both curves must have a consistent idealisation check."
+    if all(r["curve_status"].startswith("CONSISTENT_IDEALISATION") for r in (e1, f1)):
+        peak_reading = (f"E1's constant-pressure idealisation peaks at {e1['continuous_peak_median_bar']:.2f} bar (weaker check (aggregate only)) "
+                        f"and F1's at {f1['continuous_peak_median_bar']:.2f} bar, both above the observed continuous estimate "
+                        f"of {observed['peak_bar']:.3f} [{interval[0]:.3f}, {interval[1]:.3f}] bar (95% interval); this comparison is descriptive and leaves grades unchanged.")
+    results = [markdown_table(rows), "", reading, "", tradeoff, "", peak_reading, "",
                "**Advisory leaders:** 1. B0c/E1; 2. B0d/F1. Full ranking and diagnostics below.", "",
                "**Main limits:** E1 — peak location (NEAR); F1 — high-pressure slope (MISSES).", "",
-               *next_actions, "",
+               *next_actions, "", ramp_reading, "", optional_action, "",
                "<details><summary>Full advisory ranking, replay checks, ramp effects, methods and sources</summary>", "",
                "**Advisory ranking:** " + ranking_text(rows), "",
-               replay_reading, "", ramp_reading, "",
+               replay_reading, "",
                f"Observed descriptive quadratic peak: **{observed['peak_bar']:.3f} [{interval[0]:.3f}, {interval[1]:.3f}] bar** "
                f"(95% whole-brew bootstrap, {observed['bootstrap_count']} resamples, seed {observed['seed']}; fit restricted to 4–8 bar).",
+               "", continuous_peak_table(rows, observed), "",
                "Every curve below and in FIGURE.png is labelled **" + CURVE_LABEL + "**. "
                "Continuous model peaks and fold ranges are in SCORECARD.csv; FIGURE.png plots the requested unique curves (F1 is also a ranked leader). "
                "Constant line pressure from stable-clock zero to 100 s is a descriptive forcing convention, not a reconstruction of variable measured histories. "
                "No new mechanism fit, resampling of model parameters, or modification of earlier outputs occurred.",
-               "Ranking counts only the four graded criteria; NOT_SCORED contributes neither MEETS nor MISSES. "
-               "Timing, complexity and restart are not ranking grades. B1 has its saved TIE capability label and is excluded from ranking; "
+               "Ranking uses the fraction of scored criteria graded MEETS, then the fraction graded MISSES (lower first), then endpoint RMSE/B1. "
+               "Only MEETS, NEAR and MISSES enter the denominator; NOT_SCORED and NOT_AVAILABLE enter neither numerator nor denominator. "
+               "Timing, complexity and restart are not ranking grades. B1 accuracy is N/A (reference), and B1 is excluded from ranking; "
                "D3 is EXPLORATORY and E2 is INELIGIBLE. B0's raw sensitivity is promoted to this scorecard's primary; basket results occupy separate, ungraded CSV columns. "
                "Each stage uses its own B1 and saved interval method, so the cross-stage ranking is advisory, not a new matched statistical comparison.",
                "Complexity lists free fitted parameters + n fixed training-estimated nuisance inputs; no coefficients were refitted here. "
@@ -750,21 +764,34 @@ def write_summary(rows, observed, omitted, elapsed, cpu, path):
     path.write_text(prefix + "\n".join(results), encoding="utf-8")
 
 
+def peak_interpretation(row):
+    if not row["curve_status"].startswith("CONSISTENT_IDEALISATION"):
+        return NA
+    return "constant-pressure idealisation" + ("; weaker check (aggregate only)" if row["check_tier"] == "AGGREGATE" else "")
+
+
+def continuous_peak_table(rows, observed):
+    lines = ["| Row | Continuous peak, bar | Interval, bar | Interpretation |",
+             "|---|---|---|---|"]
+    low, high = observed["peak_interval_bar"]
+    lines.append(f"| Observed (quadratic, 4–8 bar) | {observed['peak_bar']:.3f} | [{low:.3f}, {high:.3f}] | 95% whole-brew bootstrap interval |")
+    for row in rows:
+        if not row["curve_status"].startswith("CONSISTENT_IDEALISATION"):
+            continue
+        low, high = json.loads(row["continuous_peak_fold_range_bar"])
+        lines.append(f"| {row['stage']}/{row['candidate']} | {row['continuous_peak_median_bar']:.2f} | [{low:.2f}, {high:.2f}] | {peak_interpretation(row)}; fold range |")
+    return "\n".join(lines)
+
+
 def curve_table(rows):
-    lines = ["| Curve (all: descriptive evaluation of saved fits — not a prediction) | Status | Check tier | Prediction checks | Score checks | Largest check deviation, g/s | Constant-pressure idealisation peak median [fold range], bar |",
-             "|---|---|---|---|---|---|---|"]
+    lines = ["| Curve (all: descriptive evaluation of saved fits — not a prediction) | Status | Check tier | Prediction checks | Score checks | Largest check deviation, g/s |",
+             "|---|---|---|---|---|---|"]
     for r in rows:
         deviation = f"{r['replay_max_deviation_g_s']:.3g} at {r['replay_max_deviation_pressure_bar']:g} bar" if r['replay_max_deviation_g_s'] != NA else f"{r['score_max_deviation_g_s']:.3g} (score)" if r['score_max_deviation_g_s'] != NA else NA
-        peak = NA
-        if r['continuous_peak_median_bar'] != NA:
-            low, high = json.loads(r['continuous_peak_fold_range_bar'])
-            peak = f"{r['continuous_peak_median_bar']:.2f} [{low:.2f}, {high:.2f}]"
-            if r["check_tier"] == "AGGREGATE":
-                peak += "; weaker check (aggregate only)"
         input_label = " (INTERPOLATED_INPUTS)" if r['candidate'] in {"E1", "E3"} else ""
         checks = f"{r['replay_checks_passed']}/11" if r['replay_checks_passed'] != NA else NA
         score = f"{r['score_checks_passed']}/{r['score_checks_total']}" if r['score_checks_passed'] != NA else NA
-        lines.append(f"| {r['stage']}/{r['candidate']}{input_label} | {r['curve_status']} | {r['check_tier']} | {checks} | {score} | {deviation} | {peak} |")
+        lines.append(f"| {r['stage']}/{r['candidate']}{input_label} | {r['curve_status']} | {r['check_tier']} | {checks} | {score} | {deviation} |")
     return "\n".join(lines)
 
 
@@ -798,15 +825,56 @@ def generate(out=OUTPUT, root=ROOT, max_seconds=600., raw=None, saved_stage_dir=
                    observed_condition_means=json.dumps(observed["means"]),
                    observed_source="puckworks/data/waszkiewicz2025/equilibrium_windows.csv; endpoint_100s; aliases excluded",
                    observed_bootstrap_seed=SEED, observed_bootstrap_count=1000)
-    with (out / "SCORECARD.csv").open("w", newline="", encoding="utf-8") as stream:
-        columns = list(dict.fromkeys(k for row in rows for k in row))
-        writer = csv.DictWriter(stream, fieldnames=columns, restval=NS, lineterminator="\n")
-        writer.writeheader()
-        writer.writerows(rows)
+    write_scorecard(rows, out / "SCORECARD.csv")
     plot_figure(rows, curves, observed, out / "FIGURE.png")
     elapsed, cpu = time.monotonic() - started, time.process_time() - cpu_started
     write_summary(rows, observed, omitted, elapsed, cpu, out / "SUMMARY.md")
     print(f"generation_seconds={elapsed:.3f}; process_cpu_seconds={cpu:.3f}; model_refits=0", flush=True)
+    return rows
+
+
+def write_scorecard(rows, path):
+    for row in rows:
+        row["continuous_peak_interpretation"] = peak_interpretation(row)
+    with Path(path).open("w", newline="", encoding="utf-8") as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(dict.fromkeys(k for row in rows for k in row)), restval=NS, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def rescore_saved(out=OUTPUT, root=ROOT):
+    """Refresh grades/ranking/text without evaluating curves or fitting anything."""
+    out = Path(out)
+    stored = read_rows(out / "SCORECARD.csv")
+    fresh, _, omitted = load_scorecard(root)
+    keys = lambda rows: [(r["stage"], r["candidate"]) for r in rows]
+    if keys(stored) != keys(fresh):
+        raise ValueError("Saved and current stage rows differ; cannot reuse curve results")
+    old_leaders = sorted((r for r in stored if str(r["advisory_rank"]).isdigit()), key=lambda r: int(r["advisory_rank"]))[:2]
+    if keys(old_leaders) != keys(rank_rows(fresh)[:2]):
+        raise ValueError("Figure leaders changed; regenerate the saved-parameter curves before publishing")
+    rows = []
+    for old, new in zip(stored, fresh):
+        row = {**old, **new}
+        for key, value in row.items():
+            if not isinstance(value, str):
+                continue
+            try:
+                parsed = json.loads(value)
+            except ValueError:
+                continue
+            if type(parsed) in (int, float):
+                row[key] = parsed
+        rows.append(row)
+    first = rows[0]
+    observed = {"peak_bar": first["observed_continuous_peak_bar"],
+                "peak_interval_bar": json.loads(first["observed_continuous_peak_interval_bar"]),
+                "bootstrap_count": first["observed_bootstrap_count"], "seed": first["observed_bootstrap_seed"]}
+    timing = re.search(r"Generation compute: ([\d.]+) s wall / ([\d.]+) s process CPU", (out / "SUMMARY.md").read_text())
+    if timing is None:
+        raise ValueError("Original generation timing is missing; do not invent replacement metadata")
+    write_scorecard(rows, out / "SCORECARD.csv")
+    write_summary(rows, observed, omitted, float(timing[1]), float(timing[2]), out / "SUMMARY.md")
     return rows
 
 
@@ -816,8 +884,12 @@ def main():
     parser.add_argument("--max-seconds", type=float, default=600.)
     parser.add_argument("--raw", type=Path, help="Existing Waszkiewicz source root; needed only to replay E1/E3's original early-pressure inputs")
     parser.add_argument("--saved-stage-dir", type=Path, help="Original stage workspace containing the existing B0d endpoint cache")
+    parser.add_argument("--rescore-saved", action="store_true", help="Refresh ranking and text from the existing CSV without fitting or evaluating curves")
     args = parser.parse_args()
-    generate(out=args.out, max_seconds=args.max_seconds, raw=args.raw, saved_stage_dir=args.saved_stage_dir)
+    if args.rescore_saved:
+        rescore_saved(out=args.out)
+    else:
+        generate(out=args.out, max_seconds=args.max_seconds, raw=args.raw, saved_stage_dir=args.saved_stage_dir)
 
 
 if __name__ == "__main__":

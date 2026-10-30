@@ -1,6 +1,7 @@
 """Saved-result scorecard: owner bands, source reproduction and no-fit curves."""
 
 import json
+import shutil
 
 import numpy as np
 import pytest
@@ -120,6 +121,8 @@ def test_saved_csv_values_and_cohort_selection_are_reproduced():
         assert row["saved_comparison"] == source["COMPARISON"]
         assert row["endpoint_rmse_change_percent"] == pytest.approx(100 * (float(source[rmse_key]) / float(base[rmse_key]) - 1))
         assert row["pressure_basis"] == "raw (line)"
+        if row["candidate"] == "B1":
+            assert row["accuracy_grade"] == "N/A (reference)"
         assert not any(k.startswith("basket_") and k.endswith("_grade") for k in row)
         if row["stage"] == "B0":
             assert row["saved_scenario"] == "raw sensitivity"
@@ -132,6 +135,31 @@ def test_saved_csv_values_and_cohort_selection_are_reproduced():
     assert [(r["stage"], r["candidate"]) for r in leaders[:2]] == [("B0c", "E1"), ("B0d", "F1")]
     assert len(leaders) == 13
     assert not any(r["candidate"] in {"B1", "D3", "E2"} for r in leaders)
+    assert [(r["stage"], r["candidate"]) for r in leaders[4:8]] == [
+        ("B0", "C4"), ("B0", "D1"), ("B0b", "D1"), ("B0b", "C4")]
+
+
+def test_ranking_uses_scored_fractions_then_miss_fractions_then_rmse():
+    def row(name, grades, ratio, flag=""):
+        return {"candidate": name, "stage": "synthetic", "flag": flag,
+                "endpoint_rmse_ratio_to_b1": ratio, **dict(zip(S.GRADES, grades))}
+    rows = [
+        row("two_of_three", ["MEETS", "MEETS", "NEAR", S.NS], .9),
+        row("two_of_four", ["MEETS", "MEETS", "NEAR", "NEAR"], .5),
+        row("one_of_two", ["MEETS", "NEAR", S.NA, S.NS], .4),
+        row("miss_one_of_three", ["MEETS", "MEETS", "MISSES", S.NA], .1),
+        row("miss_one_of_four", ["MEETS", "MEETS", "MISSES", "NEAR"], .7),
+        row("miss_one_of_two", ["MEETS", "MISSES", S.NA, S.NS], .01),
+        row("missing", [S.NA, S.NS, S.NA, S.NS], .01),
+        row("reference", ["N/A (reference)", "MEETS", "MEETS", "MEETS"], .01, "REFERENCE"),
+        row("exploratory", ["MEETS"]*4, .01, "EXPLORATORY"),
+        row("ineligible", ["MEETS"]*4, .01, "INELIGIBLE"),
+    ]
+    ranked = S.rank_rows(rows)
+    assert [r["candidate"] for r in ranked] == ["two_of_three", "miss_one_of_three", "one_of_two", "two_of_four", "miss_one_of_four", "miss_one_of_two"]
+    one = next(r for r in rows if r["candidate"] == "one_of_two")
+    assert one["scored_count"] == 2 and one["meets_fraction"] == .5
+    assert next(r for r in rows if r["candidate"] == "missing")["scored_count"] == 0
 
 
 def test_resolved_signs_are_from_saved_conditions_not_original_eleven_count():
@@ -154,6 +182,10 @@ def test_observed_bootstrap_preserves_saved_condition_means():
         assert actual["mean_g_s"] == pytest.approx(expected["mean"], abs=1e-12)
     assert observed == S.observed_response()
     assert 4 <= observed["peak_bar"] <= 8
+    recorded = S.read_rows(S.OUTPUT / "SCORECARD.csv")[0]
+    assert float(recorded["observed_continuous_peak_bar"]) == observed["peak_bar"]
+    assert json.loads(recorded["observed_continuous_peak_interval_bar"]) == observed["peak_interval_bar"]
+    assert observed["bootstrap_count"] == 1000 and observed["seed"] == 20261102
 
 
 def test_saved_reference_curves_never_call_a_fitter(monkeypatch):
@@ -179,7 +211,7 @@ def test_committed_scorecard_reproduces_saved_values_and_consistency_checks():
     rows, _, _ = S.load_scorecard()
     assert len(stored) == len(rows)
     for actual, expected in zip(stored, rows):
-        for key in ("candidate", "stage", "endpoint_rmse_g_s", "peak_interval_bar", "slope_interval_g_s_bar", *S.GRADES):
+        for key in ("candidate", "stage", "endpoint_rmse_g_s", "peak_interval_bar", "slope_interval_g_s_bar", "scored_count", "meets_fraction", "misses_fraction", "advisory_rank", *S.GRADES):
             assert actual[key] == str(expected[key])
         if actual["curve_status"] != S.NA:
             checks = json.loads(actual["curve_consistency_by_fold"])
@@ -201,6 +233,42 @@ def test_committed_scorecard_reproduces_saved_values_and_consistency_checks():
             assert actual["continuous_peak_median_bar"] == S.NA
 
 
+def test_reported_model_peaks_reproduce_saved_fold_grid_maxima():
+    rows = S.read_rows(S.OUTPUT / "SCORECARD.csv")
+    for row in rows:
+        if not row["curve_status"].startswith("CONSISTENT_IDEALISATION"):
+            continue
+        peaks = np.array(json.loads(row["continuous_peak_by_fold_bar"]))
+        assert len(peaks) == 11
+        np.testing.assert_allclose((peaks - 1) / .05, np.round((peaks - 1) / .05), atol=1e-12)
+        assert float(row["continuous_peak_median_bar"]) == np.median(peaks)
+        assert json.loads(row["continuous_peak_fold_range_bar"]) == [peaks.min(), peaks.max()]
+        assert row["continuous_peak_interpretation"] == S.peak_interpretation(row)
+        if row["check_tier"] == "AGGREGATE":
+            assert "weaker check (aggregate only)" in row["continuous_peak_interpretation"]
+
+
+def test_saved_rescoring_preserves_peaks_and_never_evaluates_or_fits(tmp_path, monkeypatch):
+    for name in ("SUMMARY.md", "SCORECARD.csv"):
+        shutil.copyfile(S.OUTPUT / name, tmp_path / name)
+    before = S.read_rows(tmp_path / "SCORECARD.csv")
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Saved re-scoring must not evaluate or fit")
+    for name in ("observed_response", "saved_fold_curves", "held_out_endpoints", "plot_figure"):
+        monkeypatch.setattr(S, name, forbidden)
+    S.rescore_saved(out=tmp_path)
+    after = S.read_rows(tmp_path / "SCORECARD.csv")
+    for old, new in zip(before, after):
+        for key in old:
+            if key.startswith(("continuous_", "observed_", "ramp_", "replay_")):
+                assert new[key] == old[key]
+    text = (tmp_path / "SUMMARY.md").read_text()
+    assert "| Observed (quadratic, 4–8 bar) | 6.125 | [5.907, 6.327]" in text
+    assert "E1's constant-pressure idealisation peaks at 7.70 bar" in text
+    assert "and F1's at 7.40 bar" in text
+    assert "MEETS 2/3 scored" in text
+
+
 def test_visible_summary_and_no_overall_candidate_verdict():
     text = (S.OUTPUT / "SUMMARY.md").read_text()
     assert "Retrospective re-score of saved fits. Raw pressure primary; basket pressure reported separately as sensitivity. No refitting." in text
@@ -210,3 +278,7 @@ def test_visible_summary_and_no_overall_candidate_verdict():
     assert "MEETS  = ≥4/5 matching signs." in text
     assert S.CURVE_LABEL in text
     assert "PASS" not in S.markdown_table(S.load_scorecard()[0])
+    assert "Across candidates there is a trade-off: forms that place the peak at 5–7 bar decline too steeply above 9 bar (F1, F2), while forms with the observed high-pressure slope peak near 8 bar (E1, C4). No single saved form yet captures both." in text
+    assert "typical effect is ~10% of model error and concentrated away from the peak region" in text
+    assert "Second recommended action" not in text
+    assert "**Optional / low priority:**" in text
