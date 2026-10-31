@@ -2,7 +2,7 @@
 
 **capability demonstration, not validation; PHYSICAL_VALIDATION=NOT_ESTABLISHED; TARGET_EXPOSED.**
 
-56 brews; 11 held-out conditions; 200 paired draws, seed 20261105. Only change: onset P0 ≤ min(5, min(training Pe) − 0.01) bar. T2-F flow P0 remains uncapped. Peak grades use C1’s nominal-condition peak intervals.
+56 brews; 11 held-out conditions; 200 paired draws, seed 20261105. Only change: onset P0 ≤ min(5, min(training Pe) − 0.01) bar. T2-F flow P0 remains uncapped. Peak grades use each fit's own nominal-condition peak interval, as in C1.
 
 | Fit | Accuracy | Peak | Slope | Trends | Onset | Low bias |
 |---|---|---|---|---|---|---|
@@ -44,4 +44,6 @@ C2 T2-F hypothetical gain 1.988 [1.762, 2.266]×; not excluded by this upper-bou
 Flow identities: rtol=1e-12; C1 resampling matches exactly. Runtime 11.41 min cumulative wall / 7.46 refit CPU h; two-hour wall cap retained. [Full results and audits](RESULT_TABLE.csv) · [Figure](FIGURE.png). Waszkiewicz et al. (2025), Zenodo 18046315, CC-BY-4.0.
 Runtime includes interrupted BLAS oversubscription: 3.67 min / 5.54 CPU h. Resumed with one BLAS thread per worker; all draws retained.
 
-**Recommendation:** Review held-out onset extrapolation before selecting further work.
+**Reading:** Capped T2 onset-only reproduces C0 T1-W (Pd 3.984 bar, P0 0.542 bar, onset RMSE 3.522 s), as expected from their identity. T2-F's flow peak of 6.90 bar and onset minimum of 4.55 bar give a 2.35-bar separation against the observed 2.6 bar; both turning points remain about 0.8 to 1 bar high. Pd consistency MEETS (C0's P* was NEAR). The peak is close to C1's T2 flow-only peak of 6.85 bar, so the onset link does not itself move the peak. Flow prefers P0 about 1.28 bar, while capped onset feasibility requires P0 below about 0.87 bar because four 1-bar brews with Pe 0.88 to 0.98 bar wetted and dripped. Shared-threshold joint fits have low-pressure bias MISSES; T2 joint predicts about 76–79 s for four held-out 1-bar brews. The flow threshold is therefore not a single wetting-entry pressure in this framework. Restart (ungraded): C2's T2-F Pstar interval lies wholly below the predeclared 15.03-bar limit; the hypothetical full-relaxation gain 1.988 [1.762, 2.266]× overlaps the observed 1.747 to 2.349×. Magnitude-compatible only: T2 has no relaxation state, and this is one qualitative record.
+
+**Recommendation:** Owner: T2 removes C0's scale inconsistency (Pd MEETS) but leaves both turning points about 1 bar high; one shared threshold fails for flow and onset. Review before selecting further work. No successor stage is authorized.

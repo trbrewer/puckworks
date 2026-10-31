@@ -24,6 +24,8 @@ The threshold is the firmest new result: its 95% interval excludes zero in every
 
 ![Observed flow and onset with separate and joint C0 fits; reused without alteration](PRESSURE_PEAK_STAGE_C0/FIGURE.png)[^attribution]
 
+Stage C2 (feasible onset threshold) gives a two-scale fit with a consistent local scale: flow peak 6.90 bar and onset minimum 4.55 bar, a separation close to the observed one but about 1 bar high at both ends. Flow and onset need different thresholds (about 1.3 vs below 0.9 bar), so the flow threshold is not a simple wetting-entry pressure; see PRESSURE_PEAK_STAGE_C2/SUMMARY.md.
+
 ## The CFD demonstration
 
 The E1 mechanism was reproduced in the fluid-flow solver. At nominal constant pressures, after accounting for wetting delay, its largest endpoint difference from Python is about 2.4×10⁻⁵ g/s; its peak remains at 7.714 bar.[^cfd] The solver added the wetting front, geometry and measured pressure histories, exposing the first-drip mismatch; it did not remove the misplaced peak.[^cfd]
@@ -37,6 +39,7 @@ This is one rig and one coffee protocol, fitted and assessed retrospectively. Ru
 - Could separate pressure scales describe wetting and flowing-bed compaction?
 - What causes the restart jump?
 - Is the threshold pressure a capillary/trapped-air entry effect, and would it change with grind or basket?
+- Could a relaxing whole-bed compaction state explain the restart rise? C2's hypothetical full-relaxation bound matches its magnitude, but no tested model contains such a state.
 
 Data: Waszkiewicz et al. (2025), CC-BY-4.0. Figure: reused C0 analysis of those data.[^attribution]
 
