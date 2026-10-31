@@ -18,6 +18,8 @@ Observed first drip is fastest near 3.5 bar and generally gets slower above abou
 
 C0's strongest working lead combines a threshold around 1 bar with whole-bed compaction on a pressure scale around 5–6 bar. It reduces low-pressure overprediction; its flow-only fit met or nearly met every scored criterion.[^c0] The joint constant-pressure peak remains at 7.00 bar against the observed continuous estimate of 6.1 bar: roughly a 1-bar offset. Fitted separately, flow peaks at 7.05 bar (fold range 6.80–7.20) and wetting is fastest at 4.55 bar (2.35–5.05); the single compaction law forces both to one pressure, which is why the joint fit compromises.[^c0-separated] Its onset curve is nearly flat. The shape limitation is structural: the same exponential compaction law ties the flow peak and onset minimum to the same pressure, although the observations place them apart.[^shape]
 
+C1 found a lower-objective onset-only fit (4.870 vs 6.014), but it places P0 (1.294 bar) above the early pressure of four of the five 1-bar brews, so their onset is set by the fixed 0.01-bar denominator floor rather than by the onset law. C0's onset-only values are therefore not superseded by a better physical fit. See PRESSURE_PEAK_STAGE_C1/SUMMARY.md.
+
 The threshold is the firmest new result: its 95% interval excludes zero in every fit (flow-only 1.163 [0.894, 1.339] bar; onset-only 0.542 [0.147, 0.759]; joint 1.296 [0.709, 1.323]).[^c0-threshold]
 
 ![Observed flow and onset with separate and joint C0 fits; reused without alteration](PRESSURE_PEAK_STAGE_C0/FIGURE.png)[^attribution]
