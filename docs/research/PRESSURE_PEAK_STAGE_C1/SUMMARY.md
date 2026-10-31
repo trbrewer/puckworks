@@ -45,9 +45,26 @@ Extrema: 0.05-bar grid, 1–13 bar, fold median [range], not confidence interval
 
 Onset identity versus saved C0 T1-W: max |Δ| Pd_bar=2.93863, P0_bar=1.08523, b_s_bar=11.3406, t0_s=6.82289; different-optimum folds: DESCRIPTIVE_ALL, HYD-LOCO-2.0, HYD-LOCO-3.5, HYD-LOCO-4.0, HYD-LOCO-5.0, HYD-LOCO-6.0, HYD-LOCO-7.0, HYD-LOCO-8.0, HYD-LOCO-9.0, HYD-LOCO-11.0, HYD-LOCO-13.0. No bounds/starts were changed to force agreement.
 
-The C1 onset-only DESCRIPTIVE_ALL objective is 4.870 versus 6.014 at C0's saved T1-W parameters, so the saved C0 onset-only fit was a local optimum. C1 onset-only P0 is 1.294–1.295 bar in every training fold containing 1-bar brews (also DESCRIPTIVE_ALL). No-refit early-pressure inputs Pe for the five 1-bar brews are: 1-1 = 0.98262505, 1-2 = 1.307375, 1-3 = 0.881750, 1-4 = 0.89525010, 1-5b = 0.897125 bar. Across all 56 brews, minimum Pe − P0 is −0.412740 bar for onset-only DESCRIPTIVE_ALL and −0.412668 bar for joint DESCRIPTIVE_ALL, both at brew 1-3. The joint held-out 1-bar mean onset prediction is 66.1 s.
+The C1 onset-only DESCRIPTIVE_ALL objective is 4.870 versus 6.014 at C0's saved T1-W parameters, but P0 = 1.294490 bar exceeds Pe for four of the five 1-bar brews: 1-1, 1-3, 1-4 and 1-5b. Their denominator is max(Pe − P0, 0.01) = 0.01 bar, so the lower objective depends on the fixed denominator floor. Brew 1-2 sits 0.012885 bar (0.013 bar rounded) above P0. C0's onset-only values are not superseded by a better physical fit. No-refit onset predictions at the saved DESCRIPTIVE_ALL onset-only parameters, versus observed onset on the stable clock:
+
+| Brew | Pe, bar | Predicted onset, s | Observed onset, s |
+|---|---|---|---|
+| 1-1 | 0.98262505 | 26.111 | 24.773 |
+| 1-2 | 1.307375 | 25.052 | 25.058 |
+| 1-3 | 0.881750 | 25.446 | 23.390 |
+| 1-4 | 0.89525010 | 25.533 | 25.821 |
+| 1-5b | 0.897125 | 25.545 | 28.350 |
+
+C1 onset-only P0 is 1.294–1.295 bar in every training fold containing 1-bar brews (also DESCRIPTIVE_ALL). Across all 56 brews, minimum Pe − P0 is −0.412740 bar for onset-only DESCRIPTIVE_ALL and −0.412668 bar for joint DESCRIPTIVE_ALL, both at brew 1-3. Of the 200 onset-only DESCRIPTIVE_ALL refits, 158 (Pd < 2.5 bar) are in this denominator-floor mode; T2-F's Pd and onset minimum, and the joint 66.1-s held-out 1-bar mean onset prediction, depend on it.
 
 Of the 200 onset-only DESCRIPTIVE_ALL refits, 158 have Pd < 2.5 bar and 42 have Pd ≥ 2.5 bar. The Pd 95% interval [1.840, 3.938] bar and T2-F's Pstar 95% interval [11.670, 27.992] bar span both groups, so the restart verdict also spans both; the paired T2-F Pstar ranges are [15.980, 28.913] bar for the low-Pd group and [9.876, 15.871] bar for the high-Pd group.
+
+From saved full-cohort refit parameters only, the following are descriptive group splits of bootstrap refits, not confidence intervals: median [2.5%, 97.5%], bar, excluding mass memory. The analytic flow peak uses T2-F's P0 + Pd·ln(1 + Pstar/Pd); the analytic onset minimum uses onset-only P0 + Pd.
+
+| Onset-only Pd group | Draws | T2-F analytic flow peak | Analytic onset minimum |
+|---|---|---|---|
+| Pd < 2.5 bar | 158 | 6.460280 [6.305096, 6.655470] | 3.216034 [2.858450, 3.330756] |
+| Pd ≥ 2.5 bar | 42 | 6.812257 [6.568715, 6.949912] | 4.249345 [3.902742, 4.889861] |
 
 Onset-only Pd bound hits: point folds none; 2 bootstrap fold fits (HYD-LOCO-13.0). T2-F retains every such Pd. Other point bound hits: {"T2 onset-only": {"HYD-LOCO-1.0": ["P0_bar"]}}; all refit bound hits and per-fold Pd/source fits are in RESULT_TABLE.csv.
 
@@ -63,4 +80,4 @@ Saved comparators (endpoint / trace RMSE, g/s; replay rtol=1e-12): T1 flow-only 
 
 200/200 paired whole-brew refits repeat all folds, Mc and onset-only Pd; seed 20261105. Parameter intervals use full-cohort fits; grades use held-out predictions. Accuracy: B0c 1,000 paired condition-then-brew resamples, ±0.25 g/s. Joint scales: 0.437 g/s and 4.534 s. Runtime 7.18 min cumulative wall; 1.59 refit CPU h; two-hour cap retained. [Full results, bounds, source identities and diagnostics](RESULT_TABLE.csv). Waszkiewicz et al. (2025), [Zenodo 18046315](https://doi.org/10.5281/zenodo.18046315), CC-BY-4.0. EWP E1 demonstration reviewed read-only; no solver or source-data changes.
 
-**Recommendation:** Owner: review the T2-F capability grades, separate-scale consistency and restart limitation before selecting any further work.
+**Recommendation:** Owner: T2-F separates the flow peak and onset minimum in the dominant onset mode, but that mode depends on the 0.01-bar denominator floor at 1 bar. Review the high-Pd group split before selecting further work. No successor stage is authorized.
