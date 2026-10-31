@@ -512,6 +512,21 @@
       "issue_or_pr": "#321",
       "verified_commit": null,
       "verified_date": "2026-10-29"
+    },
+    {
+      "id": "pressure-peak-flow-turnover",
+      "title": "Pressure peak: explain flow turnover above ~6 bar (Waszkiewicz 56-brew set)",
+      "area": "hydraulics-research",
+      "state": "active",
+      "priority": "P1",
+      "owner_type": "maintainer",
+      "external_blocker": null,
+      "resume_trigger": null,
+      "next_gate": "Owner decision on a graded re-scoring of the Stage A\u2013B0d candidates (C4, D1, E1, F1, and the B1 reference). Use per-criterion scores instead of the four-part all-or-nothing solver-entry PASS. Peak location is judged allowing one step of the nominal pressure grid. Report error versus B1, peak position, high-pressure slope and trend agreement separately. No solver implementation is authorized until the owner selects a candidate.",
+      "acceptance_evidence": "The observed flow peak is 6 [5, 6] bar and the slope at or above 9 bar is \u22120.0655 [\u22120.0880, \u22120.0403] g/s/bar; every leave-one-brew-out slope stays negative, and local quasi-static compaction is shown to be unable to produce a downturn. Stage A recommended whole-bed compaction plus delivered-mass evolution (C4) as a conditional research lead that passed its rules with the lowest held-out RMSE, 0.215 g/s versus B1's 0.294 g/s; B0, B0b, B0c and B0d stopped solver entry under stricter rules, with recurrent peaks around 8 bar rather than 5\u20137 and additional slope, trend and timing failures. Among tested mechanism forms, the best endpoint RMSEs (g/s), each compared with its own stage's B1, are B0 C4 at basket pressure 0.206 versus 0.306; B0b exploratory, ineligible D3 0.220 and eligible D1 0.232 versus 0.349; B0c D1 0.238 versus 0.286; and B0d F1 0.211 versus 0.294. The wetting-delay pressure exponent is 0.047 [0.004, 0.086], versus 1 for simple 1/P infiltration scaling; the restart flow rise from 1.82 to 3.23\u20134.31 g/s remains unexplained, and unavailable run order and dates make drift untestable. Evidence reviewed at main 344cf278b646ebf195f45aa7c1a6cbed1fd421ea. PHYSICAL_VALIDATION=NOT_ESTABLISHED.",
+      "issue_or_pr": "#388; #389; #390; #391; #392",
+      "verified_commit": null,
+      "verified_date": null
     }
   ]
 }
