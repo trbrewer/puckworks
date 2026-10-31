@@ -99,6 +99,16 @@ def test_constant_flow_peak_and_onset_minimum_share_pstar_plus_p0():
     assert grid[np.argmin(onset)] == pytest.approx(6.)
 
 
+def test_saved_fold_extrema_exclude_full_cohort_fit_and_report_range():
+    bank = {name: dict(a_g_s_bar=1.5, Pstar_bar=ps, P0_bar=.5, Mc_fixed_g=30., b_s_bar=3., t0_s=8.)
+            for name, ps in (("first", 5.5), ("second", 6.5), ("third", 7.5), ("DESCRIPTIVE_ALL", 11.5))}
+    result = C.fold_extrema(bank)
+    for key in ("flow_peak", "onset_minimum"):
+        assert result["continuous_"+key+"_fold_median_bar"] == pytest.approx(7.)
+        np.testing.assert_allclose(result["continuous_"+key+"_fold_range_bar"], [6., 8.], rtol=1e-12, atol=0)
+        assert set(result["continuous_"+key+"_by_fold_bar"]) == {"first", "second", "third"}
+
+
 def test_compute_deadline_is_not_silently_extended():
     with pytest.raises(TimeoutError, match="two-hour"):
         C.Deadline(time.monotonic()-1).check()

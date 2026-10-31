@@ -352,6 +352,20 @@ def _bounds(draws, kind, field, parameter=False):
     return A.interval(values)
 
 
+def fold_extrema(bank):
+    """Evaluate saved held-out fits only; ranges are not bootstrap intervals."""
+    folds = {name: continuous(record)[1] for name, record in bank.items()
+             if name != "DESCRIPTIVE_ALL"}
+    result = {}
+    for key in ("flow_peak", "onset_minimum"):
+        values = {name: curve[key] for name, curve in folds.items() if key in curve}
+        if values:
+            result["continuous_"+key+"_fold_median_bar"] = float(np.median(list(values.values())))
+            result["continuous_"+key+"_fold_range_bar"] = [min(values.values()), max(values.values())]
+            result["continuous_"+key+"_by_fold_bar"] = values
+    return result
+
+
 def result_rows(ctx, point, draws, elapsed, cpu, failures):
     brews = ctx.fine.brews
     center = metrics(ctx, point, np.ones(len(brews.ids)))
@@ -379,6 +393,7 @@ def result_rows(ctx, point, draws, elapsed, cpu, failures):
         pi = row["P0_interval_bar"]
         row["P0_interval_excludes_zero"] = ("YES" if pi[0]>0 or pi[1]<0 else "NO") if isinstance(pi,list) else NA
         row["refit_parameters"] = [d[kind]["parameters"] for d in draws]
+        row.update(fold_extrema(r["bank"]))
         for key in ("a_g_s_bar","b_s_bar","t0_s"):
             if key in c["parameters"]:
                 row[key] = c["parameters"][key]; row[key+"_interval"] = _bounds(draws,kind,key,True)
@@ -475,6 +490,15 @@ def write_summary(rows, ctx, out, elapsed):
         grade_table.append("| "+" | ".join(str(r[k]) for k in
              ("candidate","accuracy_grade","peak_grade","slope_grade","trend_grade","onset_grade","low_pressure_bias_grade"))+" |")
     flow,onset,joint=primary
+    parameters = ["| Fit | P* [95%], bar | P0 [95%], bar |", "|---|---|---|"]
+    for r in primary:
+        ps, p0 = r["Pstar_interval_bar"], r["P0_interval_bar"]
+        parameters.append(f"| {r['candidate']} | {r['Pstar_bar']:.3f} [{ps[0]:.3f}, {ps[1]:.3f}] | "
+                          f"{r['P0_bar']:.3f} [{p0[0]:.3f}, {p0[1]:.3f}] |")
+    extrema = []
+    for r, key, label in ((flow, "flow_peak", "flow-only peak"), (onset, "onset_minimum", "onset-only minimum")):
+        bounds = r["continuous_"+key+"_fold_range_bar"]
+        extrema.append(f"{label} {r['continuous_'+key+'_fold_median_bar']:.2f} [{bounds[0]:.2f}, {bounds[1]:.2f}] bar")
     onset_means=B.condition_means(ctx.fine.brews,ctx.delay,np.ones(len(ctx.delay)))
     observed_min=float(S.NOMINAL[np.argmin(onset_means)])
     low=flow['low_pressure_bias_g_s'];jb=joint['low_pressure_bias_g_s']
@@ -489,26 +513,32 @@ def write_summary(rows, ctx, out, elapsed):
     text=["# PRESSURE-PEAK Stage C0", "", "**Retrospective capability, not validation; TARGET_EXPOSED. PHYSICAL_VALIDATION=NOT_ESTABLISHED.**", "",
           "<details><summary>Owner-set grading bands (verbatim; set before results)</summary>", "", BANDS, "", "</details>", "",
           "\n".join(grade_table), "",
+          "\n".join(parameters), "", "All three full-cohort P0 estimates and their 95% intervals are positive.", "",
           f"Independent-fit interval consistency: P* **{flow['Pstar_consistency_grade']}**; "
-          f"P0 **{flow['P0_consistency_grade']}** (gaps in CSV).", "",
+          f"P0 **{flow['P0_consistency_grade']}** (interval gaps {flow['Pstar_consistency_gap_bar']:.2f} and "
+          f"{flow['P0_consistency_gap_bar']:.2f} bar).", "",
           "![Flow and onset versus pressure](FIGURE.png)", "", reading, "",
+          "Saved-fold constant-pressure extrema (0.05-bar grid; median [fold range], not a confidence interval): "
+          +"; ".join(extrema)+". No refitting.", "",
+          "In T1/T1-W the flow peak and onset minimum both sit near P* + P0 (exactly so without the mass-memory term); one exponential compaction law therefore cannot place them at different pressures.", "",
           f"Held-out endpoint RMSE: T1 {flow['endpoint_rmse_g_s']:.3f}, joint {joint['endpoint_rmse_g_s']:.3f}, B1 {refs['B1']['endpoint_rmse_g_s']:.3f} g/s. "
           f"Onset RMSE: T1-W {onset['onset_rmse_s']:.3f}, joint {joint['onset_rmse_s']:.3f}, W0 {refs['W0']['onset_rmse_s']:.3f}, W1 {refs['W1']['onset_rmse_s']:.3f} s.", "",
           "The joint onset curve is nearly flat. The held-out 1-bar fits touch the predeclared bounds: P0=−5 bar (onset-only), b=0.0001 s·bar (joint); no bounds were changed.", "",
           "Ungraded held-out trace RMSE (same B0c mask/support): "+", ".join(
               f"{r['candidate']} {r['trace_rmse_g_s']:.3f}" for r in rows if 'trace_rmse_g_s' in r)+" g/s; timing-only rows have no flow prediction.", "",
+          "<details><summary>Methods and provenance</summary>", "",
           "Joint residual scales: **0.437 g/s**, [B0c SUMMARY.md:38](../PRESSURE_PEAK_STAGE_B0C/SUMMARY.md#L38); "
           "**4.534 s**, [B0d SUMMARY.md:11](../PRESSURE_PEAK_STAGE_B0D/SUMMARY.md#L11). "
           "B0c mask/support/weighting, stable clock and 100-s endpoint retained; 56 brews, 11 held-out-condition folds, raw line pressure. "
           "Observed onset is a target/mask only; M starts at zero at stable pressure. Training-fold Mc fixed; references unchanged.", "",
           f"Uncertainty: {len(primary[0]['refit_parameters'])}/200 whole-brew refits per fit type, repeating all folds and training Mc; seed {SEED}. "
           "Accuracy uses B0c's 1,000 paired condition-then-brew resamples and ±0.25 g/s band. "
-          "Parameters describe full-cohort fits; grades use held-out predictions. Joint 0.05-bar-grid extrema coincide by construction (P*+P0). "
+          "Parameter intervals describe full-cohort fits; grades use held-out predictions. "
           f"Compute {elapsed/60:.2f} min. [Parameters, 95% intervals, bounds and full scores](RESULT_TABLE.csv).", "",
-          "**Recommended next step:** "+recommended, "",
           "Sources inspected: Waszkiewicz traces_per_brew, equilibrium_windows and original timing/pressure records; "
           "B0c/B0d saved fits. Waszkiewicz et al. (2025), [Zenodo 18046315](https://doi.org/10.5281/zenodo.18046315), CC-BY-4.0. "
-          "No solver, historical result or source-data changes.", ""]
+          "No solver, historical result or source-data changes.", "", "</details>", "",
+          "**Recommended next step:** "+recommended, ""]
     (out/"SUMMARY.md").write_text("\n".join(text))
 
 
