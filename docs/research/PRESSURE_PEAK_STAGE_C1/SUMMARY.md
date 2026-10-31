@@ -27,11 +27,27 @@ Independent onset-only versus flow-only consistency: Pd **MEETS** (gap 0.000 bar
 | T2 flow-only | 6.85 [5.95, 7.05]; 6.85 [5.94, 7.03] | —; — | 0.207 / 0.293 / — | -0.1367 [-0.1576, -0.1064] | +0.025 |
 | T2 joint | 6.55 [6.25, 6.80]; 6.56 [6.25, 6.79] | 3.25 [3.05, 3.75]; 3.24 [3.05, 3.76] | 0.183 / 0.279 / 6.578 | -0.0386 [-0.1405, -0.0287] | +0.189 |
 
+T2-F's +0.043 g/s low-pressure bias MEETS is a signed mean that nets −0.093, −0.375 and +0.597 g/s; its mean absolute 1–3.5-bar condition residual is 0.355 g/s versus C0 T1 flow-only's 0.243 g/s. Held-out condition residuals (saved `condition_endpoint_means_g_s` minus observed means; g/s):
+
+| Fit | 1 bar | 2 bar | 3.5 bar | Mean absolute residual |
+|---|---|---|---|---|
+| T2-F | −0.092796 | −0.374813 | +0.596634 | 0.354747 |
+| T2 flow-only | −0.102727 | −0.374813 | +0.551439 | 0.342993 |
+| T2 joint | −0.091735 | +0.049980 | +0.609612 | 0.250442 |
+| C0 T1 flow-only | −0.089274 | +0.183641 | +0.456506 | 0.243140 |
+| C0 joint | −0.089271 | −0.069812 | +0.509492 | 0.222859 |
+
+In T2-F's HYD-LOCO-2.0 fold, P0 = 2.064 bar exceeds all four brews' 100-s line pressures (1.572–2.010 bar), giving zero predicted endpoint flow; its zero predicted late trend loses the observed rising-trend match at 2 bar.
+
 Extrema: 0.05-bar grid, 1–13 bar, fold median [range], not confidence intervals; analytic turning points P0+Pd (onset) and P0+Pd·ln(1+Pstar/Pd) (capacity) exclude mass memory and are shown alongside the continuous extrema. T2-F's onset uses its separate onset-only P0. Observed flow peak: 6.1 [5.9, 6.3] bar; onset minimum: 3.5 bar. Flow errors/bias are g/s, onset error is s, slope is g/s/bar.
 
 ![Flow and onset](FIGURE.png)
 
 Onset identity versus saved C0 T1-W: max |Δ| Pd_bar=2.93863, P0_bar=1.08523, b_s_bar=11.3406, t0_s=6.82289; different-optimum folds: DESCRIPTIVE_ALL, HYD-LOCO-2.0, HYD-LOCO-3.5, HYD-LOCO-4.0, HYD-LOCO-5.0, HYD-LOCO-6.0, HYD-LOCO-7.0, HYD-LOCO-8.0, HYD-LOCO-9.0, HYD-LOCO-11.0, HYD-LOCO-13.0. No bounds/starts were changed to force agreement.
+
+The C1 onset-only DESCRIPTIVE_ALL objective is 4.870 versus 6.014 at C0's saved T1-W parameters, so the saved C0 onset-only fit was a local optimum. C1 onset-only P0 is 1.294–1.295 bar in every training fold containing 1-bar brews (also DESCRIPTIVE_ALL). No-refit early-pressure inputs Pe for the five 1-bar brews are: 1-1 = 0.98262505, 1-2 = 1.307375, 1-3 = 0.881750, 1-4 = 0.89525010, 1-5b = 0.897125 bar. Across all 56 brews, minimum Pe − P0 is −0.412740 bar for onset-only DESCRIPTIVE_ALL and −0.412668 bar for joint DESCRIPTIVE_ALL, both at brew 1-3. The joint held-out 1-bar mean onset prediction is 66.1 s.
+
+Of the 200 onset-only DESCRIPTIVE_ALL refits, 158 have Pd < 2.5 bar and 42 have Pd ≥ 2.5 bar. The Pd 95% interval [1.840, 3.938] bar and T2-F's Pstar 95% interval [11.670, 27.992] bar span both groups, so the restart verdict also spans both; the paired T2-F Pstar ranges are [15.980, 28.913] bar for the low-Pd group and [9.876, 15.871] bar for the high-Pd group.
 
 Onset-only Pd bound hits: point folds none; 2 bootstrap fold fits (HYD-LOCO-13.0). T2-F retains every such Pd. Other point bound hits: {"T2 onset-only": {"HYD-LOCO-1.0": ["P0_bar"]}}; all refit bound hits and per-fold Pd/source fits are in RESULT_TABLE.csv.
 
