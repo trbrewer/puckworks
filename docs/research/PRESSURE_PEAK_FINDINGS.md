@@ -34,7 +34,7 @@ Smoothing the hard flow threshold with an exponential threshold distribution mak
 
 Applying the detector to the model's own flow (T3-O) leaves 4/5 held-out 1-bar onsets censored at the record end: the fitted flow threshold, 1.10 bar, exceeds their usual line pressure. Including the 1-bar onsets in the fit lowers the threshold to about 0.74 bar, but held-out 2-bar flow is over-predicted by +0.38 g/s. The open problem is the low-pressure flow law: the 1-bar brews flow at roughly 0.1 g/s below thresholds that fit 2 bar and above. C3b's other fits had unstable finite-difference Jacobians, so its 6.45-bar peak isn't an established result.[^c3-observer]
 
-A single lagging whole-bed state isn't supported by these checks. The traces want no resolvable lag, and no tau in the tested range gives more than about 1.25 times the initial restart flow, against the observed 1.75–2.35 times. Flow ratchets up after each restart, and pause flow rises from about 0.10 to 0.20 g/s across successive pauses. That points toward an irreversible change, but it's one qualitative record. The replay's zero flow during pauses is a simplification.[^c3-restart]
+A single lagging whole-bed state isn't supported by these checks. The traces want no resolvable lag, and no tau in the tested range gives more than about 1.25 times the pre-pause flow, against the observed 1.75–2.35 times. Flow ratchets up after each restart, and pause flow rises from about 0.10 to 0.20 g/s across successive pauses. That points toward an irreversible change, but it's one qualitative record. The replay's zero flow during pauses is a simplification.[^c3-restart]
 
 ## The CFD demonstration
 
