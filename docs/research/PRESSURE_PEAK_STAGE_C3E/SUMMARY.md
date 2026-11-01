@@ -52,6 +52,14 @@ Positive reductions improve the named metric; negative reductions are tradeoffs.
 
 Peaks are global capacity maxima; ordinary-fold ranges are not confidence intervals. The out-of-fold slope combines the 9/11/13-bar held-out predictions from three models and is not a curve derivative. Both slopes use actual mean endpoint pressures.
 
+## Reading against T2-F and the targets
+
+A's ordinary-fold peak median of 5.995 bar is inside 5-7 bar. Its out-of-fold >=9-bar slope of -0.0763 g/s/bar lies inside the observed interval [-0.0880, -0.0403]; T2-F's -0.1193 lies outside it. The unweighted RMS of the 11 held-out condition-mean residuals is 0.164 (A), 0.144 (M1), 0.154 (M2), 0.109 (LC) and 0.192 (T2-F) g/s. This RMS is a descriptive summary, not a graded metric. The screen remains ungraded; these comparisons are not grades.
+
+LC's f is 0.30-0.47 in every ordinary fold and both omission twins. Unlike M2's v, its gain does not vanish when 3.5 bar is removed from flow training, conditional on inherited Mc, which retains 3.5-bar information.
+
+LC's held-out brew 1-2 prediction is 0.258 g/s versus the observed 0.117 g/s. Brew 1-2's observed q/P is among the lowest at 1 bar. This is context only: rule 2's tradeoff reading still applies, and rule 3's batch-effect caveat stands.
+
 ## Fixed-bank omission tests and fitted additions
 
 Twins omit 3.5 bar from flow fitting only. **3.5-bar information remains in Mc**; its effect has not been measured. These are conditional sensitivity tests, not robustness to removing 3.5 bar from the whole calibration pipeline.
