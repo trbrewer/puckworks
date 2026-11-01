@@ -65,3 +65,19 @@ Saved C2 joint, C1/C0/E1/F1/B1 comparisons are included without refits. In-sampl
 Local checks: 53 C3c tests passed on each of Python 3.10 and 3.12. The Python 3.12 offline suite finished with 7,740 passed, 69 skipped and 70 deselected; registry gates had 66 passes and one acknowledged exception. Ruff and statusdoc regeneration passed. The 28-fit screen execution took 56.09 s.
 
 Cumulative analysis/check wall time through output: 1651.81 s; serial, one BLAS thread, two-hour cumulative cap. [Full results and CI fixtures](RESULT_TABLE.csv). Waszkiewicz et al., Zenodo 18046315, CC-BY-4.0. C3c awaits owner review; no successor is authorized.
+
+## Fixed Pd in the low-pressure folds
+
+The table gives fixed Pd=7.371 bar when holding out 1 bar, including its 3.5-omitted twin; 4.863 bar when holding out 2 bar, including its twin; and 3.81-4.07 bar in all other fits. Both forms use these same saved values.
+
+The 1-bar-held-out Pd comes from the onset fit whose P0 is bound-pinned at -5 bar. The held-out 1- and 2-bar tests therefore test the flow law together with that Pd transfer and cannot separate them. W4's collapse to n=1, flow P0=1.21 bar in the 1-bar-held-out fold (all four starts agree), and W3's lower held-out n values of 1.54 and 1.61, are consistent with that Pd. This screen doesn't show which explains the held-out errors.
+
+These DESCRIPTIVE_ALL signed residuals are **in-sample**, in g/s, calculated from the committed brew residuals:
+
+| Form | 1 bar | 2 bar | 3.5 bar |
+|---|---:|---:|---:|
+| T2-F | -0.098270 | -0.031509 | +0.433846 |
+| W3 | -0.023203 | -0.031651 | +0.314469 |
+| W4 | -0.035660 | -0.078962 | +0.347434 |
+
+They show that the shapes can describe 1 bar in-sample, not that they predict it when held out. The dependence rule is uninformative when B is near zero, as for W4/1, and weak when the form is far from T2-F: W3/2 moved +0.116 g/s without being flagged. The rule and its flags are unchanged.
