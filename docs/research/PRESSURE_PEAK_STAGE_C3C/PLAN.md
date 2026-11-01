@@ -49,7 +49,7 @@ Run **14 point fits per form, 28 total** after separate approval: DESCRIPTIVE_AL
 
 > If held-out 1-bar or 2-bar residuals change materially when 3.5 bar is removed from training, the low-pressure result leans on the 3.5-bar condition and we will say so. These are additional held-out tests, unlike the in-sample 3.5-omitted curves in rule 3.
 
-Define materiality before results: for held-out condition h, let `B_h=abs(r_W3,standard,h-r_T2F,standard,h)`. For either form f, flag material dependence when `abs(r_f,omitted,h-r_f,standard,h)>B_h`. If `B_h=0`, any nonzero change meets this comparative rule. Report both quantities, the direction of the change, and whether an improvement relative to T2-F is retained, lost or reversed. This is a dependence diagnostic, not a new accuracy band; even an improvement after omission establishes dependence. No retuning follows it.
+Define materiality before results: for each form f and held-out condition h, let `B_{f,h}=abs(r_f,standard,h-r_T2F,standard,h)`. Flag material dependence for form f when `abs(r_f,omitted,h-r_f,standard,h)>B_{f,h}`. If `B_{f,h}=0`, any nonzero change meets this comparative rule. Report both quantities, the direction of the change, and whether an improvement relative to T2-F is retained, lost or reversed. This is a dependence diagnostic, not a new accuracy band; even an improvement after omission establishes dependence. No retuning follows it.
 
 ## Bounds, starts and numerics fixed before execution
 
@@ -113,7 +113,7 @@ Those labels describe the unchanged full-stage criteria, not grades awarded by t
 
 ## Existing plug-in illustration, not C3c results
 
-Record the owner's planning illustration only: W3, n=2, C2 Pd/Pstar/Mc (`3.9844972419062152 bar`, `12.213432655100736 bar`, `28.709461834955388 g`), a approximately 0.913 g/s/bar matched at the 4-bar condition, constant mean pressures, M(0)=0. Quoted 1/2/3.5-bar endpoints are **0.108/0.407/1.411 g/s**. The advisor's earlier calculation used a=0.9134045044685302 and mean pressures 1.0454/1.791125/3.44575/4.076975 bar; its 3.5-bar value was 1.41156436 g/s (1.412 rounded). Keep the owner's approximate 1.411 distinct from that rounding; neither is a test tolerance or a trace refit.
+Two plug-in runs of W3 at n=2 with C2 Pd/Pstar/Mc (3.9844972419062152 bar, 12.213432655100736 bar, 28.709461834955388 g), a matched at the 4-bar condition, constant condition-mean pressures, M(0)=0. Codex's run (a=0.9134045044685302, mean pressures 1.0454/1.791125/3.44575/4.076975 bar) gave 0.108/0.407/1.412 g/s at 1/2/3.5 bar; the advisor's run (a=0.9131) gave 0.108/0.407/1.411. The third-decimal difference comes from inputs, and neither is a test tolerance or a trace refit.
 
 Use the clarified continuous peak **6.095 bar** (6.10 on the 0.05-bar grid) and project >=9-bar slope **-0.12933 g/s/bar**, using actual mean pressures of the 9/11/13-bar conditions. The advisor's -0.126 came from a line fitted to a dense 0.05-bar grid over 9-14 bar, which is not the project slope definition; the difference is method, not error.
 
