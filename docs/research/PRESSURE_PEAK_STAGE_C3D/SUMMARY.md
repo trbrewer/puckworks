@@ -53,7 +53,15 @@ Pd values are bar; seed ranges cover the three converged starts in each group, n
 | HYD-LOCO-1.0-OMIT-3.5 | 3.456647295 | 2.393238264 | 3.456610 to 3.456632 | 3.456619 to 3.456647 |
 | HYD-LOCO-2.0-OMIT-3.5 | 3.637447627 | 3.197452919 | 3.637414 to 3.637445 | 3.637404 to 3.637448 |
 
-The 1-bar and 2-bar flow Pd values are about 48% and 74% of their inherited onset scales, 7.371 and 4.863 bar. That weakens the shared-scale reading in these folds, without rescuing held-out 2-bar flow. DESCRIPTIVE_ALL gives 3.563 bar versus the full-cohort onset value 3.984 bar. Exact differences and ratios to both onset references, each group's objectives, Pd/n ranges and all fitted parameters are in RESULT_TABLE.csv.
+## Flow Pd stability
+
+Free flow Pd stays between 3.46 and 3.64 bar across all five A fits and both seed groups, including the folds whose inherited onset Pd was 7.371 and 4.863 bar. In this screen, the flow data identify a stable scale near 3.56 bar. The onset scale moves when low-pressure brews leave training; the 1-bar-held-out onset P0 is bound-pinned at -5 bar.
+
+The 1-bar and 2-bar flow Pd values are about 48% and 74% of their inherited onset scales, 7.371 and 4.863 bar. These ratios reflect unstable fold onset scales while the flow scale stays stable. DESCRIPTIVE_ALL gives 3.563 bar versus the full-cohort onset value 3.984 bar. Exact differences and ratios to both onset references, each group's objectives, Pd/n ranges and all fitted parameters are in RESULT_TABLE.csv.
+
+Clean arm A improves held-out 1-bar flow: -0.0567 versus T2-F's -0.0928 g/s, consistent with Pd transfer explaining C3c's 1-bar failure. At 2 bar, A's held-out residual is 0.029 g/s worse than T2-F, and its in-sample residual of -0.0966 g/s is also worse than T2-F's -0.0315 g/s. Under this screen's fixed Mc and trace objective, the W3 shape, rather than Pd transfer, is the limit at 2 bar. Rule 1's literal reading above is unchanged.
+
+A's Pstar is 24.4-25.8 bar, about twice T2-F's full-cohort 12.2 bar. A's peak and slope were not evaluated.
 
 ## Numerical qualifications
 
