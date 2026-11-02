@@ -40,7 +40,7 @@ A single lagging whole-bed state isn't supported by these checks. The traces wan
 
 ## What C3c to D0 add
 
-C3c tried a convex opening, 1-exp(-(P/Pd)^n), with Pd fixed from each fold's onset fit. It failed at held-out 1 and 2 bar. The fault was the transferred scale, not the opening: with 1 bar held out, the onset fit's P0 sits on its -5 bar bound and hands over Pd = 7.37 bar, and with 2 bar held out it hands over 4.86 bar, against about 4 bar elsewhere.[^c3c] C3d freed Pd in the flow fit. Across its five screened fits and both seed groups, Pd stayed between 3.46 and 3.64 bar. The flow data pin their own scale; it's the onset scale that moves.[^c3d]
+C3c tried a convex opening, 1-exp(-(P/Pd)^n), with Pd fixed from each fold's onset fit. It failed at held-out 1 and 2 bar, but those are exactly the folds where the transferred Pd was distorted: with 1 bar held out, the onset fit's P0 sits on its -5 bar bound and hands over Pd = 7.37 bar, and with 2 bar held out it hands over 4.86 bar, against about 4 bar elsewhere. C3c couldn't separate the two causes.[^c3c] C3d freed Pd in the flow fit. Across its five screened fits and both seed groups, Pd stayed between 3.46 and 3.64 bar, so the flow data pin their own scale and it's the onset scale that moves. Freeing Pd improved held-out 1-bar flow, consistent with the transferred Pd causing C3c's 1-bar failure. At 2 bar the opening's shape, not the transferred Pd, remained the limit.[^c3d]
 
 C3e screened four low-pressure variants on that free-Pd base and carried two forward: A, the convex opening with free Pd (four parameters), and LC, a mix of that opening with a linear one (five parameters, exploratory). A memory-clock term and a recovery-law swap added almost nothing and were dropped.[^c3e]
 
