@@ -1,0 +1,15 @@
+funnel,stratum,view,canonical_records,authenticated_DE1,status,credit,pressure_weight_common_time,defined_resolution,pressure_spanning_candidates,runs_before_state,pressure_selected,multiple_candidates,active_brew,state_unknown,usable_scale_flow
+authenticated_DE1,authenticated_DE1,strict,23169,0,STOPPED_AT_DEVICE_AUTHENTICATION,Data source: Visualizer; thanks to the contributing users who made their shots public.,,,,,,,,,
+authenticated_DE1,authenticated_DE1,secondary,23169,0,STOPPED_AT_DEVICE_AUTHENTICATION,Data source: Visualizer; thanks to the contributing users who made their shots public.,,,,,,,,,
+reported_labels,DE1/Decent,strict,0,,REPORTED_LABELS_UNVERIFIED,Data source: Visualizer; thanks to the contributing users who made their shots public.,0,0,0,0,0,0,0,0,0
+reported_labels,DE1/Decent,secondary,0,,REPORTED_LABELS_UNVERIFIED,Data source: Visualizer; thanks to the contributing users who made their shots public.,0,0,0,0,0,0,0,0,0
+reported_labels,DE1/Decent,flat,0,,REPORTED_LABELS_UNVERIFIED,Data source: Visualizer; thanks to the contributing users who made their shots public.,0,0,,0,0,0,0,0,0
+reported_labels,Meticulous,strict,0,,REPORTED_LABELS_UNVERIFIED,Data source: Visualizer; thanks to the contributing users who made their shots public.,0,0,0,0,0,0,0,0,0
+reported_labels,Meticulous,secondary,0,,REPORTED_LABELS_UNVERIFIED,Data source: Visualizer; thanks to the contributing users who made their shots public.,0,0,0,0,0,0,0,0,0
+reported_labels,Meticulous,flat,0,,REPORTED_LABELS_UNVERIFIED,Data source: Visualizer; thanks to the contributing users who made their shots public.,0,0,,0,0,0,0,0,0
+reported_labels,Gaggiuino/GaggiMate,strict,0,,REPORTED_LABELS_UNVERIFIED,Data source: Visualizer; thanks to the contributing users who made their shots public.,0,0,0,0,0,0,0,0,0
+reported_labels,Gaggiuino/GaggiMate,secondary,0,,REPORTED_LABELS_UNVERIFIED,Data source: Visualizer; thanks to the contributing users who made their shots public.,0,0,0,0,0,0,0,0,0
+reported_labels,Gaggiuino/GaggiMate,flat,0,,REPORTED_LABELS_UNVERIFIED,Data source: Visualizer; thanks to the contributing users who made their shots public.,0,0,,0,0,0,0,0,0
+reported_labels,other/unknown,strict,23169,,REPORTED_LABELS_UNVERIFIED,Data source: Visualizer; thanks to the contributing users who made their shots public.,14471,14397,3419,426,426,35,0,426,426
+reported_labels,other/unknown,secondary,23169,,REPORTED_LABELS_UNVERIFIED,Data source: Visualizer; thanks to the contributing users who made their shots public.,14471,14397,3419,427,427,36,0,427,427
+reported_labels,other/unknown,flat,23169,,REPORTED_LABELS_UNVERIFIED,Data source: Visualizer; thanks to the contributing users who made their shots public.,14471,14397,,92,92,3,0,92,92

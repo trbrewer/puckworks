@@ -1,0 +1,841 @@
+stratum,tercile,grid_view,role,j,time_s,mass_g,contributors,repeated_crossing_segments,mass_variance,time_variance,credit
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,0,0.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,1,0.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,2,1.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,3,1.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,4,2.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,5,2.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,6,3.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,7,3.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,8,4.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,9,4.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,10,5.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,11,5.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,12,6.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,13,6.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,14,7.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,15,7.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,16,8.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,17,8.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,18,9.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,19,9.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,20,10.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,0,0.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,1,0.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,2,1.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,3,1.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,4,2.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,5,2.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,6,3.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,7,3.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,8,4.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,9,4.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,10,5.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,11,5.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,12,6.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,13,6.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,14,7.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,15,7.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,16,8.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,17,8.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,18,9.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,19,9.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,20,10.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,0,0.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,1,0.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,2,1.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,3,1.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,4,2.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,5,2.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,6,3.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,7,3.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,8,4.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,9,4.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,10,5.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,11,5.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,12,6.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,13,6.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,14,7.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,15,7.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,16,8.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,17,8.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,18,9.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,19,9.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,20,10.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,0,0,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,0,0.0,0.0,88,0,0.9596064006603602,0.9596064006603602,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,1,0.5,0.6475143621882752,88,1,0.8276738148947037,1.0568425917266233,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,2,1.0,1.2950287243765504,88,3,0.9575111332490729,0.4459773614445759,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,3,1.5,1.9425430865648257,88,1,0.8406565382095295,0.7800702494418789,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,4,2.0,2.5900574487531007,88,0,1.1137118832266149,1.023340656715488,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,5,2.5,3.237571810941376,87,0,0.9257855360582454,0.6702455014816705,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,6,3.0,3.8850861731296513,87,1,0.8884925451030666,0.8566443030629851,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,7,3.5,4.532600535317926,86,0,1.2644132883130499,0.9995003261784381,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,8,4.0,5.1801148975062015,84,0,0.8219234940400565,0.5993599542559719,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,9,4.5,5.8276292596944765,80,0,10.497843696427381,0.5288998766883601,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,10,5.0,6.475143621882752,79,0,10.387711623003554,1.0035688151981441,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,11,5.5,7.122657984071027,77,0,9.245615931718142,0.8217619026217093,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,12,6.0,7.770172346259303,77,0,9.312420808787,0.30356175396721324,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,13,6.5,8.417686708447578,75,0,9.490722597533454,1.0610493852078755,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,14,7.0,9.065201070635853,74,0,10.645096193424028,0.8163272269838354,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,15,7.5,9.712715432824128,72,1,11.004003231654764,0.3046605178987128,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,16,8.0,10.360229795012403,69,1,1.2330172023205543,1.4562798804004171,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,17,8.5,11.007744157200678,68,1,0.6846938635672952,1.0132340381908587,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,18,9.0,11.655258519388953,67,0,4.099496813155902,0.4194664979413703,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,19,9.5,12.302772881577228,64,1,4.180370285335238,1.2457374010208642,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,20,10.0,12.950287243765503,62,0,0.7611894518541592,1.0485861439286115,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,88,0,0.9596064006603602,0.9596064006603602,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,88,2,0.879031247519421,1.0568425917266233,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,88,0,0.9160616158729445,0.4459773614445759,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,86,0,1.0604834461543013,0.7669629353534315,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,80,0,10.313262742016521,1.0816580542243934,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,77,0,9.245615931718142,0.5032823242834943,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,75,0,9.537141532105275,0.6227500202663171,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,70,1,1.131546349371388,0.930399711671207,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,68,0,3.9446097915183986,0.5765728948288363,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,62,0,0.7611894518541592,0.4080210300626265,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,61,1,0.8151769785341982,1.0775988276959032,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,58,0,0.9968380003438133,0.6525987639359346,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,57,1,0.6736114256965142,0.33251682231383084,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,55,0,0.8745827507086188,1.0809109107705681,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,51,0,1.2588594295936957,0.7126050146990984,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,47,1,4.068822457623493,0.30576129884791364,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,43,0,0.9482179309276431,1.242933069500262,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,40,0,2.169033991564412,1.2691561482884413,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,38,1,4.923778704029603,0.42801377196881035,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,34,0,1.363720522751259,0.9291567977697596,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,27,0,0.879298764552135,1.2844212112998563,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,0.0,27,0,0.9792337080466074,0.9792337080466074,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,0.6475143621882752,27,1,0.4793544305562558,0.893985189150466,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,1.2950287243765504,27,3,1.107695472855975,0.24247052450668066,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,1.9425430865648257,27,0,0.5850260783356165,0.5268358887744143,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,2.5900574487531007,27,0,2.2139098316552155,0.4540919766623522,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,3.237571810941376,26,0,0.6929457703536924,0.9260119030365596,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,3.8850861731296513,26,0,0.6371329234186909,1.2680427892163864,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,4.532600535317926,25,0,2.2479076040789905,0.9288460793126496,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,5.1801148975062015,23,0,1.5888796543818196,0.4606282580281728,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,5.8276292596944765,19,0,39.3761100694802,0.8552685578909884,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,6.475143621882752,18,0,40.4961785573616,0.39632032339442613,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,7.122657984071027,16,0,39.41213518313073,1.0822473139047974,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,7.770172346259303,16,0,40.650896965363174,0.18159258639324832,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,8.417686708447578,14,0,45.189719008070774,0.6668855970496544,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,9.065201070635853,13,0,51.336150549558745,0.873991117102448,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,9.712715432824128,11,1,59.65750147522235,0.3568496341638862,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,10.360229795012403,9,1,5.2207959568519495,0.9205884482444002,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,11.007744157200678,8,1,1.2718713726426703,0.3539421584641876,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,11.655258519388953,8,0,26.482681174078312,0.14663686337634566,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,12.302772881577228,7,1,28.80407573281499,0.7034620673105053,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,12.950287243765503,6,0,2.807778430510391,0.058177260848297774,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,27,0,0.9792337080466074,0.9792337080466074,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,27,2,0.9490933581669204,0.893985189150466,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,27,0,1.6487521477263005,0.24247052450668066,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,25,0,1.8627316035531016,0.441203450364466,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,19,0,38.91866763126327,0.4398834420137073,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,16,0,39.41213518313073,0.23680107960127914,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,14,0,44.89420166813725,0.2935904501233914,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,10,1,4.293897823826585,0.032372292909809336,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,8,0,26.95191148425313,0.1312984083329006,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,6,0,2.807778430510391,0.04539641805103436,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,6,1,1.43496977907027,0.0,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,5,0,2.889092890499575,0.2769299822722252,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,5,1,1.0070777234666741,0.044482644628100025,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,5,0,1.0112381820184706,0.26023805279859513,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,5,0,7.092664730864422,0.1779305785124001,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,5,1,22.840532063026206,0.25204498125780256,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,4,0,0.13486777536514707,1.053660409010603,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,4,0,13.738604478583763,0.0920422735202237,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,4,1,35.29652878559427,0.08445509155115791,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,3,0,5.333687642460833,1.1185055430313877,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,3,0,2.7356185753720923,0.027271784746733075,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,0.0,30,0,0.696501303578379,0.696501303578379,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,0.6475143621882752,30,0,0.6394989618914109,0.9191637707372696,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,1.2950287243765504,30,0,0.4753146474238003,0.3675901840838192,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,1.9425430865648257,30,1,0.8322010511082841,0.6534907415645441,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,2.5900574487531007,30,0,0.3055692775803295,1.0521841269406138,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,3.237571810941376,30,0,1.0151548991818846,0.29793777840831676,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,3.8850861731296513,30,0,0.9753133432717539,0.2807775311559682,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,4.532600535317926,30,0,0.8552633834400971,0.9622980563447803,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,5.1801148975062015,30,0,0.4559624051859893,0.6057468302295113,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,5.8276292596944765,30,0,0.4195367456517756,0.2599362603553845,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,6.475143621882752,30,0,0.7723160832215796,1.2046176113218052,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,7.122657984071027,30,0,0.4965562896267059,0.8125017623145968,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,7.770172346259303,30,0,1.047973003598079,0.2754344236867945,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,8.417686708447578,30,0,0.5306742512414557,1.290373498107513,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,9.065201070635853,30,0,0.6540978989817609,0.6957656397380325,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,9.712715432824128,30,0,1.045065631018064,0.2721865318162816,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,10.360229795012403,29,0,0.5820705260289529,1.6443615169280614,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,11.007744157200678,29,0,0.5314830815026773,0.9277439097409002,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,11.655258519388953,28,0,0.6928147698353759,0.39506589426084465,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,12.302772881577228,26,0,0.6224696817426274,1.1675765372642604,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,12.950287243765503,25,0,0.5176552248851093,1.0453502344644487,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,30,0,0.696501303578379,0.696501303578379,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,30,0,0.6989698210217984,0.9191637707372696,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,30,0,0.6189453694544802,0.3675901840838192,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,30,0,0.7403268974683873,0.6534907415645441,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,30,0,0.4565185118812451,1.0521841269406138,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,30,0,0.4965562896267059,0.29793777840831676,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,30,0,0.6872791380201225,0.2807775311559682,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,29,0,0.5993206605655828,0.9872465665874832,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,29,0,0.6515067658374933,0.6076448483188853,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,25,0,0.5176552248851093,0.2601814995633078,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,24,0,0.44391895300337786,1.170037172335077,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,22,0,0.804111151346606,0.5662172564871358,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,21,0,0.4674681481197903,0.2979690653399701,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,20,0,1.1105314566748747,1.3542484643672497,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,17,0,0.5682514324507117,0.6173896657804837,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,16,0,0.8460217131776305,0.27653947172962207,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,16,0,0.3226112193680555,1.261089097280792,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,16,0,0.36586668415852364,1.1754405209045933,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,14,0,0.6136657638911778,0.489577634011397,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,13,0,1.08235070844615,0.6485659697893463,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,10,0,0.4219835256911225,1.479079806360413,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,0.0,31,0,0.9857161654976028,0.9857161654976028,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,0.6475143621882752,31,0,1.009984435774649,0.9661122230934177,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,1.2950287243765504,31,0,1.091460457380167,0.5407292720076591,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,1.9425430865648257,31,0,0.9225745569356834,0.9822043751627014,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,2.5900574487531007,31,0,0.7679426296101998,1.3242509461840433,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,3.237571810941376,31,0,0.8677215540451444,0.6931425523451246,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,3.8850861731296513,31,1,0.9249015730129663,0.8793264550676592,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,4.532600535317926,31,0,0.7202925620321655,0.9813581552567989,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,5.1801148975062015,31,0,0.4896979363364935,0.5560492644089787,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,5.8276292596944765,31,0,0.80750796429881,0.47867964054867257,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,6.475143621882752,31,0,0.6276742798819409,1.011880101709954,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,7.122657984071027,31,0,0.5953726226163903,0.661446833555414,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,7.770172346259303,31,0,0.4374399227778517,0.350867789926954,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,8.417686708447578,31,0,0.7417941033445,0.904913791524983,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,9.065201070635853,31,0,0.4794483148036333,0.8438971751107998,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,9.712715432824128,31,0,0.6162627826582819,0.3115097283074698,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,10.360229795012403,31,0,0.555970526499667,1.3532040346050178,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,11.007744157200678,31,0,0.6249154600842878,1.1936538089677238,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,11.655258519388953,31,0,0.6943718545380184,0.4456959530097621,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,12.302772881577228,31,0,0.5389321422438921,1.404176744366692,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,12.950287243765503,31,0,0.5424124726680825,1.0837217525425014,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,31,0,0.9857161654976028,0.9857161654976028,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,31,0,0.914025581532197,0.9661122230934177,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,31,0,0.49213256472723116,0.5407292720076591,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,31,0,0.6797250475528727,0.9822043751627014,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,31,0,0.8525842035879032,1.3242509461840433,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,31,0,0.5953726226163903,0.6931425523451246,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,31,0,0.5376963896702167,0.8793264550676592,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,31,0,0.43463756171527296,0.9813581552567989,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,31,0,0.532581468449152,0.5560492644089787,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,31,0,0.5424124726680825,0.47867964054867257,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,31,0,0.9545979990003627,1.011880101709954,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,31,0,0.6469709014369299,0.661446833555414,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,31,0,0.7528677641288631,0.350867789926954,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,30,0,0.63022916056642,0.9213408403257871,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,29,0,0.5701823054069199,0.7614943131527103,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,26,0,1.3506005175378453,0.30941463432991745,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,23,0,1.201765699356722,1.244932470852949,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,20,0,0.343638294743159,1.389487603616869,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,20,0,0.7403110637279335,0.4071683996546371,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,18,0,0.7335463993999223,1.079525370657455,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,14,0,0.570998425229891,1.03335932774582,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,0,0.0,0.0,88,0,0.9596064006603602,0.9596064006603602,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,1,0.5,0.6475143621882752,88,1,0.8276738148947037,1.0568425917266233,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,2,1.0,1.2950287243765504,88,3,0.9575111332490729,0.4459773614445759,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,3,1.5,1.9425430865648257,88,1,0.8406565382095295,0.7800702494418789,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,4,2.0,2.5900574487531007,88,0,1.1137118832266149,1.023340656715488,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,5,2.5,3.237571810941376,87,0,0.9257855360582454,0.6702455014816705,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,6,3.0,3.8850861731296513,87,1,0.8884925451030666,0.8566443030629851,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,7,3.5,4.532600535317926,86,0,1.2644132883130499,0.9995003261784381,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,8,4.0,5.1801148975062015,84,0,0.8219234940400565,0.5993599542559719,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,9,4.5,5.8276292596944765,80,0,10.497843696427381,0.5288998766883601,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,10,5.0,6.475143621882752,79,0,10.387711623003554,1.0035688151981441,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,11,5.5,7.122657984071027,77,0,9.245615931718142,0.8217619026217093,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,12,6.0,7.770172346259303,77,0,9.312420808787,0.30356175396721324,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,13,6.5,8.417686708447578,75,0,9.490722597533454,1.0610493852078755,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,14,7.0,9.065201070635853,74,0,10.645096193424028,0.8163272269838354,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,15,7.5,9.712715432824128,72,1,11.004003231654764,0.3046605178987128,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,16,8.0,10.360229795012403,69,1,1.2330172023205543,1.4562798804004171,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,17,8.5,11.007744157200678,68,1,0.6846938635672952,1.0132340381908587,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,18,9.0,11.655258519388953,67,0,4.099496813155902,0.4194664979413703,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,19,9.5,12.302772881577228,64,1,4.180370285335238,1.2457374010208642,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,20,10.0,12.950287243765503,62,0,0.7611894518541592,1.0485861439286115,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,88,0,0.9596064006603602,0.9596064006603602,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,88,2,0.879031247519421,1.0568425917266233,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,88,0,0.9160616158729445,0.4459773614445759,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,86,0,1.0604834461543013,0.7669629353534315,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,80,0,10.313262742016521,1.0816580542243934,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,77,0,9.245615931718142,0.5032823242834943,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,75,0,9.537141532105275,0.6227500202663171,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,70,1,1.131546349371388,0.930399711671207,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,68,0,3.9446097915183986,0.5765728948288363,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,62,0,0.7611894518541592,0.4080210300626265,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,61,1,0.8151769785341982,1.0775988276959032,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,58,0,0.9968380003438133,0.6525987639359346,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,57,1,0.6736114256965142,0.33251682231383084,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,55,0,0.8745827507086188,1.0809109107705681,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,51,0,1.2588594295936957,0.7126050146990984,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,47,1,4.068822457623493,0.30576129884791364,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,43,0,0.9482179309276431,1.242933069500262,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,40,0,2.169033991564412,1.2691561482884413,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,38,1,4.923778704029603,0.42801377196881035,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,34,0,1.363720522751259,0.9291567977697596,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,27,0,0.879298764552135,1.2844212112998563,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,0.0,27,0,0.9792337080466074,0.9792337080466074,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,0.6475143621882752,27,1,0.4793544305562558,0.893985189150466,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,1.2950287243765504,27,3,1.107695472855975,0.24247052450668066,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,1.9425430865648257,27,0,0.5850260783356165,0.5268358887744143,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,2.5900574487531007,27,0,2.2139098316552155,0.4540919766623522,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,3.237571810941376,26,0,0.6929457703536924,0.9260119030365596,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,3.8850861731296513,26,0,0.6371329234186909,1.2680427892163864,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,4.532600535317926,25,0,2.2479076040789905,0.9288460793126496,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,5.1801148975062015,23,0,1.5888796543818196,0.4606282580281728,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,5.8276292596944765,19,0,39.3761100694802,0.8552685578909884,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,6.475143621882752,18,0,40.4961785573616,0.39632032339442613,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,7.122657984071027,16,0,39.41213518313073,1.0822473139047974,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,7.770172346259303,16,0,40.650896965363174,0.18159258639324832,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,8.417686708447578,14,0,45.189719008070774,0.6668855970496544,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,9.065201070635853,13,0,51.336150549558745,0.873991117102448,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,9.712715432824128,11,1,59.65750147522235,0.3568496341638862,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,10.360229795012403,9,1,5.2207959568519495,0.9205884482444002,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,11.007744157200678,8,1,1.2718713726426703,0.3539421584641876,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,11.655258519388953,8,0,26.482681174078312,0.14663686337634566,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,12.302772881577228,7,1,28.80407573281499,0.7034620673105053,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,12.950287243765503,6,0,2.807778430510391,0.058177260848297774,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,27,0,0.9792337080466074,0.9792337080466074,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,27,2,0.9490933581669204,0.893985189150466,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,27,0,1.6487521477263005,0.24247052450668066,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,25,0,1.8627316035531016,0.441203450364466,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,19,0,38.91866763126327,0.4398834420137073,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,16,0,39.41213518313073,0.23680107960127914,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,14,0,44.89420166813725,0.2935904501233914,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,10,1,4.293897823826585,0.032372292909809336,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,8,0,26.95191148425313,0.1312984083329006,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,6,0,2.807778430510391,0.04539641805103436,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,6,1,1.43496977907027,0.0,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,5,0,2.889092890499575,0.2769299822722252,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,5,1,1.0070777234666741,0.044482644628100025,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,5,0,1.0112381820184706,0.26023805279859513,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,5,0,7.092664730864422,0.1779305785124001,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,5,1,22.840532063026206,0.25204498125780256,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,4,0,0.13486777536514707,1.053660409010603,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,4,0,13.738604478583763,0.0920422735202237,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,4,1,35.29652878559427,0.08445509155115791,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,3,0,5.333687642460833,1.1185055430313877,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,3,0,2.7356185753720923,0.027271784746733075,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,0.0,30,0,0.696501303578379,0.696501303578379,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,0.6475143621882752,30,0,0.6394989618914109,0.9191637707372696,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,1.2950287243765504,30,0,0.4753146474238003,0.3675901840838192,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,1.9425430865648257,30,1,0.8322010511082841,0.6534907415645441,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,2.5900574487531007,30,0,0.3055692775803295,1.0521841269406138,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,3.237571810941376,30,0,1.0151548991818846,0.29793777840831676,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,3.8850861731296513,30,0,0.9753133432717539,0.2807775311559682,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,4.532600535317926,30,0,0.8552633834400971,0.9622980563447803,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,5.1801148975062015,30,0,0.4559624051859893,0.6057468302295113,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,5.8276292596944765,30,0,0.4195367456517756,0.2599362603553845,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,6.475143621882752,30,0,0.7723160832215796,1.2046176113218052,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,7.122657984071027,30,0,0.4965562896267059,0.8125017623145968,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,7.770172346259303,30,0,1.047973003598079,0.2754344236867945,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,8.417686708447578,30,0,0.5306742512414557,1.290373498107513,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,9.065201070635853,30,0,0.6540978989817609,0.6957656397380325,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,9.712715432824128,30,0,1.045065631018064,0.2721865318162816,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,10.360229795012403,29,0,0.5820705260289529,1.6443615169280614,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,11.007744157200678,29,0,0.5314830815026773,0.9277439097409002,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,11.655258519388953,28,0,0.6928147698353759,0.39506589426084465,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,12.302772881577228,26,0,0.6224696817426274,1.1675765372642604,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,12.950287243765503,25,0,0.5176552248851093,1.0453502344644487,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,30,0,0.696501303578379,0.696501303578379,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,30,0,0.6989698210217984,0.9191637707372696,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,30,0,0.6189453694544802,0.3675901840838192,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,30,0,0.7403268974683873,0.6534907415645441,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,30,0,0.4565185118812451,1.0521841269406138,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,30,0,0.4965562896267059,0.29793777840831676,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,30,0,0.6872791380201225,0.2807775311559682,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,29,0,0.5993206605655828,0.9872465665874832,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,29,0,0.6515067658374933,0.6076448483188853,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,25,0,0.5176552248851093,0.2601814995633078,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,24,0,0.44391895300337786,1.170037172335077,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,22,0,0.804111151346606,0.5662172564871358,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,21,0,0.4674681481197903,0.2979690653399701,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,20,0,1.1105314566748747,1.3542484643672497,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,17,0,0.5682514324507117,0.6173896657804837,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,16,0,0.8460217131776305,0.27653947172962207,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,16,0,0.3226112193680555,1.261089097280792,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,16,0,0.36586668415852364,1.1754405209045933,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,14,0,0.6136657638911778,0.489577634011397,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,13,0,1.08235070844615,0.6485659697893463,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,10,0,0.4219835256911225,1.479079806360413,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,0,0.0,0.0,31,0,0.9857161654976028,0.9857161654976028,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,1,0.5,0.6475143621882752,31,0,1.009984435774649,0.9661122230934177,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,2,1.0,1.2950287243765504,31,0,1.091460457380167,0.5407292720076591,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,3,1.5,1.9425430865648257,31,0,0.9225745569356834,0.9822043751627014,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,4,2.0,2.5900574487531007,31,0,0.7679426296101998,1.3242509461840433,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,5,2.5,3.237571810941376,31,0,0.8677215540451444,0.6931425523451246,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,6,3.0,3.8850861731296513,31,1,0.9249015730129663,0.8793264550676592,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,7,3.5,4.532600535317926,31,0,0.7202925620321655,0.9813581552567989,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,8,4.0,5.1801148975062015,31,0,0.4896979363364935,0.5560492644089787,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,9,4.5,5.8276292596944765,31,0,0.80750796429881,0.47867964054867257,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,10,5.0,6.475143621882752,31,0,0.6276742798819409,1.011880101709954,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,11,5.5,7.122657984071027,31,0,0.5953726226163903,0.661446833555414,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,12,6.0,7.770172346259303,31,0,0.4374399227778517,0.350867789926954,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,13,6.5,8.417686708447578,31,0,0.7417941033445,0.904913791524983,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,14,7.0,9.065201070635853,31,0,0.4794483148036333,0.8438971751107998,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,15,7.5,9.712715432824128,31,0,0.6162627826582819,0.3115097283074698,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,16,8.0,10.360229795012403,31,0,0.555970526499667,1.3532040346050178,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,17,8.5,11.007744157200678,31,0,0.6249154600842878,1.1936538089677238,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,18,9.0,11.655258519388953,31,0,0.6943718545380184,0.4456959530097621,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,19,9.5,12.302772881577228,31,0,0.5389321422438921,1.404176744366692,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,20,10.0,12.950287243765503,31,0,0.5424124726680825,1.0837217525425014,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0.0,0.0,31,0,0.9857161654976028,0.9857161654976028,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,1,0.5,1.4354730917477694,31,0,0.914025581532197,0.9661122230934177,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,2,1.0,2.8709461834955388,31,0,0.49213256472723116,0.5407292720076591,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,3,1.5,4.306419275243308,31,0,0.6797250475528727,0.9822043751627014,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,4,2.0,5.7418923669910775,31,0,0.8525842035879032,1.3242509461840433,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,5,2.5,7.177365458738846,31,0,0.5953726226163903,0.6931425523451246,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,6,3.0,8.612838550486616,31,0,0.5376963896702167,0.8793264550676592,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,7,3.5,10.048311642234385,31,0,0.43463756171527296,0.9813581552567989,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,8,4.0,11.483784733982155,31,0,0.532581468449152,0.5560492644089787,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,9,4.5,12.919257825729924,31,0,0.5424124726680825,0.47867964054867257,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,10,5.0,14.354730917477692,31,0,0.9545979990003627,1.011880101709954,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,11,5.5,15.790204009225462,31,0,0.6469709014369299,0.661446833555414,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,12,6.0,17.225677100973233,31,0,0.7528677641288631,0.350867789926954,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,13,6.5,18.661150192721003,30,0,0.63022916056642,0.9213408403257871,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,14,7.0,20.09662328446877,29,0,0.5701823054069199,0.7614943131527103,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,15,7.5,21.53209637621654,26,0,1.3506005175378453,0.30941463432991745,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,16,8.0,22.96756946796431,23,0,1.201765699356722,1.244932470852949,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,17,8.5,24.40304255971208,20,0,0.343638294743159,1.389487603616869,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,18,9.0,25.838515651459847,20,0,0.7403110637279335,0.4071683996546371,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,19,9.5,27.273988743207617,18,0,0.7335463993999223,1.079525370657455,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,20,10.0,28.709461834955384,14,0,0.570998425229891,1.03335932774582,Data source: Visualizer; thanks to the contributing users who made their shots public.

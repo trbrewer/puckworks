@@ -1,0 +1,41 @@
+stratum,tercile,grid_view,role,segments,supported_indices,j_min,j_max,mass_spread,time_spread,mass_minus_time,direction,credit
+DE1/Decent,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,primary_median_matched,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,primary_median_matched,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,primary_median_matched,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,primary_median_matched,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,primary_median_matched,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,primary_median_matched,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,primary_median_matched,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,primary_median_matched,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,primary_median_matched,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,0,0,,,,,,unavailable,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,92,21,0,20,2.0718286876750094,0.9106439580506168,1.1611847296243925,time,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,92,21,0,20,1.6578886381280586,0.8908996512785275,0.7669889868495311,time,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,primary_median_matched,DESCRIPTIVE_ONLY,31,21,0,20,4.316292390184012,0.7951073076688776,3.5211850825151343,time,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,31,21,0,20,3.493076728568043,0.5824331682253572,2.910643560342686,time,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,primary_median_matched,DESCRIPTIVE_ONLY,30,21,0,20,0.8212502796983243,0.8681289168869675,-0.04687863718864316,mass,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,30,21,0,20,0.7931360520613071,0.8579841400278154,-0.06484808796650832,mass,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,primary_median_matched,DESCRIPTIVE_ONLY,31,21,0,20,0.8463477366234516,0.9245986713215202,-0.07825093469806854,mass,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,31,21,0,20,0.84691576599621,0.9143951093248457,-0.0674793433286357,mass,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,primary_median_matched,PRIMARY_CLOCK_COMPARISON,92,21,0,20,2.0718286876750094,0.9106439580506168,1.1611847296243925,time,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,92,21,0,20,1.6578886381280586,0.8908996512785275,0.7669889868495311,time,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,primary_median_matched,DESCRIPTIVE_ONLY,31,21,0,20,4.316292390184012,0.7951073076688776,3.5211850825151343,time,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,31,21,0,20,3.493076728568043,0.5824331682253572,2.910643560342686,time,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,primary_median_matched,DESCRIPTIVE_ONLY,30,21,0,20,0.8212502796983243,0.8681289168869675,-0.04687863718864316,mass,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,30,21,0,20,0.7931360520613071,0.8579841400278154,-0.06484808796650832,mass,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,primary_median_matched,DESCRIPTIVE_ONLY,31,21,0,20,0.8463477366234516,0.9245986713215202,-0.07825093469806854,mass,Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,secondary_Mc_later_sampling_bias,DESCRIPTIVE_ONLY,31,21,0,20,0.84691576599621,0.9143951093248457,-0.0674793433286357,mass,Data source: Visualizer; thanks to the contributing users who made their shots public.

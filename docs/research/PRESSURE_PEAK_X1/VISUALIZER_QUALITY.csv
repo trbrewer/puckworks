@@ -1,0 +1,25 @@
+stratum,view,phase,selected,usable_scale_flow,missing_weight_segments,negative_increment_segments,zero_normalizer_segments,negative_normalizer_segments,unavailable_normalizer_segments,duration_s_min,duration_s_q25,duration_s_median,duration_s_q75,duration_s_max,native_cadence_s_min,native_cadence_s_q25,native_cadence_s_median,native_cadence_s_q75,native_cadence_s_max,largest_native_gap_s_min,largest_native_gap_s_q25,largest_native_gap_s_median,largest_native_gap_s_q75,largest_native_gap_s_max,credit
+DE1/Decent,strict,active_brew,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,strict,state_unknown,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,secondary,active_brew,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,secondary,state_unknown,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,flat,active_brew,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,flat,state_unknown,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,strict,active_brew,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,strict,state_unknown,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,secondary,active_brew,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,secondary,state_unknown,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,flat,active_brew,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,flat,state_unknown,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,strict,active_brew,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,strict,state_unknown,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,secondary,active_brew,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,secondary,state_unknown,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,flat,active_brew,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,flat,state_unknown,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,strict,active_brew,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,strict,state_unknown,426,426,0,90,66,1,0,0.06259870782483846,1.7242940986056314,2.8348098669623067,4.197032724628314,15.0,0.0379999999999967,0.1999999999999993,0.22500000000000053,0.2619999999999987,1.2599999999999998,0.0730000000000004,0.25,0.2709999999999999,0.27399999999999913,1.2599999999999998,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,secondary,active_brew,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,secondary,state_unknown,427,427,0,90,66,1,0,0.06259870782483846,1.727567148879647,2.849480519480519,4.230528968253967,15.0,0.0379999999999967,0.1999999999999993,0.22500000000000053,0.26,1.2599999999999998,0.0730000000000004,0.25,0.2709999999999999,0.27399999999999913,1.2599999999999998,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,flat,active_brew,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,flat,state_unknown,92,92,0,19,4,0,0,10.0,11.737499999999999,15.2,20.7,65.2,0.09999999999999432,0.10000000000000142,0.19999999999999574,0.20000000000000284,0.29999999999999716,0.20000000000000284,0.20000000000000284,0.20000000000000284,0.20000000000000284,0.29999999999999716,Data source: Visualizer; thanks to the contributing users who made their shots public.

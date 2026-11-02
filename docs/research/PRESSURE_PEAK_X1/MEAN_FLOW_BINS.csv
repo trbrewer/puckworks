@@ -1,0 +1,21 @@
+stratum,tercile,b1_g_s,b2_g_s,segments,mean_flow_min_g_s,mean_flow_max_g_s,median_duration_s,label_composition,credit
+DE1/Decent,all,,,0,,,,{},Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,1,,,0,,,,{},Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,2,,,0,,,,{},Data source: Visualizer; thanks to the contributing users who made their shots public.
+DE1/Decent,3,,,0,,,,{},Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,all,,,0,,,,{},Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,1,,,0,,,,{},Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,2,,,0,,,,{},Data source: Visualizer; thanks to the contributing users who made their shots public.
+Meticulous,3,,,0,,,,{},Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,all,,,0,,,,{},Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,1,,,0,,,,{},Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,2,,,0,,,,{},Data source: Visualizer; thanks to the contributing users who made their shots public.
+Gaggiuino/GaggiMate,3,,,0,,,,{},Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,all,0.8924731182795702,1.666160736871866,92,0.0,2.9134615384615383,15.2,"{""other/unknown"": 92}",Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,1,0.8924731182795702,1.666160736871866,31,0.0,0.8750000000000004,16.599999999999998,"{""other/unknown"": 31}",Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,2,0.8924731182795702,1.666160736871866,30,0.92741935483871,1.6549707602339179,17.25,"{""other/unknown"": 30}",Data source: Visualizer; thanks to the contributing users who made their shots public.
+other/unknown,3,0.8924731182795702,1.666160736871866,31,1.6717557251908401,2.9134615384615383,13.099999999999994,"{""other/unknown"": 31}",Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,all,0.8924731182795702,1.666160736871866,92,0.0,2.9134615384615383,15.2,"{""other/unknown"": 92}",Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,1,0.8924731182795702,1.666160736871866,31,0.0,0.8750000000000004,16.599999999999998,"{""other/unknown"": 31}",Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,2,0.8924731182795702,1.666160736871866,30,0.92741935483871,1.6549707602339179,17.25,"{""other/unknown"": 30}",Data source: Visualizer; thanks to the contributing users who made their shots public.
+reported labels pooled,3,0.8924731182795702,1.666160736871866,31,1.6717557251908401,2.9134615384615383,13.099999999999994,"{""other/unknown"": 31}",Data source: Visualizer; thanks to the contributing users who made their shots public.
