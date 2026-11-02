@@ -279,6 +279,14 @@ pattern across uncontrolled pucks, not a test of A or LC parameters, and
 puck-to-puck variation, preinfusion history, scale lag and grind/dose
 differences can produce either."
 
+"Interpretation rule X1.5: The primary memory-clock result is the
+whole-stratum comparison (all terciles together) on the median-matched grid,
+because the clock signal is whether segments at different flow rates align.
+Per-tercile mass-versus-time spreads are descriptive only: with one
+stratum-wide grid, the slow tercile's mass points sit later in the segment
+and the fast tercile's earlier, so their within-tercile comparisons are
+biased in opposite directions by construction and are not clock evidence."
+
 Freeze the following pressure-only selection before opening flow or weight
 values. Channel presence may be inspected; flow magnitude, sign, trend or
 agreement with a peak must never select a shot or sweep.
