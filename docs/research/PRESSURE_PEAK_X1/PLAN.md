@@ -193,8 +193,8 @@ agreement with a peak must never select a shot or sweep.
 2. On the original achieved-pressure samples, find maximal non-increasing
    runs: every pressure increment is <=0; ties are allowed. Require a run to
    cross both **9 bar and 5 bar** downward, in that order. These exact crossings
-   operationalize the requested approximately 9-to-5 sweep. No pressure smoothing,
-   isotonic fit or new jitter tolerance is used. Interpolate crossing times
+   operationalize the requested approximately 9-to-5 sweep. In this primary view,
+   no pressure smoothing, isotonic fit or jitter tolerance is used. Interpolate crossing times
    linearly within their bracketing native samples; never extrapolate.
 3. Exclude a run explicitly identified by native state metadata as pump-off,
    venting or outside brewing. Keep state-unknown candidates in a separate
@@ -210,6 +210,18 @@ agreement with a peak must never select a shot or sweep.
    exclusions based on agreement. No resmoothing, time shift or flow correction
    may be selected by how well it reveals a peak.
 
+Keep that strict non-increasing rule as the primary selection. Add a fixed
+secondary view: a run continues through upward pressure reversals no larger
+than the channel's resolution, defined as the smallest positive absolute
+successive difference in achieved pressure. Compute this resolution per record
+from pressure samples only, before any flow or weight value is opened. Use
+successive pairs on valid native support; if no positive absolute difference
+exists, the resolution is undefined and a 9-to-5 sweep is unsupported. Retain
+all other selection and reporting rules. Report both funnels side by side.
+The secondary view is a sensitivity check on the selection rule, not a
+replacement, and must not be tuned after seeing counts or flows. This empirical
+pressure-step definition is not an independent hardware-resolution calibration.
+
 Report a count funnel: canonical local records, authenticated DE1, required
 channels, pressure-spanning candidates, monotone runs, active-brew versus
 state-unknown sweeps, and usable scale-flow support. Give median [IQR] and range
@@ -221,15 +233,19 @@ after seeing the count or flows. A scan that cannot authenticate DE1 stops at
 that count and reports provenance unresolved, without promoting unknown-device
 records to a DE1 result.
 
-**Interpretation rule X1.3:** For a fixed puck state with an interior capacity
-maximum near 6 bar, dq/dP is negative above the peak and positive below it.
-During a descending pressure sweep this means flow rises from about 9 toward
-6 bar, then falls toward 5 bar. A negative-above/positive-below pattern is
-consistent at sign level. Under the fixed-state assumption, opposite signs or
-a slope of one sign throughout both supported sides are inconsistent with an
-interior peak there. These statements concern a fixed-state curve, not a
-causal inference from one evolving shot. Report mixed, flat, noisy or sparsely
-sampled patterns as unresolved, without a new pass quota or fitted peak location.
+**Interpretation rule X1.3**
+
+X1.3: The path slope on a falling-pressure sweep is
+dq/dP = R*C'(P) + C*R'(M)*q/Pdot, and the memory term is negative. The test
+is therefore one-sided. Positive path slope below 6 bar (flow falling as
+pressure falls) means the capacity term exceeds the memory term there; it is
+the informative sign consistent with an interior capacity peak. Positive path
+slope above 6 bar conflicts with a falling capacity there under monotone-
+increasing memory. Negative path slope below 6 bar is unresolved, because
+memory or an evolving puck can produce it; it is not evidence against a
+peak. Report mixed, flat, noisy or sparse patterns as unresolved, with no
+pass quota or fitted peak location. These are fixed-state-curve statements,
+not causal inference from one evolving shot.
 
 Use adjacent native-sample secants `Delta q/Delta P` as finite-resolution
 estimates of the instantaneous path slope. Label their support by pressure;
