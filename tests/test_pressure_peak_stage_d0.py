@@ -9,6 +9,54 @@ import pytest
 from puckworks.analysis import pressure_peak_stage_d0 as T
 
 
+def _assert_replayed_fields(actual, expected, path="record"):
+    """Use the approved float tolerance while preserving exact record structure."""
+    if isinstance(actual, np.generic):
+        actual = actual.item()
+    if isinstance(expected, np.generic):
+        expected = expected.item()
+    if isinstance(expected, dict):
+        assert isinstance(actual, dict), path
+        assert actual.keys() == expected.keys(), path
+        for key in expected:
+            _assert_replayed_fields(actual[key], expected[key], f"{path}.{key}")
+    elif isinstance(expected, (list, tuple)):
+        assert isinstance(actual, (list, tuple, np.ndarray)), path
+        assert len(actual) == len(expected), path
+        for index, (left, right) in enumerate(zip(actual, expected)):
+            _assert_replayed_fields(left, right, f"{path}[{index}]")
+    elif isinstance(expected, float):
+        assert isinstance(actual, float), path
+        assert_allclose(actual, expected, rtol=1e-12, atol=0, err_msg=path)
+    else:
+        assert type(actual) is type(expected), path
+        assert actual == expected, path
+
+
+def test_replayed_fields_tolerance_and_exact_structure():
+    expected = dict(count=0, flag=False, zero=0., missing=None, held_out=[
+        dict(brew="6-1", fold="HYD-LOCO-6.0", predicted_onset_s=12.371027292378741),
+        dict(brew="6-2", fold="HYD-LOCO-6.0", predicted_onset_s=12.357311255327197)])
+    actual = copy.deepcopy(expected)
+    actual["held_out"][0]["predicted_onset_s"] = 12.37102729237874
+    _assert_replayed_fields(actual, expected)
+    changed_float = copy.deepcopy(actual)
+    changed_float["held_out"][0]["predicted_onset_s"] *= 1+2e-12
+    changed_id = copy.deepcopy(actual)
+    changed_id["held_out"][0]["brew"] = "6-2"
+    changed_fold = copy.deepcopy(actual)
+    changed_fold["held_out"][0]["fold"] = "HYD-LOCO-5.0"
+    invalid = [changed_float, changed_id, changed_fold,
+        dict(actual, count=1), dict(actual, count=0.), dict(actual, flag=0),
+        dict(actual, zero=1e-30), dict(actual, missing=False), dict(actual, extra=None),
+        {k:v for k,v in actual.items() if k!="count"},
+        dict(actual, held_out=actual["held_out"][:1]),
+        dict(actual, held_out=actual["held_out"][::-1])]
+    for record in invalid:
+        with pytest.raises(AssertionError):
+            _assert_replayed_fields(record, expected)
+
+
 @pytest.fixture(scope="module")
 def predecessor():
     rows = T.D.read_table(T.OUT/"RESULT_TABLE.csv") if (T.OUT/"RESULT_TABLE.csv").exists() else T.E.read_table()
@@ -132,7 +180,7 @@ def test_committed_Mc_onset_assertion_twins(rows,ctx):
                 assert_allclose(record["onset"][field],record["expected_onset"][field],rtol=1e-12,atol=0)
             train,held,_=T.training(ctx,np.array(sample[draw]),fold)
             audit=T.C2.margin_audit(record["onset"],ctx,train,held)
-            assert audit==record["margin"]
+            _assert_replayed_fields(audit, record["margin"], f"draw={draw}.{fold}.margin")
 
 
 def test_committed_objectives_starts_and_selection(rows,ctx):
@@ -174,17 +222,18 @@ def test_committed_metrics_intervals_and_grades(rows,ctx):
                 if value is None:
                     assert expected[key] is None
                 else:
-                    assert_allclose(value,expected[key],rtol=1e-12,atol=0)
+                    _assert_replayed_fields(value, expected[key], f"draw={index}.{form}.{key}")
     for row in (r for r in rows if r["record_type"]=="paired"):
         left,right=row["candidate"].split(" - ")
         values=[None if None in (draw[i]["values"][left]["metrics"][row["metric"]],draw[i]["values"][right]["metrics"][row["metric"]]) else
             draw[i]["values"][left]["metrics"][row["metric"]]-draw[i]["values"][right]["metrics"][row["metric"]] for i in range(200)]
-        assert values==row["differences"]
-        assert T.distribution(values)==row["distribution"]
+        _assert_replayed_fields(values, row["differences"], f"{row['candidate']}.{row['metric']}.differences")
+        _assert_replayed_fields(T.distribution(values), row["distribution"], f"{row['candidate']}.{row['metric']}.distribution")
     for row in (r for r in rows if r["record_type"]=="reading"):
         assert row["grades"]["onset"]=="NOT_SCORED"
         for key,saved in row["distributions"].items():
-            assert T.distribution([draw[i]["values"][row["candidate"]]["metrics"][key] for i in range(200)])==saved
+            _assert_replayed_fields(T.distribution([draw[i]["values"][row["candidate"]]["metrics"][key] for i in range(200)]),
+                                   saved, f"{row['candidate']}.{key}.distribution")
         assert T.S.peak_grade(row["distributions"]["nominal_peak_bar"]["interval"])==row["grades"]["peak"]
         assert T.S.slope_grade(row["distributions"]["slope_g_s_bar"]["interval"])==row["grades"]["slope"]
         assert T.C0.bias_grade(row["center"]["low_pressure_bias_g_s"])==row["grades"]["low_pressure_bias"]
@@ -197,7 +246,7 @@ def test_committed_scale_pairing(rows):
         flow={r["draw"]:r["parameters"]["Pd_bar"] for r in rows if r["record_type"]=="refit" and r["candidate"]==form and r["fold"]=="DESCRIPTIVE_ALL"}
         actual=T.D.plain(T.scale_comparison([flow[i] for i in range(200)],[onset[i] for i in range(200)],form=="A"))
         saved=next(r for r in rows if r["record_type"]=="reading" and r["candidate"]==form)["scale_consistency"]
-        assert actual==saved
+        _assert_replayed_fields(actual, saved, f"{form}.scale_consistency")
 
 
 @pytest.mark.parametrize("form,fold",[(f,g) for f in T.FORMS for g in (*T.FOLDS,*T.C.OMITTED)])
