@@ -181,6 +181,93 @@ Channel meanings to report:
 | `espresso_flow_weight` / `mass_flow_from_scale__kg_per_s` | Scale-derived mass-flow estimate, not an independent direct flow sensor; retain its source filtering and latency caveat |
 | `espresso_flow` / `flow_reported__native` | Pump/model estimate with possible volume/mass/proxy ambiguity; excluded from the primary flow view |
 
+### Declared extension: reported labels and the memory clock
+
+Amendment 3 is declared before any Visualizer pressure, flow or weight arrays
+are decoded. Only source/index metadata and compressed-file byte hashes have
+been inspected in X1. This extension is not POST-HOC EXPLORATORY. Historical
+corpus exposure remains TARGET_EXPOSED; no blind-data claim follows.
+
+Keep the authenticated-DE1 funnel above. Add a parallel funnel requiring only
+achieved pressure and scale weight on a common native time base. Stratify its
+records by the retained reported machine label: **DE1/Decent**, **Meticulous**,
+**Gaggiuino/GaggiMate**, and **other/unknown**. Use the existing normalized
+`machine` label; case-insensitive DE1/Decent, Meticulous, Gaggiuino and
+GaggiMate tokens map to those named strata; absent, conflicting or other labels
+go to other/unknown. Labels are user/parser-reported, not verified hardware.
+Keep all strata separate from the authenticated count. Apply both the strict
+and resolution-tolerant falling-pressure selections and the one-sided X1.3
+rule to each funnel. For the reported-label view derive flow from scale-weight
+increments over native time intervals; never substitute pump/model flow.
+
+Before opening flow or weight values, also select flat-pressure segments in
+each reported-label stratum. A qualifying contiguous segment lasts at least
+**10 s**, has median achieved pressure in **[6,10] bar**, and every pressure
+sample lies within one per-record channel resolution of that segment's own
+median. Resolution is the same smallest positive absolute successive pressure
+difference defined above. Undefined resolution cannot qualify a segment.
+Missing pressure, duplicate/non-increasing timestamps and acquisition breaks
+split support; no smoothing or pressure repair. Search maximal qualifying
+native-sample intervals. Retain one per logical record: earliest start, then
+longest duration if starts tie; report multiple-candidate counts. Keep known
+active-brew and state-unknown status, excluding explicitly non-brewing states.
+Do not use duration as a substitute for a mean-flow stratum.
+
+Freeze pressure-selected segment IDs/windows privately before reading weight
+values. Then compute each selected segment's mean scale-derived flow as
+`(W(end)-W(start))/duration`. Keep every pressure-selected segment with usable
+scale flow. Flow values set bins only; they never select or exclude a segment.
+For each machine-label stratum, split those segments into mean-flow terciles
+using the empirical 1/3 and 2/3 quantiles with linear interpolation, fixed here.
+Intervals are `q <= b1`, `b1 < q <= b2`, and `q > b2`; ties stay together, so
+counts need not be equal and a bin may be empty. Also form terciles for the
+pooled reported-label set and report that set separately, retaining its label
+composition and never adding it to authenticated DE1 evidence. Record each
+bin's boundaries, segment count, mean-flow range and median segment duration
+in an aggregate CSV before any collapse metric is computed or inspected.
+
+For each selected segment use native interval flow `q_i=Delta W/Delta t`.
+Normalize by its time-weighted final-quarter mean flow, obtained from the
+weight increment over the final quarter divided by that interval's duration.
+Use linear interpolation of weight only at the quarter boundary. Retain
+negative/noisy readings and disclose them. Missing weight support or an exactly
+zero normalization denominator yields an unavailable diagnostic, not a deleted
+selection or a substituted channel; disclose negative denominators separately.
+
+Fix physical grids now, without rescaling each shot to its own duration or
+delivered mass: **time x_j = 10*j/20 s** and **mass x_j =
+28.709461834955388*j/20 g**, for **j=0,...,20**. The time extent is the minimum
+eligible plateau duration; the mass extent is the accepted descriptive Mc.
+These are distinct physical windows, so the comparison is conditional on this
+declared grid, not invariant under arbitrary axis rescaling. No fitted clock
+conversion is allowed. Read the interval flow containing each time point.
+For each mass level use its first upward crossing by `W(t)-W(start)` and that
+native interval's flow; at mass zero use the first interval. Report nonmonotone
+scale-weight segments and repeated crossings as measurement limitations; do
+not replace mass with a smoothed or monotone-fitted trajectory.
+
+At each grid index use the same segments in the two comparisons: the
+intersection with finite normalized-flow support at both corresponding physical
+x values. Unsupported values remain missing; no extrapolation. Keep all
+selected segments in the count and bin tables, and report contributing counts
+at every grid point. With at least two contributors, compute the population
+variance of normalized flow about its between-shot mean. The collapse metric
+is the square root of the equally weighted mean of those variances over the
+common supported grid indices. Report mass spread, time spread and their signed
+difference, with the number/range of supported grid indices. No supported
+index means unavailable. A smaller spread is tighter; exact equality is a tie;
+introduce no numeric superiority band. For the separately reported pooled set,
+the same metric includes variation between reported labels, which is a confound.
+These are descriptive spreads, not confidence intervals or model grades.
+
+**Interpretation rule X1.4:** "Tighter collapse against delivered mass than
+against time is consistent with a throughput-driven memory such as R(M) or
+viscosity washout; tighter collapse against time favours a time-based
+conditioning state such as M2's clock. Either is a qualitative population
+pattern across uncontrolled pucks, not a test of A or LC parameters, and
+puck-to-puck variation, preinfusion history, scale lag and grind/dose
+differences can produce either."
+
 Freeze the following pressure-only selection before opening flow or weight
 values. Channel presence may be inspected; flow magnitude, sign, trend or
 agreement with a peak must never select a shot or sweep.
