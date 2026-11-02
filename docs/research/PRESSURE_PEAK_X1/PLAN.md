@@ -234,13 +234,24 @@ negative/noisy readings and disclose them. Missing weight support or an exactly
 zero normalization denominator yields an unavailable diagnostic, not a deleted
 selection or a substituted channel; disclose negative denominators separately.
 
-Fix physical grids now, without rescaling each shot to its own duration or
-delivered mass: **time x_j = 10*j/20 s** and **mass x_j =
-28.709461834955388*j/20 g**, for **j=0,...,20**. The time extent is the minimum
-eligible plateau duration; the mass extent is the accepted descriptive Mc.
-These are distinct physical windows, so the comparison is conditional on this
-declared grid, not invariant under arbitrary axis rescaling. No fitted clock
-conversion is allowed. Read the interval flow containing each time point.
+No collapse metric has been computed or inspected before amendment 4. Keep the
+time grid **x_j = 10*j/20 s**, **j=0,...,20**. After recording the mean-flow
+tercile table, compute **qbar_med = median segment mean flow** over all
+pressure-selected segments with usable scale flow in each reported-label
+stratum, and separately in the pooled set. Record qbar_med in an aggregate CSV
+before computing any collapse metric. The primary mass grid for that stratum
+is **x_j = qbar_med*10*j/20 g**, **j=0,...,20**; use that same stratum grid in
+each of its terciles. The median segment therefore samples corresponding
+instants on both axes. This is a declared median-flow conversion, not a fitted
+clock or a separate normalization of each shot's axis.
+
+Retain **mass x_j = 28.709461834955388*j/20 g** only as a labelled secondary
+view. Its points coincide with the time grid only at about 2.87 g/s; for slower
+shots they lie later in the segment, closer to the final-quarter normalizer,
+which can bias spread toward tighter mass collapse. The secondary view cannot
+replace the primary comparison. All support-intersection, spread-metric,
+no-superiority-band and X1.4 interpretation rules remain unchanged. Read the
+interval flow containing each time point.
 For each mass level use its first upward crossing by `W(t)-W(start)` and that
 native interval's flow; at mass zero use the first interval. Report nonmonotone
 scale-weight segments and repeated crossings as measurement limitations; do
