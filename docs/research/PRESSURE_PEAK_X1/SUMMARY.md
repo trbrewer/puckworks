@@ -1,8 +1,8 @@
 # PRESSURE-PEAK X1: external consistency scoping
 
 Viscosity washout has enough magnitude in principle at 90 °C, but this check
-doesn't establish that it caused R(M). The Visualizer memory-clock comparison
-is tighter against time than mass on the primary grid. The falling-pressure
+doesn't establish that it caused R(M). The Visualizer memory-clock check is
+inconclusive in this snapshot. The falling-pressure
 signs are mixed and leave the peak question unresolved. None of these results
 fits or tests A/LC parameters.
 
@@ -61,11 +61,16 @@ measured here. This water-equivalent scale is conditional on pore accessibility,
 swelling and retention; the paper's model-effective Phi isn't a measured void
 fraction, and delivered mass isn't in-pore inventory.
 
+The water-density closure used gives 959.4 kg/m3 at 90 °C versus about 965
+kg/m3 for water; Mc in pore volumes shifts by about 0.6%. The reported values
+are unchanged.
+
 ## Visualizer funnels and falling-pressure signs
 
 All 465 source files match the owner inventory. The canonical reader gives
-23,169 logical records, no revisions or same-timestamp conflicts. The retained
-machine label is missing for every record, confirmed against the index.
+23,169 logical records, no revisions or same-timestamp conflicts. The snapshot
+carries no machine label for any record (confirmed against the index), so
+device stratification is unavailable here.
 No label is inferred from a curve or parser. The existing native-provenance
 reconciliation authenticates no DE1 record, so that funnel stops there.
 
@@ -83,6 +88,12 @@ contamination remains unresolved. Multiple candidates occurred in 35 strict,
 36 secondary and 3 flat selections; the earliest eligible window was retained.
 Labels are user/parser-reported, not verified hardware; the named strata happen
 to be empty. Unknown records never enter the authenticated count.
+
+The per-record 'channel resolution' (smallest positive successive pressure
+difference) is quantization, not noise. It made the tolerant sweep view nearly
+identical to the strict view (426 vs 427) and made the flat-segment rule select
+only 92 of 14,471 records. These selection definitions, set by the advisor,
+were too strict for this purpose.
 
 Strict sweep duration is median 2.835 s [IQR 1.724, 4.197], range 0.063-15.000 s;
 secondary is 2.849 s [1.728, 4.231], with the same range. Native cadence median
@@ -135,15 +146,12 @@ be linear in time.
 | Middle tercile, descriptive only | 30 | 0.927419-1.654971 | 17.25 | 0.821250 | 0.868129 |
 | Fast tercile, descriptive only | 31 | 1.671756-2.913462 | 13.10 | 0.846348 | 0.924599 |
 
-The primary whole-stratum mass-minus-time spread is **+1.161185**. Time is
-tighter, a qualitative population pattern favouring a time-based conditioning
-state under X1.4. It doesn't identify M2 or exclude R(M)/viscosity washout.
-Puck variation, preinfusion history, scale lag and grind/dose differences can
-produce either pattern. Under X1.5, only the whole-stratum comparison carries
-clock information: with the stratum-wide grid, the slow tercile's mass points
-sample later and the fast tercile's earlier, biasing their comparisons in
-opposite directions. The middle/fast descriptive mass advantage isn't separate
-clock evidence.
+The whole-stratum spread difference (+1.161) is not interpretable as clock
+evidence. It is driven by the slow tercile (mass/time spread 4.32/0.80), which
+includes segments with zero or near-zero mean flow normalized by near-zero
+final-quarter flow; the middle and fast terciles (descriptive only under X1.5)
+are slightly tighter against mass (0.82/0.87 and 0.85/0.92). The memory-clock
+check is inconclusive in this snapshot.
 
 The pooled reported-label result is numerically identical because it contains
 only other/unknown records. Each named-label stratum has zero segments and an
@@ -159,7 +167,7 @@ the large normalized spreads. There was no smoothing, outlier removal or flow
 selection.
 
 The secondary Mc mass grid gives whole-stratum mass/time spreads
-**1.657889 / 0.890900**, still tighter against time. It samples later for slower
+**1.657889 / 0.890900**. It samples later for slower
 shots, nearer the final-quarter normalizer, and is biased toward tighter mass
 collapse. Its paired support is 27-88 segments and differs from primary support;
 it cannot replace the primary result. Per-tercile secondary results are descriptive
@@ -186,5 +194,5 @@ arithmetic and the Visualizer development salt; there were no failures. A separa
 private-data recomputation reproduced both whole-stratum grid results at the
 same replay tolerance and verified every frozen pressure window.
 
-Status and C3e artifacts are unchanged. #408 stays draft with auto-merge off.
+Status and C3e artifacts are unchanged. #408 is ready for review with auto-merge off.
 Owner review is the next step; this scoping result doesn't select a successor.
