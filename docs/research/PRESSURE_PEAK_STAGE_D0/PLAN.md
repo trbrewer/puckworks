@@ -26,7 +26,7 @@ refer to the base above; none of their scientific contents changes here.
 | C3c [PLAN](../PRESSURE_PEAK_STAGE_C3C/PLAN.md), [SUMMARY](../PRESSURE_PEAK_STAGE_C3C/SUMMARY.md) | Unchanged objective, observers, replay tolerance, numerical qualifications and rule 7 below. |
 | C2 [SUMMARY](../PRESSURE_PEAK_STAGE_C2/SUMMARY.md), [RESULT_TABLE](../PRESSURE_PEAK_STAGE_C2/RESULT_TABLE.csv), [pressure_peak_stage_c2.py](../../../puckworks/analysis/pressure_peak_stage_c2.py) | `fit_folds`: point-bank/refit-Mc distinction and sampled weights; `paired_samples`: exact C1 pairing; `margin_audit`: training-only cap and ungraded held-out floor audit; `flow_identity`: saved-field replay precedent at rtol=1e-12, atol=0. D0 does not call the whole C2 fit pipeline, which would refit historical comparators. |
 | C1 [SUMMARY](../PRESSURE_PEAK_STAGE_C1/SUMMARY.md), [metrics and reporting helpers](../../../puckworks/analysis/pressure_peak_stage_c1.py) | Held-out grades, DESCRIPTIVE_ALL parameter intervals, independent onset/flow scale comparison and 200 paired whole-brew refits. |
-| C0 [SUMMARY](../PRESSURE_PEAK_STAGE_C0/SUMMARY.md), [helpers](../../../puckworks/analysis/pressure_peak_stage_c0.py) | Existing bands, signed low-pressure bias with magnitude grading, no overall PASS, cumulative two-hour cap. |
+| C0 [SUMMARY](../PRESSURE_PEAK_STAGE_C0/SUMMARY.md), [helpers](../../../puckworks/analysis/pressure_peak_stage_c0.py) | Existing bands, signed low-pressure bias with magnitude grading, no overall PASS, no wall-clock cap in D0 (owner decision; C0's cap is not inherited). |
 | X1 [SUMMARY](../PRESSURE_PEAK_X1/SUMMARY.md) | Context only. **No X1 quantity enters D0**: no viscosity, pore-volume, clock, pressure-sign or other X1 result becomes an input, prior, target, bound, start, grade or correction. |
 
 C3c's rule 7 is retained explicitly: “Unchanged onset predictions are inherited
@@ -183,8 +183,7 @@ For every A refit problem use C3d arm A's six starts in this order: iterate
 to that draw/fold's re-run onset-only Pd and then to **4.0 bar**. Keep both seed
 groups even if they nearly coincide. LC crosses each of those six, in the same
 order, with `f in {0,0.1}`: twelve starts. Do not seed from the fitted A optimum,
-reduce starts, or select using held-out outcomes. If the runtime projection
-exceeds the remaining cap, stop and ask the owner; start reduction is forbidden.
+reduce starts, or select using held-out outcomes. Start reduction is forbidden.
 
 For every start, including failed attempts and separately recorded fallbacks,
 store original/clipped initial coordinates, initial/final parameters and
@@ -327,29 +326,39 @@ change beside brew 1-2 and 3.5-bar absolute residual changes, as R5 requires.
 
 ## Runtime and execution order after approval
 
-C0's **two-hour cumulative wall cap (7,200 s)** governs D0 execution and checks,
-counting every check, rerun, pilot and interruption. Carry consumed time forward
-on resume; no reset or extension is implied. Use `ProcessPoolExecutor` with
-**32 workers**, one BLAS thread per worker set before imports
-(`OPENBLAS_NUM_THREADS=MKL_NUM_THREADS=OMP_NUM_THREADS=1`), retaining C2's spawn
-discipline. Worker deadlines share the remaining wall budget; parallel CPU
-hours are reported separately and do not replace wall accounting.
+D0 has **no wall-clock cap** (owner decision, 1 Nov 2026); C0's two-hour cap is
+not inherited. Earlier helpers stay unchanged: pass an infinite deadline
+(`math.inf`) wherever they take one, including `C0.Deadline` as used by
+`C2.fit_folds`-style budgets, `B.fit_course` and C3e's `fit_fold`, so no
+`TimeoutError` can fire. Before execution, confirm by reading the call path that
+no other wall-clock stop applies; if one exists that cannot be disabled through
+its arguments, stop and ask rather than editing an earlier helper. Optimizer
+evaluation limits (500 per start, inherited 1500-evaluation dogbox fallback) are
+fit settings, not time limits, and stay unchanged.
+
+Use `ProcessPoolExecutor` with **32 workers**, one BLAS thread per worker set
+before imports (`OPENBLAS_NUM_THREADS=MKL_NUM_THREADS=OMP_NUM_THREADS=1`),
+retaining C2's spawn discipline. Record cumulative wall time and worker CPU time
+for every check, pilot, rerun and interruption, and report them; they inform,
+they do not stop the run.
+
+Checkpoint each completed draw (both forms, all 12 folds, Mc/onset assertions
+and diagnostics) to a local directory outside Git, e.g.
+`/home/tim/pressure-peak-d0-work/`, keyed by draw index and the PLAN.md SHA-256.
+On restart, reload completed draws, verify their keys and recompute nothing
+already asserted; run only the remaining draws in the original draw order.
+Record which draws were resumed. Checkpoints are working files, not deliverables.
 
 Run the first **two draws (indices 0 and 1)** as the pilot, with all 12 folds,
 the full six/twelve-start schedules and the required Mc/onset re-runs. Keep
-those results among the 200 rather than resampling or adding two draws. Record
-elapsed wall/worker CPU time, start timings, setup/check costs and the projection
-for all remaining work at 32 workers, including Mc/onset re-runs, comparator
-replays, reporting and checks. A two-draw pilot cannot saturate 32 draw workers;
-state the parallelism assumption and use its measured per-draw/start work for
-the projection. Recheck against the remaining cap before scheduling the rest.
+those results among the 200. Record wall/CPU time, start timings and a projection
+of the full run at 32 workers, stating the parallelism assumption. The projection
+is reported for information only; it never stops or trims the run.
 
-The supplied planning estimate from C3e start timings is approximately
+The planning estimate from C3e start timings is approximately
 **14,400 A + 28,800 LC scheduled starts**, about **6-7 CPU h plus Mc/onset
-re-runs**. This is an estimate, not a D0 measurement or permission to exceed
-the cap. Fallbacks are additional, separately counted. If the projection exceeds
-the remaining cap, stop and ask; do not reduce starts, omit checks, trim draws
-or silently continue.
+re-runs**. Fallbacks are additional and counted separately. Do not reduce starts,
+omit checks or trim draws for runtime.
 
 After separate execution approval, use this order:
 
@@ -365,23 +374,23 @@ After separate execution approval, use this order:
    Jacobian/numerical checks as specified above. No point optimizer reruns.
 4. **Reproduce C2 draws**, exact sampler assertion and saved draw/fold mapping.
 5. **Two-draw pilot and projection**, with prerequisites asserted before any
-   dependent A/LC fit within those draws. Stop on a failed assertion or an
-   over-cap projection.
+   dependent A/LC fit within those draws. Stop on a failed assertion; the
+   projection never stops the run.
 6. **Mc and capped onset-only re-run assertions** for the remaining draws and
    all folds, completing both 200 x 12 assertion sets before the remaining flow
    refits. Reuse already asserted pilot quantities; never substitute saved
    per-draw values after a mismatch.
 7. **Refit A and LC** on the remaining paired draws, preserving the full starts,
-   masks/settings, retained diagnostics, deadlines and draw order.
+   masks/settings, retained diagnostics, checkpoints and draw order.
 8. **Comparator replays**, including all 2,400 saved T2-F per-fold objectives
    before any T2-F paired comparison, then its saved-refit predictions and all
    named saved point rows. No historical optimization.
 9. **Report** the fixed grades, continuous values/intervals, paired differences,
-   source hashes, qualifications, and cumulative time; run the approved checks.
+   source hashes, qualifications, and cumulative wall/CPU time, including resumed draws; run the approved checks.
 
 Any replay or assertion failure stops for owner review with the locations,
-values and differences specified above. A cap stop leaves an explicitly
-incomplete stage, never a partial-draw grade. No post-result repair to the
+values and differences specified above. An interruption leaves an explicitly
+incomplete stage that resumes from checkpoints, never a partial-draw grade. No post-result repair to the
 scientific contract is authorized by this plan.
 
 ## Interpretation rules, verbatim
