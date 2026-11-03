@@ -18,7 +18,11 @@ CONDITIONAL = "conditional on fitted parameters and fixed training-derived Mc; n
 def load_predictions(args):
     data = R.load_data(args)
     rows = []
+    index = json.loads((args.work/"EVALUATION_INDEX.json").read_text())
+    expected = {r["key"]:r["metadata_sha256"] for r in index["records"]}
     for path in sorted((args.work/"predictions").glob("*.json")):
+        if R.R.digest(path) != expected.get(path.stem):
+            raise ValueError("Prediction metadata differs from frozen evaluation index")
         row = json.loads(path.read_text())
         if row["identity"]["fit_identity"] != R.identity():
             raise ValueError("Frozen fit identity changed")
@@ -43,10 +47,14 @@ def load_predictions(args):
     # These are retained, authenticated 0.005/0.02-s reference predictions.
     # Z is the original D0 liquid clock with the explicit fresh-bed R0 observer.
     reference_hashes = []
+    screen_manifest = json.loads((R.ROOT/"docs/research/WETTING_SCREEN_001/RUN_MANIFEST.json").read_text())
+    retained = {r["key"]:r["metadata_sha256"] for r in screen_manifest["predictions"]}
     for path in sorted((args.screen/"predictions").glob("*.json")):
         row = json.loads(path.read_text())
         if row["arm"] not in ("W0", "W1", "W2", "W2T", "Z"):
             continue
+        if R.R.digest(path) != retained.get(path.stem):
+            raise ValueError("Retained reference metadata differs from committed screen manifest")
         if row["identity"]["predictor_sha256"] != R.R.digest(Path(W.__file__)):
             raise ValueError("Retained screen predictor changed")
         for step in ("fine", "search"):
@@ -293,7 +301,7 @@ def figures(sources,reports,conditions,losses):
                 xx = [r["pressure_bar"] for r in group]
                 yy = [r["signed_median_error_s"] if r["predicted_median_s"] is not None else
                       r["signed_median_error_lower_bound_s"] for r in group]
-                ax.plot(xx,yy,"o-",color=colors[model],label=model,markersize=3,
+                ax.plot(xx,yy,"o",color=colors[model],label=model,markersize=3,
                         linestyle="--" if model=="D0" else "-")
                 for r,y in zip(group,yy):
                     if r["predicted_median_s"] is None:
@@ -395,11 +403,19 @@ def run(args):
         fine_minus_search=r[m+"_fine_minus_search"],fine_detected=r["fine_detected"],search_detected=r["search_detected"],
         onset_is_bound=r["onset_is_lower_bound"] if m=="onset" else False)
         for a,r in report.items() for m in ("onset","endpoint","primary_trace","companion_trace")]
+    comparison = [{k:r[k] for k in ("arm","model","weight","endpoint_rmse","primary_trace_rmse",
+        "companion_trace_rmse","onset_rmse","onset_is_lower_bound","fine_detected","one_bar_detected",
+        "two_bar_detected","supplementary_condition_median_rms_s","supplementary_is_bound",
+        "onset_grade","accuracy_grade_vs_b1","endpoint_comparison_vs_b1")} for r in report.values()]
+    comparison.append(dict(arm="B1",model="B1",weight=None,endpoint_rmse=b1["endpoint"],
+        primary_trace_rmse=b1["primary_trace"],companion_trace_rmse=b1["companion_trace"],
+        onset_grade="NOT_SCORED/no_beverage_predictor"))
     for filename,values in (("GRADES.csv",list(report.values())),("PAIRED_COMPARISONS.csv",paired),
         ("ONSET_BY_BREW.csv",brews),("ONSET_BY_PRESSURE.csv",conditions),("LOSS_BY_PRESSURE.csv",losses),
         ("TRAINING_LOSS_COMPONENTS.csv",training),("FLOW_BY_BREW.csv",flows),("J2_BED_SCALE.csv",bed),
         ("NUMERICAL_CHECKS.csv",numerics),("DESCRIPTIVE_SWEEP.csv",sweep),("EXTREMA.csv",ext),
-        ("FITS.csv",fits),("OPTIMIZER_STARTS.csv",starts),("NUMERICAL_SCORES.csv",numerical_scores)):
+        ("FITS.csv",fits),("OPTIMIZER_STARTS.csv",starts),("NUMERICAL_SCORES.csv",numerical_scores),
+        ("COMPARISON_TABLE.csv",comparison)):
         R.R.csv_write(R.OUT/filename,values)
     replay = json.loads((args.work/"D0_REPLAY.json").read_text())
     R.R.write_json(R.OUT/"D0_REPLAY.json",replay)
@@ -419,14 +435,32 @@ def run(args):
     figures(sources,report,conditions,losses)
     evaluation = json.loads((args.work/"EVALUATION_INDEX.json").read_text())
     joint_rows = [r for r in rows if r["model"] in J.MODELS]
+    prefix = json.loads((args.work/"PREFIX_VERIFICATION.json").read_text())
+    native_verification = R.ROOT/"docs/research/WETTING_SCREEN_001/VERIFICATION.csv"
+    source_audit = json.loads((args.work/"SOURCE_AUDIT.json").read_text())
+    R.R.write_json(R.OUT/"VERIFICATION.json",dict(D0_replay=replay,prefix_verification=prefix,
+        source_audit=source_audit,inherited_native_verification_sha256=R.R.digest(native_verification),
+        inherited_native_verification=str(native_verification.relative_to(R.ROOT)),
+        note="Existing 102 native checks inherited by identical column hash; qualifications remain in per-brew rows"))
+    failures = []
+    for path in sorted((args.work/"failures").glob("*.json")):
+        failure = json.loads(path.read_text())
+        failures.append(dict(file=path.name,sha256=R.R.digest(path),
+            **{k:failure[k] for k in ("key","status","error","identity","cpu_seconds","wall_seconds")}))
     manifest = dict(fits=fit_manifest,predictions=evaluation,retained_reference_metadata=reference_hashes,
         fit_freeze_sha256=R.R.digest(args.work/"FIT_FREEZE.json"),source_sha256=R.identity(),
         reporting_sha256=R.R.digest(Path(__file__)),fit_count=144,case_pairs=948,D0_refits=0,
         source_inputs_sha256=R.R.digest(args.native/"source_inputs.json"),
+        D0_saved_fits_sha256=R.R.digest(R.ROOT/"docs/research/PRESSURE_PEAK_STAGE_D0/RESULT_TABLE.csv"),
+        native_manifest_sha256=R.R.digest(args.ewp/"docs/demonstrations/FORM_A/RUN_MANIFEST.json"),
+        historical_replay_helpers={Path(p).name:R.R.digest(Path(p)) for p in
+            (R.D0.__file__,R.D0.E.__file__,R.D0.C.__file__)},
         resamples_sha256=R.R.digest(args.work/"PAIRED_RESAMPLES.json"),
         fit_core_hours=sum(r["core_hours"] for r in fit_manifest),
         evaluation_core_hours=sum(r["cpu_seconds"] for r in joint_rows)/3600,
         replay_core_hours=replay["cpu_seconds"]/3600,reporting_core_hours=(time.process_time()-cpu)/3600,
+        prefix_verification_core_hours=sum(r["cpu_seconds"] for r in prefix["records"])/3600,
+        failed_attempts=failures,failed_attempt_core_hours=sum(r["cpu_seconds"] for r in failures)/3600,
         reporting_wall_seconds=time.perf_counter()-start,
         retained_predecessor_execution="13.22 screen core-hours are historical, not counted again",
         other_work="Structural tests, development and setup are not scientific fit execution; prefix verification separately recorded",
