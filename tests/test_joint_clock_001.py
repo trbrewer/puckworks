@@ -102,3 +102,34 @@ def test_predeclared_weight_count_and_start_isolation():
         lo, hi = J.bounds(model)
         for _, z in starts:
             assert np.all(np.asarray(z) >= lo) and np.all(np.asarray(z) <= hi)
+
+
+def test_final_scores_use_fine_step_and_paired_identical_draws():
+    from puckworks.analysis import joint_clock_001_evaluate as E
+    from puckworks.analysis import joint_clock_001_report as P
+    sources=[]
+    for i,p in enumerate(np.r_[np.repeat(W.NOMINAL,5),13.]):
+        sources.append(dict(brew=str(i),nominal_pressure_bar=float(p),pressure_bar=[float(p)]*2,
+            observed_endpoint_g_s=.5,observed_trace_g_s=[.5]*3,trace_times_s=[0.,10.,100.],
+            trace_mask=[False,True,True],observed_onset_for_scoring_only_s=10.,
+            b1_endpoint_g_s=.8,b1_trace_g_s=[.8]*3))
+    arms=["D0", "W0", "W1", "W2", "W2T", *[E.arm_name(m,w) for w in J.WEIGHTS for m in J.MODELS]]
+    rows=[]
+    for arm in arms:
+        for s in sources:
+            row=dict(arm=arm,model=arm.split("_lambda")[0],weight=float(arm.split("-")[-1]) if "lambda" in arm else None,
+                     scope="held_out",brew=s["brew"])
+            for numerical,q,onset in (("fine",.6,12.),("search",.61,12.1)):
+                row[numerical]=dict(endpoint_g_s=q,trace_g_s=[q]*3,
+                    observer=dict(detected=True,onset_s=onset,censor_bound_s=98.))
+            rows.append(row)
+    reports,paired,_,_,_=P.scores(sources,rows,arms)
+    r=reports["J2_lambda-1"]
+    assert r["endpoint_rmse"]==pytest.approx(.1)
+    assert r["endpoint_search_rmse"]==pytest.approx(.11)
+    assert r["onset_rmse"]==2.
+    assert r["onset_search_rmse"]==pytest.approx(2.1)
+    assert r["onset_grade"]=="MEETS"
+    assert r["accuracy_grade_vs_b1"]=="MEETS"
+    assert len(paired)==96
+    assert all(p["difference"]==p["lower_95"]==p["upper_95"]==0. for p in paired)
