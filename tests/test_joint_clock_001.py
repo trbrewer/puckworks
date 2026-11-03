@@ -133,3 +133,22 @@ def test_final_scores_use_fine_step_and_paired_identical_draws():
     assert r["accuracy_grade_vs_b1"]=="MEETS"
     assert len(paired)==96
     assert all(p["difference"]==p["lower_95"]==p["upper_95"]==0. for p in paired)
+
+
+def test_powell_boundary_roundoff_uses_declared_zero_delay_and_retains_cache():
+    from puckworks.analysis.joint_clock_001_resume import BoundedObjective
+    source = dict(brew="test", nominal_pressure_bar=6., predict_times_s=[0.,100.],
+        predict_pressure_bar=[6.,6.], predict_horizon_s=100., observer_times_s=np.arange(0.,100.,.1),
+        fit_times_s=np.array([20.,30.]), fit_flow_g_s=np.array([1.,1.]),
+        observed_onset_for_scoring_only_s=12.)
+    data = dict(sources=[source],bank={"DESCRIPTIVE_ALL":THETA})
+    z = J.coordinates([*THETA[:4],0.], "J1")
+    expected = R.Objective(data,"J1",.05,None)(z)
+    z[-1] = -np.finfo(float).eps
+    repaired = BoundedObjective(data,"J1",.05,None,[])
+    assert repaired(z) == expected
+    assert repaired.projections[0]["evaluated"][-1] == 0.
+    cached = BoundedObjective(data,"J1",.05,None,repaired.trials.copy())
+    with patch.object(J,"prepare",side_effect=AssertionError("Must reuse exact completed trial")):
+        assert cached(z) == expected
+    assert cached.cache_hits == 1

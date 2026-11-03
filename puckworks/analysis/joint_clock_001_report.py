@@ -279,7 +279,8 @@ def fit_tables(args):
         training.extend(dict(key=r["key"],model=r["model"],weight=r["weight"],fold=r["fold"],
             scope="training optimizer diagnostic",step_s=.02,**c) for c in r["condition_components"])
         manifest.append(dict(key=r["key"],file=path.name,sha256=R.R.digest(path),role="joint fit",
-            status=r["status"],core_hours=r["cpu_seconds"]/3600,wall_seconds=r["wall_seconds"]))
+            status=r["status"],core_hours=r["cpu_seconds"]/3600,wall_seconds=r["wall_seconds"],
+            continuation=r.get("continuation")))
     if len(fits)!=144:
         raise ValueError("Incomplete 144-fit cohort")
     return fits,starts,training,manifest
