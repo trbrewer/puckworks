@@ -1,0 +1,25 @@
+{
+  "role": "Retrospective wetting-screen prediction and observation comparison",
+  "producer": "puckworks.analysis.wetting_screen_001_report.figures",
+  "outputs": [
+    "ONSET.svg",
+    "ONSET.png",
+    "FLOW.svg",
+    "FLOW.png"
+  ],
+  "dataset_id": "waszkiewicz2025/traces_per_brew",
+  "source": "Waszkiewicz et al. (2025), Zenodo 18046315, through authenticated EWP FORM_A source inputs; fixed D0 form-A tuples",
+  "source_input_sha256": "a4f186f1affd6a8267b79bced5152c4b8d111cede2e894d84e1166f7eac149d9",
+  "rights": "CC-BY-4.0 source data; original numerical redraw; raw source and native CFD traces remain external",
+  "scope": "All 56 measured histories, eleven nominal conditions, and one common 23-pressure DESCRIPTIVE_ALL sweep per arm",
+  "encodings": {
+    "onset_left": "Signed held-out detector-median errors in seconds at each nominal pressure; upward arrows mark lower bounds when the full-cohort median is not identified",
+    "onset_right": "Descriptive constant-pressure beverage-mass detector on the common 0.1-s observation grid; bounds remain marked",
+    "flow_left": "Held-out endpoint condition means; black markers are scale-derived beverage-flow observations, colored markers are scored liquid rhoQ predictions",
+    "flow_right": "Single-tuple descriptive 100-s endpoint sweep; W2T includes its observation lag",
+    "lines": "Connections between sampled summaries, not added observations or a claim of a unique continuous detector minimum",
+    "intervals": "No interval ribbon is plotted. Paired intervals are in PAIRED_COMPARISONS.csv, conditional on fitted wetting parameters and transferred tuples; bound differences are labeled separately",
+    "rows": "1–2 bar in the top row, 3.5–13 bar below, to keep the high-pressure detail visible while retaining every nominal condition; all 56 brews remain in scoring"
+  },
+  "ceiling": "Comparison of frozen-law predictions using an engineering R0 chemistry model. No physical validation, causal mechanism identification, chemistry calibration, untouched-target claim, or inference beyond the declared grids and support. Geometric front timing remains a separate reported quantity."
+}

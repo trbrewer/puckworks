@@ -4,6 +4,7 @@ The resampling and flow bands reproduce EWP e1_demonstration.py at 67bead2;
 no optimizer or CFD call occurs here. Intervals condition on all fitted values.
 """
 import argparse
+import csv
 import json
 import importlib.metadata
 from pathlib import Path
@@ -161,11 +162,15 @@ def metrics(sources, rows, arms, numerical="fine"):
         all_errors[arm] = errors
         data[arm] = dict(rows=selected, observers=observers, endpoints=endpoints, traces=traces)
         censored = sum(not o["detected"] for o in observers)
+        censor_squared = np.array([e if not o["detected"] else 0.
+                                   for e, o in zip(errors["onset"], observers)])
         reports[arm] = dict(arm=arm, scope="ordinary held-out; 56/56 available", detected=56-censored,
             role={"W0": "reference", "Z": "zero-delay diagnostic; not a candidate",
                   "W1": "phenomenological constant-delay null", "W2": "primary two-parameter candidate",
                   "W2T": "predeclared three-parameter observation diagnostic"}[arm],
             intended=56, available=56, censored=censored, onset_is_lower_bound=bool(censored),
+            censor_contributions_alone_rmse_bound_s=float(np.mean([
+                np.sqrt(censor_squared[group].mean()) for group in groups])),
             interval_scope=CONDITIONAL, **response(endpoints, pressure_end, conditions))
         for pressure in (1., 2., 3.5):
             g = conditions == pressure
@@ -286,12 +291,44 @@ def extrema(rows, condition_rows, arms):
 
 def verification_tables(args):
     verification = json.loads((args.work/"VERIFICATION.json").read_text())
+    _, _, contexts, _ = R.load_data(args)
     rows = []
     for row in verification["rows"]:
         flat = {k: v for k, v in row.items() if not isinstance(v, dict)}
+        flat.update(native_detector_onset_s=row["native_onset"]["onset_s"],
+                    native_detected=row["native_onset"]["detected"],
+                    native_censor_bound_s=row["native_onset"]["censor_bound_s"])
         for label in ("native_scheme", "screen_scheme"):
             flat.update({label+"_"+k: v for k, v in row[label].items() if not isinstance(v, dict)})
             flat[label+"_detected"] = row[label]["detector"]["detected"]
+            flat[label+"_detector_onset_s"] = row[label]["detector"]["onset_s"]
+        if row["arm"] == "A1":
+            key = ("held_out_W0_"+row["brew"] if row["brew"] else
+                   f"descriptive_W0_constant-{row['pressure_bar']:g}")
+            item = json.loads((args.work/"predictions"/(key+".json")).read_text())
+            native = args.native/row["run"]/"postProcessing/wholePull/0/traces.csv"
+            if R.digest(native) != row["native_trace_sha256"]:
+                raise ValueError("Native verification trace changed")
+            with native.open() as stream:
+                header = next(csv.reader(stream))
+            names = ["time_s", "cup_water_mass_kg", "cup_beverage_mass_kg", "outlet_flow_m3_s"]
+            a = np.loadtxt(native, delimiter=",", skiprows=1, usecols=[header.index(k) for k in names]).T
+            t = np.r_[0., a[0]]
+            observation = contexts[row["brew"]] if row["brew"] else t[::20][t[::20] <= 100.]
+            observation = observation[observation <= t[-1]]
+            with np.load(args.work/"predictions"/item["fine"]["prediction"]["file"]) as prediction:
+                if a[0][0] < prediction["time"][0] or a[0][-1] > prediction["time"][-1]:
+                    raise ValueError("Fine verification coverage unavailable; no terminal extension")
+                detector = W.observe(prediction, observation)
+                flat.update(
+                    fine_liquid_max_difference_g=float(np.max(np.abs(np.interp(a[0], prediction["time"], prediction["liquid_g"])-1000*a[1]))),
+                    fine_beverage_max_difference_g=float(np.max(np.abs(np.interp(a[0], prediction["time"], prediction["beverage_g"])-1000*a[2]))),
+                    fine_endpoint_flow_difference_g_s=float(np.interp(a[0][-1], prediction["time"], prediction["bed_flow_g_s"])-965000*a[3][-1]),
+                    fine_detected=detector["detected"], fine_detector_onset_s=detector["onset_s"],
+                    fine_detection_agrees=detector["detected"] == row["native_onset"]["detected"],
+                    fine_onset_difference_s=detector["onset_s"]-row["native_onset"]["onset_s"] if
+                        detector["detected"] and row["native_onset"]["detected"] else None,
+                    fine_comparison_support="retained native/source common support; full-contract availability separately flagged")
         rows.append(flat)
     R.csv_write(R.OUT/"VERIFICATION.csv", rows)
     return verification
@@ -320,6 +357,9 @@ def fit_table(args):
                 zip(names, fit["sampled_minimum_parameter_ranges"]) if bounds[0] != bounds[1]],
             minimum_detected_training=min(r["detected_training"] for r in fit["trials"] if r["loss_s2"] == fit["loss_s2"]),
             trials=len(fit["trials"]), column_evaluations=fit["column_evaluations"],
+            powell_successful_starts=sum(r["success"] for r in fit["optimizer_results"]),
+            powell_start_count=len(fit["optimizer_results"]),
+            powell_messages=sorted({r["message"] for r in fit["optimizer_results"]}),
             cpu_hours=fit["cpu_seconds"]/3600., fit_sha256=R.digest(path),
             identifiability=fit["identifiability"]))
     R.csv_write(R.OUT/"FITS.csv", rows)
@@ -332,30 +372,35 @@ def figures(sources, data, conditions, sweep, arms):
     matplotlib.rcParams["svg.hashsalt"] = "PW-WETTING-SCREEN-001"
     import matplotlib.pyplot as plt
     palette = dict(W0="#4c566a", Z="#9a6700", W1="#805ad5", W2="#007f5f", W2T="#c2410c")
-    fig, axes = plt.subplots(1, 2, figsize=(12, 4.5), layout="constrained")
-    for arm in arms:
-        rows = [r for r in conditions if r["arm"] == arm]
-        p = np.array([r["pressure_bar"] for r in rows])
-        err = np.array([r["signed_median_error_s"] if r["signed_median_error_s"] is not None else
-                        r["signed_median_error_lower_bound_s"] for r in rows])
-        axes[0].plot(p, err, "o-", color=palette[arm], label=arm, markersize=4)
-        censored = np.array([r["predicted_median_s"] is None for r in rows])
-        axes[0].scatter(p[censored], err[censored], marker="$↑$", s=170, color=palette[arm])
-        constants = [r for r in sweep if r["arm"] == arm]
-        q = [r["detector_onset_s"] if r["detected"] else r["censor_bound_s"] for r in constants]
-        axes[1].plot([r["pressure_bar"] for r in constants], q, ".-", color=palette[arm], label=arm)
-        for r in constants:
-            if not r["detected"]:
-                axes[1].scatter([r["pressure_bar"]], [r["censor_bound_s"]], marker="$↑$", s=100, color=palette[arm])
-    axes[0].axhline(0, color="black", linewidth=.7)
-    axes[0].set(title="Held-out signed detector-median errors", ylabel="Predicted − observed median (s)")
-    axes[1].set(title="Descriptive constant-pressure detector", ylabel="Detector onset (s)")
-    for ax in axes:
-        ax.set(xlabel="Nominal pressure (bar)", xticks=W.NOMINAL)
-        ax.tick_params(axis="x", labelsize=8)
-        ax.grid(alpha=.2)
-    axes[0].legend(ncol=3, fontsize=9)
-    fig.suptitle("Beverage-mass B0c observer · arrows are lower bounds, not detections", fontsize=12)
+    fig, axes = plt.subplots(2, 2, figsize=(12, 8), layout="constrained")
+    for panel in (0, 1):
+        keep = lambda r: (r["pressure_bar"] <= 2.) == (panel == 0)
+        for arm in arms:
+            rows = [r for r in conditions if r["arm"] == arm and keep(r)]
+            p = np.array([r["pressure_bar"] for r in rows])
+            err = np.array([r["signed_median_error_s"] if r["signed_median_error_s"] is not None else
+                            r["signed_median_error_lower_bound_s"] for r in rows])
+            axes[panel, 0].plot(p, err, "o-", color=palette[arm], label=arm, markersize=4)
+            censored = np.array([r["predicted_median_s"] is None for r in rows])
+            axes[panel, 0].scatter(p[censored], err[censored], marker="$↑$", s=170, color=palette[arm])
+            constants = [r for r in sweep if r["arm"] == arm and keep(r)]
+            q = [r["detector_onset_s"] if r["detected"] else r["censor_bound_s"] for r in constants]
+            axes[panel, 1].plot([r["pressure_bar"] for r in constants], q, ".-", color=palette[arm], label=arm)
+            for r in constants:
+                if not r["detected"]:
+                    axes[panel, 1].scatter([r["pressure_bar"]], [r["censor_bound_s"]], marker="$↑$", s=100, color=palette[arm])
+        axes[panel, 0].axhline(0, color="black", linewidth=.7)
+        axes[panel, 0].set(ylabel="Predicted − observed median (s)")
+        axes[panel, 1].set(ylabel="Detector onset (s)")
+        ticks = W.NOMINAL[W.NOMINAL <= 2.] if panel == 0 else W.NOMINAL[W.NOMINAL > 2.]
+        for ax in axes[panel]:
+            ax.set(xlabel="Nominal pressure (bar)", xticks=ticks)
+            ax.tick_params(axis="x", labelsize=8)
+            ax.grid(alpha=.2)
+    axes[0, 0].set_title("Held-out signed detector-median errors")
+    axes[0, 1].set_title("Descriptive constant-pressure detector")
+    axes[0, 0].legend(ncol=3, fontsize=9)
+    fig.suptitle("Beverage-mass B0c observer · all 11 conditions · arrows denote lower bounds", fontsize=12)
     fig.savefig(R.OUT/"ONSET.svg", metadata={"Date": None})
     fig.savefig(R.OUT/"ONSET.png", dpi=180)
     plt.close(fig)
