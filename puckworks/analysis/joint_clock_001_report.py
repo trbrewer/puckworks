@@ -30,7 +30,7 @@ def load_predictions(args):
                 None if row["scope"] == "descriptive" else row["pressure_bar"])+".json")
         if R.R.digest(fit) != row["identity"]["fit_sha256"]:
             raise ValueError("Frozen parameters changed")
-        if row["identity"]["evaluator_sha256"] != R.R.digest(Path(E.__file__)):
+        if row["identity"]["evaluator_sha256"] not in E.accepted_evaluator_hashes():
             raise ValueError("Frozen evaluator changed")
         for step in ("fine", "search"):
             artifact = row[step]["prediction"]
@@ -278,9 +278,15 @@ def fit_tables(args):
             **s,objective_above_best=s["objective"]-r["objective"]) for s in r["starts"])
         training.extend(dict(key=r["key"],model=r["model"],weight=r["weight"],fold=r["fold"],
             scope="training optimizer diagnostic",step_s=.02,**c) for c in r["condition_components"])
+        continuation = r.get("continuation")
+        if continuation:
+            continuation_source = R.ROOT/"puckworks/analysis/joint_clock_001_resume.py"
+            if (continuation["source_sha256"] != R.R.digest(continuation_source) or
+                    continuation["failed_sha256"] != R.R.digest(args.work/"failures"/continuation["failed_file"])):
+                raise ValueError("Continuation source or retained failed attempt changed")
         manifest.append(dict(key=r["key"],file=path.name,sha256=R.R.digest(path),role="joint fit",
             status=r["status"],core_hours=r["cpu_seconds"]/3600,wall_seconds=r["wall_seconds"],
-            continuation=r.get("continuation")))
+            continuation=continuation))
     if len(fits)!=144:
         raise ValueError("Incomplete 144-fit cohort")
     return fits,starts,training,manifest
@@ -448,6 +454,21 @@ def run(args):
         failure = json.loads(path.read_text())
         failures.append(dict(file=path.name,sha256=R.R.digest(path),
             **{k:failure[k] for k in ("key","status","error","identity","cpu_seconds","wall_seconds")}))
+    boundary_diagnostic = None
+    debug_path = args.work/"NUMERICAL_FAILURE_DEBUG.json"
+    if debug_path.exists():
+        debug = json.loads(debug_path.read_text())
+        boundary_diagnostic = dict(file=debug_path.name,sha256=R.R.digest(debug_path),
+            **{k:debug[k] for k in ("start","coordinates","parameters","error","cpu_seconds","wall_seconds")},
+            role="Exact replay of failing optimizer extrapolation; not another fitted family",
+            note="Earlier diagnostic replay failed while serializing NaN; log retained, CPU unmeasured")
+    evaluation_recovery = None
+    recovery_path = args.work/"EVALUATION_SERIALIZATION_RECOVERY.json"
+    if recovery_path.exists():
+        evaluation_recovery = json.loads(recovery_path.read_text())
+        for record in evaluation_recovery["records"]:
+            if R.R.digest(args.work/"interrupted_evaluations"/record["file"]) != record["sha256"]:
+                raise ValueError("Retained interrupted evaluation arrays changed")
     manifest = dict(fits=fit_manifest,predictions=evaluation,retained_reference_metadata=reference_hashes,
         fit_freeze_sha256=R.R.digest(args.work/"FIT_FREEZE.json"),source_sha256=R.identity(),
         reporting_sha256=R.R.digest(Path(__file__)),fit_count=144,case_pairs=948,D0_refits=0,
@@ -462,12 +483,18 @@ def run(args):
         replay_core_hours=replay["cpu_seconds"]/3600,reporting_core_hours=(time.process_time()-cpu)/3600,
         prefix_verification_core_hours=sum(r["cpu_seconds"] for r in prefix["records"])/3600,
         failed_attempts=failures,failed_attempt_core_hours=sum(r["cpu_seconds"] for r in failures)/3600,
+        numerical_boundary_diagnostic=boundary_diagnostic,
+        evaluation_serialization_recovery=evaluation_recovery,
         reporting_wall_seconds=time.perf_counter()-start,
         retained_predecessor_execution="13.22 screen core-hours are historical, not counted again",
         other_work="Structural tests, development and setup are not scientific fit execution; prefix verification separately recorded",
         versions=P.package_versions(),native_evidence="Read-only EWP 67bead2; retained qualification flags propagated",
         external_outputs="Native traces, trial histories and frozen arrays remain outside Git",
         interval_scope=CONDITIONAL)
+    manifest["recorded_total_core_hours"] = sum(manifest[k] for k in (
+        "fit_core_hours","evaluation_core_hours","replay_core_hours","reporting_core_hours",
+        "prefix_verification_core_hours","failed_attempt_core_hours")) + (
+            boundary_diagnostic["cpu_seconds"]/3600 if boundary_diagnostic else 0.)
     R.R.write_json(R.OUT/"RUN_MANIFEST.json",manifest)
     R.R.write_json(args.work/"REPORT.json",dict(reports=report,paired=paired,b1=b1,conditions=conditions,
         loss_by_pressure=losses,extrema=ext,bed_scale=bed,manifest=manifest))

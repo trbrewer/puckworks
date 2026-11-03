@@ -16,6 +16,14 @@ from . import wetting_screen_001 as W
 _DATA = None
 _ARGS = None
 
+# The preceding evaluator has identical numerical operations; its J2 censor
+# flag was a numpy.bool_ and could not be serialized. Keep valid old records.
+SERIALIZATION_PREDECESSOR = "1cc913bfcf38f4e9844334867ecac690c2931cc787fadcabcb906d67de407dad"
+
+
+def accepted_evaluator_hashes():
+    return {R.R.digest(Path(__file__)), SERIALIZATION_PREDECESSOR}
+
 
 def arm_name(model, weight):
     return f"{model}_lambda-{weight:g}"
@@ -37,7 +45,11 @@ def evaluate_case(args, data, fit_path, source, scope):
         source_input_sha256=R.R.digest(args.native/"source_inputs.json"))
     if metadata.exists():
         row = json.loads(metadata.read_text())
-        if row["identity"] != identity:
+        previous_identity = dict(row["identity"])
+        if previous_identity["evaluator_sha256"] not in accepted_evaluator_hashes():
+            raise ValueError("Unrecognized frozen evaluator")
+        previous_identity["evaluator_sha256"] = identity["evaluator_sha256"]
+        if previous_identity != identity:
             raise ValueError("Frozen prediction identity changed")
         for numerical in ("fine", "search"):
             p = row[numerical]["prediction"]
@@ -64,7 +76,7 @@ def evaluate_case(args, data, fit_path, source, scope):
         artifact = R.R.save_prediction(folder/(key+"_"+numerical+".npz"), prediction, lag)
         artifact["front_on_full_support_s"] = predictor.tb if math.isfinite(predictor.tb) else None
         artifact["front_s"] = predictor.tb if predictor.tb <= 100. else None
-        artifact["front_right_censored"] = predictor.tb > 100.
+        artifact["front_right_censored"] = bool(predictor.tb > 100.)
         q = predictor.scored_flow(trace_times, lag)
         endpoint = float(predictor.scored_flow([100.], lag)[0])
         summary = dict(prediction=artifact, observer=observer, endpoint_g_s=endpoint,

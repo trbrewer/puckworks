@@ -152,3 +152,21 @@ def test_powell_boundary_roundoff_uses_declared_zero_delay_and_retains_cache():
     with patch.object(J,"prepare",side_effect=AssertionError("Must reuse exact completed trial")):
         assert cached(z) == expected
     assert cached.cache_hits == 1
+
+
+def test_j2_frozen_evaluation_serializes_censor_flag_and_resumes(tmp_path):
+    import json
+    from types import SimpleNamespace
+    from puckworks.analysis import joint_clock_001_evaluate as E
+    args = SimpleNamespace(work=tmp_path,native=tmp_path)
+    (tmp_path/"source_inputs.json").write_text("{}")
+    fit = dict(model="J2",weight=1.,fold="DESCRIPTIVE_ALL",mc_fixed_g=THETA[4],
+        parameters=[*THETA[:4],1e-14,4.,9.],identity=R.identity())
+    path = tmp_path/"fit.json"
+    path.write_text(json.dumps(fit))
+    source = dict(nominal_pressure_bar=6.,predict_times_s=[0.,100.],
+        predict_pressure_bar=[6.,6.],predict_horizon_s=100.)
+    data = dict(bank={"DESCRIPTIVE_ALL":THETA})
+    result = E.evaluate_case(args,data,path,source,"descriptive")
+    assert type(result["fine"]["prediction"]["front_right_censored"]) is bool
+    assert E.evaluate_case(args,data,path,source,"descriptive") == result
