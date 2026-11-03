@@ -279,11 +279,16 @@ def fit_tables(args):
         training.extend(dict(key=r["key"],model=r["model"],weight=r["weight"],fold=r["fold"],
             scope="training optimizer diagnostic",step_s=.02,**c) for c in r["condition_components"])
         continuation = r.get("continuation")
+        prior_core_hours = 0.
         if continuation:
             continuation_source = R.ROOT/"puckworks/analysis/joint_clock_001_resume.py"
             if (continuation["source_sha256"] != R.R.digest(continuation_source) or
                     continuation["failed_sha256"] != R.R.digest(args.work/"failures"/continuation["failed_file"])):
                 raise ValueError("Continuation source or retained failed attempt changed")
+            prior_core_hours = json.loads((args.work/"failures"/continuation["failed_file"]).read_text())["cpu_seconds"]/3600
+        fits[-1].update(retained_failed_attempt_core_hours=prior_core_hours,
+            total_recorded_fit_core_hours=r["cpu_seconds"]/3600+prior_core_hours,
+            core_hours_scope="completed segment; total also includes retained interrupted segment")
         manifest.append(dict(key=r["key"],file=path.name,sha256=R.R.digest(path),role="joint fit",
             status=r["status"],core_hours=r["cpu_seconds"]/3600,wall_seconds=r["wall_seconds"],
             continuation=continuation))
