@@ -1,0 +1,14 @@
+{
+  "method": "Complete rerun of central fits and all 4096 matched reading realizations",
+  "byte_identical": {
+    "MODELS.csv": true,
+    "RESIDUALS.csv": true,
+    "DIGITIZED.csv": true,
+    "TABLE2_CHECK.csv": true,
+    "READING_REALIZATIONS.csv": true,
+    "CONTRASTS.csv": true,
+    "comparison.svg": true
+  },
+  "numerical_results_unchanged": true,
+  "note": "Numerical CSVs identical after complete rerun. Both saved result bundles render the same final figure; post-run presentation changes strip SVG whitespace, name the VizSpec module explicitly, and label point counts as means. RESULT module hashes refreshed for these presentation-only edits."
+}

@@ -1,5 +1,5 @@
 {
-  "dataset_count": 130,
+  "dataset_count": 131,
   "families": [
     {
       "analytes": [
@@ -2963,9 +2963,36 @@
       "coffee_lot_count_if_known": "UNKNOWN",
       "conditionally_eligible_uses": [],
       "consumed_comparison_status": "UNKNOWN",
+      "dataset_scopes": {
+        "romancorrochano2015/fig10_shape": {
+          "blocked_uses": [
+            "population inference from reading intervals",
+            "individual-bed trajectories",
+            "independent campaign replication",
+            "unqualified intrinsic permeability"
+          ],
+          "campaign": "existing Corrochano/Melrose lineage; no new independent campaign",
+          "coverage": "108 recovered means in 12 series; missing/extra step identities unresolved",
+          "eligible_uses": [
+            "descriptive shape comparison under declared pressure/recovery mappings"
+          ],
+          "last_qualified_task": "PW-COR15-SHAPE-001",
+          "missing_joins": [
+            "exact apparatus correction",
+            "meter volume reference",
+            "individual-bed geometry and numerical viscosity",
+            "cross-step covariance"
+          ],
+          "observer": "steady inlet-meter Q versus already-corrected bed pressure; means of three beds",
+          "physical_validation": "NOT_ESTABLISHED",
+          "source_internal_or_external": "SOURCE_INTERNAL",
+          "target_exposure": "TARGET_EXPOSED"
+        }
+      },
       "directness": [
         "card transcription (fully printed Table 2 with SDs and ANOVA letters)",
-        "Original PDF inspection; retained raster marker coordinates and bounded readings; dry Sauter diameter transcription"
+        "Original PDF inspection; retained raster marker coordinates and bounded readings; dry Sauter diameter transcription",
+        "Native mean-marker and recoverable SD-cap readings; shared panel calibration; overlay inspection"
       ],
       "eligible_uses": [],
       "external_corpus_id": null,
@@ -2975,20 +3002,23 @@
       "grinder_count_if_known": "UNKNOWN",
       "historical_task_uses": [
         "tamped-permeability data for wadsworth2026.permeability tamped-reconciliation (G9/P4); supersedes the thesis Table 6.1 transcription target",
-        "SCI-VAL-TAMPED-K-001 fixed model-plus-adapter comparison; research only"
+        "SCI-VAL-TAMPED-K-001 fixed model-plus-adapter comparison; research only",
+        "PW-COR15-SHAPE-001 descriptive frozen D0 shape comparison; no gate"
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
       "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
       "manifest_dataset_ids": [
         "romancorrochano2015/table2",
-        "romancorrochano2015/sci_val_tamped_k_001_inputs"
+        "romancorrochano2015/sci_val_tamped_k_001_inputs",
+        "romancorrochano2015/fig10_shape"
       ],
       "measurement_resolution": "UNKNOWN",
       "missing_joins": [],
       "notes": [
         "K-C equations non-predictive (take the table, skip the models); tamped/consolidated regime; d[3,2] per grind and consolidation constants live in the card, not this CSV",
-        "12 case summaries; same 2015/thesis campaign; R<-d32/2 and phi_p<-consolidated bulk porosity are proxies; no target-derived inputs or production adoption"
+        "12 case summaries; same 2015/thesis campaign; R<-d32/2 and phi_p<-consolidated bulk porosity are proxies; no target-derived inputs or production adoption",
+        "108 visible means; 12 series with separate amplitudes; seven A-480 and ten C/D-360 markers retained without invented steps; saturated extracted-bed inlet meter versus corrected pressure; recovery and pressure-coordinate mappings qualified; same Corrochano/Melrose campaign"
       ],
       "observables": [
         "UNKNOWN"
@@ -2998,7 +3028,8 @@
       "publication_or_repository": "Roman-Corrochano et al. 2015 Table 2 \u2014 tamped-bed K (m^2), mean+/-SD triplicate, grind A-D x bulk density 360/400/480 kg m^-3, Tukey groups",
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "rights": [
-        "Roman-Corrochano et al. 2015 (CC BY 3.0; original journal p.106; prior 4.0 manifest label corrected under SCI-VAL-TAMPED-K-001)"
+        "Roman-Corrochano et al. 2015 (CC BY 3.0; original journal p.106; prior 4.0 manifest label corrected under SCI-VAL-TAMPED-K-001)",
+        "CC BY 3.0; original journal and attributed adapted reading overlay"
       ],
       "roast_batch_count_if_known": "UNKNOWN",
       "source_cards": [
@@ -3015,11 +3046,13 @@
       "title": "romancorrochano2015",
       "uncertainty_status": [
         "y (SD of triplicate beds; Tukey groups alpha=0.05)",
-        "Reading/rounding bounds only; shared inputs; source SDs not confidence intervals"
+        "Reading/rounding bounds only; shared inputs; source SDs not confidence intervals",
+        "Experimental three-bed SD separate from graphical reading realizations; instrument/correction uncertainty unresolved"
       ],
       "validation_strength": [
         "reference (measured tamped K); the source's K-C equations are poor blind predictors (per-grind n fit) so this is not a K-C validation",
-        "TARGET_EXPOSED_RETROSPECTIVE_COMPARISON; declared adapter only; not native-law or EWP validation"
+        "TARGET_EXPOSED_RETROSPECTIVE_COMPARISON; declared adapter only; not native-law or EWP validation",
+        "SOURCE_INTERNAL; TARGET_EXPOSED; descriptive post-fit reconstruction; PHYSICAL_VALIDATION=NOT_ESTABLISHED"
       ]
     },
     {
@@ -4101,6 +4134,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "9a0ea165c215ab2e826a8a2a571e74d0e0ea160eb25f53117c45dbbeef56784a",
+  "manifest_sha256": "35b13a368ea9a28f18c0a180229c5ec7d242e8d29993a198f6a81477eabdc53d",
   "schema_version": 1
 }
