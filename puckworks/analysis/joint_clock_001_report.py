@@ -326,7 +326,8 @@ def figures(sources,reports,conditions,losses):
     axes[0,0].legend(ncol=2,fontsize=8)
     for ax in axes[:,0]:
         ax.set_ylabel("Predicted − observed detector median (s)")
-    fig.suptitle("Held-out beverage-mass detector · all 56 brews · arrows denote median bounds")
+    fig.suptitle("Held-out beverage-mass detector · all 56 brews · arrows denote median bounds\n"
+                 "D0 uses an added R0 beverage observer (ungraded diagnostic)")
     for suffix in ("svg","png"):
         fig.savefig(R.OUT/("ONSET."+suffix),dpi=160,metadata={"Date":None} if suffix=="svg" else None)
     plt.close(fig)
@@ -340,7 +341,7 @@ def figures(sources,reports,conditions,losses):
         ax.set(title=f"λ={weight:g}"+(" (primary)" if weight==1. else ""),xlabel="Nominal pressure (bar)",ylabel="Liquid endpoint flow (g/s)")
         ax.grid(alpha=.2)
     axes[0,0].legend(fontsize=8)
-    fig.suptitle("Held-out 100-s endpoints · scale liquid flow · common FORM_A observer")
+    fig.suptitle("Held-out 100-s endpoints · scale liquid flow · common FORM_A masks")
     for suffix in ("svg","png"):
         fig.savefig(R.OUT/("FLOW."+suffix),dpi=160,metadata={"Date":None} if suffix=="svg" else None)
     plt.close(fig)
@@ -364,20 +365,47 @@ def figures(sources,reports,conditions,losses):
     for suffix in ("svg","png"):
         fig.savefig(R.OUT/("PRESSURE_LOSS."+suffix),dpi=180,metadata={"Date":None} if suffix=="svg" else None)
     plt.close(fig)
-    fig,ax = plt.subplots(figsize=(8,5),layout="constrained")
-    for model in J.MODELS:
-        rr = [reports[E.arm_name(model,w)] for w in J.WEIGHTS]
-        ax.plot([r["primary_trace_rmse"] for r in rr],[r["onset_rmse"] for r in rr],"o-",color=colors[model],label=model)
-        for w,r in zip(J.WEIGHTS,rr):
-            ax.annotate(f"λ={w:g}",(r["primary_trace_rmse"],r["onset_rmse"]),xytext=(4,4),textcoords="offset points",fontsize=7)
-    for name in ("D0","W0","W1","W2","W2T"):
+    from matplotlib.lines import Line2D
+    fig,axes = plt.subplots(1,2,figsize=(13,5.5),layout="constrained")
+    markers = dict(zip(J.WEIGHTS,("o","s","^","D")))
+    for ax in axes:
+        for model in J.MODELS:
+            rr = [reports[E.arm_name(model,w)] for w in J.WEIGHTS]
+            ax.plot([r["primary_trace_rmse"] for r in rr],[r["onset_rmse"] for r in rr],
+                    color=colors[model],linewidth=1)
+            for w,r in zip(J.WEIGHTS,rr):
+                ax.scatter(r["primary_trace_rmse"],r["onset_rmse"],marker=markers[w],
+                           color=colors[model],s=40)
+                if r["onset_is_lower_bound"]:
+                    ax.annotate("↑",(r["primary_trace_rmse"],r["onset_rmse"]),
+                                xytext=(0,5),textcoords="offset points",ha="center",
+                                color=colors[model],fontsize=9)
+        for name in ("D0","W0","W1","W2","W2T"):
+            r=reports[name]
+            ax.scatter(r["primary_trace_rmse"],r["onset_rmse"],color="#6b7280",marker="x")
+        ax.set(xlabel="Primary-trace liquid-flow RMSE (g/s)")
+        ax.grid(alpha=.2)
+    axes[0].set(title="Full range; every predeclared model/weight",
+                ylabel="Onset RMSE or computed lower bound (s)")
+    axes[1].set(title="Detail of delayed arms (same points)",xlim=(.258,.326),ylim=(7.8,10.65))
+    handles = [Line2D([],[],color=colors[m],label=m) for m in J.MODELS]
+    handles += [Line2D([],[],color="black",marker=markers[w],linestyle="none",label=f"λ={w:g}") for w in J.WEIGHTS]
+    axes[0].legend(handles=handles,ncol=2,fontsize=8,loc="upper right")
+    for name,offset in (("D0",(12,-10)),("W0",(12,3))):
         r=reports[name]
-        ax.scatter(r["primary_trace_rmse"],r["onset_rmse"],color="#6b7280",marker="x")
-        ax.annotate(name,(r["primary_trace_rmse"],r["onset_rmse"]),xytext=(4,4),textcoords="offset points",fontsize=8)
-    ax.set(xlabel="Primary-trace liquid-flow RMSE (g/s)",ylabel="Onset RMSE or computed lower bound (s)",
-           title="Predeclared weights · shared retrospective cohort · lower left is better")
-    ax.grid(alpha=.2)
-    ax.legend()
+        axes[0].annotate(name+" ↑",(r["primary_trace_rmse"],r["onset_rmse"]),
+                         xytext=offset,textcoords="offset points",fontsize=8)
+    for model in J.MODELS[:2]:
+        r=reports[E.arm_name(model,2.)]
+        axes[0].annotate(model+" λ=2",(r["primary_trace_rmse"],r["onset_rmse"]),
+                         xytext=(-8,12) if model=="J0" else (8,12),textcoords="offset points",
+                         ha="right" if model=="J0" else "left",fontsize=8)
+    for name,offset in (("W1",(12,8)),("W2",(12,8)),("W2T",(12,-12))):
+        r=reports[name]
+        axes[1].annotate(name+" ↑",(r["primary_trace_rmse"],r["onset_rmse"]),
+                         xytext=offset,textcoords="offset points",fontsize=8)
+    fig.suptitle("Held-out flow/onset tradeoff · ↑ denotes a computed lower bound; no weight selected\n"
+                 "D0 onset uses an added R0 beverage observer (ungraded diagnostic)")
     for suffix in ("svg","png"):
         fig.savefig(R.OUT/("TRADEOFF."+suffix),dpi=170,metadata={"Date":None} if suffix=="svg" else None)
     plt.close(fig)
@@ -441,7 +469,7 @@ def run(args):
         encodings=dict(onset="signed condition-median errors; arrows are median lower bounds; 1–2 bar separate from 3.5–13",
             flow="condition-mean liquid scale endpoint against observed scale-derived beverage flow",
             pressure_loss="numeric F and O by pressure/weight/model; color is log(1+F+lambda*O), normalized separately per model; no probability interpretation",
-            tradeoff="primary-trace RMSE against onset RMSE/computed bound; lines connect predeclared weights, not additional fits",
+            tradeoff="primary-trace RMSE against onset RMSE/computed bound; ↑ marks a lower bound; lines connect predeclared weights, not additional fits",
             intervals="none drawn; paired intervals in CSV condition on fitted parameters/fixed Mc"),
         ceiling="No physical validation or identified mechanism; fitted scale lag remains observational; retrospective same-cohort capability only"))
     figures(sources,report,conditions,losses)
@@ -500,6 +528,12 @@ def run(args):
         "fit_core_hours","evaluation_core_hours","replay_core_hours","reporting_core_hours",
         "prefix_verification_core_hours","failed_attempt_core_hours")) + (
             boundary_diagnostic["cpu_seconds"]/3600 if boundary_diagnostic else 0.)
+    reconciliation_path = args.work/"FIT_EXECUTION_RECONCILED.json"
+    if reconciliation_path.exists():
+        reconciliation = json.loads(reconciliation_path.read_text())
+        manifest["fit_execution_reconciliation"] = {k:v for k,v in reconciliation.items()
+            if k not in ("records","retained_failed_attempts")}
+        manifest["fit_execution_reconciliation_sha256"] = R.R.digest(reconciliation_path)
     R.R.write_json(R.OUT/"RUN_MANIFEST.json",manifest)
     R.R.write_json(args.work/"REPORT.json",dict(reports=report,paired=paired,b1=b1,conditions=conditions,
         loss_by_pressure=losses,extrema=ext,bed_scale=bed,manifest=manifest))

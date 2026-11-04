@@ -1,0 +1,26 @@
+{
+  "role": "Retrospective coupled-model capability comparisons",
+  "producer": "puckworks.analysis.joint_clock_001_report.figures",
+  "outputs": [
+    "ONSET.svg",
+    "ONSET.png",
+    "FLOW.svg",
+    "FLOW.png",
+    "PRESSURE_LOSS.svg",
+    "PRESSURE_LOSS.png",
+    "TRADEOFF.svg",
+    "TRADEOFF.png"
+  ],
+  "dataset_id": "waszkiewicz2025/traces_per_brew",
+  "source": "Waszkiewicz 2025, Zenodo 18046315; authenticated FORM_A histories and D0 support",
+  "rights": "CC-BY-4.0 source; original redraw; raw/native traces external",
+  "scope": "56 held-out brews; all eleven conditions and four predeclared weights; final 0.005-s evaluations",
+  "encodings": {
+    "onset": "signed condition-median errors; arrows are median lower bounds; 1\u20132 bar separate from 3.5\u201313",
+    "flow": "condition-mean liquid scale endpoint against observed scale-derived beverage flow",
+    "pressure_loss": "numeric F and O by pressure/weight/model; color is log(1+F+lambda*O), normalized separately per model; no probability interpretation",
+    "tradeoff": "primary-trace RMSE against onset RMSE/computed bound; \u2191 marks a lower bound; lines connect predeclared weights, not additional fits",
+    "intervals": "none drawn; paired intervals in CSV condition on fitted parameters/fixed Mc"
+  },
+  "ceiling": "No physical validation or identified mechanism; fitted scale lag remains observational; retrospective same-cohort capability only"
+}
