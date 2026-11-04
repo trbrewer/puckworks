@@ -62,7 +62,7 @@
   "scipy": "1.18.1",
   "measurement": "through report generation; excludes final execution-receipt serialization",
   "output_sha256": {
-    "SUMMARY.md": "41527f7984c14cfb30c5153e6ea227dc0760f84223196068bbb52d92499820f6",
+    "SUMMARY.md": "a5ae2ea980caae6ade0759b240ce2fc544fa6853961beb615b4b2ba3db0e3269",
     "bootstrap_draws.csv": "f25ceb87bd68caa5fdd37927aba0ac60d7cf9e3030579d74415a9da7ffb36604",
     "folds.csv": "1912ab2219a9b96ac111434c9ded6aec7813dabdb70e8cac6be745f22a13283c",
     "observations.csv": "b347101c19f27d41e8724b2558bd2ea788d20a330eb77ca7e833463372fb65ec",
@@ -72,5 +72,14 @@
     "summaries.csv": "5bf7658b1f59fe66925849db5dbbbdd9cecda22f6d6b63fc49e3d324c5600a09",
     "timing_reconciliation.csv": "8b160f96dcbceacde894b5224228fd56c690febe394ff94595bdc8973ea42743",
     "uncertainty.png": "784ebf067090eaf946bd12ae55bd544343d97652fec7d8bfc1fe6308ff7fd86a"
-  }
+  },
+  "post_execution_documentation_revisions": [
+    {
+      "artifact": "SUMMARY.md",
+      "original_sha256": "41527f7984c14cfb30c5153e6ea227dc0760f84223196068bbb52d92499820f6",
+      "revised_sha256": "a5ae2ea980caae6ade0759b240ce2fc544fa6853961beb615b4b2ba3db0e3269",
+      "reviewed_base_head": "bdcae68c212c8ee8dab9e99576c3f58406807bb0",
+      "reason": "Owner-requested editorial addition describing the concentration of the existing primary held-out squared-error increase in shots 9 and 3, and their existing LOSO fold slopes. Every number verified against observations.csv and folds.csv; no reduced-cohort performance inference, experiment rerun or report regeneration."
+    }
+  ]
 }
