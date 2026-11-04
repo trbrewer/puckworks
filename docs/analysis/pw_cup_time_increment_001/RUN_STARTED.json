@@ -1,0 +1,22 @@
+{
+  "attribution": {
+    "author": "Dr. Yoana Grudeva",
+    "upstream_repository": "https://github.com/YoanaGrudeva/espresso-model",
+    "upstream_commit": "567ad8f3808eb74fbe3e470eaa333161bf2eac1c",
+    "permissions": "https://github.com/trbrewer/puckworks/blob/main/docs/permissions/grudeva2025.md",
+    "rights": "PERMISSION_DOCUMENTED; no SPDX licence; not relicensed under MIT",
+    "exp13_sha256": "291cadb1d06a009f758c158c95b020db551c127333e9dec6f6c581eac320130c"
+  },
+  "utc": "2026-11-04T21:25:52.021245+00:00",
+  "implementation_commit": "b980d8bc110fbe66298b7f8ab1b135406750f8a0",
+  "code_sha256": {
+    "puckworks/analysis/cup_time_increment.py": "54b6980c211535d05913f0b9bd19d90b3d6a5a5779d318e4d6543ae7e2d67c24",
+    "tools/pw_cup_time_increment_001.py": "39143432f90e2b1864b853e528d96052f1114ece44505bdc81b0cde92d35b58d",
+    "tests/test_cup_time_increment.py": "4f63f136af52bcabfc1dc5f8bfcc3c9a884a86767fe3c11163bf0be0f5a78e3f",
+    "tools/pw_cup_time_increment_001_phase0.py": "b9a9cb8fcbf60c1930891f85e8c71ceb8eae49dda29802daf70d6067f8a91c12",
+    "puckworks/analysis/grudeva_clock.py": "4d8d5ef6d47bd40e0522b3d091e306f2126ee3ed78194f90cfa9a58f4519d57d",
+    "docs/analysis/pw_cup_time_increment_001/PLAN.md": "45337e8ffb7df0e256dff70e190510a7a6d704117010ccb4d81332203cff49d0"
+  },
+  "pre_chemistry_qa_sha256": "a0e0e935c9f33eff4720c3807e88677ff984fc7c0e6b52605dc94ad26daf9334",
+  "plan_corrections_commit": "f88ae1f2941930598a76f51fafc87dccc57bffe1"
+}

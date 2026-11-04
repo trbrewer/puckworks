@@ -1,0 +1,67 @@
+{
+  "attribution": {
+    "author": "Dr. Yoana Grudeva",
+    "upstream_repository": "https://github.com/YoanaGrudeva/espresso-model",
+    "upstream_commit": "567ad8f3808eb74fbe3e470eaa333161bf2eac1c",
+    "permissions": "https://github.com/trbrewer/puckworks/blob/main/docs/permissions/grudeva2025.md",
+    "rights": "PERMISSION_DOCUMENTED; no SPDX licence; not relicensed under MIT",
+    "exp13_sha256": "291cadb1d06a009f758c158c95b020db551c127333e9dec6f6c581eac320130c"
+  },
+  "checks": [
+    {
+      "stage": "post_execution_saved_artifacts",
+      "command": "-m pytest -q tests/test_cup_time_increment_artifacts.py",
+      "utc": "2026-11-04T21:29:02.184692+00:00",
+      "exit_code": 0,
+      "process_and_worker_cpu_core_hours": 0.00014131277777777778,
+      "wall_seconds": 0.5093310289084911,
+      "output": "..                                                                       [100%]\n2 passed in 0.34s\n"
+    },
+    {
+      "stage": "post_execution_saved_artifacts",
+      "command": "-m ruff check puckworks/analysis/cup_time_increment.py tools/pw_cup_time_increment_001.py tests/test_cup_time_increment.py tests/test_cup_time_increment_artifacts.py",
+      "utc": "2026-11-04T21:29:02.225215+00:00",
+      "exit_code": 0,
+      "process_and_worker_cpu_core_hours": 7.403305555555555e-05,
+      "wall_seconds": 0.04050039919093251,
+      "output": "All checks passed!\n"
+    },
+    {
+      "stage": "post_execution_saved_artifacts",
+      "command": "git diff --check",
+      "utc": "2026-11-04T21:29:02.232165+00:00",
+      "exit_code": 0,
+      "process_and_worker_cpu_core_hours": 4.324444444444452e-06,
+      "wall_seconds": 0.006918925326317549,
+      "output": ""
+    },
+    {
+      "stage": "post_execution_optional_plot_dependency_fix",
+      "command": "-m pytest -q tests/test_cup_time_increment_artifacts.py",
+      "utc": "2026-11-04T21:30:00.229220+00:00",
+      "exit_code": 0,
+      "process_and_worker_cpu_core_hours": 0.0001421822222222222,
+      "wall_seconds": 0.5125524173490703,
+      "output": "...                                                                      [100%]\n3 passed in 0.35s\n"
+    },
+    {
+      "stage": "post_execution_optional_plot_dependency_fix",
+      "command": "-m ruff check tests/test_cup_time_increment_artifacts.py",
+      "utc": "2026-11-04T21:30:00.268897+00:00",
+      "exit_code": 0,
+      "process_and_worker_cpu_core_hours": 6.512305555555558e-05,
+      "wall_seconds": 0.039651389699429274,
+      "output": "All checks passed!\n"
+    }
+  ],
+  "verification": "All 12000 bootstrap and 12000 permutation draw summaries verified against independent vectorized weighted normal equations; no original reads; science artifacts unchanged.",
+  "artifact_test_sha256": "f290b9b813f0028540d4f83bcaa414b76034e52c9ce20c0ee833866633216315",
+  "figures_visually_checked": [
+    "primary.png",
+    "sensitivities.png",
+    "uncertainty.png"
+  ],
+  "pre_chemistry_qa_cpu_core_hours": 0.00033838111111111105,
+  "post_execution_qa_cpu_core_hours": 0.00042697555555555556,
+  "total_metered_qa_cpu_core_hours": 0.0007653566666666666
+}

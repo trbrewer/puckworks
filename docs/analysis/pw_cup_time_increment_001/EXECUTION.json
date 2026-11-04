@@ -1,0 +1,76 @@
+{
+  "attribution": {
+    "author": "Dr. Yoana Grudeva",
+    "upstream_repository": "https://github.com/YoanaGrudeva/espresso-model",
+    "upstream_commit": "567ad8f3808eb74fbe3e470eaa333161bf2eac1c",
+    "permissions": "https://github.com/trbrewer/puckworks/blob/main/docs/permissions/grudeva2025.md",
+    "rights": "PERMISSION_DOCUMENTED; no SPDX licence; not relicensed under MIT",
+    "exp13_sha256": "291cadb1d06a009f758c158c95b020db551c127333e9dec6f6c581eac320130c"
+  },
+  "utc": "2026-11-04T21:25:52.021245+00:00",
+  "implementation_commit": "b980d8bc110fbe66298b7f8ab1b135406750f8a0",
+  "code_sha256": {
+    "puckworks/analysis/cup_time_increment.py": "54b6980c211535d05913f0b9bd19d90b3d6a5a5779d318e4d6543ae7e2d67c24",
+    "tools/pw_cup_time_increment_001.py": "39143432f90e2b1864b853e528d96052f1114ece44505bdc81b0cde92d35b58d",
+    "tests/test_cup_time_increment.py": "4f63f136af52bcabfc1dc5f8bfcc3c9a884a86767fe3c11163bf0be0f5a78e3f",
+    "tools/pw_cup_time_increment_001_phase0.py": "b9a9cb8fcbf60c1930891f85e8c71ceb8eae49dda29802daf70d6067f8a91c12",
+    "puckworks/analysis/grudeva_clock.py": "4d8d5ef6d47bd40e0522b3d091e306f2126ee3ed78194f90cfa9a58f4519d57d",
+    "docs/analysis/pw_cup_time_increment_001/PLAN.md": "45337e8ffb7df0e256dff70e190510a7a6d704117010ccb4d81332203cff49d0"
+  },
+  "pre_chemistry_qa_sha256": "a0e0e935c9f33eff4720c3807e88677ff984fc7c0e6b52605dc94ad26daf9334",
+  "plan_corrections_commit": "f88ae1f2941930598a76f51fafc87dccc57bffe1",
+  "source_sha256": "291cadb1d06a009f758c158c95b020db551c127333e9dec6f6c581eac320130c",
+  "notebook_sha256": "bccaa696080166f8b31587c17a7268a7c13ce9dd5d19d4beec349f64e2c70dff",
+  "notebook_executed": false,
+  "primary_shots": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "frozen_endpoints_g": [
+    19.8,
+    9.9,
+    14.85
+  ],
+  "timing_checks": 33,
+  "timing_max_abs_difference_s": 3.552713678800501e-15,
+  "numpy_seed_sequence": 20261104,
+  "bit_generator": "PCG64",
+  "bootstrap_spawn_key": [
+    0
+  ],
+  "permutation_spawn_key": [
+    1
+  ],
+  "draws_per_variant_per_method": 2000,
+  "variants": 6,
+  "process_cpu_core_hours": 0.006671765277777778,
+  "worker_and_child_cpu_core_hours": 3.209722222222222e-06,
+  "computational_workers": 0,
+  "blas_threads": 1,
+  "wall_seconds": 23.48462600214407,
+  "python": "3.12.3",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "measurement": "through report generation; excludes final execution-receipt serialization",
+  "output_sha256": {
+    "SUMMARY.md": "41527f7984c14cfb30c5153e6ea227dc0760f84223196068bbb52d92499820f6",
+    "bootstrap_draws.csv": "f25ceb87bd68caa5fdd37927aba0ac60d7cf9e3030579d74415a9da7ffb36604",
+    "folds.csv": "1912ab2219a9b96ac111434c9ded6aec7813dabdb70e8cac6be745f22a13283c",
+    "observations.csv": "b347101c19f27d41e8724b2558bd2ea788d20a330eb77ca7e833463372fb65ec",
+    "permutation_draws.csv": "ca68a31e6324f9fbf73beb93b65758249589686c447b8e591e82d630348f21c0",
+    "primary.png": "2648f16f604e5fd75e90fe53f8bf5e4c7574d0a101665fa474c0b27e5a54fa22",
+    "sensitivities.png": "0f8fe82065554fac7533278774815557ae20d197d525ab60e7ee4a201f5114be",
+    "summaries.csv": "5bf7658b1f59fe66925849db5dbbbdd9cecda22f6d6b63fc49e3d324c5600a09",
+    "timing_reconciliation.csv": "8b160f96dcbceacde894b5224228fd56c690febe394ff94595bdc8973ea42743",
+    "uncertainty.png": "784ebf067090eaf946bd12ae55bd544343d97652fec7d8bfc1fe6308ff7fd86a"
+  }
+}
