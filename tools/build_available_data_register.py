@@ -370,6 +370,21 @@ def build() -> dict:
             "last_qualified_task": "SCI-MD-MELROSE-TRANSIENT-HYDRAULICS-001",
             "last_qualified_commit": "TASK_SOURCE_HASH_BOUND_NOT_PRODUCTION_AUTHORITY",
         })
+    families["ROMANCORROCHANO2015"].setdefault("dataset_scopes", {})[
+        "romancorrochano2015/fig10_shape"] = {
+        "observer": "steady inlet-meter Q versus already-corrected bed pressure; means of three beds",
+        "source_internal_or_external": "SOURCE_INTERNAL",
+        "target_exposure": "TARGET_EXPOSED",
+        "physical_validation": "NOT_ESTABLISHED",
+        "coverage": "108 recovered means in 12 series; missing/extra step identities unresolved",
+        "eligible_uses": ["descriptive shape comparison under declared pressure/recovery mappings"],
+        "blocked_uses": ["population inference from reading intervals", "individual-bed trajectories",
+                         "independent campaign replication", "unqualified intrinsic permeability"],
+        "missing_joins": ["exact apparatus correction", "meter volume reference",
+                          "individual-bed geometry and numerical viscosity", "cross-step covariance"],
+        "campaign": "existing Corrochano/Melrose lineage; no new independent campaign",
+        "last_qualified_task": "PW-COR15-SHAPE-001",
+    }
     # Heterogeneous older Corrochano subsets retain their original aggregate labels.
     # This source observer and its exposure/eligibility apply ONLY to Figure6.23.
     figure_id = "romancorrochano2017/fig6_23_pressure_flow_temperature"
