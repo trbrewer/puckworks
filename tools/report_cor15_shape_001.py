@@ -70,13 +70,17 @@ RMSE and lowest-pressure residual (predicted−observed): **mL/s = 10⁻⁶ m³/
 |---|---:|---:|---:|---:|
 '''+'\n'.join(rows)+'''
 
-**Shape:** FA underpredicts each lowest retained flow by 64–96%. Data m=0.645–1.279 versus matched m_FA=1.529–2.270; every paired m−m_FA reading interval is negative. C-360's m interval includes 1. These Q-space exponents summarize each retained grid; 1 and m_FA are references, not bands. Resolved departures from linearity differ from D0's strong suppression; they do not identify pressure-only permeability or fresh-bed entry.
+Outcome: resolved curvature in the declared graphical-reading analysis, predominantly sub-linear. The L2 exponent interval lies below 1 in nine series, above 1 in D-360 and D-400, and includes 1 in C-360. Frozen D0 has higher RMSE than L0 in all twelve series, and every paired m−m_FA reading interval is negative. This establishes failure of the specified shape transfer under the declared mapping, not absence of all low-pressure suppression or identification of a fresh-bed mechanism. Experimental spread, instrument/correction uncertainty and descending-sweep history remain separate qualifications.
 
-**Diagnostics (two parameters each):** L1 P0=−0.906 to +0.254 bar (nine negative offset diagnostics); L2 exponents above; FA-S Pstar=1.021–3.041 bar versus frozen 24.397. L1/L2 contain L0: lower residual alone establishes no new law. No fits selected a boundary; central scalar profiles each had one minimum.
+**Diagnostics (two parameters each):** L1 P0=−0.906 to +0.254 bar (nine negative offsets). L1/L2 contain L0: lower residual alone establishes no new law. No boundary fits; one central minimum per scalar profile.
+
+FA-S's Pstar = 1.0–3.0 bar is compensation within the restricted function (n, Pd frozen), not an identified compaction scale. FA-S fits worse than L0 in 11/12 and worse than L2 in 12/12 series (central RMSEs).
 
 **Qualifications:** 108 means; three beds/series. A-480 has seven markers (lowest 1.412 bar); C/D-360 have ten despite nine described steps. No bed trajectories reconstructed. SD, reading and instrument/correction uncertainty remain separate. Recovery absorbed into amplitude, pressure-coordinate substitution, descending-sweep history and unverified thesis-calibration reuse limit transfer.
 
-**Table 2:** consolidated-height normalization implies μ=0.263–0.416 mPa·s; source numerical viscosity/individual heights are unrecovered, so absolute reconstructed k remains unavailable. This is normalization, not viscosity estimation or validation. Poor transfer rejects this frozen shape/mapping, not all form A parameterizations; coffee, preparation and measurement remain competing explanations.
+The 64–96% lowest-point underprediction is not a common-pressure comparison: A-480's lowest retained point is about 1.41 bar; the others 0.23–0.42 bar.
+
+**Table 2:** The inverse-normalization check gives plausible implied-viscosity magnitudes, but absolute permeability reconstruction remains unresolved. Support for the digitization comes from the marker overlay, axis checks and recorded coordinates, rather than this inverse calculation.
 
 [Figure](comparison.svg) · [readings/SD](DIGITIZED.csv) · [fits/units](MODELS.csv) · [signed residuals](RESIDUALS.csv) · [dimensional contrasts](PAIRED_DIMENSIONAL.csv) · [D/exponents](CONTRASTS.csv) · [Table 2](TABLE2_CHECK.csv) · [source qualifications](SOURCE_RECONCILIATION.md) · [verification](VERIFICATION.md).
 '''
