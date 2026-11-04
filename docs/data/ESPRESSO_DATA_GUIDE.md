@@ -352,8 +352,14 @@ eligibility and redistribution permission are four separate axes.
 | Smrke digitizations | Useful later flow/PSD observation bundle under the source's CC-BY-4.0 statement, with figure/algorithm attribution and pixel uncertainty. It cannot be marketed as native machine measurements. |
 | Visualizer | Keep raw/bronze/normalized records and private analyses external. Inspected provenance records research-use permission and collective user attribution, explicitly withholding raw redistribution. Public permission status is owner-attested. Original permission correspondence was not located in scoped roots; any broader grant remains UNRESOLVED and needs the owner's original grant, not an application-code MIT license. |
 | Paywalled papers, rheology tables, community material | Retain papers externally and reference source cards. Compact factual transcriptions already have bounded rights records; publication of original tables, rheograms or images needs source-specific clarification. Do not apply repository software MIT terms to them. |
-| Grudeva code/data | Follow the existing [permission record](../permissions/grudeva2025.md), with its stated scope and attribution. Permission is not an SPDX license and is not a blanket grant for other sources. |
+| Grudeva code/data; `grudeva2025/exp13_vial_stats` and derived outputs | Under the 2026-08-14 written permission, owner Tim Brewer's [2026-11-04 publication decision](../permissions/grudeva2025.md#owner-publication-decision--2026-11-04) permits committing and publishing Grudeva-derived per-shot and row-level outputs with attribution to Dr. Yoana Grudeva, the upstream repository and associated publication, and `PERMISSION_DOCUMENTED` / no-SPDX / not-MIT status stated. Pocket Science permissions are unchanged; this is not a blanket grant for other sources. |
+| `grudeva2025/params` | Article/thesis CC-BY provenance is unchanged. The 2026-08-14 written permission and owner Tim Brewer's 2026-11-04 output-publication decision are cross-references only; they do not replace this separate publication-derived rights basis. |
 | Private output, correspondence and unknown licenses | Keep external. Review ownership, source grant and disclosure risk per proposed subset before any future release. |
+
+**Superseded policy note (2026-09-25):** the Grudeva clock README stated that
+"row-level outputs and plots must remain private." That private-by-default policy is superseded by
+the [2026-11-04 owner decision](../permissions/grudeva2025.md#owner-publication-decision--2026-11-04);
+the earlier text is retained as history. **Pocket Science permissions are unchanged.**
 
 Most useful later bundles: an attributed source-internal fraction-delivery package
 (Pannusch/Schmieder with deduplicated lineage), a controlled hydraulic observation

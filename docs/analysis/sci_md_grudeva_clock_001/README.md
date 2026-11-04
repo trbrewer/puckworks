@@ -29,3 +29,4 @@ No source file is inferred absent merely because it is not committed.
 The public tests use only synthetic observations. Reproducing real-data results
 requires the permissioned source; row-level outputs and plots must remain private.
 Aggregate publication does not add the raw per-shot data to repository scope.
+Historical policy note (2026-09-25): the row-level privacy statement above reflected policy at that time and is superseded by Tim Brewer's [2026-11-04 owner decision](../../permissions/grudeva2025.md#owner-publication-decision--2026-11-04).
