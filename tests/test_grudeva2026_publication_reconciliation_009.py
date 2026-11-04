@@ -1,6 +1,8 @@
 """Manufactured offline cases only: no owner archives or canonical simulations."""
 from copy import deepcopy
+import hashlib
 import json
+import subprocess
 from types import SimpleNamespace
 
 import numpy as np
@@ -282,6 +284,24 @@ def test_front_arrival_scores_survive_concentration_masks(run, fixture):
 def test_frozen_contract_and_historical_preservation(monkeypatch):
     contract = io.READ(s.DOCS/'CONTRACT.json')
     monkeypatch.setattr(io.obs, 'environment', lambda: contract['environment'])
+    # The 008 contract binds permission docs at its recorded base, not later owner policy.
+    # Current notice/permission content is checked separately by tests/test_rights.py.
+    prior = io.READ(s.ROOT/io.PRIOR/'CONTRACT.json')
+    revision = prior['base']['head']
+    historical_hashes = {}
+    for path in ('THIRD_PARTY_NOTICES.md', 'docs/permissions/grudeva2025.md'):
+        historical = subprocess.run(['git', 'show', f'{revision}:{path}'],
+                                    cwd=s.ROOT, capture_output=True)
+        assert historical.returncode == 0, (
+            f'Required historical document {revision}:{path} is unavailable; '
+            'fetch complete repository history (CI checkout fetch-depth: 0). '
+            + historical.stderr.decode(errors='replace'))
+        digest = hashlib.sha256(historical.stdout).hexdigest()
+        assert digest == prior['sources'][path], f'historical document hash differs: {path}'
+        historical_hashes[s.ROOT/path] = digest
+    current_sha = io.obs.sha
+    monkeypatch.setattr(io.obs, 'sha', lambda path: (
+        historical_hashes[path] if path in historical_hashes else current_sha(path)))
     old, fixture = io.check_contract(contract)
     assert old['inputs']['P1']['certificate']['sha256'] == '79fdadc149c89eed161d5bc62433e6ad5d2a512fa6b2ab46e2f683168f03f31c'
     bindings = io.READ(s.ROOT/io.PRIOR/'EVIDENCE_BINDINGS.json')['verified_numerical_contents']['P1']

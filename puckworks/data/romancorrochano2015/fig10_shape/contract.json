@@ -1,0 +1,66 @@
+{
+  "task": "PW-COR15-SHAPE-001",
+  "source_doi": "10.1016/j.jfoodeng.2014.11.006",
+  "license": "CC-BY-3.0",
+  "source_pdf_sha256": "a67e855f52472589dd35c878a16a6825866a5a901958a1ea46752c50138b800f",
+  "pdf_pages": 12,
+  "pdf_page": 9,
+  "printed_page": 113,
+  "xobject": 324,
+  "native_image_sha256": "e6b76d91b7da590c7ed424c14cf1616be6a7fe57332ca3630902ad6c121b1e9e",
+  "image_shape_px": [
+    1839,
+    1525
+  ],
+  "axes": {
+    "a": {
+      "x0": 107,
+      "x1": 873,
+      "y0": 640,
+      "y1": 35.5,
+      "Q0": 0,
+      "Q1": 1.8e-05,
+      "P0": 0,
+      "P1": 450000,
+      "anchor_guard_px": 1
+    },
+    "b": {
+      "x0": 1056,
+      "x1": 1821,
+      "y0": 640,
+      "y1": 35.5,
+      "Q0": 0,
+      "Q1": 1.8e-05,
+      "P0": 0,
+      "P1": 450000,
+      "anchor_guard_px": 1
+    },
+    "c": {
+      "x0": 639.5,
+      "x1": 1405,
+      "y0": 1431.5,
+      "y1": 827.5,
+      "Q0": 0,
+      "Q1": 1.8e-05,
+      "P0": 0,
+      "P1": 450000,
+      "anchor_guard_px": 1
+    }
+  },
+  "frozen_shape": {
+    "n": 2.4709360685491837,
+    "Pd_bar": 3.5633704054718103,
+    "Pstar_bar": 24.396659674282887
+  },
+  "reading_design": {
+    "method": "scrambled_Sobol_uniform_pixel_enclosures",
+    "seed": 20261104,
+    "power": 12,
+    "interval": "2.5th_to_97.5th_percentiles_of_reading_realizations_not_population_CI",
+    "shared_panel_anchors": true,
+    "central_S2_fixed": true
+  },
+  "coverage": "108 recoverable marker means; no invented low A-480 markers. Ten visible C-360 and D-360 markers versus nine-step methods; no tank-setting assignment.",
+  "table2_mu": "Numerical water viscosity not specified in inspected article or corresponding thesis methods; report k/mu and implied mu, not a fabricated absolute k.",
+  "geometry_source": "Existing Figure6b SOURCE_CONSISTENCY.json; native XObject264 sha256 f710937b1a1f905d2c72b2a6561e8f8dc31ff490778d975459a9ee2fbd02c890 authenticated in current PDF; L0*(1-lambda_average) is explicit consolidated-height reconstruction, individual-bed L_actual unavailable."
+}
