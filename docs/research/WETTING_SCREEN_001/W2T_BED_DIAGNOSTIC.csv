@@ -1,0 +1,4 @@
+arm,metric,unshifted_bed_rmse,shifted_scored_rmse,disposition
+W2T,endpoint,0.1525862311251131,0.1462220546967152,ungraded unshifted-bed diagnostic; scored prediction uses observation lag
+W2T,primary_trace,0.26620020140127443,0.30715688623348886,ungraded unshifted-bed diagnostic; scored prediction uses observation lag
+W2T,companion_trace,0.32648125426990393,0.30129602329872335,ungraded unshifted-bed diagnostic; scored prediction uses observation lag

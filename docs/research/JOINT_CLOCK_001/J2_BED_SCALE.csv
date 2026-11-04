@@ -1,0 +1,25 @@
+arm,weight,step_s,metric,unshifted_bed_rmse,shifted_scale_rmse,disposition
+J2_lambda-0.05,0.05,0.005,endpoint,0.20709226949561887,0.20315830452708863,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-0.05,0.05,0.005,primary_trace,0.2648671425304209,0.26841765723642447,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-0.05,0.05,0.005,companion_trace,0.285454638118298,0.28056997084736574,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-0.05,0.05,0.02,endpoint,0.2070922681084624,0.20315826552781566,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-0.05,0.05,0.02,primary_trace,0.26486714690431706,0.2684175544163513,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-0.05,0.05,0.02,companion_trace,0.285454641036822,0.2805297060644243,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-0.5,0.5,0.005,endpoint,0.21095456596454262,0.20041193469856708,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-0.5,0.5,0.005,primary_trace,0.2633189643897969,0.27150556080281657,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-0.5,0.5,0.005,companion_trace,0.32095487999947,0.27298170717338394,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-0.5,0.5,0.02,endpoint,0.21095456527626116,0.20041190702431397,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-0.5,0.5,0.02,primary_trace,0.26331896526989773,0.2715070273847842,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-0.5,0.5,0.02,companion_trace,0.3209548794289133,0.2729607868191783,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-1,1.0,0.005,endpoint,0.22102680354049822,0.20797024447356174,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-1,1.0,0.005,primary_trace,0.2637557037929108,0.27438606984071173,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-1,1.0,0.005,companion_trace,0.3240721528708787,0.2754894326233579,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-1,1.0,0.02,endpoint,0.22102680451830478,0.20795674896424554,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-1,1.0,0.02,primary_trace,0.2637557060660949,0.2743848646361748,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-1,1.0,0.02,companion_trace,0.32407215324377564,0.27545193246513205,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-2,2.0,0.005,endpoint,0.23703515390047897,0.226517577600659,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-2,2.0,0.005,primary_trace,0.28478365029076413,0.27939853210441223,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-2,2.0,0.005,companion_trace,0.32901409057354514,0.28128385091996394,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-2,2.0,0.02,endpoint,0.23703515289623153,0.22651750628904324,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-2,2.0,0.02,primary_trace,0.2847836489178189,0.2793984623198215,unshifted bed diagnostic; graded flow is scale flow
+J2_lambda-2,2.0,0.02,companion_trace,0.3290140889507078,0.2812626855979849,unshifted bed diagnostic; graded flow is scale flow
