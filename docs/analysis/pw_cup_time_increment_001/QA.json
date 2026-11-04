@@ -1,0 +1,54 @@
+{
+  "attribution": {
+    "author": "Dr. Yoana Grudeva",
+    "upstream_repository": "https://github.com/YoanaGrudeva/espresso-model",
+    "upstream_commit": "567ad8f3808eb74fbe3e470eaa333161bf2eac1c",
+    "permissions": "https://github.com/trbrewer/puckworks/blob/main/docs/permissions/grudeva2025.md",
+    "rights": "PERMISSION_DOCUMENTED; no SPDX licence; not relicensed under MIT",
+    "exp13_sha256": "291cadb1d06a009f758c158c95b020db551c127333e9dec6f6c581eac320130c"
+  },
+  "checks": [
+    {
+      "stage": "pre_chemistry",
+      "command": "-m pytest -q tests/test_cup_time_increment.py tests/test_pw_cup_time_increment_001_phase0.py",
+      "utc": "2026-11-04T21:25:29.853505+00:00",
+      "exit_code": 0,
+      "process_and_worker_cpu_core_hours": 0.0002732936111111111,
+      "wall_seconds": 0.9854806759394705,
+      "output": "............                                                             [100%]\n12 passed in 0.72s\n"
+    },
+    {
+      "stage": "pre_chemistry",
+      "command": "-m ruff check puckworks/analysis/cup_time_increment.py tools/pw_cup_time_increment_001.py tests/test_cup_time_increment.py",
+      "utc": "2026-11-04T21:25:29.891499+00:00",
+      "exit_code": 0,
+      "process_and_worker_cpu_core_hours": 6.0557222222222194e-05,
+      "wall_seconds": 0.0379729182459414,
+      "output": "All checks passed!\n"
+    },
+    {
+      "stage": "pre_chemistry",
+      "command": "git diff --check",
+      "utc": "2026-11-04T21:25:29.897452+00:00",
+      "exit_code": 0,
+      "process_and_worker_cpu_core_hours": 4.530277777777752e-06,
+      "wall_seconds": 0.005918842274695635,
+      "output": ""
+    }
+  ],
+  "pre_chemistry_code_sha256": {
+    "puckworks/analysis/cup_time_increment.py": "54b6980c211535d05913f0b9bd19d90b3d6a5a5779d318e4d6543ae7e2d67c24",
+    "tools/pw_cup_time_increment_001.py": "39143432f90e2b1864b853e528d96052f1114ece44505bdc81b0cde92d35b58d",
+    "tests/test_cup_time_increment.py": "4f63f136af52bcabfc1dc5f8bfcc3c9a884a86767fe3c11163bf0be0f5a78e3f",
+    "tools/pw_cup_time_increment_001_phase0.py": "b9a9cb8fcbf60c1930891f85e8c71ceb8eae49dda29802daf70d6067f8a91c12",
+    "puckworks/analysis/grudeva_clock.py": "4d8d5ef6d47bd40e0522b3d091e306f2126ee3ed78194f90cfa9a58f4519d57d",
+    "docs/analysis/pw_cup_time_increment_001/PLAN.md": "45337e8ffb7df0e256dff70e190510a7a6d704117010ccb4d81332203cff49d0"
+  },
+  "pre_chemistry_interpolation_cases": [
+    "S(0)=0",
+    "S(1)=m*C/100",
+    "constant interpolant gives uniform allocation",
+    "1,2,5 percent neighbours: unnormalized average=2.25%, normalized total=m*C/100"
+  ],
+  "total_qa_cpu_core_hours": 0.00033838111111111105
+}
