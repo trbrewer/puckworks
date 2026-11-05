@@ -267,7 +267,21 @@ class Design:
         weights = np.concatenate([w.quadrature_weight for w in windows])
         node_window = np.repeat(np.arange(len(windows)), [len(w.pressure_bar) for w in windows])
         # Exact-value deduplication only: no bins, rounding or changed quadrature.
-        self.p, _, inverse = np.unique(pressure, return_index=True, return_inverse=True)
+        # Use exact hashing, avoiding the large-array sort failures observed on the
+        # execution host. Python float keys preserve values; no quantization occurs.
+        lookup, distinct = {}, []
+        def pressure_indices():
+            for value in pressure:
+                value = float(value)
+                index = lookup.get(value)
+                if index is None:
+                    index = len(distinct)
+                    lookup[value] = index
+                    distinct.append(value)
+                yield index
+        inverse = np.fromiter(pressure_indices(), dtype=np.int64, count=len(pressure))
+        self.p = np.asarray(distinct)
+        del lookup, distinct
         if not np.array_equal(self.p[inverse], pressure):
             raise RuntimeError("Exact pressure-node deduplication failed")
         self.pressure_operator = csr_matrix((weights, (node_window, inverse)),

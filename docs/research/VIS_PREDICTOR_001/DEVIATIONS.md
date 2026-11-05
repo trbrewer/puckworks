@@ -42,13 +42,12 @@ will test the completed head. EWP, snapshot bytes and historical results are
 unchanged. Individual data, interrupted starts and process details remain private.
 
 Two concurrent stable-sort design builds subsequently failed the new exact-inverse
-assertion (folds 2 and 3), before any fitting in those invocations. The serial
-six-design checks remained successful. Serialize Design construction using a
-private POSIX file lock; retain parallel independent optimizer starts. Both retry
-builds then passed. The observed failure depends on the concurrent execution
-context; its lower-level cause is not established. All admitted designs enforce
-exact inverse reconstruction. No guard was weakened and no corpus, fold, model,
-start, bound, metric or audit threshold changed. Failed-startup logs are retained.
+assertion (folds 2 and 3), before fitting in those invocations. The serial
+six-design checks had succeeded. Design construction was then serialized with a
+private POSIX lock while retaining parallel independent optimizer starts. Fold 2's
+retry passed; fold 3's failed as recorded below. Concurrency dependence is not
+established; the lower-level cause remains unresolved. No guard was weakened and
+no corpus, fold, model, start, bound, metric or audit threshold changed.
 
 The serial retry for fold 3 then failed sparse construction with
 `axis 0 index 1073768329 exceeds matrix dimension 114667`. Thus stable sorting
@@ -68,3 +67,21 @@ runtime; model metadata records it. Starts, optimizer method/options, bounds,
 corpus, folds, target operator and all scoring rules stay fixed. Native/sparse
 pressure agreement and intact window arrays are now checked on every Design build.
 No actual numerical audit or held-out scoring occurred during either failed run.
+
+## Exact hashing removes the failing large-array sort
+
+The minimum-dependency continuation also encountered a fold-0 startup sort failure
+(`index 144268392 is out of bounds for axis 0 with size 25587296`). Replace the
+large-array sort with an exact Python-float dictionary mapping and an integer
+inverse array. This changes only the ordering of unique pressure columns, with
+no bins, rounding or quadrature change. All inverse/native-pressure/window-array
+checks remain enforced. Verified immutable designs already fitting can continue;
+only the failed startup is retried. No held-out score exists at this point.
+
+The fresh reviewer independently compared against an entirely undeduplicated
+operator on synthetic data across all eight models: maximum basis difference
+2.66e-15, basis-gradient 3.55e-15, objective 8.88e-16 and objective-gradient
+4.44e-16. No new defect was found. The final reproducible path uses exact hashing,
+serialized construction and the minimum-dependency environment. Large-sort failure
+root cause remains unresolved; neither NumPy version nor concurrency is claimed
+as an established cause.
