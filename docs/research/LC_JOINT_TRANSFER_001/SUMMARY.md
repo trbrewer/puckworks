@@ -172,7 +172,8 @@ Twenty focused checks pass, including nesting, coordinate order, fold/seed/Mc
 isolation, censoring and independent paired-metric arithmetic. The baseline quick
 suite passed 8,065 tests; registry, Ruff and generated-artifact checks passed.
 [Verification](VERIFICATION.json) · [reproduction/accounting](REPRODUCTION.json)
-· [commands](REPRODUCE.md) · [methods](METHODS.md).
+· [commands](REPRODUCE.md) · [methods](METHODS.md). A fresh independent read-only
+[review](REVIEW.md) found no actionable defects and requested no repairs.
 
 Exactly **48 fits / 912 starts**, no omission twins or bootstrap refits, and
 **204.744 measured scientific core-hours**. The initial failed preflight replay's

@@ -1,6 +1,6 @@
 {
   "task": "PW-LC-JOINT-TRANSFER-001",
-  "status": "local focused verification passed; independent review and required PR CI recorded separately",
+  "status": "local focused verification and independent read-only review complete; required PR CI reported by GitHub checks",
   "focused": {
     "passed": 20,
     "log_sha256": "e5fa0f35b31756789d626fca5d11aaf1565de6f6c9338df6651fbfefe8c5738f",
@@ -85,10 +85,19 @@
     "historical_results": "unchanged",
     "independent_campaign_count_change": 0
   },
-  "required_pr_checks": "quick-pr Python 3.10/3.11/3.12/3.13 and generated-artifacts; to be checked on the draft PR",
+  "required_pr_checks": "quick-pr Python 3.10/3.11/3.12/3.13 and generated-artifacts; exact head/run status is reported in the draft PR and closeout response",
   "svg_serialization": {
     "initial_staged_diff_check": "failed on Matplotlib-generated trailing spaces",
     "repair": "strip trailing spaces in both SVG writers and current SVGs; XML structure and attribute/text tokens verified unchanged",
     "final_diff_check": "passed against actual base"
+  },
+  "independent_review": {
+    "session": "/root/independent_review",
+    "fresh": true,
+    "read_only": true,
+    "head": "07154ed258e84448cf1a639a8c44a1cf8226010e",
+    "actionable_findings": 0,
+    "repairs_requested": 0,
+    "record": "REVIEW.md"
   }
 }
