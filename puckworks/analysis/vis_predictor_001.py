@@ -206,8 +206,11 @@ def fit_models(private, fold, workers):
     modeldir.mkdir(parents=True, exist_ok=True)
     private_modeldir = private / ("deployment" if fold == "all" else "fold_" + str(fold))
     private_modeldir.mkdir(exist_ok=True)
+    import platform
+    import scipy
     metadata = dict(role="deployment_only" if fold == "all" else "held_out_user_fold",
-                    fold=fold, corpus_fold_sha256=manifest["corpus_fold_sha256"],
+                    fold=fold, runtime=dict(python=platform.python_version(), numpy=np.__version__, scipy=scipy.__version__),
+                    corpus_fold_sha256=manifest["corpus_fold_sha256"],
                     plan_sha256=sha(OUT / "PLAN.md"), starts_sha256=sha(OUT / "STARTS.json"),
                     code_sha256={p: sha(ROOT / p) for p in SOURCES},
                     training_shots=len(training), training_users=len({s.user for s in training}),

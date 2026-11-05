@@ -49,3 +49,22 @@ builds then passed. The observed failure depends on the concurrent execution
 context; its lower-level cause is not established. All admitted designs enforce
 exact inverse reconstruction. No guard was weakened and no corpus, fold, model,
 start, bound, metric or audit threshold changed. Failed-startup logs are retained.
+
+The serial retry for fold 3 then failed sparse construction with
+`axis 0 index 1073768329 exceeds matrix dimension 114667`. Thus stable sorting
+alone was insufficient in that runtime. All remaining fitting was stopped again;
+completed models, source/logs and active-process CPU were preserved. Move execution
+to an isolated environment with the repository's declared minimum dependency lane:
+**NumPy 2.0.2 / SciPy 1.13.1**, replacing NumPy 2.5.4 / SciPy 1.18.1.
+No claim about the underlying library/hardware cause is established.
+
+In the minimum-dependency environment all six designs pass exact pressure-node
+reconstruction, native/sparse pressure means (<=1.60e-14 bar), and equality of
+flow, start mass, time and shot-index arrays with their inputs. All **22 completed
+shared fits** replay their training objective with zero difference; retain them,
+including their original artifact/source hashes. ENVIRONMENT.json identifies
+those artifacts and both runtimes. Remaining scheduled fits use the continuation
+runtime; model metadata records it. Starts, optimizer method/options, bounds,
+corpus, folds, target operator and all scoring rules stay fixed. Native/sparse
+pressure agreement and intact window arrays are now checked on every Design build.
+No actual numerical audit or held-out scoring occurred during either failed run.

@@ -273,6 +273,13 @@ class Design:
         self.pressure_operator = csr_matrix((weights, (node_window, inverse)),
                                             shape=(len(windows), len(self.p)))
         self.meanp = self.pressure_operator @ self.p
+        if not np.allclose(self.meanp, [w.mean_pressure_bar for w in windows], rtol=1e-12, atol=1e-10):
+            raise RuntimeError("Sparse pressure operator differs from native quadrature")
+        for packed, original in ((self.q, [w.flow_g_s for w in windows]),
+                                 (self.mass, [w.mass_g for w in windows]),
+                                 (self.time, [w.start_s for w in windows])):
+            if not np.array_equal(packed, original, equal_nan=True):
+                raise RuntimeError("Window covariates changed during design construction")
         users, counts = np.unique([s.user for s in shots], return_counts=True)
         count = dict(zip(users, counts))
         self.shot_weight = np.array([1 / (len(users) * count[s.user]) for s in shots])
