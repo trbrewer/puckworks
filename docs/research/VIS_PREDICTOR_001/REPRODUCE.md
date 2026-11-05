@@ -122,3 +122,10 @@ The 18 retained baseline artifacts originated with four workers and replay under
 the corrected operator. Actual model audits ran concurrently as artifacts became
 available, calling the same published `audit_quadrature` operator; the serial
 `audit` commands above reproduce the same numerical checks.
+
+The final audit uses batches of complete shots to limit temporary arrays after
+an execution indexing failure. Calibration normalization stays within each complete
+shot; the mathematical check and 1e-5 threshold are unchanged. All 42 selected
+training objectives replay under the added ownership/time-weight guards, with
+maximum discrepancy 2.274e-13 g/s. The root cause of the execution failures remains
+unresolved; preserved failures and accounting limits are in DEVIATIONS.md.

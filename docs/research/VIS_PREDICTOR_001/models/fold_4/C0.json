@@ -1,0 +1,43 @@
+{
+  "integration": {
+    "max_pressure_step_bar": 0.1
+  },
+  "metadata": {
+    "code_sha256": {
+      "puckworks/analysis/cor15_shape_001.py": "1e567b5d03b101302a317dc0b84516936220f7ce06696350e21fd1f81651df82",
+      "puckworks/analysis/pressure_peak_x1.py": "5a6ba598b90d6277458969414b590617e209da7a76266b5a3d373f7e05288708",
+      "puckworks/analysis/vis_predictor_001.py": "6d03056628baffd00224768318f8bbeb3b4c5a7b33c7eb6331957485f1f672de",
+      "puckworks/empirical/visualizer.py": "354d06daa448fd13212016a2a3d2c0c7030e19d7529df65e36890d278cac0a9e"
+    },
+    "corpus_fold_sha256": "ee751332d3f3f955f6cd3530a1e8e6c53f0b034dfc7a1ad5e667cf8adf406975",
+    "fold": "4",
+    "plan_sha256": "82770878d3b7aab3d6e5d5abbb9775ffa78a17ab2c1baa349c27eca0f47c5067",
+    "pressure_range_bar": [
+      0.0,
+      15.0
+    ],
+    "role": "held_out_user_fold",
+    "runtime": {
+      "numpy": "2.0.2",
+      "python": "3.12.3",
+      "scipy": "1.13.1"
+    },
+    "starts_sha256": "fb3b0f5d4f69f7adc66fc03ce047e99760d84af3c989c7beea10a315f3737e27",
+    "training_shots": 8632,
+    "training_users": 255
+  },
+  "model": "C0",
+  "parameters": {},
+  "schema": "puckworks.reported-flow.v1",
+  "settings": {
+    "calibration_windows": 3,
+    "guard_s": 2.0,
+    "max_gap_s": 2.0,
+    "minimum_scored_windows": 3,
+    "onset_g": 1.0,
+    "quadrature_order": 16,
+    "scale_floor_g_s": 0.1,
+    "varying_bar": 2.0,
+    "window_s": 2.0
+  }
+}

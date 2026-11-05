@@ -58,3 +58,11 @@ changed from 1.8917447883 with legacy GL16 to 1.896148931654 with refinement,
 against independent reference 1.896148931646. The sharp n=1000 regression still
 fails the numerical gate. No concrete restart blocker remained, subject to
 baseline replay, actual audits and final aggregate claims review.
+
+The final reviewer also checked complete-shot audit batching after the recorded
+large-array indexing exception. It independently ran 39 synthetic tests, verified
+identical results across five batch boundaries for passing and failing full-R
+examples, and confirmed that ownership corruption is rejected before indexing.
+No concrete mathematical or calibration defect was found. Root cause of the
+execution host's indexing failures remains unresolved. Actual audits and all
+selected-fit replays are required before the final claims review.

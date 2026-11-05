@@ -379,3 +379,27 @@ def test_refinement_preserves_unequal_native_time_weights_and_saved_method(tmp_p
             + .75 * capacity(10, **pars))
         assert_allclose(actual, capacity(6, **pars) / mean_h, rtol=1e-9)
         assert load_model(path)["integration"]["max_pressure_step_bar"] == step
+
+
+def test_audit_batching_preserves_complete_shot_calibration_and_results():
+    from puckworks.empirical.visualizer import audit_quadrature
+    shots = [example(1, user="u"), example(1.3, user="v")]
+    model = fitted_model("AR", dict(n=2.3, Pd=.53, kappa=.9, Mc=10))
+    whole = audit_quadrature(shots, model, max_batch_nodes=10**9)
+    split = audit_quadrature(shots, model, max_batch_nodes=1)
+    assert whole == split
+    with pytest.raises(ValueError, match="batch"):
+        audit_quadrature(shots, model, max_batch_nodes=0)
+
+
+def test_audit_rejects_corrupt_window_ownership(monkeypatch):
+    import puckworks.empirical.visualizer as v
+    original = v.integration_nodes
+    def corrupt(*args, **kwargs):
+        p, weights, owner = original(*args, **kwargs)
+        owner[len(owner) // 2] += 2**25
+        return p, weights, owner
+    monkeypatch.setattr(v, "integration_nodes", corrupt)
+    model = fitted_model("A", dict(n=2, Pd=.5, kappa=.9))
+    with pytest.raises(RuntimeError, match="ownership"):
+        v.audit_quadrature([example()], model)

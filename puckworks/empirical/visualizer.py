@@ -395,6 +395,13 @@ class Design:
             raise RuntimeError("Exact pressure-node deduplication failed")
         self.pressure_operator = csr_matrix((weights, (node_window, inverse)),
                                             shape=(len(windows), len(self.p)))
+        total_weight = np.asarray(self.pressure_operator.sum(axis=1)).ravel()
+        if not np.allclose(total_weight, 1, rtol=1e-12, atol=1e-12):
+            raise RuntimeError("Sparse pressure operator lost native time weights")
+        expected_index = np.fromiter((i for i, shot in enumerate(shots) for _ in shot.windows),
+                                     dtype=np.int64, count=len(windows))
+        if not np.array_equal(self.shot_index, expected_index):
+            raise RuntimeError("Packed shot ownership changed")
         self.meanp = self.pressure_operator @ self.p
         self.pressure_rows = np.repeat(np.arange(len(windows)), np.diff(self.pressure_operator.indptr))
         self.log_pressure_weights = np.log(self.pressure_operator.data)
@@ -677,7 +684,38 @@ def load_model(path):
     return model
 
 
-def audit_quadrature(shots, model, chunk_size=8192):
+def audit_quadrature(shots, model, chunk_size=8192, max_batch_nodes=500000):
+    """Check independent integration in batches of complete shots, without targets.
+
+    Batching preserves each shot's complete calibration normalization and changes
+    neither the integration operator nor the tolerance. It reduces temporary-array
+    size after observed execution failures; their underlying cause is unresolved.
+    """
+    if "n" not in model["parameters"]:
+        return dict(passed=True, maximum_relative_error=0.0, adaptive_intervals=0)
+    if max_batch_nodes <= 0:
+        raise ValueError("Audit batch size must be positive")
+    result = dict(passed=True, maximum_relative_error=0.0, adaptive_intervals=0, windows=0)
+    batch, count = [], 0
+    def consume():
+        check = _audit_quadrature_block(batch, model, chunk_size)
+        result["passed"] &= check["passed"]
+        result["maximum_relative_error"] = max(result["maximum_relative_error"], check["maximum_relative_error"])
+        result["adaptive_intervals"] += check["adaptive_intervals"]
+        result["windows"] += check["windows"]
+    for shot in shots:
+        nodes = sum(len(w.pressure_bar) for w in shot.windows)
+        if batch and count + nodes > max_batch_nodes:
+            consume()
+            batch, count = [], 0
+        batch.append(shot)
+        count += nodes
+    if batch:
+        consume()
+    return result
+
+
+def _audit_quadrature_block(shots, model, chunk_size=8192):
     """Covariate-only independent pressure-average check; no flow targets consulted.
 
     Compare the saved refined GL16 operator with original-native GL64; sharp pressure
@@ -704,8 +742,19 @@ def audit_quadrature(shots, model, chunk_size=8192):
     from scipy.special import logsumexp
     candidate_p, candidate_weights, candidate_window = integration_nodes(
         windows, order, model.get("integration", {}).get("max_pressure_step_bar"))
+    differences = np.diff(candidate_window)
+    if (candidate_window[0] != 0 or candidate_window[-1] != len(windows)-1 or
+            np.any((differences < 0) | (differences > 1))):
+        raise RuntimeError("Audit node ownership is corrupted")
+    candidate_starts = np.r_[0, np.flatnonzero(differences) + 1]
+    if len(candidate_starts) != len(windows):
+        raise RuntimeError("Audit lost a window")
+    if not np.allclose(np.add.reduceat(candidate_weights, candidate_starts), 1, rtol=1e-12, atol=1e-12):
+        raise RuntimeError("Audit lost native time weights")
+    if not np.allclose(np.add.reduceat(candidate_p * candidate_weights, candidate_starts),
+                       [w.mean_pressure_bar for w in windows], rtol=1e-12, atol=1e-10):
+        raise RuntimeError("Audit pressure means differ from stored native history")
     terms = log_capacity(candidate_p, n, pd, k) + np.log(candidate_weights)
-    candidate_starts = np.r_[0, np.flatnonzero(np.diff(candidate_window)) + 1]
     candidate_max = np.maximum.reduceat(terms, candidate_starts)
     candidate_max[~np.isfinite(candidate_max)] = 0
     candidate_sum = np.add.reduceat(np.exp(terms - candidate_max[candidate_window]), candidate_starts)

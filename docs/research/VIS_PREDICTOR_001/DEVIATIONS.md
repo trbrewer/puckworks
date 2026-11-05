@@ -159,3 +159,31 @@ models finish, and cannot authorize scoring until every required model passes.
 The refined implementation passes the full offline suite: **8,103 passed**,
 33 skipped, 97 deselected (2,237.07 seconds). Ruff passes. A fresh extraction
 again reproduces both frozen corpus/fold and window-cache hashes byte-for-byte.
+
+## Audit execution batching, before scoring
+
+The full-corpus audit worker raised `IndexError: index 33590542 is out of bounds
+for axis 0 with size 177396` while indexing candidate window ownership. Eleven
+models had returned passing checks; the worker failure returned no score or
+successful receipt. Preserve source, logs and partial results privately under
+`failed_audit_execution`. The underlying large-array failure cause remains
+unresolved; kernel diagnostics were unavailable. This is an execution failure,
+not an observed violation of the integration tolerance.
+
+Run the identical audit in batches of **complete shots**, targeting at most
+500,000 original pressure nodes per batch. A single larger shot stays intact;
+no calibration normalizer crosses a batch boundary. Candidate ownership, complete
+window coverage, native time mass and mean pressure are checked before integration.
+Design construction also checks row time mass and exact shot ownership, alongside
+its existing pressure-node, native-mean and window-array checks. No mathematical
+operator, model setting, parameter, start, observation, fold or tolerance changes.
+Repeat all 24 pressure audits and replay all 42 selected training objectives under
+the guarded Design before scoring. Retain the fitted artifacts if those checks
+pass; no refitting is caused by an audit execution exception alone.
+
+The independent reviewer found no operator/calibration defect in batching:
+**39 synthetic tests passed** (release-surface check omitted), and five different
+batch boundaries gave identical results for both a failing legacy full-recovery
+case and a passing refined case. Injected ownership corruption is rejected before
+indexing. The complete focused suite has **40 passing tests**; Ruff passes.
+Completed failed-audit CPU is recorded; unreturned worker CPU is unmetered.
