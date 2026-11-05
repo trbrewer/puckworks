@@ -179,3 +179,33 @@ Private validated-window cache SHA-256:
 `8cd8369cca2b12fd4a9e776ee58215f8634aee097d03dd5c46b2fa53cea6c935`.
 The corpus is identical under provisional GL4 and final GL16 integration; only
 quadrature nodes and the corrected presence diagnostic changed before freezing.
+
+## Forced numerical refinement before held-out scoring
+
+The selected-model audit rejected the original native-interval GL16 evaluation
+for fold 2 AR: 1.7348707106801535e-5 relative full-basis error exceeds the unchanged
+1e-5 limit. The failed complete fit version is preserved at source commit
+`4f900b1` and in private artifacts; no held-out score or prediction was generated.
+This amendment corrects numerical integration only. Original engineering windows,
+observations, corpus membership/cache, folds, starts, model bounds, loss, metrics
+and release rules remain frozen as above.
+
+For model evaluation, subdivide each original linear native pressure interval
+into equal-time pieces with pressure span at most **0.1 bar**, the smallest
+permitted Pd. Apply GL16 within each piece, preserving the original interval's
+time weight. The stored GL16 history continues to encode the same original native
+intervals; it is not a changed observation or alignment. Constant and falling
+intervals use the same rule. This increases pressure-node count by 28.3% on the
+frozen covariates; 14.0% of native intervals require subdivision. These counts
+were inspected without flow scoring. Saved models explicitly identify their
+integration method; prediction must use that saved method.
+
+Repeat the original 24 pressure-shape fits (20 CV, four deployment) with this
+corrected operator and the original start schedules, without failed-fit warm
+starts. Replay the 18 retained T0/R0/L0R fits. The independent reference remains
+GL64 plus adaptive integration over the **original** native intervals; compare
+against the refined candidate including start-mass recovery. The 1e-5 threshold
+is unchanged. The 0.1-bar subdivision is not a uniform accuracy guarantee for
+unbounded n: every selected model must still pass the independent audit before
+scoring. No model family, campaign, weight or outcome-selected setting is added.
+All failed-version computation remains in accounting.
