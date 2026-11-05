@@ -85,5 +85,10 @@
     "historical_results": "unchanged",
     "independent_campaign_count_change": 0
   },
-  "required_pr_checks": "quick-pr Python 3.10/3.11/3.12/3.13 and generated-artifacts; to be checked on the draft PR"
+  "required_pr_checks": "quick-pr Python 3.10/3.11/3.12/3.13 and generated-artifacts; to be checked on the draft PR",
+  "svg_serialization": {
+    "initial_staged_diff_check": "failed on Matplotlib-generated trailing spaces",
+    "repair": "strip trailing spaces in both SVG writers and current SVGs; XML structure and attribute/text tokens verified unchanged",
+    "final_diff_check": "passed against actual base"
+  }
 }

@@ -297,6 +297,8 @@ def figure(flow,condition,onset,reports,preview):
         fig.text(.02,.017,spec.badge_line()+" · Waszkiewicz et al., Zenodo 18046315, CC BY 4.0. Lines connect different fold fits.",fontsize=8)
         fig.tight_layout(rect=(0,.09,1,.94))
         fig.savefig(R.OUT/"COMPARISON.svg",metadata={"Date":None})
+        svg=R.OUT/"COMPARISON.svg"
+        svg.write_text("\n".join(line.rstrip() for line in svg.read_text().splitlines())+"\n")
         fig.savefig(preview/"COMPARISON.png",dpi=140)
         plt.close(fig)
 

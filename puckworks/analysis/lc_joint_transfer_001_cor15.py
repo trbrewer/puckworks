@@ -166,6 +166,8 @@ def plot(central,coords,shapes,all_fits,preview):
         fig.text(.02,.01,"A-480 lowest point: 1.41 bar; others: 0.23–0.42 bar. Bars: three-bed SD. Source CC BY 3.0, doi:10.1016/j.jfoodeng.2014.11.006.",fontsize=8)
         fig.tight_layout(rect=(0,.05,1,.93))
         fig.savefig(R.OUT/"CORROCHANO.svg",metadata={"Date":None})
+        svg=R.OUT/"CORROCHANO.svg"
+        svg.write_text("\n".join(line.rstrip() for line in svg.read_text().splitlines())+"\n")
         fig.savefig(preview/"CORROCHANO.png",dpi=140)
         plt.close(fig)
 

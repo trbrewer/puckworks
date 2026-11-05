@@ -132,11 +132,19 @@
       "system_seconds": 0.18,
       "core_hours": 0.0007,
       "exit_status": 0
+    },
+    {
+      "file": "svg-normalize-time.txt",
+      "sha256": "eb556a1cbef4636bca7e298fb7656ae8306d05bbf6ebf1b3b4b1a678387c545a",
+      "user_seconds": 0.14,
+      "system_seconds": 0.01,
+      "core_hours": 4.166666666666667e-05,
+      "exit_status": 0
     }
   ],
-  "measured_scientific_core_hours": 204.7442277777778,
+  "measured_scientific_core_hours": 204.74426944444448,
   "optimizer_start_core_hours": 204.48688311652472,
-  "accounting_qualification": "Optimizer-start CPU is a subset of timed fit-process-tree CPU and is not added twice. Measured scientific total includes successful reference replay, fitting, frozen evaluation, reporting and external challenge plus reference-only reporting smoke check and figure-only redraw attempts from saved amplitudes. The first redraw failed because the external helper lacked the repository import path; the retry added PYTHONPATH. Both redraw attempts are timed and included; neither performs fitting or new reading draws. The initial failed preflight reference replay was not process-tree timed: its total CPU is unavailable; observed parent CPU was at least 38 seconds. That additional CPU is excluded from the measured total, which is therefore not a complete all-attempt total. No optimizer starts ran during that preflight failure. See PREFLIGHT_FAILURE.json.",
+  "accounting_qualification": "Optimizer-start CPU is a subset of timed fit-process-tree CPU and is not added twice. Measured scientific total includes successful reference replay, fitting, frozen evaluation, reporting and external challenge plus reference-only reporting smoke check and figure-only redraw attempts from saved amplitudes. The first redraw failed because the external helper lacked the repository import path; the retry added PYTHONPATH. Both redraw attempts and SVG whitespace normalization are timed and included; none performs fitting or new reading draws. The initial failed preflight reference replay was not process-tree timed: its total CPU is unavailable; observed parent CPU was at least 38 seconds. That additional CPU is excluded from the measured total, which is therefore not a complete all-attempt total. No optimizer starts ran during that preflight failure. See PREFLIGHT_FAILURE.json.",
   "external_artifacts": {
     "FIT_FREEZE.json": {
       "sha256": "0fa0a8e3bf81cb7905fae88b7e5fe47d16dc0d1d1dea0e61fa41cfb713744cd2",
@@ -177,16 +185,16 @@
   },
   "code_sha256": {
     "puckworks/analysis/lc_joint_transfer_001.py": "a78a6c5bedc8b4782e6b2aeefb0bd097b15a5c695b9fe380bdde5c52a1de35d2",
-    "puckworks/analysis/lc_joint_transfer_001_cor15.py": "8287f1fc2d0099b2bb5b04630548bb82ef2a0181ac847ca5095449d6f854d83d",
+    "puckworks/analysis/lc_joint_transfer_001_cor15.py": "0670ff3a9a7cfcd5543e8992646b7ab763e9629b40f28e1b5ad7979c561fee0e",
     "puckworks/analysis/lc_joint_transfer_001_evaluate.py": "fd4d9c3a85580fa0e97da567e9f1bbeac80319e4817926a8b7ff5df07d150907",
-    "puckworks/analysis/lc_joint_transfer_001_report.py": "f73a1d238ce078717eeba97e01f77ba64197d68b8a5e2c78f390963b52f84567",
+    "puckworks/analysis/lc_joint_transfer_001_report.py": "25fb1c3010891557794834bbc2ce22fc3648e9033082392f01944fe13f4a3ac2",
     "puckworks/analysis/lc_joint_transfer_001_run.py": "aaba8c195877c1e65135651e81ab786ec5a75ac3cc7b02f446b72a74e909555e"
   },
   "inherited_code_and_inputs": "SOURCE_AUDIT.json, PREFIT_VERIFICATION.json, MC_PROVENANCE.csv",
   "compact_result_sha256": {
     "CAPACITY_CURVES.csv": "ab0a73878e07fe4f5f318f3dafee3b99615e7434d57a75ffe389692126b21bd3",
-    "COMPARISON.svg": "165e21e313b9610f3fe6839bf6011ce2c77aefd58e73debcf749edf89fbc0b48",
-    "CORROCHANO.svg": "c8519ba9d0d13bbeae9539409139cbf0f2c365c47521dc775dafa9bea6d6d63c",
+    "COMPARISON.svg": "95bc65051770c277484f32e34c0725dbf49fd520667695b21468ded6ea5c3831",
+    "CORROCHANO.svg": "e37e7f42bf60ae48f7103f8d1ef14c360bb63b10aa183a5854ed848d8536714b",
     "CORROCHANO_D0_CONTEXT.csv": "c445d4d04a6c66e994be3c8b2dffd12e77e4443242fb5f3f5f8e1a1972de8afc",
     "CORROCHANO_PAIRED.csv": "da5409b09b3f58a05b57da2927fe5bfa12327747a2855ffbb2c343f5d11a2ccb",
     "CORROCHANO_RESIDUALS.csv": "f65fafbb5bd1438cbbc3d725f44da176c3c42720c475f0df22923cb0194476f0",
