@@ -267,7 +267,9 @@ class Design:
         weights = np.concatenate([w.quadrature_weight for w in windows])
         node_window = np.repeat(np.arange(len(windows)), [len(w.pressure_bar) for w in windows])
         # Exact-value deduplication only: no bins, rounding or changed quadrature.
-        self.p, inverse = np.unique(pressure, return_inverse=True)
+        self.p, _, inverse = np.unique(pressure, return_index=True, return_inverse=True)
+        if not np.array_equal(self.p[inverse], pressure):
+            raise RuntimeError("Exact pressure-node deduplication failed")
         self.pressure_operator = csr_matrix((weights, (node_window, inverse)),
                                             shape=(len(windows), len(self.p)))
         self.meanp = self.pressure_operator @ self.p
@@ -514,6 +516,11 @@ def audit_quadrature(shots, model, chunk_size=8192):
             raise RuntimeError("Independent quadrature reference unresolved")
         reference[i] = scale * integral
     new = np.bincount(seg_window, sw * reference)
+    if "Mc" in pars:
+        mass = np.array([w.mass_g for w in windows])
+        recovery = np.exp(-np.exp(np.minimum(-mass / pars["Mc"], 7)))
+        old *= recovery
+        new *= recovery
     si = np.repeat(np.arange(len(shots)), [len(s.windows) for s in shots])
     cal = np.array([w.role == "calibration" for w in windows])
     maximum = np.zeros(len(shots))

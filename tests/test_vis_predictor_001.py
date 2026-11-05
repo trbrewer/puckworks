@@ -220,3 +220,15 @@ def test_sparse_operator_preserves_native_window_quadrature():
     params = dict(n=2.8, Pd=3.7, kappa=.12)
     expected = [w.quadrature_weight @ capacity(w.pressure_bar, **params) for w in s.windows]
     assert_allclose(d.basis("A", encode("A", params)), expected, rtol=1e-14, atol=1e-14)
+
+
+def test_quadrature_gate_scales_full_recovery_basis():
+    from puckworks.empirical.visualizer import Window, audit_quadrature
+    p, wt = pressure_quadrature(np.array([0, 2]), np.array([10, 10]), 0, 2, order=16)
+    early = [Window(i, i+2, 1.1, 0, p, wt, 0, "calibration") for i in (0, 2, 4)]
+    p, wt = pressure_quadrature(np.array([0, 2]), np.array([0, 9.671]), 0, 2, order=16)
+    later = Window(8, 10, 100, 0, p, wt, 9.671, "score")
+    model = fitted_model("M0R", dict(n=1000., Pd=10., Mc=10.))
+    result = audit_quadrature([Shot("x", "u", early + [later], {})], model)
+    assert not result["passed"]
+    assert result["maximum_relative_error"] > 1e-5
