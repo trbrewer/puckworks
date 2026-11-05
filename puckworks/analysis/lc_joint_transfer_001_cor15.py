@@ -156,7 +156,12 @@ def plot(central,coords,shapes,all_fits,preview):
                 if col==0: ax.set_ylabel("Corrected bed pressure (bar)")
         h,l=axes[0,0].get_legend_handles_labels()
         fig.legend(h,l,ncol=3,loc="upper center",bbox_to_anchor=(.5,.955))
-        fig.suptitle("Corrochano 2015: frozen joint shapes, primary λ=1",y=.99)
+        coincident=all(shapes[(1.,"LC-J1")][k]==shapes[(1.,"A-J1")][k]
+                       for k in ("n","Pd_bar","Pstar_bar","f"))
+        title="Corrochano 2015: frozen joint shapes, primary λ=1"
+        if coincident:
+            title+=" · LC-J1 and A-J1 coincide (f=0)"
+        fig.suptitle(title,y=.99)
         fig.text(.02,.027,spec.badge_line()+" · Target-fitted amplitudes; not blind or parameter-free prediction.",fontsize=8)
         fig.text(.02,.01,"A-480 lowest point: 1.41 bar; others: 0.23–0.42 bar. Bars: three-bed SD. Source CC BY 3.0, doi:10.1016/j.jfoodeng.2014.11.006.",fontsize=8)
         fig.tight_layout(rect=(0,.05,1,.93))

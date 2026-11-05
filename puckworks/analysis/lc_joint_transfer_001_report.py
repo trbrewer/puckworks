@@ -116,6 +116,8 @@ def flow_tables(data,selected):
             row=dict(arm=arm,model=r["model"],weight=r["weight"],brew=s["brew"],pressure_bar=s["nominal_pressure_bar"],
                 endpoint_observed_g_s=s["observed_endpoint_g_s"],endpoint_predicted_g_s=r["fine"]["endpoint_g_s"],
                 endpoint_residual_g_s=r["fine"]["endpoint_g_s"]-s["observed_endpoint_g_s"],
+                endpoint_beverage_minus_liquid_flow_g_s=r["fine"]["endpoint_beverage_minus_liquid_flow_g_s"],
+                native_qualification_failed=r.get("native_qualification_failed"),
                 selected_f=r["parameters"][4] if r["model"]=="LC-J1" else 0.)
             q=np.array(r["fine"]["trace_g_s"])
             delta=q-np.array(s["observed_trace_g_s"])
@@ -331,7 +333,13 @@ def fit_diagnostics(args):
         row["added_term_gain_fine_minus_search"]=fine_term_gain-term_gain
         row["added_term_gain_resolved_at_fixed_common_parameters"]=bool(
             term_gain>scale and fine_term_gain>0 and abs(fine_term_gain-term_gain)<term_gain)
-        row["structural_redundancy"]="n at f=1" if p[4]==1. else "f at n=1" if p[2]==1. else "none established"
+        gain=row["saved_A_J1_objective"]-row["selected_LC_J1_objective"]
+        fine_gain=d["saved_A_J1_fine"]["objective"]-d["LC_J1_fine"]["objective"]
+        row["LC_improvement_over_saved_A_fine_minus_search"]=fine_gain-gain
+        row["LC_training_gain_resolved_at_search_step"]=bool(
+            gain>scale and fine_gain>0 and abs(fine_gain-gain)<gain)
+        redundant=(["n at f=1"] if p[4]==1. else [])+(["f at n=1"] if p[2]==1. else [])
+        row["structural_redundancy"]="; ".join(redundant) if redundant else "none established"
         lo,hi=L.bounds()
         row["transformed_bound_distances"]=[float(min(z-l,h-z)) for z,l,h in zip(L.coordinates(p),lo,hi)]
         row["selected_capacity_bounds"]=L.C.bound_record(L.coordinates(p)[:5],"LC")
@@ -379,6 +387,27 @@ def fit_diagnostics(args):
     return fits,starts,curves,dict(file=path.name,sha256=R.R.R.digest(path))
 
 
+def fold_isolation(args,data):
+    rows=[]
+    for w,h in R.jobs():
+        path=args.work/"fits"/(R.R.key("LC-J1",w,h)+".json")
+        r=json.loads(path.read_text())
+        training=[s for s in data["sources"] if h is None or s["nominal_pressure_bar"]!=h]
+        held=[s for s in data["sources"] if h is not None and s["nominal_pressure_bar"]==h]
+        if r["training_brews"]!=[s["brew"] for s in training]:
+            raise ValueError("Selected LC-J1 fit training cohort mismatch")
+        if r["mc_fixed_g"]!=data["bank"][R.R.label(h)][4]:
+            raise ValueError("Selected LC-J1 fit fixed Mc mismatch")
+        rows.append(dict(key=r["key"],weight=w,fold=r["fold"],training_brews=r["training_brews"],
+            held_brews=[s["brew"] for s in held],training_conditions=sorted({s["nominal_pressure_bar"] for s in training}),
+            held_condition_bar=h,Mc_g=r["mc_fixed_g"],source_fold_key=R.R.label(h),
+            historical_LC_seed_source="PRESSURE_PEAK_STAGE_C3E/RESULT_TABLE.csv: record_type=fit, candidate=LC",
+            historical_LC_seed_parameters=data["lc_seeds"][r["fold"]],
+            saved_A_J1_key=data["reference"][(w,r["fold"])]["key"],
+            start_schedule=R.starts(data,w,h),fit_sha256=R.R.R.digest(path)))
+    return rows
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     for flag in ("ewp","native","raw","screen","joint","work"):
@@ -421,13 +450,14 @@ def main():
     pressure_paired=pressure_pairs(data,selected,errors,samples)
     capacity=descriptive_curves(args,data)
     numerical_cases,numerical_scores=numerical_tables(rows,reports)
+    isolation=fold_isolation(args,data)
     outputs={"SCORES.csv":list(reports.values()),"PAIRED_COMPARISONS.csv":paired,
         "ONSET_BY_BREW.csv":onset_brew,"ONSET_BY_PRESSURE.csv":onset_pressure,
         "FLOW_BY_BREW.csv":flow,"FLOW_BY_PRESSURE.csv":conditions,"LATE_TRENDS.csv":trends,
         "LOSS_BY_PRESSURE.csv":losses,"LOW_PRESSURE.csv":low,"DESCRIPTIVE_SWEEP.csv":sweep,
         "EXTREMA.csv":extrema,"FITS.csv":fits,"OPTIMIZER_STARTS.csv":starts,"CAPACITY_CURVES.csv":curves,
         "PAIRED_PRESSURE.csv":pressure_paired,"DESCRIPTIVE_CAPACITY.csv":capacity,"HISTORICAL_CONTEXT.csv":context,
-        "NUMERICAL_BY_CASE.csv":numerical_cases,"NUMERICAL_SCORES.csv":numerical_scores}
+        "NUMERICAL_BY_CASE.csv":numerical_cases,"NUMERICAL_SCORES.csv":numerical_scores,"FOLD_ISOLATION.csv":isolation}
     for name,values in outputs.items():
         R.R.R.csv_write(R.OUT/name,values)
     R.R.R.write_json(args.work/"PAIRED_RESAMPLES.json",samples)

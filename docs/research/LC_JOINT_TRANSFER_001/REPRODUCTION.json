@@ -1,0 +1,218 @@
+{
+  "task": "PW-LC-JOINT-TRANSFER-001",
+  "base_sha": "4c5ebab5df79929813949df7113c21290dde40cc",
+  "prefit_spec_commit": "34b180a6326dba74e36fa1b178ecc7899868e5fe",
+  "fit_implementation_commit": "7d8ae699aed49d263ab53f8302eec65f1094db5f",
+  "ewp_read_only_pin": "67bead2a25bd7e61c16c4fe2c104d885d8d26dd9",
+  "scope": {
+    "fit_problems": 48,
+    "scheduled_optimizer_starts": 912,
+    "frozen_f0_parameter_vectors": 48,
+    "bootstrap_refits": 0,
+    "fits_grid_s": 0.02,
+    "reporting_grid_s": 0.005
+  },
+  "environment": {
+    "python": "Python 3.12.3",
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.18.1",
+      "numba": "0.68.1",
+      "matplotlib": "3.11.2"
+    },
+    "OPENBLAS_NUM_THREADS": 1,
+    "OMP_NUM_THREADS": 1,
+    "NUMBA_NUM_THREADS": 1,
+    "fit_workers": 96,
+    "evaluation_workers": 32
+  },
+  "pipeline": [
+    {
+      "stage": "fit",
+      "started_utc": "2026-11-05T00:25:22.027103+00:00",
+      "status": "complete",
+      "finished_utc": "2026-11-05T02:59:49.922135+00:00",
+      "returncode": 0,
+      "wall_seconds": 9267.894941913895,
+      "log": "fit-execution.log",
+      "timer": "fit-time.txt"
+    },
+    {
+      "stage": "evaluate",
+      "started_utc": "2026-11-05T02:59:49.922738+00:00",
+      "status": "complete",
+      "finished_utc": "2026-11-05T03:00:34.841218+00:00",
+      "returncode": 0,
+      "wall_seconds": 44.915210616309196,
+      "log": "evaluate-execution.log",
+      "timer": "evaluate-time.txt"
+    },
+    {
+      "stage": "report",
+      "started_utc": "2026-11-05T03:00:34.841651+00:00",
+      "status": "complete",
+      "finished_utc": "2026-11-05T03:01:45.558116+00:00",
+      "returncode": 0,
+      "wall_seconds": 70.7151623708196,
+      "log": "report-execution.log",
+      "timer": "report-time.txt"
+    },
+    {
+      "stage": "cor15",
+      "started_utc": "2026-11-05T03:01:45.558739+00:00",
+      "status": "complete",
+      "finished_utc": "2026-11-05T03:02:48.014949+00:00",
+      "returncode": 0,
+      "wall_seconds": 62.45284524001181,
+      "log": "cor15-execution.log",
+      "timer": "cor15-time.txt"
+    }
+  ],
+  "process_tree_accounting": [
+    {
+      "file": "replay-retry-time.txt",
+      "sha256": "a81a1e3bed58c049daf02dff1497498c82b2115672cb19b1dc5831484faded72",
+      "user_seconds": 110.25,
+      "system_seconds": 10.57,
+      "core_hours": 0.03356111111111111,
+      "exit_status": 0
+    },
+    {
+      "file": "fit-time.txt",
+      "sha256": "cc634cdf5e9dde630e9237b1cc53e570a6c9a2091a22d3641064a9ab1d2ff8b1",
+      "user_seconds": 736363.17,
+      "system_seconds": 85.04,
+      "core_hours": 204.56894722222225,
+      "exit_status": 0
+    },
+    {
+      "file": "evaluate-time.txt",
+      "sha256": "af49c98060cb00c159d1ca708c3b5362a03a755d594631fc2e70831ff5fcb69a",
+      "user_seconds": 329.34,
+      "system_seconds": 12.35,
+      "core_hours": 0.0949138888888889,
+      "exit_status": 0
+    },
+    {
+      "file": "report-time.txt",
+      "sha256": "765d8603e7ad244da9a056c3a06abf151fe66527432fe6fb6bb4e77124d86f79",
+      "user_seconds": 65.32,
+      "system_seconds": 5.28,
+      "core_hours": 0.01961111111111111,
+      "exit_status": 0
+    },
+    {
+      "file": "cor15-time.txt",
+      "sha256": "ea827a70d0f913c103abf0b69651f894783e6a4843c429be4acb416aea13d69e",
+      "user_seconds": 62.17,
+      "system_seconds": 0.2,
+      "core_hours": 0.017325,
+      "exit_status": 0
+    },
+    {
+      "file": "report-smoke-time.txt",
+      "sha256": "26d602171517aa3761c69edcf808fba9e92fbab5d9e50bc50fdb553a35fb00dd",
+      "user_seconds": 27.95,
+      "system_seconds": 4.7,
+      "core_hours": 0.009069444444444444,
+      "exit_status": 0
+    },
+    {
+      "file": "figure-redraw-time.txt",
+      "sha256": "a60e6f5634406af2bf93c11f075b0399a9f5c8e9b96889633536603c044fcb79",
+      "user_seconds": 0.3,
+      "system_seconds": 0.06,
+      "core_hours": 9.999999999999999e-05,
+      "exit_status": 1
+    },
+    {
+      "file": "figure-redraw-retry-time.txt",
+      "sha256": "73446f4a09bc450a43b11a8b2b426befe2f8db7601eb9b5fa7ceb9660a948b6a",
+      "user_seconds": 2.34,
+      "system_seconds": 0.18,
+      "core_hours": 0.0007,
+      "exit_status": 0
+    }
+  ],
+  "measured_scientific_core_hours": 204.7442277777778,
+  "optimizer_start_core_hours": 204.48688311652472,
+  "accounting_qualification": "Optimizer-start CPU is a subset of timed fit-process-tree CPU and is not added twice. Measured scientific total includes successful reference replay, fitting, frozen evaluation, reporting and external challenge plus reference-only reporting smoke check and figure-only redraw attempts from saved amplitudes. The first redraw failed because the external helper lacked the repository import path; the retry added PYTHONPATH. Both redraw attempts are timed and included; neither performs fitting or new reading draws. The initial failed preflight reference replay was not process-tree timed: its total CPU is unavailable; observed parent CPU was at least 38 seconds. That additional CPU is excluded from the measured total, which is therefore not a complete all-attempt total. No optimizer starts ran during that preflight failure. See PREFLIGHT_FAILURE.json.",
+  "external_artifacts": {
+    "FIT_FREEZE.json": {
+      "sha256": "0fa0a8e3bf81cb7905fae88b7e5fe47d16dc0d1d1dea0e61fa41cfb713744cd2",
+      "bytes": 225259
+    },
+    "FIT_EXECUTION.json": {
+      "sha256": "ceca3f03c8608babc9a22810c0956dcc7a8dfdd3f05a7a2ccaa96900e8c77737",
+      "bytes": 8901
+    },
+    "REFERENCE_REPLAY.json": {
+      "sha256": "f5b4a6bc25990207b69ea18171bdb68950ee86f5457df5d018fabe88fd62f307",
+      "bytes": 71759
+    },
+    "EVALUATION_INDEX.json": {
+      "sha256": "28f56312e157a3dc84b68555b78a0f1ab54e27915b43c0a2934bf8796d22fe0b",
+      "bytes": 136388
+    },
+    "REPORT.json": {
+      "sha256": "4bca9006cf68f529c683bbd551f5e918d7edfc1cd2d42b2e7d7d2a81bf3c158d",
+      "bytes": 46528
+    },
+    "PAIRED_RESAMPLES.json": {
+      "sha256": "de38c9474504509db55cdae5786199da6d4b8c4322656c26d58db0614b442a84",
+      "bytes": 691500
+    },
+    "NEAR_OBJECTIVE_VECTORS.json.gz": {
+      "sha256": "fbff3ac377a8ed3c7c4bbb5544f04e3a0b31dc7af3a0cdda4914ffd987061944",
+      "bytes": 32629
+    },
+    "CORROCHANO_READING_DRAWS.npz": {
+      "sha256": "969414c8aee9ac8d2f9fd3f566c0f6a9c91eaea4854a82d681cfc3871bdea584",
+      "bytes": 8833749
+    },
+    "PIPELINE.json": {
+      "sha256": "2a07205a1f837606ef282ddffdc1df5e4a8e93f626a10ced1aae7909079c0aa1",
+      "bytes": 1177
+    }
+  },
+  "code_sha256": {
+    "puckworks/analysis/lc_joint_transfer_001.py": "a78a6c5bedc8b4782e6b2aeefb0bd097b15a5c695b9fe380bdde5c52a1de35d2",
+    "puckworks/analysis/lc_joint_transfer_001_cor15.py": "8287f1fc2d0099b2bb5b04630548bb82ef2a0181ac847ca5095449d6f854d83d",
+    "puckworks/analysis/lc_joint_transfer_001_evaluate.py": "fd4d9c3a85580fa0e97da567e9f1bbeac80319e4817926a8b7ff5df07d150907",
+    "puckworks/analysis/lc_joint_transfer_001_report.py": "f73a1d238ce078717eeba97e01f77ba64197d68b8a5e2c78f390963b52f84567",
+    "puckworks/analysis/lc_joint_transfer_001_run.py": "aaba8c195877c1e65135651e81ab786ec5a75ac3cc7b02f446b72a74e909555e"
+  },
+  "inherited_code_and_inputs": "SOURCE_AUDIT.json, PREFIT_VERIFICATION.json, MC_PROVENANCE.csv",
+  "compact_result_sha256": {
+    "CAPACITY_CURVES.csv": "ab0a73878e07fe4f5f318f3dafee3b99615e7434d57a75ffe389692126b21bd3",
+    "COMPARISON.svg": "165e21e313b9610f3fe6839bf6011ce2c77aefd58e73debcf749edf89fbc0b48",
+    "CORROCHANO.svg": "c8519ba9d0d13bbeae9539409139cbf0f2c365c47521dc775dafa9bea6d6d63c",
+    "CORROCHANO_D0_CONTEXT.csv": "c445d4d04a6c66e994be3c8b2dffd12e77e4443242fb5f3f5f8e1a1972de8afc",
+    "CORROCHANO_PAIRED.csv": "da5409b09b3f58a05b57da2927fe5bfa12327747a2855ffbb2c343f5d11a2ccb",
+    "CORROCHANO_RESIDUALS.csv": "f65fafbb5bd1438cbbc3d725f44da176c3c42720c475f0df22923cb0194476f0",
+    "CORROCHANO_RESULT.json": "133c73d9d21ca92fb49947e79f3dedf3b207192c6aa2f18382403a4b3e8d9dba",
+    "CORROCHANO_SERIES.csv": "e6b6f124d6d7c00c94dae07f721fea24f6d69175eb74946bc4676c1f394f7d3a",
+    "DESCRIPTIVE_CAPACITY.csv": "1cb588cf5913682fee2a2931ec9d419d4d7dc601564ce24a0313c65db45af7f7",
+    "DESCRIPTIVE_SWEEP.csv": "269e12df249fb3a1652987640457c760cb3e0389333701873e3c0db89fc9e51c",
+    "EXTREMA.csv": "151fb1c15255ea3a5aef21e531a40d420385e221abbef34a3624d98dc82943e0",
+    "FITS.csv": "3518943ecc788ba9bf77ea44d560de4e6ab7b2f44eb4dc26bf0f2542d45a1dc2",
+    "FLOW_BY_BREW.csv": "16bb0f2a7591b234db364e8d718a5f025f69eadedcbc0bfdf1b8a4e69001bc0f",
+    "FLOW_BY_PRESSURE.csv": "129316a96172613b343358fd5df13d27fbbc979ece12f15bc459290b665fe9c9",
+    "FOLD_ISOLATION.csv": "a64d214db7ebdb40506b18af8c707559d8e70706ab83f88717fd670a8fea2475",
+    "FROZEN_EXTERNAL_SHAPES.json": "6ace610e9d98ab37c334726ace113d7e676307b23bd6fbfa4fe80776aa7c444e",
+    "HISTORICAL_CONTEXT.csv": "ea84d016a50aa9751de8b2711a6cc937237432818e7c65938db939ba674148d3",
+    "LATE_TRENDS.csv": "c7539605a6ed69d60186ed142e0f190876f8714d85d6a1e2ef2f99b71a093caf",
+    "LOSS_BY_PRESSURE.csv": "00498aeabe27715b23519de2586b27612d0639ef7d3c1d1253dc9a603369da1a",
+    "LOW_PRESSURE.csv": "6d19fa458c4167b5d6492b0fe932d95871c43bcd49105aa31fd8416bc1349449",
+    "MC_PROVENANCE.csv": "1793becf5626456cc79854b95e79aba35878aa327740ba17c1eb90a2dc851eb6",
+    "NUMERICAL_BY_CASE.csv": "6f995a121b434126d14ee5b4f30150f2cb4fa5d63a3e844a9b264fbe3d0da46c",
+    "NUMERICAL_SCORES.csv": "15685e8163298a144ec8c601f7844e31b26ce25d8ce3b35cce0f3b9bb53a6479",
+    "ONSET_BY_BREW.csv": "c0ef3ebf60d4d1545c67bf3c996068fc375b6272bf254ccbaf089324e5c8550b",
+    "ONSET_BY_PRESSURE.csv": "35f90dcb43a531bfbd844340c5d388825d6b093556e9472fba67d415e02d44a2",
+    "OPTIMIZER_STARTS.csv": "a77d636089e249a2d9eaf78ea526db6c81a1d04eca804e26c504df5ec71c1477",
+    "PAIRED_COMPARISONS.csv": "b275ed868b0053daa8961d60b96c05bdc119527e402ba9dccd39ac521433d228",
+    "PAIRED_PRESSURE.csv": "ef10e5cf992d908d7f215bf43f1ee45b3958b05a6572754d2be1f90cf884ed9a",
+    "SCORES.csv": "db56868e25b856bd7f4036744603956aaa87af31affc2f22688bbe18d60d7ffc"
+  },
+  "large_artifact_policy": "Full traces and trial histories remain outside Git; compact tables retain their hashes."
+}

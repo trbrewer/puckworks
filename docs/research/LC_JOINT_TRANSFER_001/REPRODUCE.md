@@ -34,6 +34,9 @@ compares original objective, detector state, trace scores and retained arrays at
 rtol=1e-12, atol=0. It performs no optimization. Fitting has exactly 48 problems
 and 912 starts. Independent starts execute in parallel; submission and collected
 records preserve the declared 19-start order. No start depends on another start.
+Artifact start indices are zero-based: 0 is embedded A-J1, 1 is historical LC
+with matching A-J1 tau0, 2 is historical LC with tau0=0, and 3–18 are the sixteen
+Latin-hypercube starts. Execution logs display the corresponding numbers 1–19.
 The optimizer and evaluator identities prevent accidental reuse after code changes.
 `collect` only aggregates completed scheduled starts; it performs no fitting.
 
