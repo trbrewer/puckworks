@@ -65,17 +65,19 @@ def main():
         fig.savefig(OUT / "AGGREGATED_EXAMPLE.svg", metadata={"Date": None})
         plt.close(fig)
 
-        fig, axes = plt.subplots(1, 2, figsize=(10, 4.5))
+        fig, axes = plt.subplots(2, 2, figsize=(10, 8))
         pressure = np.linspace(0, 15, 500)
-        for ax, model in zip(axes, ("M0R", "AR")):
+        for ax, model in zip(axes.flat, ("M0R", "AR", "M0", "A")):
             for fold in range(5):
                 saved = load_model(OUT / "models" / f"fold_{fold}" / (model + ".json"))
                 p = saved["parameters"]
                 h = log_capacity(pressure, p["n"], p["Pd"], p.get("kappa", 0))
                 # Shape comparison removes the arbitrary amplitude convention.
                 reference = log_capacity(6.0, p["n"], p["Pd"], p.get("kappa", 0))
-                ax.plot(pressure, np.exp(h - reference), label=f"fold {fold + 1}")
-            ax.set(title=model, xlabel="Recorded machine pressure (bar)", ylabel="Capacity / capacity at 6 bar")
+                ax.plot(pressure, np.exp(h - reference), label=f"fold {fold}")
+            ax.plot(pressure, pressure / 6, ls="--", color="0.55", label="L0R capacity")
+            title = model + (" (no mass recovery)" if model in ("M0", "A") else "")
+            ax.set(title=title, xlabel="Recorded machine pressure (bar)", ylabel="Capacity / capacity at 6 bar")
             ax.grid(alpha=.2)
             ax.legend(fontsize=8)
         fig.suptitle("Shared capacity curves; amplitude and mass recovery omitted")
@@ -91,7 +93,7 @@ def main():
                          dict(file="AGGREGATED_EXAMPLE.svg", source="AGGREGATED_EXAMPLE.csv",
                               semantics="released aggregates, changing supported cohorts, not a shot trace"),
                          dict(file="CAPACITY_CURVES.svg", source="models/fold_*/*.json",
-                              semantics="shared fitted shapes normalized at 6 bar, may extrapolate")],
+                              semantics="all four shared pressure-shape families, fold curves normalized at 6 bar, linear reference; may extrapolate")],
                 credit=CREDIT)
     (OUT / "VIZ_SPEC.json").write_text(json.dumps(spec, indent=2) + "\n")
 

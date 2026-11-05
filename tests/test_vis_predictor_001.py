@@ -81,6 +81,7 @@ def test_exact_nesting(n):
     d = Design([example()])
     par = dict(n=n, Pd=3.5, Mc=20, kappa=0)
     assert np.array_equal(d.basis("AR", encode("AR", par)), d.basis("M0R", encode("M0R", par)))
+    assert np.array_equal(d.profile("AR", encode("AR", par))[0], d.profile("M0R", encode("M0R", par))[0])
     assert np.array_equal(d.basis("A", encode("A", par)), d.basis("M0", encode("M0", par)))
     assert_allclose(capacity([0, 1, 10], n, 3, 0), capacity([0, 1, 10], n, 3))
 
@@ -228,10 +229,12 @@ def test_quadrature_gate_scales_full_recovery_basis():
     early = [Window(i, i+2, 1.1, 0, p, wt, 0, "calibration") for i in (0, 2, 4)]
     p, wt = pressure_quadrature(np.array([0, 2]), np.array([0, 9.671]), 0, 2, order=16)
     later = Window(8, 10, 100, 0, p, wt, 9.671, "score")
-    model = fitted_model("M0R", dict(n=1000., Pd=10., Mc=10.))
+    model = fitted_model("M0R", dict(n=1000., Pd=10., Mc=10.), max_pressure_step_bar=None)
     result = audit_quadrature([Shot("x", "u", early + [later], {})], model)
     assert not result["passed"]
     assert result["maximum_relative_error"] > 1e-5
+    refined = fitted_model("M0R", model["parameters"])
+    assert audit_quadrature([Shot("x", "u", early + [later], {})], refined)["passed"]
 
 
 def constant_pressure_shot(early_pressure, later_pressure, rate=2, mass=10):
@@ -331,3 +334,48 @@ def test_log_capacity_subnormal_pressure_and_tiny_pulse_fallback():
     d = Design([s])
     pred, _ = d.profile("M0", encode("M0", dict(n=1, Pd=100)))
     assert_allclose(pred[d.score], 1.5 * 100 * (-np.expm1(-.01)), rtol=1e-12)
+
+
+@pytest.mark.parametrize("pressures", [[0, 15], [15, 0], [7, 7]])
+def test_refinement_preserves_native_time_and_linear_pressure(pressures):
+    from scipy.integrate import quad
+    from puckworks.empirical.visualizer import Window, integration_nodes, audit_quadrature
+    p, weights = pressure_quadrature(np.array([0., 2.]), np.array(pressures), 0, 2)
+    window = Window(0, 2, 2, 1, p, weights, pressures[1] - pressures[0], "calibration")
+    pp, ww, owners = integration_nodes([window])
+    assert_allclose(ww.sum(), 1, rtol=1e-14)
+    assert_allclose(pp @ ww, np.mean(pressures), atol=1e-13)
+    assert np.all(owners == 0)
+    params = dict(n=2.1658541022253543, Pd=.5296268696977395, kappa=.917899256519402)
+    reference = quad(lambda u: float(capacity(pressures[0] + u * (pressures[1] - pressures[0]), **params)),
+                     0, 1, epsabs=1e-13, epsrel=1e-13)[0]
+    assert_allclose(ww @ capacity(pp, **params), reference, rtol=1e-8, atol=1e-13)
+    shot = Shot("x", "u", [window], {})
+    assert audit_quadrature([shot], fitted_model("A", params))["passed"]
+    if pressures[0] != pressures[1]:
+        legacy = fitted_model("A", params, max_pressure_step_bar=None)
+        assert not audit_quadrature([shot], legacy)["passed"]
+
+
+def test_refinement_preserves_unequal_native_time_weights_and_saved_method(tmp_path):
+    from puckworks.empirical.visualizer import Window, integration_nodes
+    from scipy.integrate import quad
+    p, wt = pressure_quadrature(np.array([0, .2, 1.7, 2]), np.array([0, 10, 10, 0]), 0, 2)
+    window = Window(0, 2, 2, 1, p, wt, 0, "calibration")
+    pp, ww, _ = integration_nodes([window])
+    assert_allclose(pp @ ww, (5 * .2 + 10 * 1.5 + 5 * .3) / 2, rtol=1e-14)
+    for step in [None, .1]:
+        model = fitted_model("A", dict(n=2.1658541022253543, Pd=.5296268696977395,
+                                       kappa=.917899256519402), max_pressure_step_bar=step)
+        path = tmp_path / "saved.json"
+        save_model(path, model)
+        early = [replace(window, start_s=i, end_s=i+2) for i in [0, 2, 4]]
+        later = [replace(window, start_s=8, end_s=10, role="score", flow_g_s=np.nan,
+                         pressure_bar=np.full_like(p, 6))]
+        actual, _ = predict(load_model(path), early, later)
+        pars = model["parameters"]
+        mean_h = wt @ capacity(p, **pars) if step is None else (.25 * quad(
+            lambda u: float(capacity(10*u, **pars)), 0, 1, epsabs=1e-13)[0]
+            + .75 * capacity(10, **pars))
+        assert_allclose(actual, capacity(6, **pars) / mean_h, rtol=1e-9)
+        assert load_model(path)["integration"]["max_pressure_step_bar"] == step

@@ -143,3 +143,19 @@ subject to equivalence replay because pressure integration is absent or linear.
 The forthcoming correction preserves observations, window endpoints, calibration,
 guard, corpus membership, folds, model families, starts, bounds and loss. Original
 failed computations and the audit failure remain in the execution-cost record.
+
+The recorded PLAN amendment uses equal-time subdivision at 0.1 bar (minimum
+allowed Pd), preserving native interval time mass and GL16 per piece. Saved
+artifacts explicitly bind the method. The previously failing actual AR shape
+now audits at **4.026030184039152e-9**, below the unchanged 1e-5 threshold.
+All 18 baseline models replay: maximum objective discrepancy **2.27e-13 g/s**;
+maximum native/refined mean-pressure discrepancy 3.74e-14 bar. The 38 focused tests
+and independent review pass. Original pressure starts are repeated without warm
+starts from failed fits. Execution uses eight independent starts per fold instead
+of four, with one BLAS thread per process; optimizer/settings/starts are unchanged
+and CV/deployment use identical execution settings. Audits run concurrently as
+models finish, and cannot authorize scoring until every required model passes.
+
+The refined implementation passes the full offline suite: **8,103 passed**,
+33 skipped, 97 deselected (2,237.07 seconds). Ruff passes. A fresh extraction
+again reproduces both frozen corpus/fold and window-cache hashes byte-for-byte.

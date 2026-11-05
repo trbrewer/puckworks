@@ -74,7 +74,7 @@ class Shot:
         return bool(np.ptp(p) > Settings().varying_bar)
 
 
-def pressure_quadrature(t, pressure_bar, start, end, order=4):
+def pressure_quadrature(t, pressure_bar, start, end, order=16):
     """Integrate h(P(t)), using linear native P and Gauss nodes per native interval."""
     inside = (t > start) & (t < end)
     knots = np.r_[start, t[inside], end]
@@ -84,6 +84,44 @@ def pressure_quadrature(t, pressure_bar, start, end, order=4):
     p = pk[:-1, None] + np.diff(pk)[:, None] * frac
     wt = np.diff(knots)[:, None] * weights / (2 * (end - start))
     return p.ravel(), wt.ravel()
+
+
+def integration_nodes(windows, order=16, max_pressure_step_bar=.1):
+    """Numerically refine original linear native intervals, retaining their time mass.
+
+    Stored nodes are GL(order) per original native interval. Equal-time subdivision
+    limits each piece's pressure span; it does not move observation boundaries or
+    introduce a lag. None reproduces the original unrefined operator. Unbounded n
+    still requires the independent selected-model accuracy audit.
+    """
+    pressure = np.concatenate([w.pressure_bar for w in windows])
+    weights = np.concatenate([w.quadrature_weight for w in windows])
+    if max_pressure_step_bar is None:
+        node_window = np.repeat(np.arange(len(windows)), [len(w.pressure_bar) for w in windows])
+        return pressure, weights, node_window
+    if not np.isfinite(max_pressure_step_bar) or max_pressure_step_bar <= 0:
+        raise ValueError("Pressure integration step must be positive or None")
+    if any(len(w.pressure_bar) % order for w in windows):
+        raise ValueError("Stored pressure nodes must encode complete native GL intervals")
+    pp, wt = pressure.reshape(-1, order), weights.reshape(-1, order)
+    nodes, gauss_weights = np.polynomial.legendre.leggauss(order)
+    frac = (nodes + 1) / 2
+    span = (pp[:, -1] - pp[:, 0]) / (frac[-1] - frac[0])
+    left = np.maximum(pp[:, 0] - frac[0] * span, 0)
+    right = np.maximum(left + span, 0)
+    span = right - left
+    parts = np.maximum(1, np.ceil(np.abs(span) / max_pressure_step_bar)).astype(int)
+    owners = np.repeat(np.arange(len(parts)), parts)
+    offsets = np.arange(len(owners)) - np.repeat(np.cumsum(parts) - parts, parts)
+    local = (offsets[:, None] + frac) / parts[owners, None]
+    refined_p = left[owners, None] + span[owners, None] * local
+    refined_w = wt.sum(axis=1)[owners, None] / parts[owners, None] * (gauss_weights / 2)
+    # Preserve untouched native intervals bitwise, avoiding gratuitous interpolation.
+    unchanged = parts[owners] == 1
+    refined_p[unchanged] = pp[owners[unchanged]]
+    refined_w[unchanged] = wt[owners[unchanged]]
+    segment_window = np.repeat(np.arange(len(windows)), [len(w.pressure_bar) // order for w in windows])
+    return refined_p.ravel(), refined_w.ravel(), np.repeat(segment_window[owners], order)
 
 
 def extract_windows(time_s, pressure_pa, weight_kg, supplied_flow_kg_s=None,
@@ -323,8 +361,9 @@ def capacity_maximum(params, pressure_range):
 class Design:
     """Packed windows; differentiable user-balanced early-to-late objective."""
 
-    def __init__(self, shots):
+    def __init__(self, shots, quadrature_order=16, max_pressure_step_bar=.1):
         self.shots = shots
+        self.integration = dict(max_pressure_step_bar=max_pressure_step_bar)
         windows = [w for s in shots for w in s.windows]
         self.windows = windows
         self.shot_index = np.repeat(np.arange(len(shots)), [len(s.windows) for s in shots])
@@ -333,9 +372,8 @@ class Design:
         self.time = np.array([w.start_s for w in windows])
         self.cal = np.array([w.role == "calibration" for w in windows])
         self.score = np.array([w.role == "score" for w in windows])
-        pressure = np.concatenate([w.pressure_bar for w in windows])
-        weights = np.concatenate([w.quadrature_weight for w in windows])
-        node_window = np.repeat(np.arange(len(windows)), [len(w.pressure_bar) for w in windows])
+        pressure, weights, node_window = integration_nodes(windows, quadrature_order,
+                                                           max_pressure_step_bar)
         # Exact-value deduplication only: no bins, rounding or changed quadrature.
         # Use exact hashing, avoiding the large-array sort failures observed on the
         # execution host. Python float keys preserve values; no quantization occurs.
@@ -573,7 +611,8 @@ def predict(model, early_windows, later_windows):
         raise ValueError("Calibration/guard overlaps later prediction")
     shot = Shot("query", "query", [*[replace(w, role="calibration") for w in early_windows],
                                    *[replace(w, role="score") for w in later_windows]], {})
-    design = Design([shot])
+    integration = model.get("integration", {"max_pressure_step_bar": None})
+    design = Design([shot], quadrature_order=settings.quadrature_order, **integration)
     result, amplitudes = design.profile(model["model"], encode(model["model"], model["parameters"]))
     return result[len(early_windows):], float(amplitudes[0])
 
@@ -609,10 +648,11 @@ def fit_start(design, model, theta):
                 core_hours=(time.process_time() - started) / 3600)
 
 
-def fitted_model(model, params, metadata=None, settings=Settings()):
+def fitted_model(model, params, metadata=None, settings=Settings(), max_pressure_step_bar=.1):
     """Portable scalar-parameter artifact. No individual amplitudes or identifiers."""
     return dict(schema="puckworks.reported-flow.v1", model=model, parameters=params,
-                settings=asdict(settings), metadata=metadata or {})
+                settings=asdict(settings), integration=dict(max_pressure_step_bar=max_pressure_step_bar),
+                metadata=metadata or {})
 
 
 def save_model(path, model):
@@ -640,7 +680,8 @@ def load_model(path):
 def audit_quadrature(shots, model, chunk_size=8192):
     """Covariate-only independent pressure-average check; no flow targets consulted.
 
-    Compare stored GL16 with GL64; sharp pressure intervals additionally use QUADPACK
+    Compare the saved refined GL16 operator with original-native GL64; sharp pressure
+    intervals additionally use QUADPACK
     with transition points and scaled integrands. This diagnoses actual selected
     models, not uniform accuracy over the unbounded n domain. A failure blocks scores.
     """
@@ -661,7 +702,16 @@ def audit_quadrature(shots, model, chunk_size=8192):
     p1 = np.maximum(p0 + span, 0)
     seg_window = np.repeat(np.arange(len(windows)), [len(w.pressure_bar) // order for w in windows])
     from scipy.special import logsumexp
-    old_segments = logsumexp(log_capacity(pp, n, pd, k) + np.log(wt), axis=1)
+    candidate_p, candidate_weights, candidate_window = integration_nodes(
+        windows, order, model.get("integration", {}).get("max_pressure_step_bar"))
+    terms = log_capacity(candidate_p, n, pd, k) + np.log(candidate_weights)
+    candidate_starts = np.r_[0, np.flatnonzero(np.diff(candidate_window)) + 1]
+    candidate_max = np.maximum.reduceat(terms, candidate_starts)
+    candidate_max[~np.isfinite(candidate_max)] = 0
+    candidate_sum = np.add.reduceat(np.exp(terms - candidate_max[candidate_window]), candidate_starts)
+    with np.errstate(divide="ignore"):
+        old = candidate_max + np.log(candidate_sum)
+    del candidate_p, candidate_weights, candidate_window, terms
     sw = wt.sum(axis=1)
     starts = np.r_[0, np.cumsum([len(w.pressure_bar) // order for w in windows])[:-1]]
 
@@ -672,7 +722,6 @@ def audit_quadrature(shots, model, chunk_size=8192):
         with np.errstate(divide="ignore"):
             return maximum + np.log(total)
 
-    old = combine(old_segments)
     new_nodes, new_weights = np.polynomial.legendre.leggauss(64)
     frac = (new_nodes + 1) / 2
     reference = np.zeros(len(p0))

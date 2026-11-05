@@ -48,3 +48,13 @@ objective-gradient difference <=1.03e-15; finite-difference gradient discrepancy
 <=4.14e-14. It found no remaining concrete restart blocker, conditional on baseline
 replay, actual selected-model audits and final aggregate/claim review. Numeric
 range limits and all failed runs must remain disclosed.
+
+After the actual GL16 gate failure, the fresh reviewer verified the pressure-span
+subdivision repair: **37 synthetic tests passed** (release-artifact test omitted).
+Independent nonuniform-time A/AR integrals agreed within 4.58e-16; finite-difference
+gradient discrepancy was <=1.65e-10. It verified that saved integration settings
+actually control prediction: a synthetic early-4-bar/later-0-to-15-bar example
+changed from 1.8917447883 with legacy GL16 to 1.896148931654 with refinement,
+against independent reference 1.896148931646. The sharp n=1000 regression still
+fails the numerical gate. No concrete restart blocker remained, subject to
+baseline replay, actual audits and final aggregate claims review.

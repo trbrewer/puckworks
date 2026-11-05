@@ -41,5 +41,10 @@
     "models/deployment/M0R.json": "f477593bdec1e0b47120d424212fc6991929acd84b6a83adbbc420300d6f426f",
     "models/fold_1/M0R.json": "264d4570ce79c8750fd2e1ffef68d938d7aa86351c809533e486bfc7b364ebd9"
   },
-  "numeric_note": "Final pressure operator uses log capacities and compensated extended-precision direct LS. Unrepresentable trial states fail explicitly; no n cap."
+  "numeric_note": "Final pressure operator uses log capacities and compensated extended-precision direct LS. Unrepresentable trial states fail explicitly; no n cap.",
+  "reporting_runtime": {
+    "matplotlib": "3.11.2",
+    "pytest": "9.2.0",
+    "ruff": "0.17.4"
+  }
 }

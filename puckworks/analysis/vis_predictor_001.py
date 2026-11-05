@@ -225,7 +225,9 @@ def fit_models(private, fold, workers):
     for model in MODELS[1:]:
         path = modeldir / (model + ".json")
         if path.exists():
-            load_model(path)
+            existing = load_model(path)
+            if "n" in existing["parameters"] and existing.get("integration") != _FIT_DESIGN.integration:
+                raise RuntimeError("Cached pressure model uses different integration")
             continue
         nested = None
         if model in ("AR", "A"):
@@ -313,6 +315,8 @@ def score(private):
             saved = load_model(OUT / "models" / f"fold_{fold}" / (model + ".json"))
             from puckworks.empirical.visualizer import encode
             theta = encode(model, saved["parameters"])
+            if "n" in saved["parameters"] and saved.get("integration") != design.integration:
+                raise RuntimeError("Saved pressure integration differs from scoring design")
             pred, _ = design.profile(model, theta)
             rec, _ = design.profile(model, theta, all_windows=True)
             for j, i in enumerate(ids):

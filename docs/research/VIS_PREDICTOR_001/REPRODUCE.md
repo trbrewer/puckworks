@@ -16,7 +16,8 @@ hashes use its own scope and are not substitutes.
 For byte-identical extraction use the initial Python 3.12 / NumPy 2.5.4 /
 SciPy 1.18.1 environment (`PREP_PY`). For continuation, scoring and figures use
 Python 3.12 / NumPy 2.0.2 / SciPy 1.13.1 (`FIT_PY`). Install this checkout editable
-and the dev/figures extras with those explicit dependency pins. ENVIRONMENT.json
+and the dev/figures extras with those explicit dependency pins; the figures here
+use Matplotlib 3.11.2. ENVIRONMENT.json
 records both contexts and hashes of the 18 retained initial-runtime baselines and four retired pressure fits.
 Set `VIS_ROOT` to
 the retained snapshot, `VIS_INVENTORY` to the existing owner inventory manifest,
@@ -32,11 +33,11 @@ export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
 # was committed before any fitting or scoring.
 for fold in 0 1 2 3 4; do
   "$FIT_PY" -m puckworks.analysis.vis_predictor_001 fit \
-    --private "$VIS_PRIVATE" --fold "$fold" --workers 4
+    --private "$VIS_PRIVATE" --fold "$fold" --workers 8
 done
 "$FIT_PY" -m puckworks.analysis.vis_predictor_001 audit --private "$VIS_PRIVATE"
 "$FIT_PY" -m puckworks.analysis.vis_predictor_001 score --private "$VIS_PRIVATE"
-"$FIT_PY" -m puckworks.analysis.vis_predictor_001 deploy --private "$VIS_PRIVATE" --workers 4
+"$FIT_PY" -m puckworks.analysis.vis_predictor_001 deploy --private "$VIS_PRIVATE" --workers 8
 "$FIT_PY" -m puckworks.analysis.vis_predictor_001 audit-deployment --private "$VIS_PRIVATE"
 "$FIT_PY" -m puckworks.analysis.vis_predictor_figures
 python -m pytest -q tests/test_vis_predictor_001.py
@@ -104,3 +105,20 @@ extended precision. Linux x86 extended precision was used for this benchmark. Nu
 range can be smaller on other platforms; unrepresentable trials raise or fail
 explicitly. A returned physical amplitude can be infinite even when the normalized
 predicted flow is finite; use the returned predictions, not a raw amplitude product.
+
+Following the preserved pre-score integration failure, pressure-model evaluation
+subdivides original linear native intervals to at most 0.1 bar pressure change,
+using GL16 in each piece with the original time weights. Saved artifacts bind this
+method in `integration.max_pressure_step_bar`; `None` reproduces legacy native
+GL16. The independent audit stays on original intervals (GL64 plus adaptive).
+The extraction cache and corpus/fold hashes are unchanged. See the numerical
+amendment in PLAN.md and failure record in DEVIATIONS.md. The amended operator
+remains subject to the same 1e-5 selected-model audit; it is not a uniform accuracy
+guarantee over unbounded n.
+
+Execution concurrency was eight independent optimizer starts per fold in the
+refined run, with serialized Design construction and one BLAS thread per worker.
+The 18 retained baseline artifacts originated with four workers and replay under
+the corrected operator. Actual model audits ran concurrently as artifacts became
+available, calling the same published `audit_quadrature` operator; the serial
+`audit` commands above reproduce the same numerical checks.
