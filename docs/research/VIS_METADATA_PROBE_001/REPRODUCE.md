@@ -156,6 +156,7 @@ identity and absence of private tokens/UUIDs from the public bundle.
 |---|---|
 | Amended PLAN.md | `969472dc281750eb77bc43818c784b57f884b64517ced86683151714d2b5127a` |
 | Probe code, unchanged during live execution | `534f2e460b572227a10209722d0246c669d04547cf0d432b6f6dd5427d76dfa2` |
+| Probe code after post-run Session-method alias fix | `3f46345d4b502893c9b05e3c1a6f9966dde808ca2be63aab8056662e6350f2dd` |
 | Aggregate report code | `bedffe161c08f4e10ba91891deaccdfa41d28b83dfdd77c63848a6095708e88b` |
 | Private sample B manifest | `48d33b9f8b6e9fc1cb468258664b3f3aca6c0cf785cfe19e098fc1c6407f5de6` |
 | Private per-shot field/type evidence | `d745ab6774d5a9e7aaf3c5562eab3a0405059699d3b6a45d6ecb5dd3001b97be` |
@@ -164,6 +165,18 @@ identity and absence of private tokens/UUIDs from the public bundle.
 Local verification includes focused synthetic/privacy/harvester checks, Ruff
 and README governance. The independent review record and required hosted CI at
 the final head are linked in the PR; no scientific claim is upgraded by CI.
+
+The first hosted CI run at `01a1f320892002e6a976b8ebc643a76e1da1c1c1`
+failed the existing I-040 static/dynamic reachability check: its name-only call
+graph linked the new generic `get` definition to unrelated `write` methods and
+mistook a historical `gate_state` helper for a runnable validation gate. The
+post-run fix names the implementation `_bounded_metadata_get` and preserves the
+harvester interface with `get = _bounded_metadata_get`. This changes no request,
+sample, capture or privacy behavior. The actual live code remains preserved at
+`4f080b6` with its original hash above; no API requests or aggregate exports were
+repeated. The failed [coverage job](https://github.com/trbrewer/puckworks/actions/runs/42065961204/job/127379979646)
+and follow-up checks are retained as CI evidence, outside the measured main-job
+CPU total.
 
 Data source: **Visualizer**. We collectively thank users who made their shots
 public. Permission is the owner-attested 2026-07-14 research-use grant; it does

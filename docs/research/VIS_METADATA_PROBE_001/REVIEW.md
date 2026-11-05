@@ -39,6 +39,16 @@ Findings and disposition:
    the profile-configuration gain and distinguishes zero established full
    qualifications from actual qualification UNKNOWN. No hardware identity or
    measured flow is inferred from parser names or common channel names.
+5. **Hosted CI compatibility, corrected after the first run.** The existing
+   name-only I-040 reachability audit linked the new generic `get` method to
+   unrelated scientific helpers and attempted to execute a non-gate
+   `gate_state` helper. The implementation is now named `_bounded_metadata_get`
+   with `get` retained as the Session-interface alias. The reviewer independently
+   confirmed identical method ASTs apart from the name and identity of the alias;
+   request, sample, extraction and privacy behavior are unchanged. There is no
+   review blocker. The 96 focused follow-up tests, including I-040, Ruff and
+   README governance passed. REPRODUCE preserves both code hashes and the failed
+   hosted job; no live request or aggregate export was repeated.
 
 Required hosted CI is tracked on the draft PR at its final head. Review and CI
 do not establish physical validation or source-owner endorsement.
