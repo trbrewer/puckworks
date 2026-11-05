@@ -6,6 +6,7 @@ from types import SimpleNamespace
 import pytest
 
 from puckworks.analysis import vis_metadata_probe_001 as p
+from puckworks.analysis import vis_metadata_probe_001_report as report
 
 
 def test_draw_fixed_balanced_unique_and_order_independent():
@@ -75,3 +76,57 @@ def test_profile_control_fields_do_not_certify_active_control():
     assert fields["steps[].pump"] == ["str"]
     assert fields["steps[].limiter.flow"] == ["null"]
     assert fields["steps[].flow"] == ["int"]
+
+
+def test_report_suppresses_small_fields_and_complements():
+    rows = [dict(status="AVAILABLE", user_token=str(i), fields={}) for i in range(40)]
+    assert report.releasable(rows, [])
+    assert report.releasable(rows, rows)
+    assert report.releasable(rows, rows[:20])
+    assert not report.releasable(rows, rows[:19])
+    assert not report.releasable(rows, rows[:21])
+    assert not report.releasable([dict(user_token="one") for _ in range(40)], [])
+
+
+def test_profile_not_requested_is_not_absent_at_source():
+    rows = [dict(status="AVAILABLE", user_token=str(i), fields={}) for i in range(40)]
+    result = report.availability(rows, "B", "ALL", "ALL")
+    steps = next(r for r in result if r["native_field"] == "PROFILE.steps")
+    assert steps["absent_at_current_source"] == 0
+    assert steps["profile_not_returned_or_not_requested"] == 40
+
+
+def test_current_privacy_drop_is_not_automatically_historical_loss():
+    rows = [dict(status="AVAILABLE", user_token=str(i), fields={"profile_title": ["str"]},
+                 after_privacy_fields={}, old_fields={}) for i in range(40)]
+    result = report.availability(rows, "A", "ALL", "ALL")
+    title = next(r for r in result if r["native_field"] == "profile_title")
+    assert title["privacy_dropped_now"] == 40
+    assert title["historically_confirmed_drop"] == 0
+    assert title["new_at_source_or_historical_loss_unknown"] == 40
+    for row in rows:
+        row["old_profile_present"] = True
+    title = next(r for r in report.availability(rows, "A", "ALL", "ALL")
+                 if r["native_field"] == "profile_title")
+    assert title["historically_confirmed_drop"] == 40
+    assert title["new_at_source_or_historical_loss_unknown"] == 0
+
+
+def test_nested_counts_cannot_reveal_one_shot_by_subtraction():
+    rows = [dict(status="AVAILABLE", user_token=str(i), fields={}) for i in range(100)]
+    for row in rows[:80]:
+        row["fields"]["data"] = ["dict"]
+    for row in rows[:79]:
+        row["fields"]["data.espresso_weight"] = ["list"]
+    output = report.availability(rows, "B", "ALL", "ALL")
+    for path in ("data", "data.espresso_weight"):
+        assert next(r for r in output if r["native_field"] == path)["present"] == "SUPPRESSED"
+
+
+def test_omitted_sentinels_and_limiter_fields_are_unknown_not_absent():
+    rows = [dict(status="AVAILABLE", user_token=str(i), fields={}) for i in range(40)]
+    output = report.availability(rows, "B", "ALL", "ALL")
+    for path in report.NOT_CAPTURED_PATHS:
+        item = next(r for r in output if r["native_field"] == path)
+        assert item["absent_at_current_source"] == "NOT_CAPTURED"
+        assert item["present"] == "NOT_CAPTURED"
