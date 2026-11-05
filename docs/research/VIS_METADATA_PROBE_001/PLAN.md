@@ -40,15 +40,28 @@ with A. A/B overlap uses one cached detail response and counts in both samples.
 Use the existing harvester's public listing/detail functions, salted-user
 handling, privacy stripping and shared **18 requests/minute** limiter (within
 50/min and 200/10 min). At most 600 distinct shot-detail requests plus 3 listing
-requests; a wrapper counts every HTTP attempt, including failures/retries, and
-enforces a total **603 API-attempt ceiling**. No extra shots, endpoints, tokens,
-authentication or paid access. Fetch B's listing first, then A and B details.
+requests, plus at most one `GET /shots/{id}/profile?format=json` per selected
+shot whose detail response advertises `profile_url`. A wrapper counts every
+HTTP attempt, including failures/retries, and enforces a total **1,203
+API-attempt ceiling**. No extra shots, other endpoints, tokens, authentication
+or paid access. Fetch B's listing first, then A and B details/profiles.
 401/403, an access/permission refusal, or questionable permission scope stops
 the entire probe. A shot-specific 404/410 is unavailable, not an absent field;
 do not replace it. A 429 stops the probe and is reported with Retry-After;
 transient network/5xx retries remain within the ceiling. Never work around a
 refusal. Published documentation/source-code retrieval is recorded separately
 from shot/API requests and cannot retrieve additional shot records.
+
+Pre-request amendment: initial commit `126ed97` allowed detail endpoints only
+(603 attempts). Public schema v1.21.0 at Visualizer source
+`9ef3d0de47b438fb55a44aed80e646b1deef37d8` documents the separate JSON profile
+endpoint and its availability flag; the serializer omits native structures from
+chart-data shot responses. This amendment includes that relevant metadata route
+before any Visualizer API request. Sample A was already frozen unchanged at
+2026-11-05T15:14:21Z, manifest digest
+`869d1fb7e2ca46a4a79db858cfa6e33ae28a17839815d908c47e8db18d1fa8ef`.
+No shot response or field-availability outcome motivated this change. A profile
+422 means no profile, not an access refusal; do not request its CSV telemetry.
 
 Raw responses are processed in memory only. Reuse `_strip_pii` and `hash_user`,
 then retain only allowlisted field paths, value **types**, presence/ambiguity
