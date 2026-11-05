@@ -281,7 +281,8 @@ class Design:
                 yield index
         inverse = np.fromiter(pressure_indices(), dtype=np.int64, count=len(pressure))
         self.p = np.asarray(distinct)
-        del lookup, distinct
+        lookup.clear()
+        distinct.clear()
         if not np.array_equal(self.p[inverse], pressure):
             raise RuntimeError("Exact pressure-node deduplication failed")
         self.pressure_operator = csr_matrix((weights, (node_window, inverse)),
