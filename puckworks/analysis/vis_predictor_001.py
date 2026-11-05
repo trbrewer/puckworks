@@ -240,7 +240,7 @@ def fit_models(private, fold, workers):
                                  message="exact monotone candidate", evaluations=1,
                                  iterations=0, core_hours=0.0))
         write_json(private_modeldir / (model + "_starts.json"), attempts)
-        finite = [(i, a) for i, a in enumerate(attempts) if np.isfinite(a["objective"])]
+        finite = [(i, a) for i, a in enumerate(attempts) if a["objective"] is not None and np.isfinite(a["objective"])]
         if not finite:
             raise RuntimeError("No finite start: " + model)
         i, best = min(finite, key=lambda pair: pair[1]["objective"])
@@ -312,9 +312,9 @@ def score(private):
         for model in MODELS:
             saved = load_model(OUT / "models" / f"fold_{fold}" / (model + ".json"))
             from puckworks.empirical.visualizer import encode
-            b = design.basis(model, encode(model, saved["parameters"]))
-            pred = design.predictions(b)
-            rec = design.predictions(b, all_windows=True)
+            theta = encode(model, saved["parameters"])
+            pred, _ = design.profile(model, theta)
+            rec, _ = design.profile(model, theta, all_windows=True)
             for j, i in enumerate(ids):
                 mask = design.shot_index == j
                 predictions[model][i] = pred[mask]

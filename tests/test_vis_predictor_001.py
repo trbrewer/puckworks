@@ -232,3 +232,102 @@ def test_quadrature_gate_scales_full_recovery_basis():
     result = audit_quadrature([Shot("x", "u", early + [later], {})], model)
     assert not result["passed"]
     assert result["maximum_relative_error"] > 1e-5
+
+
+def constant_pressure_shot(early_pressure, later_pressure, rate=2, mass=10):
+    s = example()
+    s.windows = [replace(w, pressure_bar=np.full_like(w.pressure_bar,
+                    early_pressure if w.role == "calibration" else later_pressure),
+                    flow_g_s=rate, mass_g=mass) for w in s.windows]
+    return s
+
+
+def test_log_profile_preserves_underflowed_shape_and_pressure_ratios():
+    from puckworks.empirical.visualizer import audit_quadrature
+    params = dict(n=368.6669272062016, Pd=100, kappa=2)
+    assert capacity(9, **params) == 0
+    shot = constant_pressure_shot(9, 9)
+    design = Design([shot])
+    pred, amplitude = design.profile("A", encode("A", params))
+    assert_allclose(pred, 2, rtol=1e-12)
+    assert np.isinf(amplitude[0])  # physical convention exceeds float, prediction is valid
+    assert audit_quadrature([shot], fitted_model("A", params))["passed"]
+    design = Design([constant_pressure_shot(9, 10)])
+    pred, _ = design.profile("A", encode("A", params))
+    assert_allclose(pred[design.score], 2 * np.exp(params["n"] * np.log(10 / 9) - 2), rtol=1e-12)
+
+
+def test_signed_log_prediction_avoids_overflowing_intermediate_ratio():
+    design = Design([constant_pressure_shot(1, 3, rate=1e-300)])
+    pred, _ = design.profile("M0", encode("M0", dict(n=1000, Pd=100)))
+    expected = np.exp(np.log(1e-300) + 1000 * np.log(3))
+    assert np.isfinite(pred).all()
+    assert_allclose(pred[design.score], expected, rtol=2e-12)
+
+
+def test_log_profile_gradient_at_large_n_and_exact_zero_calibration():
+    design = Design([constant_pressure_shot(9, 9.01)])
+    theta = encode("AR", dict(n=400, Pd=100, kappa=2, Mc=10))
+    value, derivative = design.objective("AR", theta)
+    numerical = approx_derivative(lambda x: design.objective("AR", x)[0], theta).ravel()
+    assert np.isfinite(value)
+    assert_allclose(derivative, numerical, rtol=1e-5, atol=1e-8)
+    zero = Design([constant_pressure_shot(0, 9)])
+    pred, amplitude = zero.profile("AR", theta)
+    assert_allclose(pred, 0)
+    assert_allclose(amplitude, 0)
+    assert np.isfinite(zero.objective("AR", theta)[0])
+
+
+def test_common_extreme_recovery_preserves_pressure_shape():
+    from puckworks.empirical.visualizer import audit_quadrature
+    design = Design([constant_pressure_shot(9, 10, mass=-500)])
+    params = dict(n=2, Pd=10, Mc=.1, kappa=.2)
+    pred, _ = design.profile("AR", encode("AR", params))
+    expected = 2 * capacity(10, 2, 10, .2) / capacity(9, 2, 10, .2)
+    assert_allclose(pred[design.score], expected, rtol=1e-12)
+    assert audit_quadrature(design.shots, fitted_model("AR", params))["passed"]
+
+
+def test_calibration_numerator_keeps_tiny_informative_windows():
+    shot = constant_pressure_shot(1, 10)
+    shot.windows = [replace(w, pressure_bar=np.full_like(w.pressure_bar, .1), flow_g_s=1)
+                    if w.start_s in (2, 4) else replace(w, flow_g_s=0)
+                    if w.start_s == 0 else w for w in shot.windows]
+    design = Design([shot])
+    pred, amplitude = design.profile("M0", encode("M0", dict(n=400, Pd=10)))
+    assert_allclose(pred[design.score], 2 * (-np.expm1(-1)), rtol=1e-12)
+    assert_allclose(amplitude, .2, rtol=1e-12)
+    # An unrepresentable trial must fail explicitly, never turn into a false zero fit.
+    with pytest.raises(FloatingPointError, match="extended floating range"):
+        design.profile("M0", encode("M0", dict(n=1000000, Pd=10)))
+
+
+def test_noisy_calibration_cancellation_preserves_tiny_term():
+    shot = constant_pressure_shot(1, 10)
+    shot.windows = [replace(w, pressure_bar=np.full_like(w.pressure_bar, .1), flow_g_s=1)
+                    if w.start_s == 2 else replace(w, flow_g_s=1 if w.start_s == 0 else -1)
+                    if w.role == "calibration" else w for w in shot.windows]
+    design = Design([shot])
+    theta = encode("M0", dict(n=400, Pd=10))
+    pred, amplitude = design.profile("M0", theta)
+    assert_allclose(pred[design.score], .5 * (-np.expm1(-1)), rtol=1e-12)
+    assert_allclose(amplitude, .05, rtol=1e-12)
+    value, derivative = design.objective("M0", theta)
+    assert np.isfinite(value)
+    numerical = approx_derivative(lambda x: design.objective("M0", x)[0], theta).ravel()
+    assert_allclose(derivative, numerical, rtol=1e-5, atol=1e-7)
+
+
+def test_log_capacity_subnormal_pressure_and_tiny_pulse_fallback():
+    from puckworks.empirical.visualizer import Window, log_capacity
+    assert_allclose(log_capacity(np.nextafter(0., 1.), 1, 100), np.log(np.nextafter(0., 1.)))
+    p, weights = pressure_quadrature(np.array([0, 1e-200, 2e-200, 2]),
+                                     np.array([1e-200, 1e-200, 0, 0]), 0, 2)
+    pulse = Window(2, 4, 2, 1, p, weights, 0, "calibration")
+    s = constant_pressure_shot(1e-200, 1)
+    s.windows[0] = replace(s.windows[0], flow_g_s=0)
+    s.windows[1:3] = [pulse, replace(pulse, start_s=4, end_s=6)]
+    d = Design([s])
+    pred, _ = d.profile("M0", encode("M0", dict(n=1, Pd=100)))
+    assert_allclose(pred[d.score], 1.5 * 100 * (-np.expm1(-.01)), rtol=1e-12)

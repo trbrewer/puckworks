@@ -36,3 +36,15 @@ The reviewer confirmed numerical equivalence and the native-endpoint pressure-ra
 reconstruction, and independently reran the expanded suite: **26 passed**. The
 final recommendation rule includes all eight declared models on the primary metric,
 with M0/A still labelled sensitivities. No new pre-scoring defect was found.
+
+The separate fresh final-review session found the full-recovery audit scaling
+counterexample, then reviewed the necessary log-domain repair before scoring.
+It supplied tiny-informative-calibration, noisy-cancellation and tiny-pulse
+counterexamples, all added as regression tests. It independently ran the 33
+synthetic tests (all passed; release-surface test excluded from that run).
+Fast sparse versus forced row-log-sum-exp prediction difference was <=1.78e-15,
+objective-gradient difference <=1.03e-15; finite-difference gradient discrepancy
+<=1.38e-9. Full-recovery independent audit error on its ordinary examples was
+<=4.14e-14. It found no remaining concrete restart blocker, conditional on baseline
+replay, actual selected-model audits and final aggregate/claim review. Numeric
+range limits and all failed runs must remain disclosed.

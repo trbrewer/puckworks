@@ -17,7 +17,7 @@ For byte-identical extraction use the initial Python 3.12 / NumPy 2.5.4 /
 SciPy 1.18.1 environment (`PREP_PY`). For continuation, scoring and figures use
 Python 3.12 / NumPy 2.0.2 / SciPy 1.13.1 (`FIT_PY`). Install this checkout editable
 and the dev/figures extras with those explicit dependency pins. ENVIRONMENT.json
-records both contexts and hashes of the 22 retained initial-runtime fits.
+records both contexts and hashes of the 18 retained initial-runtime baselines and four retired pressure fits.
 Set `VIS_ROOT` to
 the retained snapshot, `VIS_INVENTORY` to the existing owner inventory manifest,
 and `VIS_PRIVATE` to a new owner-controlled directory outside the checkout.
@@ -98,3 +98,9 @@ corpus/fold and window-cache hashes byte-for-byte. `prepare` preserves the origi
 base identity when verifying an existing frozen manifest, and rejects a mismatch.
 Failed runtime attempts, unchanged-score replays and the eventual exact-hash
 lookup repair are recorded in DEVIATIONS.md. No numerical threshold was retuned.
+
+The final operator evaluates pressure means in log space and direct LS in compensated
+extended precision. Linux x86 extended precision was used for this benchmark. Numeric
+range can be smaller on other platforms; unrepresentable trials raise or fail
+explicitly. A returned physical amplitude can be infinite even when the normalized
+predicted flow is finite; use the returned predictions, not a raw amplitude product.

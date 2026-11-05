@@ -7,7 +7,7 @@ from pathlib import Path
 
 import numpy as np
 
-from puckworks.empirical.visualizer import MODELS, capacity, load_model
+from puckworks.empirical.visualizer import MODELS, log_capacity, load_model
 
 OUT = Path(__file__).resolve().parents[2] / "docs/research/VIS_PREDICTOR_001"
 CREDIT = "Visualizer and contributing public-shot users · reported signals · no physical validation"
@@ -71,10 +71,10 @@ def main():
             for fold in range(5):
                 saved = load_model(OUT / "models" / f"fold_{fold}" / (model + ".json"))
                 p = saved["parameters"]
-                h = capacity(pressure, p["n"], p["Pd"], p.get("kappa", 0))
+                h = log_capacity(pressure, p["n"], p["Pd"], p.get("kappa", 0))
                 # Shape comparison removes the arbitrary amplitude convention.
-                reference = capacity(6.0, p["n"], p["Pd"], p.get("kappa", 0))
-                ax.plot(pressure, h / reference, label=f"fold {fold + 1}")
+                reference = log_capacity(6.0, p["n"], p["Pd"], p.get("kappa", 0))
+                ax.plot(pressure, np.exp(h - reference), label=f"fold {fold + 1}")
             ax.set(title=model, xlabel="Recorded machine pressure (bar)", ylabel="Capacity / capacity at 6 bar")
             ax.grid(alpha=.2)
             ax.legend(fontsize=8)

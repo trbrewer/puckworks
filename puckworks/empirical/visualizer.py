@@ -6,7 +6,7 @@ pressure and start mass must be supplied: this is not an autonomous prefix forec
 """
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 import hashlib
 import json
 from pathlib import Path
@@ -215,15 +215,85 @@ def encode(model, params):
                      for k in coordinates(model)[0]])
 
 
-def capacity(p_bar, n, Pd, kappa=0):
-    """Form A; kappa=0 is exactly the monotone model, including floating operations."""
+def log_capacity(p_bar, n, Pd, kappa=0, gradient=False):
+    """Stable log Form A, including arbitrarily small positive capacity at large n.
+
+    The small-opening expansion has relative error <4.7e-14. Exact P=0 alone
+    gives -inf; numerical overflow at positive pressure raises instead of becoming
+    a false zero response. Derivatives are w.r.t. n, log(Pd), kappa.
+    """
     p = np.asarray(p_bar, dtype=float)
-    if np.any(p < 0) or n < 1 or Pd <= 0 or kappa < 0:
+    if (np.any(p < 0) or not np.isfinite(p).all() or not np.isfinite([n, Pd, kappa]).all()
+            or n < 1 or Pd <= 0 or kappa < 0):
         raise ValueError("Outside capacity domain")
-    with np.errstate(divide="ignore", over="ignore"):
-        z = n * np.log(p / Pd)
-    x = np.exp(np.minimum(z, 7))  # exp(-exp(7)) is already below double precision.
-    return Pd * (-np.expm1(-x)) * np.exp(-kappa * p)
+    with np.errstate(divide="ignore", over="ignore", invalid="ignore"):
+        logp = np.log(p) - np.log(Pd)
+        z = n * logp
+    x = np.exp(np.minimum(z, 7))
+    opening = -np.expm1(-x)
+    small = z < -30
+    logopening = np.array(z, copy=True)
+    np.log(opening, out=logopening, where=~small)
+    result = np.log(Pd) + logopening - kappa * p
+    if not np.isfinite(result[p > 0]).all():
+        raise FloatingPointError("Positive-pressure log capacity is unrepresentable")
+    if not gradient:
+        return result
+    ratio = np.ones_like(x)
+    np.divide(x * np.exp(-x), opening, out=ratio, where=~small)
+    dn = np.zeros_like(p)
+    np.multiply(ratio, logp, out=dn, where=p > 0)
+    return result, (dn, 1 - n * ratio, -p)
+
+
+def capacity(p_bar, n, Pd, kappa=0):
+    """Physical-unit Form A; use log_capacity for ratios below floating range."""
+    return np.exp(log_capacity(p_bar, n, Pd, kappa))
+
+
+def _signed_log_product(coefficient, log_factor):
+    """Compute c*exp(log_factor) without an overflowing intermediate ratio."""
+    c, logf = np.broadcast_arrays(np.asarray(coefficient), np.asarray(log_factor))
+    result = np.zeros(c.shape, dtype=float)
+    nonzero = c != 0
+    with np.errstate(divide="ignore", over="ignore", invalid="ignore", under="ignore"):
+        magnitude = np.log(np.abs(c[nonzero]).astype(np.longdouble)) + logf[nonzero]
+        result[nonzero] = np.sign(c[nonzero]) * np.exp(magnitude).astype(float)
+    return result
+
+
+def _component_normalization(lp, lr, mask, shot_index, count):
+    """Choose a supported reference and subtract pressure/recovery separately.
+
+    Separate subtraction preserves pressure ratios when a very negative reported
+    mass makes the common recovery logarithm enormous. No flow targets enter.
+    """
+    full = lp.astype(np.longdouble) + lr
+    largest = np.full(count, -np.inf, dtype=np.longdouble)
+    np.maximum.at(largest, shot_index[mask], full[mask])
+    candidates = mask & (full == largest[shot_index]) & np.isfinite(lp)
+    pressure_tie = np.full(count, -np.inf)
+    np.maximum.at(pressure_tie, shot_index[candidates], lp[candidates])
+    candidates &= lp == pressure_tie[shot_index]
+    anchors = np.full(count, len(lp), dtype=int)
+    indices = np.flatnonzero(candidates)
+    np.minimum.at(anchors, shot_index[indices], indices)
+    exists = anchors < len(lp)
+    ps = np.zeros(count, dtype=np.longdouble)
+    rs = np.zeros(count, dtype=np.longdouble)
+    ps[exists] = lp[anchors[exists]]
+    rs[exists] = lr[anchors[exists]]
+    normalized = (lp.astype(np.longdouble) - ps[shot_index]) + (lr - rs[shot_index])
+    return normalized, anchors, exists, ps, rs
+
+
+def _recovery_log(coordinate, scale):
+    """Extended-range log recovery; overflow is a numerical failure, never zero basis."""
+    z = -np.asarray(coordinate, dtype=np.longdouble) / scale
+    if np.any(z > np.log(np.finfo(np.longdouble).max) - 10):
+        raise FloatingPointError("Recovery log exceeds this platform's numeric range")
+    inner = np.exp(z)
+    return -inner, z * inner
 
 
 def capacity_maximum(params, pressure_range):
@@ -238,7 +308,7 @@ def capacity_maximum(params, pressure_range):
                     inside_training_range=False, maximum_status="supremum_at_infinity")
     def equation(logp):
         z = n * (logp - np.log(pd))
-        if z > 7:
+        if z > 6.5:
             return -k
         x = np.exp(z)
         ratio = 1.0 if x < 1e-6 else x / np.expm1(x)
@@ -288,6 +358,10 @@ class Design:
         self.pressure_operator = csr_matrix((weights, (node_window, inverse)),
                                             shape=(len(windows), len(self.p)))
         self.meanp = self.pressure_operator @ self.p
+        self.pressure_rows = np.repeat(np.arange(len(windows)), np.diff(self.pressure_operator.indptr))
+        self.log_pressure_weights = np.log(self.pressure_operator.data)
+        self.positive_pressure = np.maximum.reduceat(self.p[self.pressure_operator.indices] > 0,
+                                                    self.pressure_operator.indptr[:-1])
         if not np.allclose(self.meanp, [w.mean_pressure_bar for w in windows], rtol=1e-12, atol=1e-10):
             raise RuntimeError("Sparse pressure operator differs from native quadrature")
         for packed, original in ((self.q, [w.flow_g_s for w in windows]),
@@ -299,47 +373,127 @@ class Design:
         count = dict(zip(users, counts))
         self.shot_weight = np.array([1 / (len(users) * count[s.user]) for s in shots])
 
-    def basis(self, model, theta, gradient=False):
-        """Covariates only: never consult observed window flow here."""
+    def log_components(self, model, theta, gradient=False):
+        """Pressure and recovery logs stay separate until after shot normalization."""
         pars = decode(model, theta)
         names = coordinates(model)[0]
         nw = len(self.windows)
-        deriv = {}
+        dpressure = np.zeros((nw, len(names)))
+        drecovery = np.zeros((nw, len(names)), dtype=np.longdouble)
         if model in ("M0R", "AR", "M0", "A"):
-            n, pd, k = pars["n"], pars["Pd"], pars.get("kappa", 0)
-            with np.errstate(divide="ignore"):
-                logp = np.log(self.p / pd)
-            x = np.exp(np.minimum(n * logp, 7))
-            ex = np.exp(-x)
-            decay = np.exp(-k * self.p)
-            h = pd * (-np.expm1(-x)) * decay
-            reduce = lambda v: self.pressure_operator @ v
-            base = reduce(h)
-            if gradient:
-                xl = np.zeros_like(x)
-                np.multiply(x, logp, out=xl, where=np.isfinite(logp))
-                deriv["n"] = reduce(pd * ex * xl * decay)
-                deriv["log_Pd"] = reduce(h - pd * ex * n * x * decay)
-                if "kappa" in names:
-                    deriv["kappa"] = reduce(-self.p * h)
+            lh, derivatives = log_capacity(self.p, pars["n"], pars["Pd"],
+                                            pars.get("kappa", 0), gradient=True)
+            finite = lh[np.isfinite(lh)]
+            # Algebraically identical sparse evaluation when one global log shift
+            # keeps every positive node normal. Extreme dynamic range uses row-wise
+            # log-sum-exp below; no tiny positive window becomes an exact zero.
+            fast = bool(len(finite) and np.ptp(finite) < 500)
+            if fast:
+                shift = float(finite.max())
+                h = np.exp(lh - shift)
+                totals = self.pressure_operator @ h
+                fast = bool(np.all(totals[self.positive_pressure] > 1e-250))
+            if fast:
+                with np.errstate(divide="ignore"):
+                    lp = shift + np.log(totals)
+                if gradient:
+                    for key, derivative in zip(("n", "log_Pd", "kappa"), derivatives):
+                        if key in names:
+                            numerator = self.pressure_operator @ (h * derivative)
+                            dpressure[:, names.index(key)] = np.divide(numerator, totals,
+                                out=np.zeros(nw), where=totals > 0)
+            else:
+                indices = self.pressure_operator.indices
+                starts = self.pressure_operator.indptr[:-1]
+                terms = lh[indices] + self.log_pressure_weights
+                maxima = np.maximum.reduceat(terms, starts)
+                maxima[~np.isfinite(maxima)] = 0
+                weighted = np.exp(terms - maxima[self.pressure_rows])
+                totals = np.add.reduceat(weighted, starts)
+                with np.errstate(divide="ignore"):
+                    lp = maxima + np.log(totals)
+                if gradient:
+                    normalized = np.divide(weighted, totals[self.pressure_rows],
+                                           out=np.zeros_like(weighted), where=totals[self.pressure_rows] > 0)
+                    for key, derivative in zip(("n", "log_Pd", "kappa"), derivatives):
+                        if key in names:
+                            dpressure[:, names.index(key)] = np.add.reduceat(normalized * derivative[indices], starts)
         elif model == "L0R":
-            base = self.meanp.copy()
+            with np.errstate(divide="ignore"):
+                lp = np.log(self.meanp)
         else:
-            base = np.ones(nw)
-        scale_name = "Tc" if model == "T0" else "Mc" if "Mc" in pars else None
-        if scale_name:
-            coordinate = self.time if scale_name == "Tc" else self.mass
-            v = coordinate / pars[scale_name]
-            z = np.exp(np.minimum(-v, 7))
-            r = np.exp(-z)
-            if gradient:
-                for key in deriv:
-                    deriv[key] *= r
-                deriv["log_" + scale_name] = -base * r * z * v
-            base *= r
+            lp = np.zeros(nw)
+        lr = np.zeros(nw, dtype=np.longdouble)
+        if model == "T0":
+            lr, derivative = _recovery_log(self.time, pars["Tc"])
+            drecovery[:, names.index("log_Tc")] = derivative
+        elif "Mc" in pars:
+            lr, derivative = _recovery_log(self.mass, pars["Mc"])
+            drecovery[:, names.index("log_Mc")] = derivative
+        return lp, lr, dpressure, drecovery
+
+    def basis(self, model, theta, gradient=False):
+        """Physical-unit bases for diagnostics; profile() avoids raw-basis underflow."""
+        lp, lr, dp, dr = self.log_components(model, theta, gradient)
+        base = np.exp(lp.astype(np.longdouble) + lr).astype(float)
         if gradient:
-            return base, np.column_stack([deriv[k] for k in names])
+            return base, (base[:, None] * (dp + dr)).astype(float)
         return base
+
+    def profile(self, model, theta, all_windows=False, gradient=False):
+        """Direct LS on early observations, with signed-log later prediction.
+
+        Shape normalization is numerical only. The physical amplitude is frozen;
+        its returned float can overflow while predictions remain representable.
+        """
+        lp, lr, dp, dr = self.log_components(model, theta, gradient)
+        mask = np.ones(len(lp), dtype=bool) if all_windows else self.cal
+        si, ns = self.shot_index, len(self.shots)
+        logb, anchors, exists, ps, rs = _component_normalization(lp, lr, mask, si, ns)
+        bcal = np.exp(logb[mask])  # extended range is essential to the LS numerator
+        if np.any(np.isfinite(logb[mask]) & (bcal == 0)):
+            raise FloatingPointError("Calibration basis exceeds extended floating range")
+        product = bcal * self.q[mask].astype(np.longdouble)
+        if np.any((bcal != 0) & (self.q[mask] != 0) & (product == 0)):
+            raise FloatingPointError("Calibration numerator exceeds extended floating range")
+        counts = np.bincount(si[mask], minlength=ns)
+        starts = np.r_[0, np.cumsum(counts)[:-1]]
+        def grouped(values):
+            # Neumaier compensation preserves an informative tiny term between
+            # cancelling ordinary noisy increments. Primary calibration has 3 terms.
+            total = np.zeros(ns, dtype=np.longdouble)
+            correction = np.zeros_like(total)
+            for j in range(int(counts.max())):
+                active = np.flatnonzero(counts > j)
+                value = values[starts[active] + j]
+                previous = total[active]
+                updated = previous + value
+                correction[active] += np.where(np.abs(previous) >= np.abs(value),
+                    (previous - updated) + value, (value - updated) + previous)
+                total[active] = updated
+            return total + correction
+        den = grouped(bcal ** 2)
+        num = grouped(product)
+        amplitude = np.divide(num, den, out=np.zeros_like(num), where=den > 0)
+        pred = _signed_log_product(amplitude[si], logb)
+        raw_amplitude = _signed_log_product(amplitude, -ps - rs)
+        if not gradient:
+            return pred, raw_amplitude
+        offset_p = np.zeros((ns, dp.shape[1]))
+        offset_r = np.zeros((ns, dr.shape[1]), dtype=np.longdouble)
+        offset_p[exists] = dp[anchors[exists]]
+        offset_r[exists] = dr[anchors[exists]]
+        dlog = (dp - offset_p[si]).astype(np.longdouble) + (dr - offset_r[si])
+        dbcal = bcal[:, None] * dlog[mask]
+        if dp.shape[1] == 0:
+            return pred, raw_amplitude, np.empty((len(pred), 0))
+        da = np.column_stack([np.divide(grouped(dbcal[:, j] *
+              (self.q[mask] - 2 * amplitude[si[mask]] * bcal)), den,
+              out=np.zeros(ns, dtype=np.longdouble), where=den > 0) for j in range(dp.shape[1])])
+        first = _signed_log_product(da[si], logb[:, None])
+        with np.errstate(over="ignore", invalid="ignore"):
+            second = (pred[:, None].astype(np.longdouble) * dlog).astype(float)
+        return pred, raw_amplitude, first + second
 
     def _amplitudes_scaled(self, basis, all_windows=False):
         """Direct grouped LS; the zero-basis case uses the minimum-norm zero solve."""
@@ -368,25 +522,26 @@ class Design:
         return self._amplitudes_scaled(b, all_windows)[self.shot_index] * b
 
     def objective(self, model, theta):
-        """Equal-user mean per-shot later RMSE, profiling prefix amplitude analytically."""
-        b, db = self.basis(model, theta, gradient=True)
-        b, scales = self.scale_basis(b)
-        db = db / scales[self.shot_index, None]
-        si, cal, score = self.shot_index, self.cal, self.score
-        ns = len(self.shots)
-        den = np.bincount(si[cal], b[cal] ** 2, minlength=ns)
-        amp = self._amplitudes_scaled(b)
-        da = np.column_stack([np.divide(
-            np.bincount(si[cal], db[cal, j] * (self.q[cal] - 2 * amp[si[cal]] * b[cal]),
-                        minlength=ns), den, out=np.zeros(ns), where=den > 0)
-            for j in range(db.shape[1])])
-        residual = amp[si[score]] * b[score] - self.q[score]
-        count = np.bincount(si[score], minlength=ns)
-        rmse = np.sqrt(np.bincount(si[score], residual ** 2, minlength=ns) / count)
+        """Equal-user mean per-shot later RMSE, with stable residual scaling."""
+        try:
+            pred, _, derivative = self.profile(model, theta, gradient=True)
+        except (FloatingPointError, OverflowError, ValueError):
+            return float("inf"), np.zeros(len(theta))
+        si = self.shot_index[self.score]
+        residual = pred[self.score] - self.q[self.score]
+        derivative = derivative[self.score]
+        if not np.isfinite(residual).all() or not np.isfinite(derivative).all():
+            return float("inf"), np.zeros(len(theta))
+        count = np.bincount(si, minlength=len(self.shots))
+        scale = np.zeros(len(self.shots))
+        np.maximum.at(scale, si, np.abs(residual))
+        scaled = np.divide(residual, scale[si], out=np.zeros_like(residual), where=scale[si] > 0)
+        rmse = scale * np.sqrt(np.bincount(si, scaled ** 2, minlength=len(self.shots)) / count)
         value = self.shot_weight @ rmse
-        dr = da[si[score]] * b[score, None] + amp[si[score], None] * db[score]
-        weight = self.shot_weight / (count * np.maximum(rmse, 1e-12))
-        jac = (residual * weight[si[score]]) @ dr
+        direction = np.divide(residual, rmse[si], out=np.zeros_like(residual), where=rmse[si] > 0)
+        jac = (direction * (self.shot_weight / count)[si]) @ derivative
+        if not np.isfinite(value) or not np.isfinite(jac).all():
+            return float("inf"), np.zeros(len(theta))
         return float(value), jac
 
 
@@ -416,14 +571,11 @@ def predict(model, early_windows, later_windows):
         raise ValueError("Calibration must begin at delivery onset")
     if any(w.start_s < early_windows[-1].end_s + settings.guard_s for w in later_windows):
         raise ValueError("Calibration/guard overlaps later prediction")
-    shot = Shot("query", "query", [*early_windows, *later_windows], {})
+    shot = Shot("query", "query", [*[replace(w, role="calibration") for w in early_windows],
+                                   *[replace(w, role="score") for w in later_windows]], {})
     design = Design([shot])
-    b = design.basis(model["model"], encode(model["model"], model["parameters"]))
-    scale = np.max(np.abs(b[:len(early_windows)]))
-    scale = scale if scale > 0 else 1.0
-    normalized = b / scale
-    a = solve_amplitude([w.flow_g_s for w in early_windows], normalized[:len(early_windows)])
-    return a * normalized[len(early_windows):], a / scale
+    result, amplitudes = design.profile(model["model"], encode(model["model"], model["parameters"]))
+    return result[len(early_windows):], float(amplitudes[0])
 
 
 def start_schedule(model, historical, nested=None):
@@ -450,8 +602,9 @@ def fit_start(design, model, theta):
     result = minimize(lambda x: design.objective(model, x), theta, jac=True,
                       method="L-BFGS-B", bounds=coordinates(model)[1],
                       options=dict(ftol=1e-9, gtol=1e-6, maxiter=400, maxfun=1000, maxls=40))
-    return dict(theta=result.x.tolist(), objective=float(result.fun),
-                success=bool(result.success), message=str(result.message),
+    return dict(theta=result.x.tolist(), objective=float(result.fun) if np.isfinite(result.fun) else None,
+                finite_objective=bool(np.isfinite(result.fun)),
+                success=bool(result.success and np.isfinite(result.fun)), message=str(result.message),
                 evaluations=int(result.nfev), iterations=int(result.nit),
                 core_hours=(time.process_time() - started) / 3600)
 
@@ -507,15 +660,27 @@ def audit_quadrature(shots, model, chunk_size=8192):
     p0 = np.maximum(pp[:, 0] - old_frac[0] * span, 0)
     p1 = np.maximum(p0 + span, 0)
     seg_window = np.repeat(np.arange(len(windows)), [len(w.pressure_bar) // order for w in windows])
-    old = np.bincount(seg_window, np.sum(capacity(pp, n, pd, k) * wt, axis=1))
+    from scipy.special import logsumexp
+    old_segments = logsumexp(log_capacity(pp, n, pd, k) + np.log(wt), axis=1)
     sw = wt.sum(axis=1)
+    starts = np.r_[0, np.cumsum([len(w.pressure_bar) // order for w in windows])[:-1]]
+
+    def combine(log_segments):
+        maximum = np.maximum.reduceat(log_segments, starts)
+        maximum[~np.isfinite(maximum)] = 0
+        total = np.add.reduceat(np.exp(log_segments - maximum[seg_window]), starts)
+        with np.errstate(divide="ignore"):
+            return maximum + np.log(total)
+
+    old = combine(old_segments)
     new_nodes, new_weights = np.polynomial.legendre.leggauss(64)
     frac = (new_nodes + 1) / 2
     reference = np.zeros(len(p0))
     for a in range(0, len(p0), chunk_size):
         b = min(a + chunk_size, len(p0))
         pressures = p0[a:b, None] + (p1[a:b] - p0[a:b])[:, None] * frac
-        reference[a:b] = capacity(np.maximum(pressures, 0), n, pd, k) @ (new_weights / 2)
+        reference[a:b] = logsumexp(log_capacity(np.maximum(pressures, 0), n, pd, k)
+                                    + np.log(new_weights / 2), axis=1)
     lo, hi = np.minimum(p0, p1), np.maximum(p0, p1)
     with np.errstate(divide="ignore", invalid="ignore"):
         sharp = ((n * np.log(hi / lo) > 1) | (k * (hi - lo) > 1)) & (hi > lo)
@@ -526,29 +691,32 @@ def audit_quadrature(shots, model, chunk_size=8192):
         levels = transitions[(transitions > left) & (transitions < right)]
         if peak is not None and left < peak < right:
             levels = np.r_[levels, peak]
-        scale = float(max(capacity(left, n, pd, k), capacity(right, n, pd, k),
-                          capacity(peak, n, pd, k) if peak is not None and left < peak < right else 0))
-        if scale == 0:
-            reference[i] = 0
-            continue
+        candidates = [left, right]
+        if peak is not None and left < peak < right:
+            candidates.append(peak)
+        logscale = float(np.max(log_capacity(candidates, n, pd, k)))
         points = sorted(set(((levels - left) / (right - left)).tolist()))
-        integral, error = quad(lambda u: float(capacity(left + u * (right - left), n, pd, k)) / scale,
-                               0, 1, points=points, epsabs=1e-11, epsrel=1e-11, limit=200)
-        if error > 1e-8:
+        integral, error = quad(lambda u: float(np.exp(log_capacity(
+            left + u * (right - left), n, pd, k) - logscale)),
+            0, 1, points=points, epsabs=1e-11, epsrel=1e-11, limit=200)
+        if error > 1e-8 or integral <= 0:
             raise RuntimeError("Independent quadrature reference unresolved")
-        reference[i] = scale * integral
-    new = np.bincount(seg_window, sw * reference)
+        reference[i] = logscale + np.log(integral)
+    new = combine(np.log(sw) + reference)
+    lr = np.zeros(len(windows), dtype=np.longdouble)
     if "Mc" in pars:
-        mass = np.array([w.mass_g for w in windows])
-        recovery = np.exp(-np.exp(np.minimum(-mass / pars["Mc"], 7)))
-        old *= recovery
-        new *= recovery
+        lr, _ = _recovery_log([w.mass_g for w in windows], pars["Mc"])
     si = np.repeat(np.arange(len(shots)), [len(s.windows) for s in shots])
     cal = np.array([w.role == "calibration" for w in windows])
-    maximum = np.zeros(len(shots))
-    np.maximum.at(maximum, si[cal], new[cal])
-    denominator = np.maximum(new, 1e-12 * maximum[si])
-    relative = np.divide(np.abs(new - old), denominator, out=np.zeros_like(new), where=denominator > 0)
+    normalized, _, _, ps, rs = _component_normalization(new, lr, cal, si, len(shots))
+    old_normalized = (old.astype(np.longdouble) - ps[si]) + (lr - rs[si])
+    maximum = np.full(len(shots), -np.inf, dtype=np.longdouble)
+    np.maximum.at(maximum, si[cal], normalized[cal])
+    denominator = np.maximum(normalized, np.log(1e-12) + maximum[si])
+    nonzero = np.isfinite(denominator)
+    relative = np.zeros(len(windows), dtype=np.longdouble)
+    relative[nonzero] = np.abs(np.exp(normalized[nonzero] - denominator[nonzero]) -
+                              np.exp(old_normalized[nonzero] - denominator[nonzero]))
     error = float(np.max(relative))
-    return dict(passed=bool(error <= 1e-5), maximum_relative_error=error,
+    return dict(passed=bool(np.isfinite(error) and error <= 1e-5), maximum_relative_error=error,
                 adaptive_intervals=int(sharp.sum()), windows=len(windows))

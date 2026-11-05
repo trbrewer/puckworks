@@ -85,3 +85,61 @@ operator on synthetic data across all eight models: maximum basis difference
 serialized construction and the minimum-dependency environment. Large-sort failure
 root cause remains unresolved; neither NumPy version nor concurrency is claimed
 as an established cause.
+
+## Pressure underflow repair before any held-out scoring
+
+A completed pre-score AR candidate at n=368.6669272062016, Pd=100 bar,
+kappa=2/bar made the physical-unit pressure basis round to zero. The resulting
+zero-amplitude fallback was incorrect and could spuriously reduce training loss.
+Stop the batch; preserve its source, completed pressure artifacts, interrupted
+starts, logs and process CPU privately (`failed_underflow_attempt`). Retire **all
+pressure-shape fits** from that implementation, including the four previously
+replayed initial-runtime M0R artifacts. Their earlier replay established runtime
+agreement, not correctness of this underflow case. The 18 T0/R0/L0R artifacts
+remain subject to replay under the repaired operator.
+
+Pressure means now use log capacities and stable weighted log sums. For ordinary
+ranges an equivalent globally scaled sparse operation is used only if every
+positive-pressure window total exceeds 1e-250; otherwise row log-sum-exp is used.
+The direct least-squares numerator, denominator and derivative use extended
+precision and compensated summation. This preserves tiny informative calibration
+windows and cancellation between retained noisy increments. Pressure and recovery
+logs are normalized separately, and signed-log multiplication avoids intermediate
+ratio overflow. The independent integration audit uses log-scaled quadrature and
+the full start-mass recovery basis. No physical n upper bound is introduced.
+Numerical trial states outside the platform's extended floating range fail
+explicitly, rather than becoming false zero fits. Raw physical amplitudes can
+exceed floating range while normalized predictions remain finite.
+
+The fresh read-only reviewer supplied ordinary-pressure tiny-numerator and noisy
+cancellation counterexamples and an extreme tiny-pulse sparse example; all are now
+regression tests. The focused suite has **34 passing tests**, including analytic
+gradients, exact nesting, saved prediction and the full-recovery audit failure.
+This is a necessary numerical repair within the original fit campaign. Corpus,
+folds, engineering settings, optimizer settings, start schedules and scoring rules
+remain frozen. Re-execute the original pressure starts; do not use failed-fit
+parameters as new starts. All failed/aborted computation remains in cost reporting.
+No held-out score or prediction existed during these corrections.
+
+Final baseline replay: all **18** retained scalar/linear shared models agree
+under the repaired operator; largest training-objective difference
+**2.27e-13 g/s**. All six exact-hash designs pass integrity checks.
+
+## Selected-shape integration gate failure, before scoring
+
+All 42 shared fits completed under the log-domain repair. Before any held-out
+prediction, the independent audit rejected fold 2 AR (model SHA-256
+`08c05c7acbe9b6ff6dee5c7627e03f2ea93ae1d5d60a1d0c787376a93e17760e`):
+maximum full-basis relative discrepancy **1.7348707106801535e-5**, above the frozen
+**1e-5** tolerance. The native-interval GL16 approximation therefore needs numerical
+refinement. The tolerance is not relaxed. Preserve this complete failed pressure
+fit version, source and audit logs privately as `failed_quadrature_attempt`.
+No held-out scoring occurred. The full offline suite at this version passed
+**8,099 tests**, with 33 skipped and 97 deselected; this does not override the
+actual-data integration failure. Registry gates and README checks also passed.
+
+All pressure fits from this integration version are retired. T0/R0/L0R remain
+subject to equivalence replay because pressure integration is absent or linear.
+The forthcoming correction preserves observations, window endpoints, calibration,
+guard, corpus membership, folds, model families, starts, bounds and loss. Original
+failed computations and the audit failure remain in the execution-cost record.

@@ -1,0 +1,12 @@
+{
+  "frozen_commit": "24593a21bd7faf9a8aac84526c96424e98a711cb",
+  "baseline_models_replayed": 18,
+  "maximum_baseline_objective_difference_g_s": 2.2737367544323206e-13,
+  "maximum_native_sparse_mean_pressure_difference_bar": 1.5987211554602254e-14,
+  "fresh_extraction_reproduced_corpus_and_window_hashes": true,
+  "log_domain_focused_tests": 34,
+  "independent_review_synthetic_tests": 33,
+  "independent_fast_vs_log_prediction_max_difference": 1.78e-15,
+  "independent_fast_vs_log_objective_gradient_max_difference": 1.03e-15,
+  "independent_finite_difference_gradient_max_difference": 1.38e-09
+}
