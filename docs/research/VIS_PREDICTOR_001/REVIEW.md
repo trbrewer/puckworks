@@ -66,3 +66,32 @@ examples, and confirmed that ownership corruption is rejected before indexing.
 No concrete mathematical or calibration defect was found. Root cause of the
 execution host's indexing failures remains unresolved. Actual audits and all
 selected-fit replays are required before the final claims review.
+
+## Final independent review — cleared
+
+The fresh final-review session carried forward its observation/window/calibration,
+fold isolation, baseline fairness, nesting and mathematical review, then checked
+the actual public models, numerical receipts, aggregate tables, figures and claims.
+It independently ran the final **41 focused tests: all passed**. No raw private
+records or identifiers were inspected, and it did not independently rescore shots.
+
+It verified all 48 model/audit hashes; all 42 selected optimizer-success statuses;
+the 12 nested training-objective comparisons; all 384 score rows' fold-user
+aggregation (maximum discrepancy 2.27e-13); all 24 paired contrasts against model
+mean differences (maximum discrepancy 7.78e-14); release minimum cells; and the
+55.8580940841 recorded core-hour accounting sum. Actual quadrature/replay outcomes
+were assessed through their qualified receipts. Code hashes and the unchanged
+scored-aggregate hashes in SCORING_RECEIPT.json match.
+
+Concrete final fixes: suppress actual contributor-user transitions separately
+from changing-shot support; skip empty panel bins; break figure lines over
+suppressed bins; show markers for isolated released predictions; label the
+negative-increment diagnostic as native increments. These publication corrections
+use the original cached predictions and do not alter any scored aggregate,
+model, corpus, fold or scoring setting. Failed display artifacts remain private.
+
+The reviewer found no remaining concrete defect. It confirmed that SUMMARY and
+RESULTS distinguish T0's primary win from the normalized ranking, acknowledge
+large heterogeneous errors, separate reconstruction/deployment from prediction,
+and retain the empirical claim ceiling and unresolved execution limitations.
+Required repository and hosted CI are separate checks, not part of this verdict.

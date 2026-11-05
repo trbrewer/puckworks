@@ -180,11 +180,9 @@ def test_release_rules_and_private_path(tmp_path):
 def test_committed_outputs_release_surface():
     out = Path(__file__).resolve().parents[1] / "docs/research/VIS_PREDICTOR_001"
     import csv
-    for filename in ("SCORES.csv", "CONTRASTS.csv", "BREAKDOWNS.csv", "AGGREGATED_EXAMPLE.csv",
-                     "FOLD_MANIFEST.csv", "FUNNEL.csv"):
-        if not (out / filename).exists():
-            continue  # pre-score test run; no scores are required for freezing the plan
-        for row in csv.DictReader((out / filename).open()):
+    # Include parameter, audit and model-index exports as well as score tables.
+    for path in out.glob("*.csv"):
+        for row in csv.DictReader(path.open()):
             assert not {"key", "user", "hashed_user", "id", "content_sha256"} & row.keys()
             if row.get("shots"):
                 assert int(row["shots"]) >= 20 and int(row["users"]) >= 10
@@ -194,6 +192,22 @@ def test_committed_outputs_release_surface():
         assert not {"user", "key", "hashed_user", "id"} & model.keys()
     if (out / "FROZEN_MANIFEST.json").exists():
         assert json.loads((out / "FROZEN_MANIFEST.json").read_text())["seed"] == 20261105
+
+
+def test_panel_suppresses_small_actual_user_departure(tmp_path, monkeypatch):
+    import csv
+    from puckworks.analysis import vis_predictor_001 as runner
+    early, later = example().windows[:2]
+    # Twenty departed shots span sixteen users, but only one user departs fully.
+    removed = set(range(5)) | {5 * u for u in range(1, 16)}
+    shots = [Shot(str(i), str(i // 5), [early] if i in removed else [early, later], {})
+             for i in range(150)]
+    assert release_ok(removed, shots)
+    prediction = {m: [np.ones(len(s.windows)) for s in shots] for m in runner.MODELS}
+    monkeypatch.setattr(runner, "OUT", tmp_path)
+    runner.aggregate_panel(shots, prediction)
+    rows = list(csv.DictReader((tmp_path / "AGGREGATED_EXAMPLE.csv").open()))
+    assert {int(r["start_s"]) for r in rows} == {0}
 
 
 def test_tiny_basis_matches_direct_solve():

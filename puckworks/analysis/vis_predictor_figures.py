@@ -44,24 +44,28 @@ def main():
 
         panel = rows("AGGREGATED_EXAMPLE.csv")
         fig, ax = plt.subplots(figsize=(9, 4.5))
+        starts = np.arange(0, 30, 2)
         for model in ("observed", *MODELS):
-            values = [r for r in panel if r["model"] == model]
-            ax.plot([float(r["start_s"]) + 1 for r in values],
-                    [float(r["mean_flow_g_s"]) for r in values],
+            values = {int(r["start_s"]): float(r["mean_flow_g_s"])
+                      for r in panel if r["model"] == model}
+            ax.plot(starts + 1, [values.get(start, np.nan) for start in starts],
                     label=model, lw=2 if model == "observed" else 1.2,
                     color="black" if model == "observed" else None,
-                    marker="o" if model == "observed" else None, markersize=3)
+                    marker="o", markersize=3 if model == "observed" else 2)
         ax.axvspan(0, 6, color="#92c5de", alpha=.3, label="calibration")
         ax.axvspan(6, 8, color="grey", alpha=.2, label="guard")
         ax.set(xlabel="Seconds from delivery onset (window midpoint)",
-               ylabel="Equal-user mean reported flow (g/s)",
+               ylabel="Mean reported weight-derived flow (g/s)",
                title="Aggregated example: early calibration and frozen-amplitude later predictions")
+        ax.set_yscale("symlog", linthresh=2)
         ax.legend(ncol=5, fontsize=8)
         ax.grid(alpha=.15)
-        fig.text(.5, .025, "Changing supported cohort by time; mean curves can conceal large individual errors.",
+        fig.text(.5, .055, "Equal-user means; changing supported cohort. Gaps are suppressed bins.",
+                 ha="center", fontsize=8)
+        fig.text(.5, .03, "Symmetric-log axis (linear from −2 to 2 g/s); means can conceal large individual errors.",
                  ha="center", fontsize=8)
         fig.text(.5, .005, CREDIT, ha="center", fontsize=8)
-        fig.tight_layout(rect=(0, .07, 1, 1))
+        fig.tight_layout(rect=(0, .1, 1, 1))
         fig.savefig(OUT / "AGGREGATED_EXAMPLE.svg", metadata={"Date": None})
         plt.close(fig)
 

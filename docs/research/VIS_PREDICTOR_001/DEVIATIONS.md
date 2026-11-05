@@ -2,7 +2,8 @@
 
 The plan/corpus/folds were committed at
 `24593a21bd7faf9a8aac84526c96424e98a711cb` before fitting and before any held-out
-scoring. PLAN.md and FROZEN_MANIFEST.json remain unchanged.
+scoring. The corpus/fold manifest and scientific settings remain frozen; the
+forced pre-score numerical amendment to PLAN.md is recorded below.
 
 ## Large-array sort failure, before scoring
 
@@ -187,3 +188,29 @@ batch boundaries gave identical results for both a failing legacy full-recovery
 case and a passing refined case. Injected ownership corruption is rejected before
 indexing. The complete focused suite has **40 passing tests**; Ruff passes.
 Completed failed-audit CPU is recorded; unreturned worker CPU is unmetered.
+
+All 24 repeated pressure audits passed, with maximum full-basis relative error
+5.01243798077945e-7. All 42 selected training objectives replayed, with maximum
+discrepancy 2.2737367544323206e-13 g/s. The qualified artifacts and receipts were
+committed before the first held-out scoring invocation. No held-out score failed
+or was discarded, and there is one cached prediction version.
+
+## Release display correction after scoring
+
+The final read-only reviewer found that the aggregate-panel plot connected the
+last published early bin to the next published later bin across suppressed bins.
+Rendering now inserts NaN gaps on the original fixed time grid and explicitly
+labels gaps as suppressed. A labeled symmetric-log vertical axis displays both
+retained extreme negative and ordinary flows. This is a display-only correction:
+the frozen prediction cache, statistics, cohorts, model fits and all settings
+are unchanged.
+
+The reviewer then identified a distinction in the frozen panel linkage rule:
+many changed shots can span enough continuing users while fewer than ten actual
+contributor users depart. The publisher now checks actual entered/departed user
+sets separately from changed-shot support. A synthetic 20-shot/16-user change
+with only one departing contributor reproduces the defect. The failed panel and
+publisher source are retained privately. Regenerate only the aggregate display
+from the same cached predictions, suppressing additional unsafe bins. No scores,
+contrasts, fits, corpus/folds or model/scoring settings change. A diagnostic label
+was also corrected to 'negative native increment', matching its existing definition.

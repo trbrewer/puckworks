@@ -1,0 +1,24 @@
+{
+  "task": "PW-VIS-PREDICTOR-001",
+  "evidence": "empirical held-out-user reported-signal benchmark",
+  "claim_ceiling": "No mechanism, causal law, universal peak or physical validation",
+  "registry": "research-only task-local VizSpec; no production entry",
+  "figures": [
+    {
+      "file": "PAIRED_DIFFERENCES.svg",
+      "source": "CONTRASTS.csv",
+      "semantics": "paired user means and complete-user bootstrap intervals"
+    },
+    {
+      "file": "AGGREGATED_EXAMPLE.svg",
+      "source": "AGGREGATED_EXAMPLE.csv",
+      "semantics": "released aggregates, changing supported cohorts, not a shot trace"
+    },
+    {
+      "file": "CAPACITY_CURVES.svg",
+      "source": "models/fold_*/*.json",
+      "semantics": "all four shared pressure-shape families, fold curves normalized at 6 bar, linear reference; may extrapolate"
+    }
+  ],
+  "credit": "Visualizer and contributing public-shot users \u00b7 reported signals \u00b7 no physical validation"
+}

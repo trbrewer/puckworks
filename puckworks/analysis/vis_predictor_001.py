@@ -447,14 +447,23 @@ def aggregate_panel(shots, predictions):
     all_ids = set(range(len(shots)))
     rows = []
     prior = all_ids
+    prior_users = {s.user for s in shots}
     for start in range(0, 30, 2):
         pairs = [(i, j) for i, s in enumerate(shots) for j, w in enumerate(s.windows)
                  if w.start_s == start]
         ids = {i for i, _ in pairs}
+        if not ids:
+            continue  # no estimate exists for an unsupported display bin
+        users = {shots[i].user for i in ids}
         # Protect support changes too: neighboring means/counts cannot isolate a rare tail.
         if not release_ok(ids, shots, all_ids) or (not release_ok(ids - prior, shots) or not release_ok(prior - ids, shots)):
             continue
+        # Changed shots can span many continuing users while only one user leaves.
+        # Protect actual contributor-user transitions independently as frozen.
+        if any(0 < len(change) < 10 for change in (users - prior_users, prior_users - users)):
+            continue
         prior = ids
+        prior_users = users
         for model in ("observed", *MODELS):
             values = [shots[i].windows[j].flow_g_s if model == "observed" else predictions[model][i][j]
                       for i, j in pairs]

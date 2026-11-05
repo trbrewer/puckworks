@@ -81,6 +81,25 @@ Wall clock and summed process CPU accounting are recorded in ACCOUNTING.json;
 benchmark fits, deployment fits and numerical audit costs are separate. Tests,
 interactive review, figure rendering and hosted CI are excluded/unmetered.
 
+Recorded CPU totals **55.858 core-hours**, including preserved failed versions.
+The 35 final CV shared fits account for **23.871 core-hours**; the seven final
+all-user deployment fits account for **5.301 core-hours**, separately from scoring.
+Retired completed fits account for 20.451 core-hours. Other recorded costs include
+interrupted workers, preparation, replay, numerical audits and prediction.
+The final refined fit batch took 0.852 wall-hours; retained baselines came from
+earlier execution. This is recorded process CPU, not a complete host-level total:
+unreturned failed-audit worker CPU, some driver/startup work and report bootstrap
+are also unmetered. ACCOUNTING.json gives the full allocation and exclusions.
+
+The original plan/corpus freeze is commit
+`24593a21bd7faf9a8aac84526c96424e98a711cb`; the forced numerical amendment is
+`1bc130f`. Qualified saved models and all audit receipts were committed in
+`40cd886` before the first held-out scoring invocation. Score computation used
+the runner/core hashes recorded in SCORING_RECEIPT.json; CODE_HASHES.json binds
+the final released code. Subsequent publication corrections additionally suppress
+unsafe contributor-user transitions, break lines across suppressed bins and label
+a symmetric-log axis. They change neither cached predictions nor scored aggregates.
+
 Data source: Visualizer; thanks to the contributing users who made their shots public.
 
 Prior-work readings: X1, COR15 and Form A/D0/JOINT_CLOCK are the unchanged files at
