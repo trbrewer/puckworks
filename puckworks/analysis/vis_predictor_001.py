@@ -79,6 +79,8 @@ def release_ok(indices, shots, universe=None):
 def prepare(root, inventory, private):
     """Authenticate/read allowed channels, extract and freeze; no model score is computed."""
     started = time.process_time()
+    frozen_path = OUT / "FROZEN_MANIFEST.json"
+    existing = json.loads(frozen_path.read_text()) if frozen_path.exists() else None
     snapshot, audit = authenticate(root, inventory)
     winners = latest_index_rows(snapshot._cfg)
     wanted = {"id": True, "updated_at": True, "content_sha256": True, "hashed_user": True,
@@ -146,14 +148,18 @@ def prepare(root, inventory, private):
               for k in ("canonical", "pressure_weight_common_time", "retained")]
     csv_write(OUT / "FUNNEL.csv", funnel)
     csv_write(OUT / "FOLD_MANIFEST.csv", fold_rows)
-    manifest = dict(base_sha=subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT,
-                    text=True).strip(), snapshot=audit, settings=asdict(Settings()),
+    base = existing["base_sha"] if existing else subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    manifest = dict(base_sha=base, snapshot=audit, settings=asdict(Settings()),
                     corpus_fold_sha256=sha(private / "corpus-folds.json"),
                     windows_sha256=sha(private / "windows.pkl"),
                     starts_sha256=sha(OUT / "STARTS.json"), folds=fold_rows,
                     shots=len(shots), users=len(folds),
                     windows=sum(len(s.windows) for s in shots), seed=SEED)
-    write_json(OUT / "FROZEN_MANIFEST.json", manifest)
+    if existing is not None and manifest != existing:
+        write_json(private / "mismatched-preparation.json", manifest)
+        raise RuntimeError("Preparation differs from frozen manifest; no scoring")
+    write_json(frozen_path, manifest)
     write_json(private / "preparation.json", dict(counts=dict(counts), audit=audit,
                core_hours=(time.process_time() - started) / 3600))
     print(json.dumps(dict(funnel=funnel, folds=fold_rows, windows=manifest["windows"])))

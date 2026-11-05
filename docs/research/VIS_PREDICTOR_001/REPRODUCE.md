@@ -13,34 +13,44 @@ Inventory identity: `f46181ee8c461fab055b73511148dd26888c7c5b3cb1bc908aad6ab9db2
 use X1's source-state definition; the earlier EWP programme's source/full-store
 hashes use its own scope and are not substitutes.
 
-Use Python >=3.10, `pip install -e '.[dev,figures,harvest]'`. Set `VIS_ROOT` to
+For byte-identical extraction use the initial Python 3.12 / NumPy 2.5.4 /
+SciPy 1.18.1 environment (`PREP_PY`). For continuation, scoring and figures use
+Python 3.12 / NumPy 2.0.2 / SciPy 1.13.1 (`FIT_PY`). Install this checkout editable
+and the dev/figures extras with those explicit dependency pins. ENVIRONMENT.json
+records both contexts and hashes of the 22 retained initial-runtime fits.
+Set `VIS_ROOT` to
 the retained snapshot, `VIS_INVENTORY` to the existing owner inventory manifest,
 and `VIS_PRIVATE` to a new owner-controlled directory outside the checkout.
 No command below calls the Visualizer API.
 
 ```bash
 export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
-python -m puckworks.analysis.vis_predictor_001 prepare \
+"$PREP_PY" -m puckworks.analysis.vis_predictor_001 prepare \
   --root "$VIS_ROOT" --inventory "$VIS_INVENTORY" --private "$VIS_PRIVATE"
-# Inspect public funnel/manifest, run tests and the pre-score review; commit PLAN,
-# FROZEN_MANIFEST, STARTS and FOLD_MANIFEST before fitting or scoring.
+# The released PLAN/manifest are already committed. Preparation must reproduce
+# their hashes exactly; a mismatch stops execution. The original authoring freeze
+# was committed before any fitting or scoring.
 for fold in 0 1 2 3 4; do
-  python -m puckworks.analysis.vis_predictor_001 fit \
+  "$FIT_PY" -m puckworks.analysis.vis_predictor_001 fit \
     --private "$VIS_PRIVATE" --fold "$fold" --workers 4
 done
-python -m puckworks.analysis.vis_predictor_001 audit --private "$VIS_PRIVATE"
-python -m puckworks.analysis.vis_predictor_001 score --private "$VIS_PRIVATE"
-python -m puckworks.analysis.vis_predictor_001 deploy --private "$VIS_PRIVATE" --workers 4
-python -m puckworks.analysis.vis_predictor_001 audit-deployment --private "$VIS_PRIVATE"
-python -m puckworks.analysis.vis_predictor_figures
+"$FIT_PY" -m puckworks.analysis.vis_predictor_001 audit --private "$VIS_PRIVATE"
+"$FIT_PY" -m puckworks.analysis.vis_predictor_001 score --private "$VIS_PRIVATE"
+"$FIT_PY" -m puckworks.analysis.vis_predictor_001 deploy --private "$VIS_PRIVATE" --workers 4
+"$FIT_PY" -m puckworks.analysis.vis_predictor_001 audit-deployment --private "$VIS_PRIVATE"
+"$FIT_PY" -m puckworks.analysis.vis_predictor_figures
 python -m pytest -q tests/test_vis_predictor_001.py
 python -m pytest -q -m 'not slow and not live and not gpu and not external_data'
 ruff check puckworks/ tests/
 ```
 
-The five fold commands may run in separate processes; each start uses one BLAS
-thread. Fits never share fitted starts between outer folds. Save each log outside
-Git. Fit resume loads existing hashed model files. The `score` phase refuses to
+The five fold commands may run in separate processes; a private lock serializes
+verified Design construction, and each start uses one BLAS thread. Fits never share fitted starts between outer folds. Save each log outside
+Git. Fit resume loads existing hashed model files. The released models therefore
+reproduce the reported benchmark without refitting. To refit from scratch, use a
+throwaway checkout and move its model directory outside the checkout before the
+fit commands; fresh optimization may differ at floating precision across library
+versions. The released hashes remain the exact reported-model authority. The `score` phase refuses to
 overwrite cached predictions. `report` regenerates all aggregate tables from the
 cache without refitting or rescoring models. Deployment artifacts never enter any
 score/contrast. Independent audit checks their integration separately.
@@ -66,7 +76,7 @@ unobserved-future shot simulator.
 
 Every saved model has a detached SHA-256; code, plan and corpus hashes are embedded
 in its metadata. FROZEN_MANIFEST.json binds the private membership and windows.
-Wall clock and summed process CPU accounting will be recorded in ACCOUNTING.json;
+Wall clock and summed process CPU accounting are recorded in ACCOUNTING.json;
 benchmark fits, deployment fits and numerical audit costs are separate. Tests,
 interactive review, figure rendering and hosted CI are excluded/unmetered.
 
@@ -82,3 +92,9 @@ EWP commit `73591dd27cd5707749713b1eb28042d356463786`, file SHA-256
 `faa8715951ad7987baa5f54503a2c8bc733f356e`. Neither PR's qualification result is
 recast as an empirical-admission failure. The benchmark runner uses POSIX fork
 workers; the reusable extraction, model and prediction API needs only core NumPy/SciPy.
+
+A fresh private extraction at the continuation code reproduced both frozen
+corpus/fold and window-cache hashes byte-for-byte. `prepare` preserves the original
+base identity when verifying an existing frozen manifest, and rejects a mismatch.
+Failed runtime attempts, unchanged-score replays and the eventual exact-hash
+lookup repair are recorded in DEVIATIONS.md. No numerical threshold was retuned.
