@@ -1,6 +1,6 @@
 {
   "puckworks/empirical/visualizer.py": "8292101450254a0a0c95af7171fccbd6922fb30c6ccd4aef6ad761043ed65db8",
-  "puckworks/analysis/vis_predictor_001.py": "1ba29732cd04526bf731fa5beefb1d4cc8be87db1c2a111254393415fc9bb384",
+  "puckworks/analysis/vis_predictor_001.py": "ee59e8f593d2d9ddb0a416463dad442ef8534ab7bb0c9e8920c6d5557e806fdc",
   "puckworks/analysis/vis_predictor_figures.py": "0d86b47612acf03d9ea896ff3446abbcfe457a7e6537cb92e0008daf9fd7ecbe",
   "tests/test_vis_predictor_001.py": "6a4a78fc59c4cd25a8bd14751518df12a5d29b5c64671a93c71264237bd1565e"
 }

@@ -40,3 +40,12 @@ The original full offline suite passed **8,089 tests**, with 33 skipped and 97
 excluded by the repository's ordinary quick selector. Final required hosted CI
 will test the completed head. EWP, snapshot bytes and historical results are
 unchanged. Individual data, interrupted starts and process details remain private.
+
+Two concurrent stable-sort design builds subsequently failed the new exact-inverse
+assertion (folds 2 and 3), before any fitting in those invocations. The serial
+six-design checks remained successful. Serialize Design construction using a
+private POSIX file lock; retain parallel independent optimizer starts. Both retry
+builds then passed. The observed failure depends on the concurrent execution
+context; its lower-level cause is not established. All admitted designs enforce
+exact inverse reconstruction. No guard was weakened and no corpus, fold, model,
+start, bound, metric or audit threshold changed. Failed-startup logs are retained.

@@ -195,7 +195,12 @@ def fit_models(private, fold, workers):
     training = [s for s in all_shots if fold == "all" or s.fold != int(fold)]
     if fold != "all":
         assert not ({s.user for s in training} & {s.user for s in all_shots if s.fold == int(fold)})
-    _FIT_DESIGN = Design(training)
+    # Large-array sort integrity failed under concurrent design construction on the
+    # execution host. Serialize this preprocessing only; optimizer starts stay parallel.
+    import fcntl
+    with (private / ".design.lock").open("a") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        _FIT_DESIGN = Design(training)
     historical = json.loads((OUT / "STARTS.json").read_text())
     modeldir = OUT / "models" / ("deployment" if fold == "all" else "fold_" + str(fold))
     modeldir.mkdir(parents=True, exist_ok=True)
