@@ -1,0 +1,21 @@
+{
+  "task": "PW-LC-JOINT-TRANSFER-001",
+  "started_utc": "2026-11-05T00:25:21.883055+00:00",
+  "base": "4c5ebab5df79929813949df7113c21290dde40cc",
+  "prefit_spec_commit": "34b180a6326dba74e36fa1b178ecc7899868e5fe",
+  "implementation_commit": "7d8ae699aed49d263ab53f8302eec65f1094db5f",
+  "fit_problems": 48,
+  "scheduled_starts": 912,
+  "workers": 96,
+  "blas_threads_per_worker": 1,
+  "fit_identity": {
+    "docs/research/LC_JOINT_TRANSFER_001/PLAN.md": "9edc4427649a2d37fa549d839e13ae11aff1cadca89fd45b39a6034e0e3a391c",
+    "puckworks/analysis/lc_joint_transfer_001_run.py": "aaba8c195877c1e65135651e81ab786ec5a75ac3cc7b02f446b72a74e909555e",
+    "puckworks/analysis/lc_joint_transfer_001.py": "a78a6c5bedc8b4782e6b2aeefb0bd097b15a5c695b9fe380bdde5c52a1de35d2",
+    "puckworks/analysis/joint_clock_001.py": "6043f93a4291bc032e42506c880cf36ab286b59e03d4e55d7ed86869ca1a53c3",
+    "puckworks/analysis/joint_clock_001_run.py": "dcb67b90b1db75f87974b6a668f307d844f158c3b1b028e81ff2819262bb099f",
+    "puckworks/analysis/wetting_screen_001.py": "8a280469638f7a850d341df93fc793e1933b32085d9543797c784f885a087193",
+    "puckworks/analysis/pressure_peak_stage_c3e.py": "3b16e19cd53a53d08aeb068574a8f2237d709bd6020f51b3184d07804133ad56"
+  },
+  "scope": "Authorized fixed schedule; no wall-clock or optimizer iteration/evaluation cap"
+}
