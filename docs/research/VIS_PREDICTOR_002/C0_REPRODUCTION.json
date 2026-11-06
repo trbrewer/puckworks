@@ -1,0 +1,16 @@
+{
+  "absolute_tolerance": 1e-09,
+  "core_hours": 0.006748885379444446,
+  "maximum_parent_prediction_difference": 0.0,
+  "nrmse": 1.6547408859936399,
+  "passed": true,
+  "plan_sha256": "71b91365542bae7b102952d7e7b221fcfce5643f7c2a575d20f33ab5713046aa",
+  "reference": {
+    "nrmse": 1.654740886,
+    "rmse_g_s": 1.2084042519
+  },
+  "rmse_g_s": 1.2084042519074556,
+  "shots": 10231,
+  "users": 315,
+  "windows_sha256": "af474e0d964267e24f9d6c8c12e30edf4885662928786bce17a1639fde7c1b1a"
+}
