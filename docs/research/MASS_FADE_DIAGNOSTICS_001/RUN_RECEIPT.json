@@ -1,0 +1,48 @@
+{
+  "task": "PW-MASS-FADE-DIAGNOSTICS-001",
+  "base_sha": "4c5ebab5df79929813949df7113c21290dde40cc",
+  "plan_commit": "8ffc63f0fdc54eab1daceccefed9be145d062667",
+  "objective_evaluations": 456,
+  "grid_evaluations": 432,
+  "selected_checks": 24,
+  "optimizer_calls": 0,
+  "workers": 24,
+  "scientific_core_hours": 0.054541666666666655,
+  "commands": [
+    {
+      "command": "diagnostic-1-time.txt",
+      "cpu_seconds": 182.95999999999998,
+      "exit_status": 0,
+      "timer_sha256": "17ba666fd34a05e73251a4c4b652a5f1c6afa503d95c255e98a4b195512d5358"
+    },
+    {
+      "command": "report-1-time.txt",
+      "cpu_seconds": 13.39,
+      "exit_status": 0,
+      "timer_sha256": "430123db9f5ca47f0a0721738108d6b18d72cda1cd850db4ec86deee4e756999"
+    }
+  ],
+  "failed_scientific_commands": 0,
+  "accounting": "GNU time user+system process-tree CPU, including report-only pass; no double counting evaluation timers; excludes source inspection, setup, QA/review and hosted CI",
+  "python": "Python 3.12.3",
+  "packages": {
+    "numpy": "2.2.6",
+    "scipy": "1.18.1",
+    "numba": "0.68.1",
+    "matplotlib": "3.11.2"
+  },
+  "final_code_sha256": "0e6ff08e6f58f4999c5b32a423c6e6a83c2d5da69d38d149deb52a1e30de5632",
+  "objective_source_sha256": "a92d9fe0987d9bed2e522750d78968909e3be581bb1efa8ded46c7b31abf4f75",
+  "objective_evaluations_sha256": "0207ab431103e72bcc53060de7c7641ef573f1cd6b69902b7e33bdba6033efc3",
+  "artifact_sha256": {
+    "CORRELATIONS.csv": "becb3074c54b551bb15f55b66dbfe02ecc241ae63d87012d473a82c7ca47c0ee",
+    "GAMMA_SLICES.csv": "595d7cd10fb2523127c2efe9b955a76142aa6909ec429c731071d879f241c5f7",
+    "GAMMA_SLICES.svg": "e1aad8d0bff8e07c8f9b97f5d2e9d78be65cedf0666f00411ff84acea306531d",
+    "LATE_CHANGE_ORDERING.csv": "10c2fe69f7da6ec54784b6b99dff7b517a39a6ac011e802ace631feb6c485181",
+    "LATE_CHANGE_ORDERING.svg": "bda4fdb31d8b20692511984b246bd285d298840aa9146ffcdcc03abfc6c4cfb3",
+    "SLICE_SUMMARY.csv": "9f0925143d9301a71f79d49286ce72a9626de93cf5368c34c83a777813e7f390",
+    "START_VS_FINAL.csv": "2907722f2b915b5b73900299c75379d9a049c7a299695aa58c2a0c538e4647a8"
+  },
+  "input_manifest_sha256": "8035b1ce0bb10ae5507cc8e36dd91e4a606d805ecddb67f90d4c2153014ae41c",
+  "verification_sha256": "fb59f0c88a61e95ee354a5709bd1d3522b927bfdfa410a31521d65164bf6734b"
+}

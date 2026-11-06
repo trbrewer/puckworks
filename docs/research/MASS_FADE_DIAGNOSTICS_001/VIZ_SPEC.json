@@ -1,0 +1,9 @@
+{
+  "producer": "puckworks/analysis/mass_fade_diagnostics_001.py:figures",
+  "outputs": ["GAMMA_SLICES.svg", "LATE_CHANGE_ORDERING.svg"],
+  "dataset": "waszkiewicz2025/traces_per_brew; Zenodo 18046315, CC-BY-4.0",
+  "scope": "Frozen #427 coordinates and #423 observations; retrospective descriptive diagnostic",
+  "objective_figure": "12 folds; orange fade coordinates, blue refreshed-control coordinates; all declared gamma*Mc nodes, stars at saved selected values; symlog x with explicit transition at .0025 and linear inset over 0–.06; no likelihood interpretation",
+  "ordering_figure": "Observed late change versus recorded baseline-relative mass at +60 s and mean matched-window line pressure; faint brew points, condition means with nominal-bar labels and paired nearest-rank 95% intervals",
+  "ceiling": "Fixed-parameter slices, not profile likelihoods; eleven fixed conditions, no regression or mechanism; elapsed time fixed across conditions; PHYSICAL_VALIDATION=NOT_ESTABLISHED"
+}

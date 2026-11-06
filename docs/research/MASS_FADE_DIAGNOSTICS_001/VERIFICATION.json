@@ -1,0 +1,19 @@
+{
+  "grid_evaluations": 432,
+  "selected_evaluations": 24,
+  "exact_selected_reproduction": 24,
+  "exact_zero_reproduction": 24,
+  "observed_brews": 56,
+  "observed_conditions": 11,
+  "paired_windows_reproduced": 112,
+  "mass_support_and_baseline_checks": 56,
+  "source_late_intervals_reproduced": 11,
+  "draw_bank_sha256": "d599d80c854fd5a3cf9b9ca5d6fe1c617b222125bd1adcb36ad9edecd96801b6",
+  "input_manifest_sha256": "8035b1ce0bb10ae5507cc8e36dd91e4a606d805ecddb67f90d4c2153014ae41c",
+  "code_sha256": "0e6ff08e6f58f4999c5b32a423c6e6a83c2d5da69d38d149deb52a1e30de5632",
+  "objective_code_sha256": "a92d9fe0987d9bed2e522750d78968909e3be581bb1efa8ded46c7b31abf4f75",
+  "external_artifact_sha256": {
+    "OBSERVED_BOOTSTRAPS.npz": "3680a645cd5322635335cf1ebbf92a4899401e578aa72befac837e147d3394f4"
+  },
+  "objective_evaluations_sha256": "0207ab431103e72bcc53060de7c7641ef573f1cd6b69902b7e33bdba6033efc3"
+}
