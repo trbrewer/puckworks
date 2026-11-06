@@ -1,0 +1,134 @@
+[
+  {
+    "fold": "DESCRIPTIVE_ALL",
+    "Mc_g": 28.709461834955388,
+    "saved_key": "J1_lambda-1_DESCRIPTIVE_ALL",
+    "saved_sha256": "90afc1409ca608fa75a96fa7e7042f1aed38edbab570b3dca790c28d6e107476",
+    "saved_objective": 0.8530164950192989,
+    "lc_key": "LC-J1_lambda-1_DESCRIPTIVE_ALL",
+    "lc_sha256": "6eeaac4d83db15554dc591ae898363d049c773946c6906aa9e398bb9e367bbbb",
+    "lc_frozen_zero_objective": 0.8530164950192989,
+    "zero_seed_included": false
+  },
+  {
+    "fold": "HYD-LOCO-1.0",
+    "Mc_g": 27.768458181900897,
+    "saved_key": "J1_lambda-1_HYD-LOCO-1.0",
+    "saved_sha256": "4688415d310ae89a555c7e73445b559fb2060f3f65e72d04bbf80bb9695e22fb",
+    "saved_objective": 0.8311143965067034,
+    "lc_key": "LC-J1_lambda-1_HYD-LOCO-1.0",
+    "lc_sha256": "c7f847da00640c7a14a86ef48412dd498e0ac2ad84dd9b9d9f4dce8cc94602ec",
+    "lc_frozen_zero_objective": 22.692451631099395,
+    "zero_seed_included": false
+  },
+  {
+    "fold": "HYD-LOCO-11.0",
+    "Mc_g": 28.067983028081304,
+    "saved_key": "J1_lambda-1_HYD-LOCO-11.0",
+    "saved_sha256": "b26c639a86aadea1ec4043b17ed40135cc34b0f56836f4b019384a61f30bc37d",
+    "saved_objective": 0.8711248886375383,
+    "lc_key": "LC-J1_lambda-1_HYD-LOCO-11.0",
+    "lc_sha256": "e04b95b1a3bb16fb6776b27222525b1390ad30b07b3439f833ae7492a8db1144",
+    "lc_frozen_zero_objective": 0.8674822636650523,
+    "zero_seed_included": true
+  },
+  {
+    "fold": "HYD-LOCO-13.0",
+    "Mc_g": 28.088694413986417,
+    "saved_key": "J1_lambda-1_HYD-LOCO-13.0",
+    "saved_sha256": "543aeea52c1814d277014244ec619e3a04abd4fefb741ee6521e81fc665b3b64",
+    "saved_objective": 0.8123351019173342,
+    "lc_key": "LC-J1_lambda-1_HYD-LOCO-13.0",
+    "lc_sha256": "b0dc6e37e49ec1f7957699370bb117436109193cfa4080cd8a3eaeab389d7972",
+    "lc_frozen_zero_objective": 0.8123351019173342,
+    "zero_seed_included": false
+  },
+  {
+    "fold": "HYD-LOCO-2.0",
+    "Mc_g": 27.13799939129517,
+    "saved_key": "J1_lambda-1_HYD-LOCO-2.0",
+    "saved_sha256": "74b66834ef4e3fd4d47e86dca2f6b3e485e0d24722775396d7f72f85eb72fc34",
+    "saved_objective": 0.8880680414808074,
+    "lc_key": "LC-J1_lambda-1_HYD-LOCO-2.0",
+    "lc_sha256": "332dcb78d13a5e2699dd1a2fecde83697fd61545baf5a063634e64c4476502be",
+    "lc_frozen_zero_objective": 26.315386492149244,
+    "zero_seed_included": false
+  },
+  {
+    "fold": "HYD-LOCO-3.5",
+    "Mc_g": 30.362786572117216,
+    "saved_key": "J1_lambda-1_HYD-LOCO-3.5",
+    "saved_sha256": "a4c50a11ace0a5008c663bb9522c94ce9139b2b9d7d0d8e0003a00b0ccac8919",
+    "saved_objective": 0.7928084944530179,
+    "lc_key": "LC-J1_lambda-1_HYD-LOCO-3.5",
+    "lc_sha256": "fd822228c35b375b83af20f81926a8fda7cfe5ac278faa59742460f04a957a0c",
+    "lc_frozen_zero_objective": 0.9244632117508078,
+    "zero_seed_included": false
+  },
+  {
+    "fold": "HYD-LOCO-4.0",
+    "Mc_g": 29.54119551569485,
+    "saved_key": "J1_lambda-1_HYD-LOCO-4.0",
+    "saved_sha256": "ca3fb03a05bb830f87f8549e4e1600b8de8293aaa77ddb5c6e984bfdfdf77b94",
+    "saved_objective": 0.8627536875296719,
+    "lc_key": "LC-J1_lambda-1_HYD-LOCO-4.0",
+    "lc_sha256": "cb07808cf0f46d1a6b0f2cf29f4ea32bbf9cce6fbac5466856a2be469e6799b6",
+    "lc_frozen_zero_objective": 0.8627536875296719,
+    "zero_seed_included": false
+  },
+  {
+    "fold": "HYD-LOCO-5.0",
+    "Mc_g": 28.897907271879575,
+    "saved_key": "J1_lambda-1_HYD-LOCO-5.0",
+    "saved_sha256": "ab0e3edc8715725de3f1643c746e65936147867e74b360460695ff5f2654a5fb",
+    "saved_objective": 0.8767569835770341,
+    "lc_key": "LC-J1_lambda-1_HYD-LOCO-5.0",
+    "lc_sha256": "61a3bfc321e82b015b44fa61a241e7b37a6a86149356b9c1fed8fbdc2d1f2f69",
+    "lc_frozen_zero_objective": 0.8767569835770341,
+    "zero_seed_included": false
+  },
+  {
+    "fold": "HYD-LOCO-6.0",
+    "Mc_g": 29.14297645970728,
+    "saved_key": "J1_lambda-1_HYD-LOCO-6.0",
+    "saved_sha256": "991e3d6792afb1181036e7fcf616fdef4f2b23e89eef665e02fbaa1cb3c95500",
+    "saved_objective": 0.8557465007960314,
+    "lc_key": "LC-J1_lambda-1_HYD-LOCO-6.0",
+    "lc_sha256": "f7aa5a4797401b988a23064e33ac1112347440222bf30009d132c400729967cb",
+    "lc_frozen_zero_objective": 60.89360150890201,
+    "zero_seed_included": false
+  },
+  {
+    "fold": "HYD-LOCO-7.0",
+    "Mc_g": 28.796822720157447,
+    "saved_key": "J1_lambda-1_HYD-LOCO-7.0",
+    "saved_sha256": "21311b38907ac95fc43fe2fa8b5627a51b212a8543b8bbbfb8d30dad03a592c0",
+    "saved_objective": 0.8794468596782186,
+    "lc_key": "LC-J1_lambda-1_HYD-LOCO-7.0",
+    "lc_sha256": "f6e29530111883387560382086eadb95670ba1a3812438257127804084fd5e85",
+    "lc_frozen_zero_objective": 1.0086669490805766,
+    "zero_seed_included": false
+  },
+  {
+    "fold": "HYD-LOCO-8.0",
+    "Mc_g": 29.08504410088555,
+    "saved_key": "J1_lambda-1_HYD-LOCO-8.0",
+    "saved_sha256": "87ff9e46c9ded655eb6bf83bbc7b307e90f476653fb14117c719357df670cfb5",
+    "saved_objective": 0.8371892922271836,
+    "lc_key": "LC-J1_lambda-1_HYD-LOCO-8.0",
+    "lc_sha256": "3677edb55028f22fd299bd111254aeb28c0edad40de472f2a0dec80d0e5a87b9",
+    "lc_frozen_zero_objective": 0.8371892922271836,
+    "zero_seed_included": false
+  },
+  {
+    "fold": "HYD-LOCO-9.0",
+    "Mc_g": 28.529076648011202,
+    "saved_key": "J1_lambda-1_HYD-LOCO-9.0",
+    "saved_sha256": "6bad6a07b413a317d36e15b45e58d957e35d637a95f1157fccb3ec859a81b70a",
+    "saved_objective": 0.8410566739269527,
+    "lc_key": "LC-J1_lambda-1_HYD-LOCO-9.0",
+    "lc_sha256": "b810dfa539ea62451fe1d973249448bd6e056d8644bb06a9d4f9d4dd64c423e5",
+    "lc_frozen_zero_objective": 0.8410154082767307,
+    "zero_seed_included": true
+  }
+]
