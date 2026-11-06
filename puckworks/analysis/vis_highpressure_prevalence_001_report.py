@@ -65,7 +65,7 @@ class Disclosure:
 
 
 def label_safe(label):
-    """Fail closed; human approval is additionally required for real titles."""
+    """Fail closed; text review is additionally required for real titles."""
     return (isinstance(label, str) and 0 < len(label) <= 100
             and not re.search(r"[\r\n\t@]|https?://|www\.|[0-9a-f]{8}-[0-9a-f-]{27,}",
                               label, re.I)
