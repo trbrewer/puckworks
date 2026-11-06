@@ -1,0 +1,128 @@
+{
+  "fit_problems": 24,
+  "scheduled_starts": 456,
+  "cases": 336,
+  "steps": [
+    0.02,
+    0.005
+  ],
+  "windows_per_step": 3360,
+  "draw_bank_sha256": "d599d80c854fd5a3cf9b9ca5d6fe1c617b222125bd1adcb36ad9edecd96801b6",
+  "j1_metric_draw_bank_sha256": "a8a1a3b985035fe3272b6b486d3b7432148c4413b0539e7904539190fe709129",
+  "j1_inherited_draw_file_sha256": "de38c9474504509db55cdae5786199da6d4b8c4322656c26d58db0614b442a84",
+  "j1_draw_content_identical": true,
+  "saved_J1_continuity": "all #424 compact levels reproduced at rtol=atol=1e-12",
+  "saved_J1_component_continuity": "all #425 phase components and available intervals reproduced at rtol=atol=1e-12",
+  "reference": {
+    "identity": {
+      "docs/research/JOINT_MASS_FADE_001/PLAN.md": "21c43e38ec0f74e20af7e66ed0e77d826e5c376a22621407e2b224e08a30f583",
+      "docs/research/JOINT_MASS_FADE_001/START_BANK.csv": "6dd4f9b9494d1182e2be9cb528b04e8571d628a97ecfc57c05b9924f2a068a5f",
+      "docs/research/JOINT_MASS_FADE_001/SOURCE_FITS.json": "321a4b145b951e9e4b4fc65a533e76e711a34108a521bf134a2b27fe5a79f178",
+      "puckworks/analysis/joint_mass_fade_001_run.py": "2e83364da2e268ae30c288a1042b96995a343f4a3ea7d87655696bc6effdaeeb",
+      "puckworks/analysis/joint_mass_fade_001.py": "b2db0fd994528cecce2d8d269c849ff6393c5b0072ef118059aa642239a86acf",
+      "puckworks/analysis/joint_clock_001.py": "f209ee315c37c114c160e62a9c3387dbd9f27c21bc4192fee886f9de3659c6c2",
+      "puckworks/analysis/wetting_screen_001.py": "09b07298b18718612f037461ad7e958ab7724f93a7b77b5f436dc21c35ba08e1",
+      "puckworks/analysis/joint_clock_001_run.py": "dcb67b90b1db75f87974b6a668f307d844f158c3b1b028e81ff2819262bb099f"
+    },
+    "records": [
+      {
+        "fold": "DESCRIPTIVE_ALL",
+        "objective": 0.8530164950192989,
+        "lc_frozen_zero_objective": 0.8530164950192989,
+        "cases": 23,
+        "cpu_seconds": 3.526338566
+      },
+      {
+        "fold": "HYD-LOCO-1.0",
+        "objective": 0.8311143965067034,
+        "lc_frozen_zero_objective": 22.692451631099395,
+        "cases": 5,
+        "cpu_seconds": 1.687632272
+      },
+      {
+        "fold": "HYD-LOCO-11.0",
+        "objective": 0.8711248886375383,
+        "lc_frozen_zero_objective": 0.8674822636650523,
+        "cases": 4,
+        "cpu_seconds": 1.484259861
+      },
+      {
+        "fold": "HYD-LOCO-13.0",
+        "objective": 0.8123351019173342,
+        "lc_frozen_zero_objective": 0.8123351019173342,
+        "cases": 6,
+        "cpu_seconds": 1.7335202070000002
+      },
+      {
+        "fold": "HYD-LOCO-2.0",
+        "objective": 0.8880680414808074,
+        "lc_frozen_zero_objective": 26.315386492149244,
+        "cases": 4,
+        "cpu_seconds": 1.611079985
+      },
+      {
+        "fold": "HYD-LOCO-3.5",
+        "objective": 0.7928084944530179,
+        "lc_frozen_zero_objective": 0.9244632117508078,
+        "cases": 3,
+        "cpu_seconds": 1.395336251
+      },
+      {
+        "fold": "HYD-LOCO-4.0",
+        "objective": 0.8627536875296719,
+        "lc_frozen_zero_objective": 0.8627536875296719,
+        "cases": 10,
+        "cpu_seconds": 2.242876163
+      },
+      {
+        "fold": "HYD-LOCO-5.0",
+        "objective": 0.8767569835770341,
+        "lc_frozen_zero_objective": 0.8767569835770341,
+        "cases": 5,
+        "cpu_seconds": 1.6149228759999998
+      },
+      {
+        "fold": "HYD-LOCO-6.0",
+        "objective": 0.8557465007960314,
+        "lc_frozen_zero_objective": 60.89360150890201,
+        "cases": 6,
+        "cpu_seconds": 1.9660932480000002
+      },
+      {
+        "fold": "HYD-LOCO-7.0",
+        "objective": 0.8794468596782186,
+        "lc_frozen_zero_objective": 1.0086669490805766,
+        "cases": 4,
+        "cpu_seconds": 1.50891745
+      },
+      {
+        "fold": "HYD-LOCO-8.0",
+        "objective": 0.8371892922271836,
+        "lc_frozen_zero_objective": 0.8371892922271836,
+        "cases": 4,
+        "cpu_seconds": 1.4798745199999999
+      },
+      {
+        "fold": "HYD-LOCO-9.0",
+        "objective": 0.8410566739269527,
+        "lc_frozen_zero_objective": 0.8410154082767307,
+        "cases": 5,
+        "cpu_seconds": 1.6290726709999999
+      }
+    ],
+    "cpu_seconds": 21.87992407
+  },
+  "identity": {
+    "docs/research/JOINT_MASS_FADE_001/PLAN.md": "21c43e38ec0f74e20af7e66ed0e77d826e5c376a22621407e2b224e08a30f583",
+    "docs/research/JOINT_MASS_FADE_001/START_BANK.csv": "6dd4f9b9494d1182e2be9cb528b04e8571d628a97ecfc57c05b9924f2a068a5f",
+    "docs/research/JOINT_MASS_FADE_001/SOURCE_FITS.json": "321a4b145b951e9e4b4fc65a533e76e711a34108a521bf134a2b27fe5a79f178",
+    "puckworks/analysis/joint_mass_fade_001_run.py": "2e83364da2e268ae30c288a1042b96995a343f4a3ea7d87655696bc6effdaeeb",
+    "puckworks/analysis/joint_mass_fade_001.py": "b2db0fd994528cecce2d8d269c849ff6393c5b0072ef118059aa642239a86acf",
+    "puckworks/analysis/joint_clock_001.py": "f209ee315c37c114c160e62a9c3387dbd9f27c21bc4192fee886f9de3659c6c2",
+    "puckworks/analysis/wetting_screen_001.py": "09b07298b18718612f037461ad7e958ab7724f93a7b77b5f436dc21c35ba08e1",
+    "puckworks/analysis/joint_clock_001_run.py": "dcb67b90b1db75f87974b6a668f307d844f158c3b1b028e81ff2819262bb099f"
+  },
+  "evaluator_sha256": "f74e206d53cccad6dc625de7c05907350ae6e05bd2983aebd3c7845fed513df3",
+  "reporter_sha256": "0d43b8f17e9428b7bff061e7a871e4d7c6cf4d43d8705818bacc6773a8db43a5",
+  "all_detection_step_agrees": true
+}

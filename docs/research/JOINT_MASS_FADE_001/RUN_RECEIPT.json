@@ -1,0 +1,93 @@
+{
+  "base_sha": "4c5ebab5df79929813949df7113c21290dde40cc",
+  "plan_commit": "5e5e8c6",
+  "fit_problems": 24,
+  "starts": 456,
+  "command_accounting": [
+    {
+      "stage": "control-time.txt",
+      "process_tree_cpu_seconds": 96299.92,
+      "core_hours": 26.749977777777776,
+      "exit_status": 0,
+      "timer_sha256": "ea22e5a79ebacb3587486d329fff12ab31e7eaa324a9b9986e29965462adb111"
+    },
+    {
+      "stage": "evaluate-time.txt",
+      "process_tree_cpu_seconds": 159.34,
+      "core_hours": 0.04426111111111111,
+      "exit_status": 0,
+      "timer_sha256": "90c088bc41c593b9ade0acf3ed7bd59ae105e9aa98fbd5cb8c02b03c62376cc1"
+    },
+    {
+      "stage": "fade-time.txt",
+      "process_tree_cpu_seconds": 120229.61,
+      "core_hours": 33.39711388888889,
+      "exit_status": 0,
+      "timer_sha256": "58f722c56b7b6b56df531cafd9dddf9a09d8eef6cd2335d98160b220e5a1dbae"
+    },
+    {
+      "stage": "reference-initial-time.txt",
+      "process_tree_cpu_seconds": 33.980000000000004,
+      "core_hours": 0.00943888888888889,
+      "exit_status": 0,
+      "timer_sha256": "b702a5d26dce324c267417ab7724d8135a2b9d0f8cf66e47f7925dadbf31e00f"
+    },
+    {
+      "stage": "reference-time.txt",
+      "process_tree_cpu_seconds": 34.019999999999996,
+      "core_hours": 0.009449999999999998,
+      "exit_status": 0,
+      "timer_sha256": "50f943c3a197b20a525d94f2d9f674526bae46807cd180af6bd8d83ea28b8c1a"
+    },
+    {
+      "stage": "report-time.txt",
+      "process_tree_cpu_seconds": 14.97,
+      "core_hours": 0.004158333333333333,
+      "exit_status": 0,
+      "timer_sha256": "7f7e19c13641a2dc718b8db55c14d9d86a7edd582e2daaae968836a9aee9df58"
+    }
+  ],
+  "scientific_core_hours": 60.2144,
+  "failed_scientific_commands": 0,
+  "accounting_scope": "user+system CPU from external GNU time, including descendants, both reference executions and all failed/retried scientific commands; no double counting per-start timers",
+  "excluded": "initial inspection, source/start-bank preparation, setup import failure before scientific predictions, QA tests, independent review and hosted CI",
+  "external_freeze_sha256": {
+    "control-FREEZE.json": "a6b3ca1b1a104501c676cf009fc16ffbd714b62c5c2f9f90eab0d8d5e3f85d1d",
+    "fade-FREEZE.json": "8a6fe6150cc3bc61014660c4b47e22baea9dac31aef4fbaf5933da08521f7adc",
+    "EVALUATION_FREEZE.json": "6ca004481c1dbfb0134624b9d48a02023a52c17dba38fa8525ed179a93f38377",
+    "EVALUATION.json": "61a78636ffd8511532a5c0bd15e2295485463ac4bb4cba5eb6ea0b5edf227e20"
+  },
+  "worker_counts": {
+    "control": 48,
+    "fade": 96,
+    "evaluation": 32
+  },
+  "python": "Python 3.12.3",
+  "packages": {
+    "numpy": "2.2.6",
+    "scipy": "1.18.1",
+    "numba": "0.68.1",
+    "matplotlib": "3.11.2"
+  },
+  "code_sha256": {
+    "puckworks/analysis/joint_mass_fade_001.py": "b2db0fd994528cecce2d8d269c849ff6393c5b0072ef118059aa642239a86acf",
+    "puckworks/analysis/joint_mass_fade_001_evaluate.py": "f74e206d53cccad6dc625de7c05907350ae6e05bd2983aebd3c7845fed513df3",
+    "puckworks/analysis/joint_mass_fade_001_report.py": "0d43b8f17e9428b7bff061e7a871e4d7c6cf4d43d8705818bacc6773a8db43a5",
+    "puckworks/analysis/joint_mass_fade_001_run.py": "2e83364da2e268ae30c288a1042b96995a343f4a3ea7d87655696bc6effdaeeb"
+  },
+  "artifact_sha256": {
+    "CONTRIBUTIONS.csv": "c79288bc21c7d9e5a3252047fc06ed2a3124eb23a858e638bf4f574c3fa7d91a",
+    "CROSS_CONDITION_LATE.csv": "becafe347a90111a679d599c1d4679540bfb8d8f6a9f1c3cda9b085b22b6a476",
+    "FITS.csv": "0b92f5104dee7a051c0e29a8896c5605a92da2beddd54ec31c87d55429d80f51",
+    "FLOW.svg": "21c114aeca764b81b4bd570f2872343fa9fa168e5adf3e55a55f6fdff2672353",
+    "INHERITED_CRITERIA.csv": "ec04ab3304176ec8c87ac5e8946e749cb572d101bf1da2a8dda463a3e860056c",
+    "METRICS.csv": "467ba70fdd047e232da2bd7485599a1c93f56e37714ad7924eaea844b727ee7f",
+    "METRICS_PAIRED.csv": "5d6648712372fb28a673339d762efdfa8a702c8a80135f863a867eedb0a722d7",
+    "NUMERICAL_SENSITIVITY.csv": "3962e3904c03e905f115ab9b65c50ed9f477c146a6ead428169526889e5889ad",
+    "ONSETS.csv": "9436c9ebd602c358ad898e66538efab0f3a4f694014581b18e0a226a17b70eba",
+    "PEAKS.csv": "d7b12b8dccae7265129e68e352da87cdaed5c55e724a3ec06836f0f02716c70b",
+    "STARTS.csv": "6052641fad805c7d0313b78778aa95ff724b171702d2aeae533d5b5d8ada2372",
+    "START_BANK.csv": "6dd4f9b9494d1182e2be9cb528b04e8571d628a97ecfc57c05b9924f2a068a5f",
+    "TRAJECTORY_COMPARISON.csv": "7fad68a2b470bd284850dae1e65d42ac15cfd0c0548234b0547c0d8610d7ea2c"
+  }
+}

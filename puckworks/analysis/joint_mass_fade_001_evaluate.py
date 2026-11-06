@@ -125,7 +125,10 @@ def main():
     global _DATA,_ARGS
     _ARGS=args=parser().parse_args();_DATA=data=R.load_data(args)
     frozen={arm:{fold:selected(data,args.work,arm,fold)['parameters'] for fold in data['reference']} for arm in R.ARMS}
-    freeze=dict(identity=R.identity(),fits=frozen,draw_hash=O.bank_digest(data['draws']))
+    fit_hashes={str(path.relative_to(args.work)):O.digest(path) for path in sorted((args.work/'fits').glob('*.json'))}
+    if len(fit_hashes)!=24:
+        raise ValueError('Expected exactly 24 selected fits before replay')
+    freeze=dict(identity=R.identity(),fits=frozen,fit_sha256=fit_hashes,draw_hash=O.bank_digest(data['draws']))
     path=args.work/'EVALUATION_FREEZE.json'
     if path.exists() and R.read(path)!=freeze:
         raise ValueError('Frozen selection changed')

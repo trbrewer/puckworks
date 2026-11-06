@@ -1,6 +1,9 @@
 """Paired reports from frozen replays; no fitting or parameter selection."""
+import csv
 import hashlib
+import io
 import json
+import subprocess
 
 import numpy as np
 
@@ -109,6 +112,19 @@ def trajectory_tables(data,records):
             continue
         j=O.SNAPSHOTS.index((r['clock'],int(r['time_s'])));k=list(nominal).index(float(r['nominal_pressure_bar']))
         np.testing.assert_allclose(stats[r['scope'],'fine','total'][0][0,j,k],float(r['predicted_beverage_flow_g_s']),rtol=1e-12,atol=1e-12)
+    split_csv=subprocess.check_output(['git','show',
+        '717d7494efa09de2bcd2249c7186dedb17fa3136:docs/research/TURNOVER_REPLAY_DECOMPOSITION_001/PHASE_CONTRIBUTIONS.csv'],cwd=R.ROOT).decode()
+    for old in csv.DictReader(io.StringIO(split_csv)):
+        if old['model']!='A-J1':
+            continue
+        for component in ('liquid','solute','total'):
+            row=next(r for r in contributions if r['scope']==old['scope'] and r['component']==component
+                and r['pressure_bar']==float(old['nominal_pressure_bar'])
+                and r['start_s']==int(old['start_time_s']) and r['end_s']==int(old['end_time_s']))
+            for suffix in ('','_lo','_hi'):
+                target=old.get(component+'_change_g_s'+suffix)
+                if target:
+                    np.testing.assert_allclose(row['saved_A_J1'+suffix],float(target),rtol=1e-12,atol=1e-12)
     return trajectory,late,contributions,numerics
 
 
@@ -136,12 +152,14 @@ def metric_tables(data,records):
                 for i,arm in enumerate(R.ARMS):
                     n=int(detected[i,ids].sum());bound=metric=='onset' and n<len(ids)
                     scores.append(dict(arm=arm,scope=scope,pressure_bar=subset,metric=metric,value=float(point[i]),
+                        units='s' if metric=='onset' else 'g/s',
                         lower_95=float(np.quantile(boot[:,i],.025)),upper_95=float(np.quantile(boot[:,i],.975)),
                         intended=len(ids),available=len(ids),detected=n,is_lower_bound=bound))
                 for left,right in ((2,1),(1,0),(2,0)):
                     bound=metric=='onset' and not detected[[left,right]][:,ids].all()
                     ci=np.quantile(boot[:,left]-boot[:,right],[.025,.975])
                     rows.append(dict(scope=scope,pressure_bar=subset,metric=metric,left=R.ARMS[left],right=R.ARMS[right],
+                        units='s' if metric=='onset' else 'g/s',
                         left_value=point[left],right_value=point[right],difference=point[left]-point[right],
                         lower_95=ci[0],upper_95=ci[1],left_detected=int(detected[left,ids].sum()),right_detected=int(detected[right,ids].sum()),
                         intended=len(ids),available=len(ids),interpretation='difference of computed bounds; not a bound on true error difference' if bound else 'paired RMSE difference'))
@@ -184,6 +202,7 @@ def fit_tables(data,index):
     for arm in R.ARMS:
         for fold in data['reference']:
             selected=E.selected(data,_ARGS.work,arm,fold);p=selected['parameters'];obj=objectives[arm,fold]
+            assert p==obj['parameters'] and selected['mc_fixed_g']==obj['mc_g']
             z=F.coordinates(p);lo,hi=F.bounds()
             distances={name:dict(lower=float(v-l),upper=float(h-v) if np.isfinite(h) else None,
                 at_lower=bool(v==l),at_upper=bool(v==h)) for name,v,l,h in zip(F.ORDER,z,lo,hi)}
@@ -283,9 +302,14 @@ def main():
     _ARGS=args=E.parser().parse_args();data=R.load_data(args)
     index=R.read(args.work/'EVALUATION.json')
     assert index['identity']==R.identity() and index['evaluator_sha256']==O.digest(E.__file__)
+    freeze=R.read(args.work/'EVALUATION_FREEZE.json')
+    assert freeze['identity']==R.identity()
+    for path,digest in freeze['fit_sha256'].items():
+        R.T.checked_hash(args.work/path,digest)
     records=index['records']
     assert len(records)==336 and len({(r['arm'],r['scope'],r['brew']) for r in records})==336
     for r in records:
+        assert r['parameters']==freeze['fits'][r['arm']][r['fold']]
         for step in ('fine','search'):
             R.T.checked_hash(args.work/'predictions'/r[step]['artifact'],r[step]['sha256'])
     trajectory,late,contributions,numerics=trajectory_tables(data,records)
@@ -303,6 +327,7 @@ def main():
         j1_inherited_draw_file_sha256=O.digest(args.joint/'PAIRED_RESAMPLES.json'),
         j1_draw_content_identical=True,
         saved_J1_continuity='all #424 compact levels reproduced at rtol=atol=1e-12',
+        saved_J1_component_continuity='all #425 phase components and available intervals reproduced at rtol=atol=1e-12',
         reference=R.read(args.work/'REFERENCE.json'),identity=R.identity(),
         evaluator_sha256=O.digest(E.__file__),reporter_sha256=O.digest(__file__),
         all_detection_step_agrees=all(r.get('detection_changed') is not True for r in numerics)))
