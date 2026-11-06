@@ -1,0 +1,69 @@
+{
+  "base_sha": "65f51c63856677eccc4ba5a45ce555ea0c4eab99",
+  "corpus_fold_sha256": "94aecc5707279b0ca17b35918215db662d3f34dcc2c49ddcf9362493345f4bab",
+  "correction_status": "post_hoc_from_001_breakdowns",
+  "excluded_shots": 455,
+  "exclusion": "stored reset_like == True",
+  "fold_assignment": "inherited_001_no_regeneration",
+  "folds": [
+    {
+      "fold": 0,
+      "shots": 1810,
+      "users": 64
+    },
+    {
+      "fold": 1,
+      "shots": 1521,
+      "users": 64
+    },
+    {
+      "fold": 2,
+      "shots": 2068,
+      "users": 63
+    },
+    {
+      "fold": 3,
+      "shots": 2846,
+      "users": 62
+    },
+    {
+      "fold": 4,
+      "shots": 1986,
+      "users": 62
+    }
+  ],
+  "parent_corpus_fold_sha256": "ee751332d3f3f955f6cd3530a1e8e6c53f0b034dfc7a1ad5e667cf8adf406975",
+  "parent_predictions_sha256": "6cb7d6ef0c0e6318d1358b8d939554cba9258f485499871ec4f9c4243942feaf",
+  "parent_windows_sha256": "8cd8369cca2b12fd4a9e776ee58215f8634aee097d03dd5c46b2fa53cea6c935",
+  "seed": 20261105,
+  "settings": {
+    "calibration_windows": 3,
+    "guard_s": 2.0,
+    "max_gap_s": 2.0,
+    "minimum_scored_windows": 3,
+    "onset_g": 1.0,
+    "quadrature_order": 16,
+    "scale_floor_g_s": 0.1,
+    "varying_bar": 2.0,
+    "window_s": 2.0
+  },
+  "shots": 10231,
+  "snapshot": {
+    "files_verified": 465,
+    "integrity": {
+      "n_logical_records": 23169,
+      "n_missing_updated_at": 0,
+      "n_revisions": 0,
+      "n_same_timestamp_conflicts": 0,
+      "n_stored_versions": 23169
+    },
+    "inventory_identity": "f46181ee8c461fab055b73511148dd26888c7c5b3cb1bc908aad6ab9db2bb766",
+    "source_aggregate_sha256": "6769656c8555d940bf79a2243a784c38b63066d3fe231227628667d251ba4d5b"
+  },
+  "starts_sha256": "fb3b0f5d4f69f7adc66fc03ce047e99760d84af3c989c7beea10a315f3737e27",
+  "survivor_object_sha256": "ba871d31ef3f85f0e057c02f8095eeb6bc060935edaaf71b6379d03fbc9a42ce",
+  "task_id": "PW-VIS-PREDICTOR-002",
+  "users": 315,
+  "windows": 159466,
+  "windows_sha256": "af474e0d964267e24f9d6c8c12e30edf4885662928786bce17a1639fde7c1b1a"
+}

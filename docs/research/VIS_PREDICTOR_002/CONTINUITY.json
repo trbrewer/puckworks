@@ -1,0 +1,9 @@
+{
+  "excluded_shots": 455,
+  "fold_generator_called": false,
+  "observations_and_folds_unchanged": true,
+  "parent_shots": 10686,
+  "surviving_shots": 10231,
+  "surviving_users": 315,
+  "survivor_object_sha256": "ba871d31ef3f85f0e057c02f8095eeb6bc060935edaaf71b6379d03fbc9a42ce"
+}
