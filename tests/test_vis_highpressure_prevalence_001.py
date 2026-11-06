@@ -236,6 +236,10 @@ def test_safe_counts_projections_and_explicit_title_approval():
              and r["denominator"] == "all_selected")
     assert r["events"] == r["qualifying_users"] == 40
     assert r["projected_shots_per_10000"] == r["projected_users_per_10000"] == 2000
+    conditional = next(r for r in prevalence if r.get("threshold_bar") == "10"
+                       and r.get("late_s") == "40" and r["analysis"] == "primary"
+                       and r["denominator"] == "primary_evaluable")
+    assert conditional["projected_shots_per_10000"] == "NA"
     assert profiles == [dict(profile_title="Fixture profile", shots=40, distinct_users=40,
                              release_status="RELEASED")]
     assert report.partition_safe(rows, d.memberships)

@@ -107,8 +107,10 @@ def release_tables(rows, approved_titles=()):
                            denominator=denominator, n=len(base) if denominator_safe[denominator]
                            else WITHHELD, events=WITHHELD, qualifying_users=WITHHELD,
                            prevalence=WITHHELD, ci95_lower=WITHHELD, ci95_upper=WITHHELD,
-                           projected_shots_per_10000=WITHHELD,
-                           projected_users_per_10000=WITHHELD,
+                           projected_shots_per_10000=WITHHELD if denominator == "all_selected"
+                           else "NA",
+                           projected_users_per_10000=WITHHELD if denominator == "all_selected"
+                           else "NA",
                            release_status="RELEASED" if released else WITHHELD)
                 if released:
                     k, u, n = len(event_sets[name]), len(users(rows, event_sets[name])), len(base)
@@ -162,7 +164,7 @@ def release_tables(rows, approved_titles=()):
 def write_csv(path, rows):
     fields = list(dict.fromkeys(k for row in rows for k in row))
     with path.open("w", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=fields)
+        writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
