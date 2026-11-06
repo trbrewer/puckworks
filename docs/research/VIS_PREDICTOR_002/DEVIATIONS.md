@@ -27,3 +27,10 @@ is retained privately. Output-root parameters now resolve to absolute paths;
 the actual fit commands already used absolute roots, so their execution and
 numerics are unchanged. This is a path-parameterization repair, not a scientific
 setting change or refit.
+
+After scoring, the inherited symmetric-log example plot showed only awkward
+endpoint ticks because all released 002 means lie inside its linear core. The
+002 renderer now supplies ordinary evenly spaced tick labels in that case.
+The axis transform, limits, data, suppression and every score remain unchanged;
+this is a presentation-only repair. SCORING_RECEIPT retains the scoring-commit
+source hashes; CODE_HASHES records the final renderer.

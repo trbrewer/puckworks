@@ -79,7 +79,7 @@ operator. Audit failure stops scoring; the 1e-5 threshold is unchanged.
 
 Use a saved model through `puckworks.empirical.visualizer.load_model` and `predict`
 as documented in [001 reproduction](../VIS_PREDICTOR_001/REPRODUCE.md), replacing the
-path with `VIS_PREDICTOR_002/models/deployment/<recommended model>.json`.
+path with `VIS_PREDICTOR_002/models/deployment/M0R.json`.
 RECOMMENDATION.json selects the model from primary cross-validation. Later query
 windows need recorded pressure/current start mass for families using them; the
 later target flow fields are ignored by the predictor. This is conditional window
@@ -94,3 +94,11 @@ Raw records, salted linkage, individual errors and all cached predictions remain
 outside Git. Public aggregates retain the same minimum-cell/complement/linkage
 rules. Data source: Visualizer; thanks to the contributing users who made their
 shots public. Research permission does not grant raw redistribution or endorsement.
+
+The audited model set was committed at `d026df8f3b8d471b11a5b85e42ddcc6ffe4fff49`
+before the single held-out scoring run. SCORING_RECEIPT.json binds that source
+commit, the private prediction cache, audit receipts and released aggregate bytes.
+Recorded CPU: 28.7128184713 core-hours for the 35 CV fits, 5.8926100076 for the seven
+deployment fits, and 0.8939088588 for other recorded work; total 35.4993373378.
+The concurrent fit batch took 0.9575078626 wall-hours. The accounting exclusions
+above apply. No scientific or numerical settings changed after the 002 freeze.

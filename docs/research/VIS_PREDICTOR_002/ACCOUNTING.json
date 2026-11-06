@@ -1,0 +1,23 @@
+{
+  "accounting_scope": "Recorded process CPU; benchmark and deployment optimization separate",
+  "analytical_C0_models": 6,
+  "completed_shared_fits": {
+    "cross_validation": 35,
+    "deployment": 7
+  },
+  "deployment_excluded_from_scoring_and_contrasts": true,
+  "excluded_unmetered": "Fit driver/design overhead, repeated hash checks, report/bootstrap/comparison, figures, tests, review and hosted CI",
+  "fit_batch_wall_hours": 0.9575078626473744,
+  "optimizer_core_hours": {
+    "cross_validation": 28.712818471347216,
+    "deployment": 5.892610007630001
+  },
+  "other_recorded_core_hours": {
+    "C0_reproduction": 0.006748885379444446,
+    "deployment_quadrature.json": 0.14118257242305557,
+    "prediction_and_reconstruction": 0.006013060195277777,
+    "preparation.json": 0.0019334974444444443,
+    "quadrature.json": 0.7380308433866667
+  },
+  "recorded_total_core_hours": 35.499337337806104
+}

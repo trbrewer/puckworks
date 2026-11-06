@@ -1,0 +1,31 @@
+{
+  "scoring_source_commit": "d026df8f3b8d471b11a5b85e42ddcc6ffe4fff49",
+  "freeze_commit": "c866fea03d3ec20ec8f72193933391dcb0d53d94",
+  "source_hashes": {
+    "puckworks/empirical/visualizer.py": "419b15eface9a82fe95efc87acbf025832911b393449b84d88165b027110bb22",
+    "puckworks/analysis/vis_predictor_001.py": "45a64d113a2b2b60860558f245a6ae76df53fa5b1ffb2bec43470085f2c195fb",
+    "puckworks/analysis/vis_predictor_002.py": "dea7de41d2e548fb8a90de70d55952519c5366f640004def574afd01b376988e",
+    "puckworks/analysis/vis_predictor_figures.py": "eeb5bd88cadb6576c9a87365c52154785d09cd25f8445694d72016d12a49525c",
+    "tests/test_vis_predictor_002.py": "00462f40ff54173f0fa3e809dff556b0c9ae96c18e023945ebb8bbf32e51a88d"
+  },
+  "private_predictions_sha256": "aeaab587e6d44d6edbbdf54e678837747951762c4a5ee6bcef90797af8970859",
+  "numerical_audit_receipt_sha256": {
+    "quadrature.json": "475e174182fce23a53f7d8d86856fd75334c9794c868a2321960b79abae09da1",
+    "deployment_quadrature.json": "622dc24a27b23162397875c13c332068914d78bee11743b335357b6201b8f07f"
+  },
+  "aggregate_sha256": {
+    "AGGREGATED_EXAMPLE.csv": "9b3230dbcee320fde60df17eed4e233a8d4571c63b242193fa702bef952f3881",
+    "BREAKDOWNS.csv": "f2068c7ad3152b4c24febead1963df6e3c097d03fa6b189f7a194485f54feaf0",
+    "CONTRASTS.csv": "7195b05404a0ef80d625641f078adc896cf0f0a792730083de74e7d1a0157f44",
+    "FITTED_PARAMETERS.csv": "1553533b9a5bc8f715edf2dde28a5313278964346eb71fa0a1b27d03ebeeaaa8",
+    "FOLD_CONTRASTS.csv": "7c05ea133f82f4b8fcc9177306af88c366624690a83b0f2e2d42ed89775c188f",
+    "FOLD_MANIFEST.csv": "78ae705d3cc8b681bb6cc5803acda51be98fbbc1c9a024f32c83e06939fe5bf5",
+    "FUNNEL.csv": "c2a066b6f11c4bf98841bab75272c0ea980f31fdd4ab5ba724002bbdd130f766",
+    "MATCHED_COMPARISON.csv": "cc69a022489e6ef6bd3c76de1724f4f12abb264ff4ba90c29b145d4e59334ad6",
+    "MODEL_INDEX.csv": "1eeca7aeb1e82fff8ddd57cd71b195deef420f8640d8c660262150d3e5dc19fa",
+    "NUMERICAL_AUDITS.csv": "33fa92b0d2c12fd66cd8574e84c0d6006a2f94f8bdb8471a455bb533d066fe80",
+    "PARAMETER_BOUNDS.csv": "3223c4861fa5125bbc31269093dd50e5d29415fc623b24a2334edbbe86fd981c",
+    "SCORES.csv": "b1affd8164b92c1f639c70065f4e0eac71768dfae1e43ea4c3b4c3452b85a95a"
+  },
+  "note": "Post-run artifact receipt. One frozen 002 prediction cache; all 001 cached comparisons use identical surviving observations and original folds. Deployment excluded from scoring and every contrast."
+}

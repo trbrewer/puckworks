@@ -63,6 +63,12 @@ def main(output_root=None):
                ylabel="Mean reported weight-derived flow (g/s)",
                title="Aggregated example: early calibration and frozen-amplitude later predictions")
         ax.set_yscale("symlog", linthresh=2)
+        if task == "PW-VIS-PREDICTOR-002" and max(abs(v) for v in ax.get_ylim()) < 2:
+            # In the linear core, the default symlog locator shows only endpoints.
+            # Improve tick labels without changing the inherited scale or data.
+            from matplotlib.ticker import MaxNLocator, ScalarFormatter
+            ax.yaxis.set_major_locator(MaxNLocator(nbins=5))
+            ax.yaxis.set_major_formatter(ScalarFormatter())
         ax.legend(ncol=5, fontsize=8)
         ax.grid(alpha=.15)
         fig.text(.5, .055, "Equal-user means; changing supported cohort. Gaps are suppressed bins.",
