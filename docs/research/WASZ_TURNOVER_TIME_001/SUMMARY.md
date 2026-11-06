@@ -31,9 +31,10 @@ observer from these fixed snapshots and paired changes.
 
 These are no-fit descriptions with 1,000 shared whole-brew resamples, not a
 located peak or simultaneous timing threshold. The onset clock differs from
-Visualizer's first reported weight >1 g. Time matters here, but the decline
-already overlaps Visualizer's later scoring period on the onset clock; time
-alone does not explain the corpus difference. Pressure node, coffee, machine
-and brew style also differ. No common mechanism, compaction or validation claim.
+Visualizer's first reported weight >1 g. The decline is present at the first
+requested onset-relative snapshot, so an account in which it appears only at
+100 s is unsupported. This check does not establish that timing explains the
+corpus difference; pressure node, coffee, machine and brew style also differ.
+No common mechanism, compaction or validation claim.
 
 Source: Waszkiewicz et al. (2025), [Zenodo 18046315](https://doi.org/10.5281/zenodo.18046315), CC-BY-4.0.
