@@ -77,19 +77,21 @@ Required checks:
 "$PY" -m pytest -q -m 'not slow and not live and not gpu and not external_data'
 "$PY" -m ruff check puckworks/ tests/
 "$PY" -c 'from puckworks.registry import run_all_gates; run_all_gates()'
-git diff --check
+git -c core.whitespace=trailing-space,space-before-tab,cr-at-eol diff --check 4c5ebab5df79929813949df7113c21290dde40cc --
 ```
 
 ## Completed campaign and accounting
 
 The 24 selected fits and 456 starts completed without failed starts or scientific
-commands. Actual scientific process-tree CPU was **60.2144 core-hours**, versus
+commands. Actual scientific process-tree CPU was **60.2185 core-hours**, versus
 the pre-fit 80–120 forecast: controls 26.74998, fade 33.39711, both references
-0.01889, replay 0.04426 and reporting 0.00416. Control/fade wall times were
+0.01889, replay 0.04426 and reporting 0.00827. Control/fade wall times were
 46:19.82/46:31.41, with 48/96 workers; replay used 32. External GNU `time -v`
 accounts user plus system CPU including descendants, not wall time multiplied by
 requested workers. Both successful reference executions are counted. Per-start
-CPU is not added again. Source preparation, an initial setup import failure
+CPU is not added again. Both report executions are counted: the second only
+normalizes SVG trailing whitespace, with unchanged geometry and CSV values.
+Source preparation, an initial setup import failure
 before predictions, QA, independent review and CI are excluded from scientific
 compute. Every scientific timer's hash and exit status is in
 [RUN_RECEIPT.json](RUN_RECEIPT.json).
@@ -122,7 +124,9 @@ These are frozen-parameter sensitivity results, with no refitting.
 Local verification: 52 focused/inherited tests; 21 extension tests also pass
 without Numba JIT and at minimum NumPy/SciPy versions. Baseline quick suite:
 8,065 passed, 33 skipped, 97 deselected; registry 66 PASS plus one acknowledged
-historical exception. Ruff and `git diff --check` pass. The final read-only audit
+historical exception. Ruff and the full-diff whitespace check above pass;
+`cr-at-eol` preserves the immutable pre-fit START_BANK.csv's CRLF line endings.
+The final read-only audit
 is in REVIEW.md; final-head hosted checks are linked from the draft PR.
 This run does not write EWP, refit Mc, tune chemistry, add another arm or start
 a successor.

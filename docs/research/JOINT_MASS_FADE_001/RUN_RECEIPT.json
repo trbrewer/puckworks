@@ -40,14 +40,21 @@
       "timer_sha256": "50f943c3a197b20a525d94f2d9f674526bae46807cd180af6bd8d83ea28b8c1a"
     },
     {
-      "stage": "report-time.txt",
+      "stage": "report-initial-time.txt",
       "process_tree_cpu_seconds": 14.97,
       "core_hours": 0.004158333333333333,
       "exit_status": 0,
       "timer_sha256": "7f7e19c13641a2dc718b8db55c14d9d86a7edd582e2daaae968836a9aee9df58"
+    },
+    {
+      "stage": "report-time.txt",
+      "process_tree_cpu_seconds": 14.79,
+      "core_hours": 0.004108333333333333,
+      "exit_status": 0,
+      "timer_sha256": "432d43a108a9bc16741af324fa940f799229b2e503f56843f17cedb25d300c81"
     }
   ],
-  "scientific_core_hours": 60.2144,
+  "scientific_core_hours": 60.21850833333333,
   "failed_scientific_commands": 0,
   "accounting_scope": "user+system CPU from external GNU time, including descendants, both reference executions and all failed/retried scientific commands; no double counting per-start timers",
   "excluded": "initial inspection, source/start-bank preparation, setup import failure before scientific predictions, QA tests, independent review and hosted CI",
@@ -72,14 +79,14 @@
   "code_sha256": {
     "puckworks/analysis/joint_mass_fade_001.py": "b2db0fd994528cecce2d8d269c849ff6393c5b0072ef118059aa642239a86acf",
     "puckworks/analysis/joint_mass_fade_001_evaluate.py": "f74e206d53cccad6dc625de7c05907350ae6e05bd2983aebd3c7845fed513df3",
-    "puckworks/analysis/joint_mass_fade_001_report.py": "0d43b8f17e9428b7bff061e7a871e4d7c6cf4d43d8705818bacc6773a8db43a5",
+    "puckworks/analysis/joint_mass_fade_001_report.py": "cb3376ee36d1c962f6759253567566e34878ab3ab217f1fe39a1ab73f2214f83",
     "puckworks/analysis/joint_mass_fade_001_run.py": "2e83364da2e268ae30c288a1042b96995a343f4a3ea7d87655696bc6effdaeeb"
   },
   "artifact_sha256": {
     "CONTRIBUTIONS.csv": "c79288bc21c7d9e5a3252047fc06ed2a3124eb23a858e638bf4f574c3fa7d91a",
     "CROSS_CONDITION_LATE.csv": "becafe347a90111a679d599c1d4679540bfb8d8f6a9f1c3cda9b085b22b6a476",
     "FITS.csv": "0b92f5104dee7a051c0e29a8896c5605a92da2beddd54ec31c87d55429d80f51",
-    "FLOW.svg": "21c114aeca764b81b4bd570f2872343fa9fa168e5adf3e55a55f6fdff2672353",
+    "FLOW.svg": "485a7d96c878eadb7ae9aa68dd286b21907887a4f257340b5f40e694ff2d0bdc",
     "INHERITED_CRITERIA.csv": "ec04ab3304176ec8c87ac5e8946e749cb572d101bf1da2a8dda463a3e860056c",
     "METRICS.csv": "467ba70fdd047e232da2bd7485599a1c93f56e37714ad7924eaea844b727ee7f",
     "METRICS_PAIRED.csv": "5d6648712372fb28a673339d762efdfa8a702c8a80135f863a867eedb0a722d7",

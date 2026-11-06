@@ -123,6 +123,6 @@
     "puckworks/analysis/joint_clock_001_run.py": "dcb67b90b1db75f87974b6a668f307d844f158c3b1b028e81ff2819262bb099f"
   },
   "evaluator_sha256": "f74e206d53cccad6dc625de7c05907350ae6e05bd2983aebd3c7845fed513df3",
-  "reporter_sha256": "0d43b8f17e9428b7bff061e7a871e4d7c6cf4d43d8705818bacc6773a8db43a5",
+  "reporter_sha256": "cb3376ee36d1c962f6759253567566e34878ab3ab217f1fe39a1ab73f2214f83",
   "all_detection_step_agrees": true
 }

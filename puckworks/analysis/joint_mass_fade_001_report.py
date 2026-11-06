@@ -293,7 +293,11 @@ def figure(curves):
     fig.suptitle('Mass-driven conductance fade: frozen trajectories at 0.005 s',fontsize=14)
     fig.text(.5,.055,'Equal-brew means on shared native clean support · LOCO pools held-condition fits · DESCRIPTIVE_ALL is in-sample',ha='center',fontsize=9)
     fig.subplots_adjust(top=.89,bottom=.16,wspace=.1,hspace=.28)
-    fig.savefig(OUT/'FLOW.svg',metadata={'Date':None})
+    path=OUT/'FLOW.svg'
+    fig.savefig(path,metadata={'Date':None})
+    # Matplotlib path serialization leaves trailing blanks; normalize the
+    # generated text without changing the SVG geometry or its rendering.
+    path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines())+'\n')
     plt.close(fig)
 
 

@@ -32,3 +32,9 @@ The review requested three minor summary corrections: direct rounding of the
 intervals include zero, and labeling the invented 5-bar decline as a point
 result. All were applied and rechecked. Final-head hosted CI is checked
 separately and linked in the draft PR.
+
+A final serialization-only delta removes Matplotlib SVG trailing blanks. The
+reviewer confirmed all 1,527 XML elements and non-whitespace geometry/attribute/
+text tokens are unchanged, all 12 CSV hashes match, and fit/evaluation freezes
+are unchanged. Both successful report timers are retained and counted. No new
+finding resulted from this delta review.

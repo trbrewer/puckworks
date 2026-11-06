@@ -37,7 +37,7 @@ A-J1-F as its replacement. Scores below are inherited means of condition RMSEs.
    parameter uncertainty or evidence of a unique optimum. M* describes
    constant-pressure liquid flow, not beverage peak timing or pressure ordering.
 
-**24 fits, 456 starts, 60.2144 core-hours**, no failed scientific commands.
+**24 fits, 456 starts, 60.2185 core-hours**, no failed scientific commands.
 Both steps retain every detection; maximum phase-change sensitivity is
 0.000080 g/s. Intervals condition on frozen fits and omit refit uncertainty.
 The fade is phenomenological; delivered mass is a tested driver, not an
