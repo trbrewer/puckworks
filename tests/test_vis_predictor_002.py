@@ -36,7 +36,7 @@ def test_filter_preserves_objects_original_folds_and_other_flags(monkeypatch):
     assert retained[0].flags["negative_increment"] and retained[0].flags["clipping_like"]
 
 
-@pytest.mark.parametrize("phase", ["check-c0", "fit", "deploy", "audit", "audit-deployment", "score", "report"])
+@pytest.mark.parametrize("phase", ["check-c0", "fit", "deploy", "audit", "audit-deployment", "score", "report", "export"])
 def test_flagged_shot_stops_every_consuming_phase(tmp_path, monkeypatch, phase):
     output, private, parent = (tmp_path / n for n in ("output", "private", "parent"))
     private.mkdir()
@@ -62,6 +62,7 @@ def test_public_and_private_parent_paths_are_read_only(tmp_path):
     parent = tmp_path / "001-private"
     private = tmp_path / "002-private"
     for output, destination in ((rerun.PARENT, private), (rerun.PARENT / "child", private),
+                                (tmp_path / "another-checkout/VIS_PREDICTOR_001", private),
                                 (rerun.OUT, parent), (rerun.OUT, parent / "child")):
         with pytest.raises(ValueError, match="overlaps read-only"):
             rerun.validate_locations(output, destination, parent)

@@ -20,7 +20,7 @@ import scipy
 
 from puckworks.analysis import vis_predictor_001 as shared
 from puckworks.empirical.visualizer import (
-    MODELS, Settings, fitted_model, load_model, predict,
+    MODELS, Settings, coordinates, encode, fitted_model, load_model, predict,
 )
 
 BASE = "65f51c63856677eccc4ba5a45ce555ea0c4eab99"
@@ -40,6 +40,8 @@ def validate_locations(output, private, parent_private):
                                           (output, private, parent_private))
     protected = (PARENT.resolve(), parent_private)
     for destination in (output, private):
+        if "VIS_PREDICTOR_001" in destination.parts:
+            raise ValueError("002 output overlaps read-only 001 artifacts")
         for source in protected:
             if destination == source or source in destination.parents or destination in source.parents:
                 raise ValueError("002 output overlaps read-only 001 artifacts")
@@ -236,10 +238,12 @@ def require_models(output, manifest, deployment=False):
                 raise RuntimeError("Foreign/stale model in 002: " + folder + "/" + model)
 
 
-def require_audit(private, output, manifest):
-    """A complete, current CV numerical receipt is mandatory before scoring."""
-    receipt = json.loads((private / "quadrature.json").read_text())
-    expected = {(f"fold_{f}", m) for f in range(5) for m in MODELS}
+def require_audit(private, output, manifest, deployment=False):
+    """Require a complete, current CV or deployment numerical receipt."""
+    filename = "deployment_quadrature.json" if deployment else "quadrature.json"
+    receipt = json.loads((private / filename).read_text())
+    folders = ["deployment"] if deployment else [f"fold_{f}" for f in range(5)]
+    expected = {(folder, m) for folder in folders for m in MODELS}
     rows = receipt.get("rows", [])
     if (not receipt.get("passed") or len(rows) != len(expected)
             or {(r["folder"], r["model"]) for r in rows} != expected
@@ -298,9 +302,66 @@ def compare_parent(parent_private, private, output):
     shared.csv_write(output / "MATCHED_COMPARISON.csv", rows)
 
 
+def export_diagnostics(private, output):
+    """Export saved parameters/bounds, audits, hashes and separate deployment cost."""
+    manifest = json.loads((output / "FROZEN_MANIFEST.json").read_text())
+    index, bounds, audits = [], [], []
+    cost = dict(cross_validation=0.0, deployment=0.0)
+    selected = dict(cross_validation=0, deployment=0)
+    for fold in [*range(5), "all"]:
+        folder = "deployment" if fold == "all" else f"fold_{fold}"
+        role = "deployment" if fold == "all" else "cross_validation"
+        for model in MODELS:
+            path = output / "models" / folder / (model + ".json")
+            saved = load_model(path)
+            md = saved["metadata"]
+            cost[role] += md.get("core_hours", 0.0)
+            selected[role] += model != "C0"
+            index.append(dict(folder=folder, model=model, role=role,
+                model_sha256=shared.sha(path), shots=md["training_shots"],
+                users=md["training_users"], selected_success=md.get("selected_success", True)))
+            names, limits = coordinates(model)
+            for name, value, (low, high) in zip(names, encode(model, saved["parameters"]), limits):
+                parameter = name.removeprefix("log_")
+                lower = bool(abs(value-low) <= 1e-7) if low is not None else False
+                upper = bool(abs(value-high) <= 1e-7) if high is not None else False
+                bounds.append(dict(folder=folder, model=model, role=role, coordinate=name,
+                    parameter=parameter, value=saved["parameters"][parameter],
+                    transformed_value=float(value), transformed_lower=low, transformed_upper=high,
+                    lower_contact=lower, upper_contact=upper,
+                    contact_tolerance=1e-7, shots=md["training_shots"], users=md["training_users"]))
+    for filename in ("quadrature.json", "deployment_quadrature.json"):
+        receipt = json.loads((private / filename).read_text())
+        if not receipt["passed"]:
+            raise RuntimeError("Cannot export a failed selected-model audit as qualified")
+        for row in receipt["rows"]:
+            audits.append(dict(**row, shots=manifest["shots"], users=manifest["users"]))
+    shared.csv_write(output / "MODEL_INDEX.csv", index)
+    shared.csv_write(output / "PARAMETER_BOUNDS.csv", bounds)
+    shared.csv_write(output / "NUMERICAL_AUDITS.csv", audits)
+    other = {name: json.loads((private / name).read_text())["core_hours"]
+             for name in ("preparation.json", "quadrature.json", "deployment_quadrature.json")}
+    other["C0_reproduction"] = json.loads((output / "C0_REPRODUCTION.json").read_text())["core_hours"]
+    with (private / "predictions.pkl").open("rb") as f:
+        cache = pickle.load(f)
+    if cache.get("provenance") != shared.prediction_provenance(output):
+        raise RuntimeError("Foreign/stale 002 prediction cache")
+    other["prediction_and_reconstruction"] = cache["core_hours"]
+    accounting = dict(completed_shared_fits=selected, analytical_C0_models=6,
+        optimizer_core_hours=cost, other_recorded_core_hours=other,
+        recorded_total_core_hours=sum(cost.values())+sum(other.values()),
+        accounting_scope="Recorded process CPU; benchmark and deployment optimization separate",
+        excluded_unmetered="Fit driver/design overhead, repeated hash checks, report/bootstrap/comparison, figures, tests, review and hosted CI",
+        deployment_excluded_from_scoring_and_contrasts=True)
+    wall = private / "fit-wall.json"
+    if wall.exists():
+        accounting["fit_batch_wall_hours"] = json.loads(wall.read_text())["wall_hours"]
+    shared.write_json(output / "ACCOUNTING.json", accounting)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("phase", choices=("prepare", "check-c0", "fit", "deploy", "audit", "audit-deployment", "score", "report"))
+    parser.add_argument("phase", choices=("prepare", "check-c0", "fit", "deploy", "audit", "audit-deployment", "score", "report", "export"))
     parser.add_argument("--private", type=Path, required=True)
     parser.add_argument("--parent-private", type=Path, required=True)
     parser.add_argument("--output", type=Path, default=OUT)
@@ -327,6 +388,12 @@ def main():
         deployment = args.phase == "audit-deployment"
         require_models(output, manifest, deployment)
         shared.audit(private, deployment, output)
+    elif args.phase == "export":
+        require_models(output, manifest)
+        require_models(output, manifest, True)
+        require_audit(private, output, manifest)
+        require_audit(private, output, manifest, True)
+        export_diagnostics(private, output)
     else:
         require_models(output, manifest)
         if args.phase == "score":

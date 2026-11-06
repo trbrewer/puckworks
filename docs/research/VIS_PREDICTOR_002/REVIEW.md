@@ -19,3 +19,10 @@ Resume contracts additionally bind the exact runtime; malformed model artifacts
 are preserved privately and refitted rather than accepted as resumable.
 
 Actual C0/numerical receipts and final result claims will be reviewed separately.
+
+The actual C0 continuity review passed: committed receipt RMSE
+1.2084042519074556, NRMSE 1.6547408859936399 and zero per-window difference from
+001's cached C0 match the frozen plan/cohort. The reviewer also checked the final
+runtime/malformed-cache resume addition; all 14 then-affected tests passed.
+No private records or targets were opened by the reviewer. Numerical audit and
+final-claim review remain pending.
