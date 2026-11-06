@@ -220,6 +220,7 @@ def fit_models(private, fold, workers, output_root=None):
     out = OUT if output_root is None else Path(output_root).resolve()
     global _FIT_DESIGN, _FIT_MODEL
     manifest = verify_freeze(private, out)
+    legacy_resume = manifest.get("task_id", "PW-VIS-PREDICTOR-001") == "PW-VIS-PREDICTOR-001"
     with (private / "windows.pkl").open("rb") as f:
         all_shots = pickle.load(f)
     if manifest.get("task_id") == "PW-VIS-PREDICTOR-002":
@@ -249,10 +250,21 @@ def fit_models(private, fold, workers, output_root=None):
                     code_sha256={p: sha(ROOT / p) for p in SOURCES},
                     training_shots=len(training), training_users=len({s.user for s in training}),
                     pressure_range_bar=recorded_pressure_range(_FIT_DESIGN.windows))
-    save_model(modeldir / "C0.json", fitted_model("C0", {}, metadata))
+    c0_path = modeldir / "C0.json"
+    if legacy_resume and c0_path.exists():
+        load_model(c0_path)  # Authenticate and preserve the historical analytical artifact.
+    else:
+        save_model(c0_path, fitted_model("C0", {}, metadata))
     for model in MODELS[1:]:
         path = modeldir / (model + ".json")
         if path.exists():
+            if legacy_resume:
+                # The pinned 001 artifacts predate resume_contract. Retain their
+                # authenticated hash/integration skip behavior without refitting.
+                existing = load_model(path)
+                if "n" in existing["parameters"] and existing.get("integration") != _FIT_DESIGN.integration:
+                    raise RuntimeError("Cached pressure model uses different integration")
+                continue
             try:
                 existing = load_model(path)
             except (OSError, ValueError):
