@@ -249,3 +249,19 @@ def test_commanded_pressure_cannot_enter_measurement():
     h = probe.vh.normalize_shot(raw, cfg)["hydraulic"]
     r = probe.measure(h["time__s"], h["pressure__Pa"], h["weight__kg"])
     assert not any(r["events"].values())
+
+
+def test_request_audit_handles_network_stop_and_checks_frozen_order(tmp_path):
+    ledger = [dict(kind="listing", status=200, started_utc="2026-01-01T00:00:00+00:00",
+                   ended_utc="2026-01-01T00:00:01+00:00", retry_after=None),
+              dict(kind="detail", status="network_error", started_utc="2026-01-01T00:00:04+00:00",
+                   ended_utc="2026-01-01T00:00:05+00:00")]
+    (tmp_path / "REQUESTS.jsonl").write_text("\n".join(json.dumps(r) for r in ledger) + "\n")
+    run = dict(snapshot_unchanged=True, api_attempts=2)
+    sample = dict(selected=["synthetic-a", "synthetic-b"], snapshot_overlap_after_exclusion=0,
+                  frozen_utc="2026-01-01T00:00:02+00:00")
+    result = report.audit_requests(tmp_path, run, sample, [])
+    assert result["statuses"] == {"200": 1, "network_error": 1}
+    assert result["retry_after_responses"] == 0
+    with pytest.raises(AssertionError):
+        report.audit_requests(tmp_path, run, sample, [dict(shot_token="synthetic-b")])

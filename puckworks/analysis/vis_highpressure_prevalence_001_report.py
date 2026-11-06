@@ -174,6 +174,7 @@ def audit_requests(private, run, sample, rows):
     assert len(rows) <= len(sample["selected"])
     assert len({r["shot_token"] for r in rows}) == len(rows)
     assert {r["shot_token"] for r in rows} <= set(sample["selected"])
+    assert [r["shot_token"] for r in rows] == sample["selected"][:len(rows)]
     assert sample["snapshot_overlap_after_exclusion"] == 0
     assert run["snapshot_unchanged"]
     assert len(ledger) == run["api_attempts"] <= MAX_REQUESTS
@@ -194,7 +195,7 @@ def audit_requests(private, run, sample, rows):
                 max_per_60s=rolling[60], max_per_600s=rolling[600],
                 minimum_start_spacing_s=min((b - a for a, b in zip(starts, starts[1:])),
                                             default=None),
-                retry_after_responses=sum(bool(r["retry_after"]) for r in ledger))
+                retry_after_responses=sum(bool(r.get("retry_after")) for r in ledger))
 
 
 def export(private, output, root, approved_titles=()):
