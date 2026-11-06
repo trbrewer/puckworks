@@ -1,0 +1,20 @@
+{
+  "id": "TURNOVER_REPLAY_DECOMPOSITION_001",
+  "producer": "puckworks.analysis.turnover_replay_decomposition_001",
+  "renderer": "puckworks.analysis.turnover_replay_decomposition_001_figure",
+  "artifact": "FLOW_DECOMPOSITION.svg",
+  "data": "CONTRIBUTIONS_BY_TIME.csv",
+  "evidence_strength": "descriptive decomposition of retained frozen predictions",
+  "badge": "NO_NEW_SIMULATION / NO_FIT / NO_PHYSICAL_VALIDATION",
+  "layout": "4 model/scope rows x 3 nominal-pressure columns",
+  "clock": "stable pressure",
+  "times_s": [10, 20, 30, 40, 60, 100],
+  "window": "2-s centered, inherited native mass observer",
+  "units": "g/s",
+  "liquid": "teal area",
+  "discharged_solute": "orange area",
+  "predicted_total": "dark teal line",
+  "observed_beverage": "black line and markers",
+  "fidelity_ceiling": "Model split only; observations do not separate real water/solids. Connections guide the eye.",
+  "attribution": "Waszkiewicz et al., Zenodo 18046315, CC-BY-4.0"
+}
