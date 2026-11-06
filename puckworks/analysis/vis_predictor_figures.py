@@ -13,18 +13,23 @@ OUT = Path(__file__).resolve().parents[2] / "docs/research/VIS_PREDICTOR_001"
 CREDIT = "Visualizer and contributing public-shot users · reported signals · no physical validation"
 
 
-def rows(name):
-    with (OUT / name).open() as f:
+def rows(name, output_root=None):
+    out = OUT if output_root is None else Path(output_root)
+    with (out / name).open() as f:
         return list(csv.DictReader(f))
 
 
-def main():
+def main(output_root=None):
+    out = OUT if output_root is None else Path(output_root)
+    task = json.loads((out / "FROZEN_MANIFEST.json").read_text()).get("task_id", "PW-VIS-PREDICTOR-001")
+    credit = ("Visualizer and contributing users · unflagged shots, post-hoc exclusion · no physical validation"
+              if task == "PW-VIS-PREDICTOR-002" else CREDIT)
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
     with plt.rc_context({"font.size": 10, "svg.hashsalt": "PW-VIS-PREDICTOR-001"}):
-        contrasts = rows("CONTRASTS.csv")
+        contrasts = rows("CONTRASTS.csv", out)
         fig, axes = plt.subplots(1, 2, figsize=(11, 4), sharey=True)
         for ax, subset in zip(axes, ("overall", "pressure_varying")):
             values = [r for r in contrasts if r["subset"] == subset and r["metric"] == "rmse_g_s"]
@@ -37,12 +42,12 @@ def main():
             ax.set_xlabel("Paired mean RMSE difference (g/s)\nnegative favors first model")
             ax.grid(axis="x", alpha=.2)
         fig.suptitle("Early-calibrated later flow: complete-user bootstrap, 95% intervals")
-        fig.text(.5, .01, CREDIT, ha="center", fontsize=8)
+        fig.text(.5, .01, credit, ha="center", fontsize=8)
         fig.tight_layout(rect=(0, .05, 1, 1))
-        fig.savefig(OUT / "PAIRED_DIFFERENCES.svg", metadata={"Date": None})
+        fig.savefig(out / "PAIRED_DIFFERENCES.svg", metadata={"Date": None})
         plt.close(fig)
 
-        panel = rows("AGGREGATED_EXAMPLE.csv")
+        panel = rows("AGGREGATED_EXAMPLE.csv", out)
         fig, ax = plt.subplots(figsize=(9, 4.5))
         starts = np.arange(0, 30, 2)
         for model in ("observed", *MODELS):
@@ -58,22 +63,28 @@ def main():
                ylabel="Mean reported weight-derived flow (g/s)",
                title="Aggregated example: early calibration and frozen-amplitude later predictions")
         ax.set_yscale("symlog", linthresh=2)
+        if task == "PW-VIS-PREDICTOR-002" and max(abs(v) for v in ax.get_ylim()) < 2:
+            # In the linear core, the default symlog locator shows only endpoints.
+            # Improve tick labels without changing the inherited scale or data.
+            from matplotlib.ticker import MaxNLocator, ScalarFormatter
+            ax.yaxis.set_major_locator(MaxNLocator(nbins=5))
+            ax.yaxis.set_major_formatter(ScalarFormatter())
         ax.legend(ncol=5, fontsize=8)
         ax.grid(alpha=.15)
         fig.text(.5, .055, "Equal-user means; changing supported cohort. Gaps are suppressed bins.",
                  ha="center", fontsize=8)
         fig.text(.5, .03, "Symmetric-log axis (linear from −2 to 2 g/s); means can conceal large individual errors.",
                  ha="center", fontsize=8)
-        fig.text(.5, .005, CREDIT, ha="center", fontsize=8)
+        fig.text(.5, .005, credit, ha="center", fontsize=8)
         fig.tight_layout(rect=(0, .1, 1, 1))
-        fig.savefig(OUT / "AGGREGATED_EXAMPLE.svg", metadata={"Date": None})
+        fig.savefig(out / "AGGREGATED_EXAMPLE.svg", metadata={"Date": None})
         plt.close(fig)
 
         fig, axes = plt.subplots(2, 2, figsize=(10, 8))
         pressure = np.linspace(0, 15, 500)
         for ax, model in zip(axes.flat, ("M0R", "AR", "M0", "A")):
             for fold in range(5):
-                saved = load_model(OUT / "models" / f"fold_{fold}" / (model + ".json"))
+                saved = load_model(out / "models" / f"fold_{fold}" / (model + ".json"))
                 p = saved["parameters"]
                 h = log_capacity(pressure, p["n"], p["Pd"], p.get("kappa", 0))
                 # Shape comparison removes the arbitrary amplitude convention.
@@ -85,11 +96,11 @@ def main():
             ax.grid(alpha=.2)
             ax.legend(fontsize=8)
         fig.suptitle("Shared capacity curves; amplitude and mass recovery omitted")
-        fig.text(.5, .01, CREDIT, ha="center", fontsize=8)
+        fig.text(.5, .01, credit, ha="center", fontsize=8)
         fig.tight_layout(rect=(0, .05, 1, 1))
-        fig.savefig(OUT / "CAPACITY_CURVES.svg", metadata={"Date": None})
+        fig.savefig(out / "CAPACITY_CURVES.svg", metadata={"Date": None})
         plt.close(fig)
-    spec = dict(task="PW-VIS-PREDICTOR-001", evidence="empirical held-out-user reported-signal benchmark",
+    spec = dict(task=task, evidence="empirical held-out-user reported-signal benchmark",
                 claim_ceiling="No mechanism, causal law, universal peak or physical validation",
                 registry="research-only task-local VizSpec; no production entry",
                 figures=[dict(file="PAIRED_DIFFERENCES.svg", source="CONTRASTS.csv",
@@ -98,9 +109,12 @@ def main():
                               semantics="released aggregates, changing supported cohorts, not a shot trace"),
                          dict(file="CAPACITY_CURVES.svg", source="models/fold_*/*.json",
                               semantics="all four shared pressure-shape families, fold curves normalized at 6 bar, linear reference; may extrapolate")],
-                credit=CREDIT)
-    (OUT / "VIZ_SPEC.json").write_text(json.dumps(spec, indent=2) + "\n")
+                credit=credit)
+    (out / "VIZ_SPEC.json").write_text(json.dumps(spec, indent=2) + "\n")
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", type=Path, default=OUT)
+    main(parser.parse_args().output)

@@ -1,0 +1,7 @@
+{
+  "criterion": "primary held-out user RMSE",
+  "deployment_refits_used_for_selection": false,
+  "model": "M0R",
+  "private_predictions_sha256": "aeaab587e6d44d6edbbdf54e678837747951762c4a5ee6bcef90797af8970859",
+  "rmse_g_s": 0.8280451683649923
+}

@@ -1,0 +1,369 @@
+{
+  "integration": {
+    "max_pressure_step_bar": 0.1
+  },
+  "metadata": {
+    "capacity_maximum": {
+      "inside_training_range": true,
+      "maximum_status": "unique_global_maximum",
+      "peak_bar": 10.722880293762138,
+      "peak_capacity": 3.9428383499392736,
+      "stationary_points": 1
+    },
+    "code_sha256": {
+      "puckworks/analysis/cor15_shape_001.py": "1e567b5d03b101302a317dc0b84516936220f7ce06696350e21fd1f81651df82",
+      "puckworks/analysis/pressure_peak_x1.py": "5a6ba598b90d6277458969414b590617e209da7a76266b5a3d373f7e05288708",
+      "puckworks/analysis/vis_predictor_001.py": "c11068e97e186dcb81a649024e2f212d77d5a7df5f098403f20cc40ba59f1a10",
+      "puckworks/empirical/visualizer.py": "419b15eface9a82fe95efc87acbf025832911b393449b84d88165b027110bb22"
+    },
+    "converged_starts": 28,
+    "core_hours": 1.51382173141,
+    "corpus_fold_sha256": "94aecc5707279b0ca17b35918215db662d3f34dcc2c49ddcf9362493345f4bab",
+    "fold": "3",
+    "plan_sha256": "71b91365542bae7b102952d7e7b221fcfce5643f7c2a575d20f33ab5713046aa",
+    "pressure_range_bar": [
+      0.0,
+      15.000000000000002
+    ],
+    "resume_contract": {
+      "corpus_fold_sha256": "94aecc5707279b0ca17b35918215db662d3f34dcc2c49ddcf9362493345f4bab",
+      "evaluator_sha256": "419b15eface9a82fe95efc87acbf025832911b393449b84d88165b027110bb22",
+      "fold": "3",
+      "integration": {
+        "max_pressure_step_bar": 0.1
+      },
+      "plan_sha256": "71b91365542bae7b102952d7e7b221fcfce5643f7c2a575d20f33ab5713046aa",
+      "runtime": {
+        "numpy": "2.0.2",
+        "python": "3.12.3",
+        "scipy": "1.13.1"
+      },
+      "settings": {
+        "calibration_windows": 3,
+        "guard_s": 2.0,
+        "max_gap_s": 2.0,
+        "minimum_scored_windows": 3,
+        "onset_g": 1.0,
+        "quadrature_order": 16,
+        "scale_floor_g_s": 0.1,
+        "varying_bar": 2.0,
+        "window_s": 2.0
+      },
+      "starts_sha256": "fb3b0f5d4f69f7adc66fc03ce047e99760d84af3c989c7beea10a315f3737e27",
+      "task_id": "PW-VIS-PREDICTOR-002",
+      "windows_sha256": "af474e0d964267e24f9d6c8c12e30edf4885662928786bce17a1639fde7c1b1a"
+    },
+    "role": "held_out_user_fold",
+    "runtime": {
+      "numpy": "2.0.2",
+      "python": "3.12.3",
+      "scipy": "1.13.1"
+    },
+    "selected_start": 0,
+    "selected_success": true,
+    "start_diagnostics": [
+      {
+        "core_hours": 0.06974407452666667,
+        "evaluations": 49,
+        "finite_objective": true,
+        "iterations": 42,
+        "message": "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL",
+        "objective": 0.7874664888555197,
+        "success": true
+      },
+      {
+        "core_hours": 0.018159883601666666,
+        "evaluations": 16,
+        "finite_objective": true,
+        "iterations": 12,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 1.0017162915414781,
+        "success": true
+      },
+      {
+        "core_hours": 0.016026903507777777,
+        "evaluations": 13,
+        "finite_objective": true,
+        "iterations": 9,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.8479288589532151,
+        "success": true
+      },
+      {
+        "core_hours": 0.03260811951277778,
+        "evaluations": 25,
+        "finite_objective": true,
+        "iterations": 21,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.7874731334013405,
+        "success": true
+      },
+      {
+        "core_hours": 0.013488428228055554,
+        "evaluations": 12,
+        "finite_objective": true,
+        "iterations": 9,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.9817426494209731,
+        "success": true
+      },
+      {
+        "core_hours": 0.12101640551416666,
+        "evaluations": 65,
+        "finite_objective": true,
+        "iterations": 50,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.7874665427257108,
+        "success": true
+      },
+      {
+        "core_hours": 0.019920014985555554,
+        "evaluations": 13,
+        "finite_objective": true,
+        "iterations": 9,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.8533220063811441,
+        "success": true
+      },
+      {
+        "core_hours": 0.015679708179166668,
+        "evaluations": 11,
+        "finite_objective": true,
+        "iterations": 8,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.9945662183822019,
+        "success": true
+      },
+      {
+        "core_hours": 0.014309897127222223,
+        "evaluations": 14,
+        "finite_objective": true,
+        "iterations": 9,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.8537671628176704,
+        "success": true
+      },
+      {
+        "core_hours": 0.018854702427222224,
+        "evaluations": 13,
+        "finite_objective": true,
+        "iterations": 10,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.9702157677820177,
+        "success": true
+      },
+      {
+        "core_hours": 0.022383414452222226,
+        "evaluations": 15,
+        "finite_objective": true,
+        "iterations": 10,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.8543180725309889,
+        "success": true
+      },
+      {
+        "core_hours": 0.014805953469999997,
+        "evaluations": 11,
+        "finite_objective": true,
+        "iterations": 8,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.9956039761416942,
+        "success": true
+      },
+      {
+        "core_hours": 0.022765512507500002,
+        "evaluations": 13,
+        "finite_objective": true,
+        "iterations": 9,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.853780285720782,
+        "success": true
+      },
+      {
+        "core_hours": 0.01271204482611111,
+        "evaluations": 12,
+        "finite_objective": true,
+        "iterations": 10,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.9753887422907079,
+        "success": true
+      },
+      {
+        "core_hours": 0.09874611458805556,
+        "evaluations": 53,
+        "finite_objective": true,
+        "iterations": 43,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.8603174800733765,
+        "success": true
+      },
+      {
+        "core_hours": 0.10066434874833334,
+        "evaluations": 52,
+        "finite_objective": true,
+        "iterations": 45,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.7874664892201063,
+        "success": true
+      },
+      {
+        "core_hours": 0.02193455032027778,
+        "evaluations": 15,
+        "finite_objective": true,
+        "iterations": 13,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 1.6160974388684366,
+        "success": true
+      },
+      {
+        "core_hours": 0.05733156489333333,
+        "evaluations": 34,
+        "finite_objective": true,
+        "iterations": 26,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.8336112814931269,
+        "success": true
+      },
+      {
+        "core_hours": 0.09771669212833334,
+        "evaluations": 54,
+        "finite_objective": true,
+        "iterations": 41,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.9954072626328329,
+        "success": true
+      },
+      {
+        "core_hours": 0.13978134465944445,
+        "evaluations": 66,
+        "finite_objective": true,
+        "iterations": 52,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.787466555647329,
+        "success": true
+      },
+      {
+        "core_hours": 0.0015031681377777773,
+        "evaluations": 1,
+        "finite_objective": false,
+        "iterations": 0,
+        "message": "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL",
+        "objective": null,
+        "success": false
+      },
+      {
+        "core_hours": 0.028082609454722227,
+        "evaluations": 15,
+        "finite_objective": true,
+        "iterations": 13,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.7874693158508617,
+        "success": true
+      },
+      {
+        "core_hours": 0.00211342228333334,
+        "evaluations": 1,
+        "finite_objective": false,
+        "iterations": 0,
+        "message": "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL",
+        "objective": null,
+        "success": false
+      },
+      {
+        "core_hours": 0.08877080287138889,
+        "evaluations": 40,
+        "finite_objective": true,
+        "iterations": 24,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 1.0041673805619604,
+        "success": true
+      },
+      {
+        "core_hours": 0.11150280750805554,
+        "evaluations": 67,
+        "finite_objective": true,
+        "iterations": 55,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 1.0119007608090163,
+        "success": true
+      },
+      {
+        "core_hours": 0.07983681717388891,
+        "evaluations": 38,
+        "finite_objective": true,
+        "iterations": 30,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.9809037294808005,
+        "success": true
+      },
+      {
+        "core_hours": 0.09813838557444444,
+        "evaluations": 69,
+        "finite_objective": true,
+        "iterations": 46,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 0.8011497998531799,
+        "success": true
+      },
+      {
+        "core_hours": 0.11952394726305558,
+        "evaluations": 71,
+        "finite_objective": true,
+        "iterations": 55,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 1.0119007617239681,
+        "success": true
+      },
+      {
+        "core_hours": 0.02656766094555555,
+        "evaluations": 14,
+        "finite_objective": true,
+        "iterations": 9,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 1.0174665106142204,
+        "success": true
+      },
+      {
+        "core_hours": 0.029132431993888888,
+        "evaluations": 16,
+        "finite_objective": true,
+        "iterations": 13,
+        "message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH",
+        "objective": 13.693736670682503,
+        "success": true
+      },
+      {
+        "core_hours": 0.0,
+        "evaluations": 1,
+        "iterations": 0,
+        "message": "exact monotone candidate",
+        "objective": 0.7878988795221183,
+        "success": true
+      }
+    ],
+    "starts": 30,
+    "starts_sha256": "fb3b0f5d4f69f7adc66fc03ce047e99760d84af3c989c7beea10a315f3737e27",
+    "training_objective_g_s": 0.7874664888555197,
+    "training_shots": 7385,
+    "training_users": 253
+  },
+  "model": "AR",
+  "parameters": {
+    "Mc": 4.536889520417324,
+    "Pd": 100.00000000000004,
+    "kappa": 0.08834786522146555,
+    "n": 1.0
+  },
+  "schema": "puckworks.reported-flow.v1",
+  "settings": {
+    "calibration_windows": 3,
+    "guard_s": 2.0,
+    "max_gap_s": 2.0,
+    "minimum_scored_windows": 3,
+    "onset_g": 1.0,
+    "quadrature_order": 16,
+    "scale_floor_g_s": 0.1,
+    "varying_bar": 2.0,
+    "window_s": 2.0
+  }
+}
