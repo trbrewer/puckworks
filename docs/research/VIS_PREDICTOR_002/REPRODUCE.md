@@ -48,6 +48,7 @@ done
 python -m pytest -q tests/test_vis_predictor_001.py tests/test_vis_predictor_002.py
 python -m pytest -q -m 'not slow and not live and not gpu and not external_data'
 ruff check puckworks/ tests/
+python -c "from puckworks.registry import run_all_gates; run_all_gates()"
 ```
 
 The actual six fit invocations run concurrently with eight independent starts each,
@@ -72,6 +73,8 @@ authenticated cache to regenerate scores, bootstrap intervals, breakdowns, examp
 aggregates and matched-survivor comparisons, without refitting or rescoring models.
 Cache identity includes all CV-model hashes; deployment models never enter it.
 Both CV and deployment audits use the pinned independent complete-shot-batched
+operator. Actual execution audits completed pressure models concurrently and then
+assembles the same complete receipts; the serial commands above call the identical
 operator. Audit failure stops scoring; the 1e-5 threshold is unchanged.
 
 Use a saved model through `puckworks.empirical.visualizer.load_model` and `predict`
