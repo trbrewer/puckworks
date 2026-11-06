@@ -6,6 +6,7 @@ import numpy as np
 import pytest
 
 from puckworks.analysis import vis_highpressure_prevalence_001 as probe
+from puckworks.analysis import vis_highpressure_prevalence_001_report as report
 
 
 def trace(end=70, pressure=11., onset=0):
@@ -59,6 +60,22 @@ def test_equal_threshold_splits_and_spikes_do_not_count():
     p[:] = 9e5
     p[8:10] = 13e5
     assert not any(probe.measure(t, p, w)["events"].values())
+
+
+@pytest.mark.parametrize("last,expected", [(12., True), (11.98, False)])
+def test_interpolated_run_length_at_ten_seconds(last, expected):
+    t = np.r_[np.arange(0., 12., 2.), last]
+    p = np.r_[9., np.full(5, 11.), 9.] * 1e5
+    w = (t + 2) / 1000
+    assert probe.measure(t, p, w)["events"]["gt10_late0"] == expected
+
+
+def test_late_stretch_need_not_start_after_late_boundary():
+    t, p, w = trace(45, 9)
+    p[30:] = 11e5
+    r = probe.measure(t, p, w)
+    assert r["events"]["gt10_late40"]
+    assert not r["events"]["gt10_late60"]
 
 
 @pytest.mark.parametrize("defect", ["gap", "nan_p", "nan_w", "negative_p"])
@@ -153,3 +170,82 @@ def test_refusal_stops_without_retry(tmp_path, status):
                     params=dict(page=1, items=100, sort="start_time"))
     assert http.calls == 1
     assert json.loads((tmp_path / "REQUESTS.jsonl").read_text())["status"] == status
+
+
+def synthetic_rows(n=200):
+    return [dict(shot_token=f"synthetic-{i}", user_token=f"synthetic-user-{i}",
+                 status="evaluable", reset_like=False, onset_left_censored=False,
+                 gap=False, incomplete_support=False, profile_title="Fixture profile",
+                 events={f"gt{p}_late{t}": False for p in (10, 11, 12) for t in (0, 40, 60)})
+            for i in range(n)]
+
+
+def test_clopper_pearson_endpoints_and_known_interval():
+    assert report.exact_interval(0, 100)[0] == 0
+    assert report.exact_interval(100, 100)[1] == 1
+    assert report.exact_interval(0, 100)[1] == pytest.approx(1 - .025 ** .01)
+    assert report.exact_interval(50, 100) == pytest.approx((.3983211295, .6016788705))
+
+
+def test_linked_subtraction_hides_safe_marginal_with_rare_difference():
+    rows = synthetic_rows()
+    d = report.Disclosure(rows)
+    assert d.consider("late", range(40))
+    assert not d.consider("any", range(41))
+    assert d.consider("any_safe_difference", range(60))
+
+
+def test_higher_order_intersection_and_user_overlap_are_checked():
+    rows = synthetic_rows(80)
+    d = report.Disclosure(rows)
+    assert d.consider("a", range(40))
+    assert d.consider("b", range(20, 60))
+    # Marginal c and each pairwise difference are safe; the joint remainder is one.
+    assert not d.consider("c", set(range(1, 20)) | set(range(40, 60)))
+    rows = synthetic_rows(100)
+    for i in range(50):
+        rows[i]["user_token"] = f"synthetic-user-{i % 10}"
+    for i in range(50, 100):
+        rows[i]["user_token"] = f"synthetic-user-{i % 11}"
+    assert not report.partition_safe(rows, [set(range(50))])  # one exclusive user
+
+
+def test_suppressed_estimates_and_profile_labels_stay_withheld():
+    rows = synthetic_rows()
+    for r in rows[:5]:
+        r["events"]["gt10_late0"] = True
+        r["profile_title"] = "rare-title@example.test"
+    prevalence, profiles, _ = report.release_tables(rows)
+    chosen = next(r for r in prevalence if r.get("threshold_bar") == "10"
+                  and r.get("late_s") == "0" and r["analysis"] == "primary")
+    assert chosen["events"] == report.WITHHELD
+    for field in ("ci95_lower", "ci95_upper", "prevalence", "qualifying_users",
+                  "projected_shots_per_10000", "projected_users_per_10000"):
+        assert chosen[field] == report.WITHHELD
+    assert "rare-title" not in json.dumps(profiles)
+    assert profiles[0]["shots"] == report.WITHHELD
+
+
+def test_safe_counts_projections_and_explicit_title_approval():
+    rows = synthetic_rows()
+    for r in rows[:40]:
+        r["events"]["gt10_late0"] = r["events"]["gt10_late40"] = True
+    prevalence, profiles, d = report.release_tables(rows, ["Fixture profile"])
+    r = next(r for r in prevalence if r.get("threshold_bar") == "10"
+             and r.get("late_s") == "40" and r["analysis"] == "primary"
+             and r["denominator"] == "all_selected")
+    assert r["events"] == r["qualifying_users"] == 40
+    assert r["projected_shots_per_10000"] == r["projected_users_per_10000"] == 2000
+    assert profiles == [dict(profile_title="Fixture profile", shots=40, distinct_users=40,
+                             release_status="RELEASED")]
+    assert report.partition_safe(rows, d.memberships)
+
+
+def test_commanded_pressure_cannot_enter_measurement():
+    cfg = probe.vh.HarvestConfig(out_dir="unused", salt="synthetic")
+    t, p, w = trace(70, 9)
+    raw = dict(timeframe=t.tolist(), data=dict(espresso_pressure=(p / 1e5).tolist(),
+               espresso_weight=(w * 1000).tolist(), espresso_pressure_goal=[15] * len(t)))
+    h = probe.vh.normalize_shot(raw, cfg)["hydraulic"]
+    r = probe.measure(h["time__s"], h["pressure__Pa"], h["weight__kg"])
+    assert not any(r["events"].values())
