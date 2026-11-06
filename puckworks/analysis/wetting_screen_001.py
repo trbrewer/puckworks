@@ -110,7 +110,7 @@ def wetting_grid(time, source_t, source_p, theta, arm, parameters, r0=R0()):
 
 @njit(cache=True)
 def _column(time, cap, front, mc, cells, phi, rho, length, area, inventory,
-            rate, cmax, diffusion, smoothing, native_time_scheme):
+            rate, cmax, diffusion, smoothing, native_time_scheme, gamma=0.):
     """Conservative R0 finite volumes; no transport during filling, as in EWP."""
     nt = len(time)
     c = np.zeros(cells)
@@ -143,13 +143,19 @@ def _column(time, cap, front, mc, cells, phi, rho, length, area, inventory,
         back = loss[j-1]
         if saturated:
             r = math.exp(-math.exp(-water/mc))
+            if gamma != 0.:
+                r *= math.exp(-gamma*water)
             if native_time_scheme:
                 add = dt*cap[j]*r
                 flow[j] = cap[j]*r
             else:
                 mid = water+.25*dt*(cap[j-1]+cap[j])*r
                 add = .5*dt*(cap[j-1]+cap[j])*math.exp(-math.exp(-mid/mc))
+                if gamma != 0.:
+                    add *= math.exp(-gamma*mid)
                 flow[j] = cap[j]*math.exp(-math.exp(-(water+add)/mc))
+                if gamma != 0.:
+                    flow[j] *= math.exp(-gamma*(water+add))
             velocity = add/(dt*1000*rho*area)
             adv = velocity/dx
             diff = phi*diffusion/(dx*dx)

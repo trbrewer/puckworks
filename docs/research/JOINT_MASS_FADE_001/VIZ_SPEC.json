@@ -1,0 +1,20 @@
+{
+  "role": "Retrospective hydraulic capability comparison",
+  "producer": "puckworks.analysis.joint_mass_fade_001_report.figure",
+  "outputs": ["FLOW.svg"],
+  "dataset_id": "waszkiewicz2025/traces_per_brew",
+  "source": "Waszkiewicz 2025, Zenodo 18046315; authenticated FORM_A histories and #423/#424 native observer",
+  "rights": "CC-BY-4.0; original redraw; large traces external",
+  "scope": "6,9,11,13-bar equal-brew trajectories at .005 s; LOCO and DESCRIPTIVE_ALL panels",
+  "encodings": {
+    "black": "observed beverage-flow derivative/filter",
+    "gray dotted": "saved A-J1",
+    "blue dashed": "refreshed A-J1",
+    "orange solid": "A-J1-F",
+    "x": "seconds since stable pressure",
+    "y": "beverage-observer flow in g/s",
+    "support": "0.1-s interpolation of native filtered flows on common clean brew support; display through 105 s",
+    "uncertainty": "paired fixed-window intervals in CSV; none drawn"
+  },
+  "ceiling": "Phenomenological, target-exposed comparison; no identified mechanism or physical validation; descriptive panels are in-sample"
+}
