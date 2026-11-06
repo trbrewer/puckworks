@@ -114,6 +114,10 @@ def trajectory_tables(data,records):
 
 def metric_tables(data,records):
     condition=data['condition'];sources=data['sources'];groups,samples=P.paired_samples(condition)
+    inherited=_ARGS.joint/'PAIRED_RESAMPLES.json'
+    manifest=R.read(R.ROOT/'docs/research/JOINT_CLOCK_001/RUN_MANIFEST.json')
+    R.T.checked_hash(inherited,manifest['resamples_sha256'])
+    assert samples==R.read(inherited)
     sample_bytes=json.dumps(samples,separators=(',',':')).encode()
     ( _ARGS.work/'J1_RESAMPLES.json').write_bytes(sample_bytes)
     lookup={(r['arm'],r['scope'],r['brew']):r for r in records}
@@ -296,6 +300,8 @@ def main():
     R.R.R.write_json(OUT/'VERIFICATION.json',dict(fit_problems=24,scheduled_starts=len(starts),
         cases=len(records),steps=[.02,.005],windows_per_step=len(records)*10,
         draw_bank_sha256=O.bank_digest(data['draws']),j1_metric_draw_bank_sha256=bank_hash,
+        j1_inherited_draw_file_sha256=O.digest(args.joint/'PAIRED_RESAMPLES.json'),
+        j1_draw_content_identical=True,
         saved_J1_continuity='all #424 compact levels reproduced at rtol=atol=1e-12',
         reference=R.read(args.work/'REFERENCE.json'),identity=R.identity(),
         evaluator_sha256=O.digest(E.__file__),reporter_sha256=O.digest(__file__),

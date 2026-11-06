@@ -21,9 +21,9 @@ def test_adapter_mc_gamma_tau_last():
     p=np.array([.8,24.,2.,3.6,.007,13.])
     np.testing.assert_allclose(F.physical(F.coordinates(p)),p,rtol=1e-14,atol=0)
     assert F.coordinates(p)[4]==.007 and F.coordinates(p)[5]==.13
-    a=F.prepare(source(),p,29.)
+    a=F.prepare(source(),p,29.,dt=.1,cells=16)
     assert a.mc==29 and a.gamma==.007 and a.tb==13
-    b=J.Prepared([0.,100.],[9.,9.],[*p[:4],29.],"W1",[13.],gamma=.007)
+    b=J.Prepared([0.,100.],[9.,9.],[*p[:4],29.],"W1",[13.],dt=.1,cells=16,gamma=.007)
     np.testing.assert_array_equal(a.mass,b.mass)
     with pytest.raises(ValueError):
         F.coordinates(p[:5])
@@ -33,11 +33,11 @@ def test_adapter_mc_gamma_tau_last():
 @pytest.mark.parametrize('tau',[0.,13.173])
 def test_two_paths_match_and_chemistry_responds(gamma,tau):
     p=[.8,24.,2.,3.6,gamma,tau]
-    a=F.prepare(source(),p,29.)
+    a=F.prepare(source(),p,29.,dt=.1,cells=16)
     full=a.chemistry(100.)
     np.testing.assert_allclose(a.mass,full['liquid_g'],rtol=1e-12,atol=0)
     np.testing.assert_allclose(a.flow,full['bed_flow_g_s'],rtol=1e-12,atol=0)
-    zero=F.prepare(source(),[*p[:4],0.,tau],29.).chemistry(100.)
+    zero=F.prepare(source(),[*p[:4],0.,tau],29.,dt=.1,cells=16).chemistry(100.)
     assert full['liquid_g'][-1]<zero['liquid_g'][-1]
     assert full['solute_g'][-1]!=zero['solute_g'][-1]
     assert full['max_balance_error_g']<1e-9
@@ -47,8 +47,8 @@ def test_two_paths_match_and_chemistry_responds(gamma,tau):
 def test_positive_prefix_full_decline_nondetection(p,gamma,tau):
     pars=[.8,24.,2.,3.6,gamma,tau]
     times=np.linspace(.013,99.913,1001)
-    fast=F.prepare(source(p),pars,29.)
-    slow=F.prepare(source(p),pars,29.)
+    fast=F.prepare(source(p),pars,29.,dt=.1,cells=16)
+    slow=F.prepare(source(p),pars,29.,dt=.1,cells=16)
     x=fast.observer(times); y=slow.observer(times,accelerate=False)
     for k in ('onset_s','detected','censor_bound_s','last_timestamp_s','samples'):
         assert x[k]==y[k]
@@ -80,7 +80,7 @@ def test_analytic_constant_pressure_regimes(product):
 
 def test_zero_nesting_original_equations():
     # Independent literal original update, including event insertion.
-    a=F.prepare(source(),[.8,24.,2.,3.6,0.,13.173],29.)
+    a=F.prepare(source(),[.8,24.,2.,3.6,0.,13.173],29.,dt=.1,cells=16)
     mass=np.zeros(len(a.time));flow=np.zeros(len(a.time))
     import math
     for j in range(1,len(mass)):
@@ -93,13 +93,14 @@ def test_zero_nesting_original_equations():
             flow[j]=a.cap[j]*math.exp(-math.exp(-mass[j]/a.mc))
     np.testing.assert_allclose(a.mass,mass,rtol=1e-12,atol=0)
     np.testing.assert_allclose(a.flow,flow,rtol=1e-12,atol=0)
-    b=J.prepare(source(),[.8,24.,2.,3.6,13.173],'J1',29.)[0]
+    b=J.prepare(source(),[.8,24.,2.,3.6,13.173],'J1',29.,dt=.1,cells=16)[0]
     for k,v in a.chemistry(100.).items():
         if isinstance(v,np.ndarray):
             np.testing.assert_allclose(v,b.chemistry(100.)[k],rtol=1e-12,atol=0)
 
 
 def test_start_bank_fold_matching():
+    from scipy.stats import qmc
     rows=R.table(R.OUT/'START_BANK.csv')
     refs=R.read(R.OUT/'SOURCE_FITS.json')
     assert len(rows)==456 and len(refs)==12
@@ -110,6 +111,11 @@ def test_start_bank_fold_matching():
         assert len(control)==len(fade)==19
         assert all(float(r['Mc_g'])==mc for r in control+fade)
         lhs={r['origin']:json.loads(r['parameters']) for r in control if r['origin'].startswith('LHS')}
+        lo,hi=J.bounds('J1');hi[2]=8.
+        grid=qmc.scale(qmc.LatinHypercube(5,seed=20261106).random(len(lhs)),lo,hi)
+        for i,z in enumerate(grid):
+            p=J.physical(z,'J1')
+            np.testing.assert_allclose(lhs[f'LHS_{i:02d}'],[*p[:4],0.,p[-1]],rtol=1e-14,atol=0)
         for r in fade[4:]:
             p=json.loads(r['parameters']); base=lhs[r['origin']]
             assert p[:4]+p[5:]==base[:4]+base[5:]
