@@ -21,6 +21,9 @@ def rows(name, output_root=None):
 
 def main(output_root=None):
     out = OUT if output_root is None else Path(output_root)
+    task = json.loads((out / "FROZEN_MANIFEST.json").read_text()).get("task_id", "PW-VIS-PREDICTOR-001")
+    credit = ("Visualizer and contributing users · unflagged shots, post-hoc exclusion · no physical validation"
+              if task == "PW-VIS-PREDICTOR-002" else CREDIT)
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -39,7 +42,7 @@ def main(output_root=None):
             ax.set_xlabel("Paired mean RMSE difference (g/s)\nnegative favors first model")
             ax.grid(axis="x", alpha=.2)
         fig.suptitle("Early-calibrated later flow: complete-user bootstrap, 95% intervals")
-        fig.text(.5, .01, CREDIT, ha="center", fontsize=8)
+        fig.text(.5, .01, credit, ha="center", fontsize=8)
         fig.tight_layout(rect=(0, .05, 1, 1))
         fig.savefig(out / "PAIRED_DIFFERENCES.svg", metadata={"Date": None})
         plt.close(fig)
@@ -66,7 +69,7 @@ def main(output_root=None):
                  ha="center", fontsize=8)
         fig.text(.5, .03, "Symmetric-log axis (linear from −2 to 2 g/s); means can conceal large individual errors.",
                  ha="center", fontsize=8)
-        fig.text(.5, .005, CREDIT, ha="center", fontsize=8)
+        fig.text(.5, .005, credit, ha="center", fontsize=8)
         fig.tight_layout(rect=(0, .1, 1, 1))
         fig.savefig(out / "AGGREGATED_EXAMPLE.svg", metadata={"Date": None})
         plt.close(fig)
@@ -87,11 +90,11 @@ def main(output_root=None):
             ax.grid(alpha=.2)
             ax.legend(fontsize=8)
         fig.suptitle("Shared capacity curves; amplitude and mass recovery omitted")
-        fig.text(.5, .01, CREDIT, ha="center", fontsize=8)
+        fig.text(.5, .01, credit, ha="center", fontsize=8)
         fig.tight_layout(rect=(0, .05, 1, 1))
         fig.savefig(out / "CAPACITY_CURVES.svg", metadata={"Date": None})
         plt.close(fig)
-    spec = dict(task=json.loads((out / "FROZEN_MANIFEST.json").read_text()).get("task_id", "PW-VIS-PREDICTOR-001"), evidence="empirical held-out-user reported-signal benchmark",
+    spec = dict(task=task, evidence="empirical held-out-user reported-signal benchmark",
                 claim_ceiling="No mechanism, causal law, universal peak or physical validation",
                 registry="research-only task-local VizSpec; no production entry",
                 figures=[dict(file="PAIRED_DIFFERENCES.svg", source="CONTRASTS.csv",
@@ -100,7 +103,7 @@ def main(output_root=None):
                               semantics="released aggregates, changing supported cohorts, not a shot trace"),
                          dict(file="CAPACITY_CURVES.svg", source="models/fold_*/*.json",
                               semantics="all four shared pressure-shape families, fold curves normalized at 6 bar, linear reference; may extrapolate")],
-                credit=CREDIT)
+                credit=credit)
     (out / "VIZ_SPEC.json").write_text(json.dumps(spec, indent=2) + "\n")
 
 

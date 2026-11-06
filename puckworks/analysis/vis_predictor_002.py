@@ -339,6 +339,19 @@ def export_diagnostics(private, output):
     shared.csv_write(output / "MODEL_INDEX.csv", index)
     shared.csv_write(output / "PARAMETER_BOUNDS.csv", bounds)
     shared.csv_write(output / "NUMERICAL_AUDITS.csv", audits)
+    # Paired fold differences commute with the identical-shot equal-user mean.
+    with (output / "SCORES.csv").open() as f:
+        score_rows = [r for r in csv.DictReader(f)
+                      if r["scope"] == "prediction" and r["fold"] != "all"]
+    scores = {(r["subset"], r["fold"], r["metric"], r["model"]): r for r in score_rows}
+    fold_contrasts = []
+    for subset, fold, metric in sorted({k[:3] for k in scores}):
+        for a, b in CONTRASTS:
+            first, second = (scores[subset, fold, metric, m] for m in (a, b))
+            fold_contrasts.append(dict(subset=subset, fold=fold, metric=metric,
+                contrast=f"{a}-{b}", difference=float(first["value"])-float(second["value"]),
+                shots=first["shots"], users=first["users"]))
+    shared.csv_write(output / "FOLD_CONTRASTS.csv", fold_contrasts)
     other = {name: json.loads((private / name).read_text())["core_hours"]
              for name in ("preparation.json", "quadrature.json", "deployment_quadrature.json")}
     other["C0_reproduction"] = json.loads((output / "C0_REPRODUCTION.json").read_text())["core_hours"]

@@ -146,3 +146,25 @@ def test_empty_audit_cannot_authorize_scoring(tmp_path):
     (tmp_path / "quadrature.json").write_text(json.dumps(dict(passed=True, rows=[])))
     with pytest.raises(RuntimeError, match="Incomplete/foreign"):
         rerun.require_audit(tmp_path, tmp_path, {})
+
+
+def test_relative_output_root_verifies_same_committed_freeze(tmp_path, monkeypatch):
+    from dataclasses import asdict
+    from pathlib import Path
+    from puckworks.empirical.visualizer import Settings
+    output, private = tmp_path / "bundle", tmp_path / "private"
+    output.mkdir()
+    private.mkdir()
+    for name in ("PLAN.md", "STARTS.json", "FOLD_MANIFEST.csv"):
+        (output / name).write_text("frozen")
+    (private / "windows.pkl").write_bytes(b"windows")
+    (private / "corpus-folds.json").write_bytes(b"cohort")
+    manifest = dict(settings=asdict(Settings()), windows_sha256=shared.sha(private / "windows.pkl"),
+                    corpus_fold_sha256=shared.sha(private / "corpus-folds.json"),
+                    starts_sha256=shared.sha(output / "STARTS.json"))
+    (output / "FROZEN_MANIFEST.json").write_text(json.dumps(manifest))
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(shared, "ROOT", tmp_path)
+    monkeypatch.setattr(shared.subprocess, "check_output",
+                        lambda args, **kwargs: (tmp_path / args[-1].removeprefix("HEAD:")).read_bytes())
+    assert shared.verify_freeze(private, Path("bundle")) == manifest

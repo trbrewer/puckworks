@@ -26,3 +26,10 @@ The actual C0 continuity review passed: committed receipt RMSE
 runtime/malformed-cache resume addition; all 14 then-affected tests passed.
 No private records or targets were opened by the reviewer. Numerical audit and
 final-claim review remain pending.
+
+The reporting/path review passed all **57 focused tests**, including independent
+synthetic matched-shot lookup and equal-user averaging, 35/7 fit accounting,
+48-model inventory and 90 parameter-bound entries. The relative-output repair
+changes path resolution only. The reviewer also checked all eight per-fold
+contrasts: released prediction fold scores only, first minus second, both metrics
+and both subsets. Actual exported values and final claims remain pending.

@@ -78,7 +78,7 @@ def release_ok(indices, shots, universe=None):
 
 def prepare(root, inventory, private, output_root=None):
     """Authenticate/read allowed channels, extract and freeze; no model score is computed."""
-    out = OUT if output_root is None else Path(output_root)
+    out = OUT if output_root is None else Path(output_root).resolve()
     started = time.process_time()
     frozen_path = out / "FROZEN_MANIFEST.json"
     existing = json.loads(frozen_path.read_text()) if frozen_path.exists() else None
@@ -168,7 +168,7 @@ def prepare(root, inventory, private, output_root=None):
 
 def verify_freeze(private, output_root=None):
     """Require the exact PLAN and manifest already committed, and matching private bytes."""
-    out = OUT if output_root is None else Path(output_root)
+    out = OUT if output_root is None else Path(output_root).resolve()
     for name in ("PLAN.md", "FROZEN_MANIFEST.json", "STARTS.json", "FOLD_MANIFEST.csv"):
         relative = str((out / name).relative_to(ROOT))
         committed = subprocess.check_output(["git", "show", "HEAD:" + relative], cwd=ROOT)
@@ -196,7 +196,7 @@ def _one_start(theta):
 
 def resume_contract(manifest, fold, output_root):
     """Bind cached fits to task/cohort/plan/fold and the unchanged numerical code."""
-    out = Path(output_root)
+    out = Path(output_root).resolve()
     import platform
     import scipy
     return dict(task_id=manifest.get("task_id", "PW-VIS-PREDICTOR-001"), fold=str(fold),
@@ -217,7 +217,7 @@ def resume_matches(saved, model, contract):
 
 def fit_models(private, fold, workers, output_root=None):
     """One outer fold (or deployment); shared training never sees excluded users."""
-    out = OUT if output_root is None else Path(output_root)
+    out = OUT if output_root is None else Path(output_root).resolve()
     global _FIT_DESIGN, _FIT_MODEL
     manifest = verify_freeze(private, out)
     with (private / "windows.pkl").open("rb") as f:
@@ -301,7 +301,7 @@ def user_mean(values, shots, indices):
 
 def audit(private, deployment=False, output_root=None):
     """Audit all selected shapes on pressure covariates before any held-out scoring."""
-    out = OUT if output_root is None else Path(output_root)
+    out = OUT if output_root is None else Path(output_root).resolve()
     from puckworks.empirical.visualizer import audit_quadrature
     verify_freeze(private, out)
     with (private / "windows.pkl").open("rb") as f:
@@ -329,7 +329,7 @@ def audit(private, deployment=False, output_root=None):
 
 def prediction_provenance(output_root):
     """Bind a cache to the exact cohort, plan, evaluator and CV model inventory."""
-    out = Path(output_root)
+    out = Path(output_root).resolve()
     manifest = json.loads((out / "FROZEN_MANIFEST.json").read_text())
     return dict(task_id=manifest.get("task_id", "PW-VIS-PREDICTOR-001"),
                 corpus_fold_sha256=manifest["corpus_fold_sha256"],
@@ -341,7 +341,7 @@ def prediction_provenance(output_root):
 
 def score(private, output_root=None, contrast_pairs=CONTRASTS):
     """Score once; persist private predictions before aggregate-only export."""
-    out = OUT if output_root is None else Path(output_root)
+    out = OUT if output_root is None else Path(output_root).resolve()
     verify_freeze(private, out)
     receipt = json.loads((private / "quadrature.json").read_text())
     if not receipt["passed"] or receipt["windows_sha256"] != sha(private / "windows.pkl"):
@@ -390,7 +390,7 @@ def score(private, output_root=None, contrast_pairs=CONTRASTS):
 
 def report(private, output_root=None, contrast_pairs=CONTRASTS):
     """Generate release-compliant aggregates using cached predictions; no refits."""
-    out = OUT if output_root is None else Path(output_root)
+    out = OUT if output_root is None else Path(output_root).resolve()
     with (private / "windows.pkl").open("rb") as f:
         shots = pickle.load(f)
     with (private / "predictions.pkl").open("rb") as f:
@@ -498,7 +498,7 @@ def report(private, output_root=None, contrast_pairs=CONTRASTS):
 
 def aggregate_panel(shots, predictions, output_root=None):
     """Fixed early-to-late bins with full linkage suppression; no selected shot trace."""
-    out = OUT if output_root is None else Path(output_root)
+    out = OUT if output_root is None else Path(output_root).resolve()
     all_ids = set(range(len(shots)))
     rows = []
     prior = all_ids
