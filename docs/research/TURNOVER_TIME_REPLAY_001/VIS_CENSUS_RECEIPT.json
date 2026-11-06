@@ -1,0 +1,13 @@
+{
+  "input_windows_sha256": "af474e0d964267e24f9d6c8c12e30edf4885662928786bce17a1639fde7c1b1a",
+  "code_sha256": "27b7773e634301ddb71159d6bd0e11341ff1a3d81b9ded475ab1cd74d316bd70",
+  "plan_sha256": "f70bbbc20a75abea5861ea9c8474db884031ab4b3f50e461628f73ad1385b64e",
+  "input_manifest_sha256": "442a7dd2444b1d3037d651de2a679c26937aa1411b7b4d133a834d5f7b1470f1",
+  "output_sha256": "9d758590e7732f2eb5189b6312bfba6d3dd258e50236adc93f1d83e0abe550b2",
+  "private_audit_sha256": "bb142476f80ad4dddee5abbac2a9059a41fc88480bf93bb88f692af67ce2b0f1",
+  "partition_release": "whole_partition_withheld",
+  "numpy": "2.0.2",
+  "cpu_seconds": 2.698047099,
+  "wall_seconds": 2.7019665511325,
+  "core_hours": 0.0007494575275
+}
