@@ -133,3 +133,33 @@ def test_source_contract_hashes():
     # The inherited observation test verifies the bank from its actual arrays.
     from tests.test_joint_mass_fade_001 import test_frozen_trajectory_code_and_shared_resample_identity
     test_frozen_trajectory_code_and_shared_resample_identity()
+
+
+def test_primary_contrast_uses_pressure_fade_inside_shared_draws():
+    from puckworks.analysis import joint_pressure_fade_001_report as P
+    points=np.array([1.,2.,9.,4.])
+    draws=np.array([[1.,2.,3.],[2.,4.,6.],[90.,80.,70.],[5.,7.,8.]])
+    value=P.difference_fields('contrast',points,draws)
+    expected=R.O.uncertainty('contrast',2.,np.array([3.,3.,2.]))
+    assert value==expected
+    row=P.comparison(3.,np.array([2.,3.,4.]),points,draws)
+    assert row['pressure_fade_minus_refreshed']==2.
+    assert row['pressure_fade_minus_refreshed_absolute_error']==0.
+
+
+def test_mass_and_pressure_parameter_labels_stay_separate():
+    from puckworks.analysis import joint_pressure_fade_001_report as P
+    p=[.8,24.,2.,3.6,.0002,13.]
+    mass=P.parameter_fields('A_J1_F',p,29.)
+    pressure=P.parameter_fields('A_J1_PF',p,29.)
+    assert mass['gamma']==.0002 and mass['gamma_P']==0.
+    assert pressure['gamma']==0. and pressure['gamma_P']==.0002
+    assert pressure['gamma_P_1300']==.26 and mass['gamma_Mc']==.0002*29.
+
+
+def test_slice_grid_is_fixed_and_peak_convention_is_inherited():
+    from puckworks.analysis import joint_pressure_fade_001_evaluate as E
+    from puckworks.analysis import joint_mass_fade_001_evaluate as ME
+    assert E.SLICE_GRID==(0.,.0125,.025,.05,.075,.1,.15,.2,.3,.45,.6)
+    for flow in ([1.,2.,3.],[3.,2.,1.],[1.,3.,1.],[1.,1.,1.]):
+        assert E.peak([0.,1.,2.],flow)==ME.peak([0.,1.,2.],flow)
