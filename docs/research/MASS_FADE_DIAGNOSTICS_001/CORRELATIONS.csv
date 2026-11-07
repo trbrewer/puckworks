@@ -1,0 +1,5 @@
+predictor,conditions,rho,rho_lo,rho_hi,rho_finite_draws,interpretation
+mass60_g,11,0.06363636363636363,-0.19090909090909092,0.20909090909090908,1000,descriptive; fixed eleven conditions
+achieved_pressure_bar,11,-0.4090909090909091,-0.7636363636363637,-0.37272727272727274,1000,descriptive; fixed eleven conditions
+elapsed_duration_s,11,,,,0,undefined: identical elapsed duration
+abs_rho_mass_minus_abs_rho_pressure,11,-0.34545454545454546,-0.6909090909090909,-0.2545454545454545,1000,paired descriptive difference in absolute rank correlations
