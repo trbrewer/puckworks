@@ -176,8 +176,8 @@ def evaluate_peak_condition(job):
     cpu=time.process_time();curves=[];rows=[]
     common=dict(arm='A_J1_PF',scope='ALL_FIT_CONDITION_DIAGNOSTIC',fold=fold,
         pressure_bar=pressure,gamma_P=fit['parameters'][4],Mc_g=fit['mc_fixed_g'],dt=.005,
-        condition_in_training=fit['held_condition_bar']!=pressure,
-        is_held_out_condition=fit['held_condition_bar']==pressure)
+        condition_in_training=bool(fit['held_condition_bar']!=pressure),
+        is_held_out_condition=bool(fit['held_condition_bar']==pressure))
     for s in sources:
         predictor=F.prepare(s,fit['parameters'],fit['mc_fixed_g'],dt=.005)
         pred=predictor.chemistry(s['predict_horizon_s'])

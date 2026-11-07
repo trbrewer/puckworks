@@ -163,3 +163,21 @@ def test_slice_grid_is_fixed_and_peak_convention_is_inherited():
     assert E.SLICE_GRID==(0.,.0125,.025,.05,.075,.1,.15,.2,.3,.45,.6)
     for flow in ([1.,2.,3.],[3.,2.,1.],[1.,3.,1.],[1.,1.,1.]):
         assert E.peak([0.,1.,2.],flow)==ME.peak([0.,1.,2.],flow)
+
+
+def test_all_fit_peak_metadata_serializes_numpy_conditions(monkeypatch,tmp_path):
+    from types import SimpleNamespace
+    from puckworks.analysis import joint_pressure_fade_001_evaluate as E
+    t=np.linspace(0.,100.,1001)
+    fit=dict(parameters=[.8,24.,2.,3.6,.0002,13.],mc_fixed_g=29.,held_condition_bar=9.)
+    data=dict(sources=[dict(source(),nominal_pressure_bar=np.float64(9.),brew='synthetic')],
+              native={'synthetic':(t,None,None,None)})
+    monkeypatch.setattr(E,'_DATA',data);monkeypatch.setattr(E,'_ARGS',SimpleNamespace(work=tmp_path))
+    monkeypatch.setattr(E,'selected',lambda *args:fit)
+    monkeypatch.setattr(E.F,'prepare',lambda *args,**kw:SimpleNamespace(
+        chemistry=lambda end:dict(time=t,beverage_g=t)))
+    result=E.evaluate_peak_condition(('HYD-LOCO-9.0',np.float64(9.)))
+    json.dumps(result,allow_nan=False)
+    assert len(result['rows'])==2
+    assert result['rows'][0]['condition_in_training'] is False
+    assert result['rows'][0]['is_held_out_condition'] is True

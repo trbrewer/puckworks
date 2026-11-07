@@ -110,5 +110,42 @@ Scientific compute uses external GNU time user+system CPU for the process tree,
 including every scientific command and failure; per-start timers are not added
 again. Setup, focused QA, independent review and hosted CI are separate. Large
 evidence is retained under `/home/tim/pw-joint-pressure-fade-001-evidence`.
-Final actuals, timer hashes, package versions and artifact hashes are recorded
-in RUN_RECEIPT.json after completion. No successor.
+Actuals, timer hashes, package versions and artifact hashes are recorded
+in RUN_RECEIPT.json. No successor.
+
+## Completed execution and accounting
+
+Exactly **12 fits / 228 starts / 177,304 evaluated trials** completed without
+failed starts. All selected objectives satisfy the embedded refreshed-control
+invariant. Scientific process-tree CPU was **111,229.29 seconds = 30.897025
+core-hours**, including both exact-control reference runs, fitting, the failed
+evaluation command, peak-only recovery and reporting. The fitting command used
+**30.756703 core-hours**. Per-start CPU is not added again.
+
+One scientific command failed while serializing the extra all-fit peak table:
+NumPy condition comparisons produced non-JSON boolean scalars. The correction
+casts only its two training/held-out metadata flags to built-in `bool`. The
+original evaluator is preserved as external `EVALUATOR_EXECUTED.py`; its hash
+matches the completed EVALUATION.json. Completed EVALUATION.json and SLICES.json
+remained byte-identical. Only the 132 peak diagnostic jobs were repeated using
+external `recover_peaks.py`; PEAK_RECOVERY.json binds the old/new source and
+unchanged evaluation/slice hashes. Reporting checks identical ASTs for the six
+unchanged selection/replay/slice functions before accepting that reuse. A fresh
+run of the four commands above uses the corrected serializer and needs no recovery.
+The failed command's **356.91 CPU seconds** and recovery's **94.70 seconds** are
+both included in the total. No fit or objective definition changed.
+
+All three inherited arms reproduce #427's windows, observers and errors exactly
+at both steps. Selected-slice and zero-slice objectives/components/detection
+counts reproduce exactly. All 132 fit/condition peak diagnostics completed;
+the peaks overlapping primary replay agree exactly. Across the four-arm replay,
+no detection changes occur between .02 and .005 s. For PF, the maximum late/phase
+change difference is **0.00007665 g/s**, maximum level difference **0.00014844 g/s**,
+and maximum training-objective difference **0.00119398**; no refitting.
+
+The local complete offline suite passed **8,123 tests**, with **33 skipped / 97
+deselected**, before the peak-metadata serialization repair. The repair has a
+focused regression test. The original 20 new tests also passed without JIT and
+on the declared minimum NumPy 2.0 / SciPy 1.13 environment. Registry: **66 PASS
+plus one acknowledged historical exception**. Final focused checks and required
+CI are reported with the draft PR. Independent review is in REVIEW.md.

@@ -1,0 +1,1148 @@
+{
+  "fit_problems": 12,
+  "reused_fits": 36,
+  "scheduled_starts": 228,
+  "cases": 448,
+  "steps": [
+    0.02,
+    0.005
+  ],
+  "windows_per_step": 4480,
+  "draw_bank_sha256": "d599d80c854fd5a3cf9b9ca5d6fe1c617b222125bd1adcb36ad9edecd96801b6",
+  "j1_metric_draw_bank_sha256": "a8a1a3b985035fe3272b6b486d3b7432148c4413b0539e7904539190fe709129",
+  "j1_inherited_draw_file_sha256": "de38c9474504509db55cdae5786199da6d4b8c4322656c26d58db0614b442a84",
+  "j1_draw_content_identical": true,
+  "saved_J1_continuity": "all #424 compact levels reproduced at rtol=atol=1e-12",
+  "saved_J1_component_continuity": "all #425 phase components and available intervals reproduced at rtol=atol=1e-12",
+  "reference": {
+    "identity": {
+      "docs/research/JOINT_PRESSURE_FADE_001/PLAN.md": "2814742ae3332129f7a5d7320b1b1a66cb900be1396276001a4e5f593c851cb0",
+      "docs/research/JOINT_PRESSURE_FADE_001/START_BANK.csv": "2faa8e1c0665723663ec2ef44391efbae4960981c8deac60d2f2c9555de37d03",
+      "docs/research/JOINT_PRESSURE_FADE_001/INPUT_MANIFEST.json": "ee0b8578e41b1844994b83b28962be328ca8a3dad49500daa44da9bfc780c98e",
+      "puckworks/analysis/joint_pressure_fade_001_run.py": "c56330a0ee3f4c271d3d09d49d8ddb2d6eefc7b0d0acca315c9173f5fa238238",
+      "puckworks/analysis/joint_pressure_fade_001.py": "9ef08e11f7d88c68cd811bd4ddb5f00828980b719a9116540bacb281ed824dc7",
+      "puckworks/analysis/joint_clock_001.py": "922c0cd4edf59cf0eb1feb89d4c6757e70e3ebe11b35fb29aa4d2c239d5f3581",
+      "puckworks/analysis/wetting_screen_001.py": "404e4619938e3c847b22603a837fe1bf1a53e676c7a5211e7184f953a7a0e072",
+      "puckworks/analysis/joint_clock_001_run.py": "dcb67b90b1db75f87974b6a668f307d844f158c3b1b028e81ff2819262bb099f"
+    },
+    "records": [
+      {
+        "fold": "DESCRIPTIVE_ALL",
+        "parameters": [
+          0.8315099566146535,
+          24.426862683131834,
+          1.921798861960503,
+          3.5971249497855977,
+          0.0,
+          13.52543175882501
+        ],
+        "objective": 0.8527330311821135,
+        "flow_component": 0.4039968536415309,
+        "onset_component": 0.4487361775405827,
+        "detected": 56,
+        "intended": 56,
+        "available": 56,
+        "condition_components": [
+          {
+            "pressure_bar": 1.0,
+            "flow": 0.011083359477594772,
+            "onset": 0.8576205969347125,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 2.0,
+            "flow": 0.06162513265433726,
+            "onset": 0.38233334659716545,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 3.5,
+            "flow": 0.8841499590888183,
+            "onset": 0.608379242731825,
+            "detected": 3,
+            "brews": 3
+          },
+          {
+            "pressure_bar": 4.0,
+            "flow": 0.5690834419017599,
+            "onset": 0.26011728957060015,
+            "detected": 10,
+            "brews": 10
+          },
+          {
+            "pressure_bar": 5.0,
+            "flow": 0.42666795140305835,
+            "onset": 0.19027163095906846,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 6.0,
+            "flow": 0.6517015767845165,
+            "onset": 0.2034374145269253,
+            "detected": 6,
+            "brews": 6
+          },
+          {
+            "pressure_bar": 7.0,
+            "flow": 0.4205786633585983,
+            "onset": 0.1694520025046264,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 8.0,
+            "flow": 0.46171991135476087,
+            "onset": 0.556288245805986,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 9.0,
+            "flow": 0.41459043309581267,
+            "onset": 0.536631487351655,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 11.0,
+            "flow": 0.2627792141319647,
+            "onset": 0.32121678212686655,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 13.0,
+            "flow": 0.2799857468056193,
+            "onset": 0.8503499138369787,
+            "detected": 6,
+            "brews": 6
+          }
+        ],
+        "exact_control_reproduction": true,
+        "cpu_seconds": 0.615100162
+      },
+      {
+        "fold": "HYD-LOCO-1.0",
+        "parameters": [
+          0.8266015584812714,
+          24.43423580608303,
+          2.1534111132906926,
+          3.5661803606462894,
+          0.0,
+          13.284701217607978
+        ],
+        "objective": 0.8310454234466751,
+        "flow_component": 0.41536724135767394,
+        "onset_component": 0.4156781820890011,
+        "detected": 51,
+        "intended": 51,
+        "available": 51,
+        "condition_components": [
+          {
+            "pressure_bar": 2.0,
+            "flow": 0.04422318108539776,
+            "onset": 0.41508493441407923,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 3.5,
+            "flow": 0.8578705792114777,
+            "onset": 0.5411592115822503,
+            "detected": 3,
+            "brews": 3
+          },
+          {
+            "pressure_bar": 4.0,
+            "flow": 0.5485778955767244,
+            "onset": 0.2181692399473935,
+            "detected": 10,
+            "brews": 10
+          },
+          {
+            "pressure_bar": 5.0,
+            "flow": 0.35161116532288955,
+            "onset": 0.15229746760690055,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 6.0,
+            "flow": 0.5791326782275362,
+            "onset": 0.1805992440458852,
+            "detected": 6,
+            "brews": 6
+          },
+          {
+            "pressure_bar": 7.0,
+            "flow": 0.4017903687238109,
+            "onset": 0.20218902118561533,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 8.0,
+            "flow": 0.44227531148443056,
+            "onset": 0.5536452002407337,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 9.0,
+            "flow": 0.39756298094267384,
+            "onset": 0.5830291505303553,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 11.0,
+            "flow": 0.25930718903714767,
+            "onset": 0.38461373256106085,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 13.0,
+            "flow": 0.2713210639646498,
+            "onset": 0.9259946187757357,
+            "detected": 6,
+            "brews": 6
+          }
+        ],
+        "exact_control_reproduction": true,
+        "cpu_seconds": 0.5437636269999999
+      },
+      {
+        "fold": "HYD-LOCO-11.0",
+        "parameters": [
+          0.8474875299491842,
+          22.097502038436584,
+          1.9282978587985473,
+          3.630234463515784,
+          0.0,
+          13.382222273092426
+        ],
+        "objective": 0.8654706826372951,
+        "flow_component": 0.40701924687773133,
+        "onset_component": 0.4584514357595638,
+        "detected": 52,
+        "intended": 52,
+        "available": 52,
+        "condition_components": [
+          {
+            "pressure_bar": 1.0,
+            "flow": 0.011339678675941977,
+            "onset": 0.8890929659725308,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 2.0,
+            "flow": 0.06521229571686668,
+            "onset": 0.3601938784722945,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 3.5,
+            "flow": 0.8881279849597915,
+            "onset": 0.5613035512629593,
+            "detected": 3,
+            "brews": 3
+          },
+          {
+            "pressure_bar": 4.0,
+            "flow": 0.5562597820003911,
+            "onset": 0.23358016546646815,
+            "detected": 10,
+            "brews": 10
+          },
+          {
+            "pressure_bar": 5.0,
+            "flow": 0.39788135129831703,
+            "onset": 0.16411346005254804,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 6.0,
+            "flow": 0.6210437471287649,
+            "onset": 0.19031370389950839,
+            "detected": 6,
+            "brews": 6
+          },
+          {
+            "pressure_bar": 7.0,
+            "flow": 0.40607453293484563,
+            "onset": 0.19112756891079657,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 8.0,
+            "flow": 0.44597615214548203,
+            "onset": 0.5503509824024299,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 9.0,
+            "flow": 0.40228102242426117,
+            "onset": 0.558836047165279,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 13.0,
+            "flow": 0.2759959214926516,
+            "onset": 0.8856020339908234,
+            "detected": 6,
+            "brews": 6
+          }
+        ],
+        "exact_control_reproduction": true,
+        "cpu_seconds": 0.5884516030000001
+      },
+      {
+        "fold": "HYD-LOCO-13.0",
+        "parameters": [
+          0.822213749905065,
+          25.485161784938512,
+          1.9179134139735932,
+          3.5860651981547464,
+          0.0,
+          13.136381999618074
+        ],
+        "objective": 0.8123351019173342,
+        "flow_component": 0.4049612565274369,
+        "onset_component": 0.40737384538989724,
+        "detected": 50,
+        "intended": 50,
+        "available": 50,
+        "condition_components": [
+          {
+            "pressure_bar": 1.0,
+            "flow": 0.01122863027522029,
+            "onset": 0.921413146838016,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 2.0,
+            "flow": 0.06319342680223651,
+            "onset": 0.3196167675139498,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 3.5,
+            "flow": 0.8691973950755137,
+            "onset": 0.490720765719408,
+            "detected": 3,
+            "brews": 3
+          },
+          {
+            "pressure_bar": 4.0,
+            "flow": 0.552899580480194,
+            "onset": 0.19228709944118733,
+            "detected": 10,
+            "brews": 10
+          },
+          {
+            "pressure_bar": 5.0,
+            "flow": 0.4062958873612018,
+            "onset": 0.1413283238206688,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 6.0,
+            "flow": 0.6192728759080853,
+            "onset": 0.16362500078642517,
+            "detected": 6,
+            "brews": 6
+          },
+          {
+            "pressure_bar": 7.0,
+            "flow": 0.40561953225316466,
+            "onset": 0.2268498375942665,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 8.0,
+            "flow": 0.46336521543378617,
+            "onset": 0.5557802596818353,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 9.0,
+            "flow": 0.40713326639797265,
+            "onset": 0.6308652227963828,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 11.0,
+            "flow": 0.25140675528699324,
+            "onset": 0.431252029706833,
+            "detected": 4,
+            "brews": 4
+          }
+        ],
+        "exact_control_reproduction": true,
+        "cpu_seconds": 0.572643687
+      },
+      {
+        "fold": "HYD-LOCO-2.0",
+        "parameters": [
+          0.8647296571114039,
+          25.15266243241331,
+          2.023640018282331,
+          3.2919569501968855,
+          0.0,
+          13.5937988530102
+        ],
+        "objective": 0.8837040788646305,
+        "flow_component": 0.43423177385966455,
+        "onset_component": 0.449472305004966,
+        "detected": 52,
+        "intended": 52,
+        "available": 52,
+        "condition_components": [
+          {
+            "pressure_bar": 1.0,
+            "flow": 0.013125885674707655,
+            "onset": 0.8595263566613983,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 3.5,
+            "flow": 1.0732716362610282,
+            "onset": 0.608379242731825,
+            "detected": 3,
+            "brews": 3
+          },
+          {
+            "pressure_bar": 4.0,
+            "flow": 0.583612283983632,
+            "onset": 0.2668400920827764,
+            "detected": 10,
+            "brews": 10
+          },
+          {
+            "pressure_bar": 5.0,
+            "flow": 0.33720407299031463,
+            "onset": 0.19027163095906846,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 6.0,
+            "flow": 0.6126841599708702,
+            "onset": 0.21245930938436544,
+            "detected": 6,
+            "brews": 6
+          },
+          {
+            "pressure_bar": 7.0,
+            "flow": 0.3872982871753188,
+            "onset": 0.17166987982189733,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 8.0,
+            "flow": 0.3879678247641924,
+            "onset": 0.5485976513482704,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 9.0,
+            "flow": 0.39759598540628466,
+            "onset": 0.5152483933088797,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 11.0,
+            "flow": 0.28024723204533436,
+            "onset": 0.30479341354416956,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 13.0,
+            "flow": 0.26931037032496236,
+            "onset": 0.816937080207009,
+            "detected": 6,
+            "brews": 6
+          }
+        ],
+        "exact_control_reproduction": true,
+        "cpu_seconds": 0.585199152
+      },
+      {
+        "fold": "HYD-LOCO-3.5",
+        "parameters": [
+          0.85564404882159,
+          26.194502248461028,
+          1.979362657762201,
+          3.4258258991297956,
+          0.0,
+          13.88465803049794
+        ],
+        "objective": 0.7918169132822125,
+        "flow_component": 0.37243417376318577,
+        "onset_component": 0.4193827395190267,
+        "detected": 53,
+        "intended": 53,
+        "available": 53,
+        "condition_components": [
+          {
+            "pressure_bar": 1.0,
+            "flow": 0.011498849051001875,
+            "onset": 0.811350334647458,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 2.0,
+            "flow": 0.07051942357375242,
+            "onset": 0.4379901821049563,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 4.0,
+            "flow": 0.5952337296581159,
+            "onset": 0.3231802833037799,
+            "detected": 10,
+            "brews": 10
+          },
+          {
+            "pressure_bar": 5.0,
+            "flow": 0.4077729734988741,
+            "onset": 0.2358460674229451,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 6.0,
+            "flow": 0.6773139239000212,
+            "onset": 0.25186203610395647,
+            "detected": 6,
+            "brews": 6
+          },
+          {
+            "pressure_bar": 7.0,
+            "flow": 0.45864575711621064,
+            "onset": 0.14870329096106477,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 8.0,
+            "flow": 0.4844035341911973,
+            "onset": 0.5418892696051922,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 9.0,
+            "flow": 0.4414087995335483,
+            "onset": 0.45610604891065665,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 11.0,
+            "flow": 0.2828021269040121,
+            "onset": 0.2651614114325931,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 13.0,
+            "flow": 0.2947426202051241,
+            "onset": 0.7217384706976654,
+            "detected": 6,
+            "brews": 6
+          }
+        ],
+        "exact_control_reproduction": true,
+        "cpu_seconds": 0.5892311029999999
+      },
+      {
+        "fold": "HYD-LOCO-4.0",
+        "parameters": [
+          0.8321682695039719,
+          25.50298211128142,
+          1.931146280218297,
+          3.5521537952903075,
+          0.0,
+          13.763976927149502
+        ],
+        "objective": 0.8627536875296719,
+        "flow_component": 0.3997334441976987,
+        "onset_component": 0.46302024333197317,
+        "detected": 46,
+        "intended": 46,
+        "available": 46,
+        "condition_components": [
+          {
+            "pressure_bar": 1.0,
+            "flow": 0.01099249126090979,
+            "onset": 0.8264938788225376,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 2.0,
+            "flow": 0.06063579604092395,
+            "onset": 0.4324298920531611,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 3.5,
+            "flow": 0.8999513165114492,
+            "onset": 0.6867731444304189,
+            "detected": 3,
+            "brews": 3
+          },
+          {
+            "pressure_bar": 5.0,
+            "flow": 0.4430481325384161,
+            "onset": 0.21979555926899627,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 6.0,
+            "flow": 0.6824791837825036,
+            "onset": 0.23796462085189862,
+            "detected": 6,
+            "brews": 6
+          },
+          {
+            "pressure_bar": 7.0,
+            "flow": 0.43937486409495496,
+            "onset": 0.15553706699506487,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 8.0,
+            "flow": 0.4726470958471899,
+            "onset": 0.5460002589852412,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 9.0,
+            "flow": 0.42847290982688635,
+            "onset": 0.47501805210798603,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 11.0,
+            "flow": 0.2714937678070486,
+            "onset": 0.2830950691817489,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 13.0,
+            "flow": 0.288238884266704,
+            "onset": 0.7670948906226783,
+            "detected": 6,
+            "brews": 6
+          }
+        ],
+        "exact_control_reproduction": true,
+        "cpu_seconds": 0.560512123
+      },
+      {
+        "fold": "HYD-LOCO-5.0",
+        "parameters": [
+          0.8243903704078588,
+          24.914931574918686,
+          1.915435857942005,
+          3.5956907024681914,
+          0.0,
+          13.801522734905433
+        ],
+        "objective": 0.8767569835770341,
+        "flow_component": 0.4061107599457109,
+        "onset_component": 0.47064622363132325,
+        "detected": 51,
+        "intended": 51,
+        "available": 51,
+        "condition_components": [
+          {
+            "pressure_bar": 1.0,
+            "flow": 0.010911211968062441,
+            "onset": 0.8119484329447128,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 2.0,
+            "flow": 0.05879642340627669,
+            "onset": 0.4385206178325443,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 3.5,
+            "flow": 0.8750690320650167,
+            "onset": 0.705475682855481,
+            "detected": 3,
+            "brews": 3
+          },
+          {
+            "pressure_bar": 4.0,
+            "flow": 0.5814622050760881,
+            "onset": 0.31552617978868286,
+            "detected": 10,
+            "brews": 10
+          },
+          {
+            "pressure_bar": 6.0,
+            "flow": 0.6877063839631469,
+            "onset": 0.23796462085189862,
+            "detected": 6,
+            "brews": 6
+          },
+          {
+            "pressure_bar": 7.0,
+            "flow": 0.4255480022212169,
+            "onset": 0.14582025597315104,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 8.0,
+            "flow": 0.45525673950867995,
+            "onset": 0.5560651361501563,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 9.0,
+            "flow": 0.41800827321323303,
+            "onset": 0.4749339062271064,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 11.0,
+            "flow": 0.267363644874537,
+            "onset": 0.2678000181542622,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 13.0,
+            "flow": 0.2809856831608506,
+            "onset": 0.7524073855352365,
+            "detected": 6,
+            "brews": 6
+          }
+        ],
+        "exact_control_reproduction": true,
+        "cpu_seconds": 0.584322551
+      },
+      {
+        "fold": "HYD-LOCO-6.0",
+        "parameters": [
+          0.8139387189049412,
+          27.06220238730485,
+          1.9244268276052312,
+          3.5006057141428033,
+          0.0,
+          13.657461160957215
+        ],
+        "objective": 0.8557465007960314,
+        "flow_component": 0.38535269559262686,
+        "onset_component": 0.47039380520340457,
+        "detected": 50,
+        "intended": 50,
+        "available": 50,
+        "condition_components": [
+          {
+            "pressure_bar": 1.0,
+            "flow": 0.01102282820001999,
+            "onset": 0.8423743050838354,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 2.0,
+            "flow": 0.06030082050270639,
+            "onset": 0.41319622471123896,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 3.5,
+            "flow": 0.8765548307018688,
+            "onset": 0.6541594566874909,
+            "detected": 3,
+            "brews": 3
+          },
+          {
+            "pressure_bar": 4.0,
+            "flow": 0.5823872222733012,
+            "onset": 0.28474719460221054,
+            "detected": 10,
+            "brews": 10
+          },
+          {
+            "pressure_bar": 5.0,
+            "flow": 0.4825508454671965,
+            "onset": 0.20458650019487137,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 7.0,
+            "flow": 0.42832719299788846,
+            "onset": 0.16319865695429828,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 8.0,
+            "flow": 0.43279568650315164,
+            "onset": 0.5457287355313158,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 9.0,
+            "flow": 0.4211202021009403,
+            "onset": 0.49496282462418434,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 11.0,
+            "flow": 0.27530377607283346,
+            "onset": 0.30166597461244177,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 13.0,
+            "flow": 0.28316355110636254,
+            "onset": 0.799318179032158,
+            "detected": 6,
+            "brews": 6
+          }
+        ],
+        "exact_control_reproduction": true,
+        "cpu_seconds": 0.5838303709999999
+      },
+      {
+        "fold": "HYD-LOCO-7.0",
+        "parameters": [
+          0.83904534607905,
+          23.566738740118826,
+          1.9264182623198745,
+          3.6054713689558318,
+          0.0,
+          13.474276782442468
+        ],
+        "objective": 0.8779541272288853,
+        "flow_component": 0.4015506757170776,
+        "onset_component": 0.4764034515118077,
+        "detected": 52,
+        "intended": 52,
+        "available": 52,
+        "condition_components": [
+          {
+            "pressure_bar": 1.0,
+            "flow": 0.011115342984834006,
+            "onset": 0.873272635572742,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 2.0,
+            "flow": 0.061916449508948194,
+            "onset": 0.3769419028585471,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 3.5,
+            "flow": 0.8865032375864019,
+            "onset": 0.5914776830024538,
+            "detected": 3,
+            "brews": 3
+          },
+          {
+            "pressure_bar": 4.0,
+            "flow": 0.5659763481273037,
+            "onset": 0.24978627393789288,
+            "detected": 10,
+            "brews": 10
+          },
+          {
+            "pressure_bar": 5.0,
+            "flow": 0.418828373824503,
+            "onset": 0.1767545569046613,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 6.0,
+            "flow": 0.6458885734184869,
+            "onset": 0.20094533828836383,
+            "detected": 6,
+            "brews": 6
+          },
+          {
+            "pressure_bar": 8.0,
+            "flow": 0.46363633752533095,
+            "onset": 0.5480757527938203,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 9.0,
+            "flow": 0.414647749109211,
+            "onset": 0.5492162729124592,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 11.0,
+            "flow": 0.2678402502225893,
+            "onset": 0.3415545662055592,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 13.0,
+            "flow": 0.2791540948631665,
+            "onset": 0.8560095326415773,
+            "detected": 6,
+            "brews": 6
+          }
+        ],
+        "exact_control_reproduction": true,
+        "cpu_seconds": 0.577536389
+      },
+      {
+        "fold": "HYD-LOCO-8.0",
+        "parameters": [
+          0.8890903482613787,
+          19.62141008797416,
+          1.948486262819581,
+          3.6954280982313628,
+          0.0,
+          13.440885955185255
+        ],
+        "objective": 0.8355954359246132,
+        "flow_component": 0.39903029886641966,
+        "onset_component": 0.43656513705819355,
+        "detected": 52,
+        "intended": 52,
+        "available": 52,
+        "condition_components": [
+          {
+            "pressure_bar": 1.0,
+            "flow": 0.011337553910446262,
+            "onset": 0.873272635572742,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 2.0,
+            "flow": 0.06671584046056407,
+            "onset": 0.3654295248817493,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 3.5,
+            "flow": 0.9399935200816922,
+            "onset": 0.5778167952804362,
+            "detected": 3,
+            "brews": 3
+          },
+          {
+            "pressure_bar": 4.0,
+            "flow": 0.5696415271227495,
+            "onset": 0.23638600592416567,
+            "detected": 10,
+            "brews": 10
+          },
+          {
+            "pressure_bar": 5.0,
+            "flow": 0.36458367500617894,
+            "onset": 0.1767545569046613,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 6.0,
+            "flow": 0.5944454454944509,
+            "onset": 0.19031370389950839,
+            "detected": 6,
+            "brews": 6
+          },
+          {
+            "pressure_bar": 7.0,
+            "flow": 0.44584528379710636,
+            "onset": 0.17895912985239765,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 9.0,
+            "flow": 0.41958968299682364,
+            "onset": 0.558836047165279,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 11.0,
+            "flow": 0.2840301739963785,
+            "onset": 0.3415545662055592,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 13.0,
+            "flow": 0.29412028579780597,
+            "onset": 0.8663284048954368,
+            "detected": 6,
+            "brews": 6
+          }
+        ],
+        "exact_control_reproduction": true,
+        "cpu_seconds": 0.5774643389999999
+      },
+      {
+        "fold": "HYD-LOCO-9.0",
+        "parameters": [
+          0.896842479346745,
+          17.411997197405036,
+          1.915321155824471,
+          3.915230487232451,
+          0.0,
+          13.256354125274031
+        ],
+        "objective": 0.8382306041161696,
+        "flow_component": 0.3998251221840709,
+        "onset_component": 0.4384054819320987,
+        "detected": 51,
+        "intended": 51,
+        "available": 51,
+        "condition_components": [
+          {
+            "pressure_bar": 1.0,
+            "flow": 0.010909339434087882,
+            "onset": 0.9069873478607647,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 2.0,
+            "flow": 0.05909213646240796,
+            "onset": 0.3429699857314893,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 3.5,
+            "flow": 0.8784547024390141,
+            "onset": 0.5189103168421413,
+            "detected": 3,
+            "brews": 3
+          },
+          {
+            "pressure_bar": 4.0,
+            "flow": 0.5560068159468177,
+            "onset": 0.2160356374198844,
+            "detected": 10,
+            "brews": 10
+          },
+          {
+            "pressure_bar": 5.0,
+            "flow": 0.3690642325283256,
+            "onset": 0.15229746760690055,
+            "detected": 5,
+            "brews": 5
+          },
+          {
+            "pressure_bar": 6.0,
+            "flow": 0.5726169272508689,
+            "onset": 0.17171867872514399,
+            "detected": 6,
+            "brews": 6
+          },
+          {
+            "pressure_bar": 7.0,
+            "flow": 0.4472227679336116,
+            "onset": 0.20060676194703192,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 8.0,
+            "flow": 0.5247097697217173,
+            "onset": 0.5639202718508338,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 11.0,
+            "flow": 0.277725757927567,
+            "onset": 0.38461373256106085,
+            "detected": 4,
+            "brews": 4
+          },
+          {
+            "pressure_bar": 13.0,
+            "flow": 0.30244877219629085,
+            "onset": 0.9259946187757357,
+            "detected": 6,
+            "brews": 6
+          }
+        ],
+        "exact_control_reproduction": true,
+        "cpu_seconds": 0.570533887
+      }
+    ],
+    "cpu_seconds": 6.948588994
+  },
+  "identity": {
+    "docs/research/JOINT_PRESSURE_FADE_001/PLAN.md": "2814742ae3332129f7a5d7320b1b1a66cb900be1396276001a4e5f593c851cb0",
+    "docs/research/JOINT_PRESSURE_FADE_001/START_BANK.csv": "2faa8e1c0665723663ec2ef44391efbae4960981c8deac60d2f2c9555de37d03",
+    "docs/research/JOINT_PRESSURE_FADE_001/INPUT_MANIFEST.json": "ee0b8578e41b1844994b83b28962be328ca8a3dad49500daa44da9bfc780c98e",
+    "puckworks/analysis/joint_pressure_fade_001_run.py": "c56330a0ee3f4c271d3d09d49d8ddb2d6eefc7b0d0acca315c9173f5fa238238",
+    "puckworks/analysis/joint_pressure_fade_001.py": "9ef08e11f7d88c68cd811bd4ddb5f00828980b719a9116540bacb281ed824dc7",
+    "puckworks/analysis/joint_clock_001.py": "922c0cd4edf59cf0eb1feb89d4c6757e70e3ebe11b35fb29aa4d2c239d5f3581",
+    "puckworks/analysis/wetting_screen_001.py": "404e4619938e3c847b22603a837fe1bf1a53e676c7a5211e7184f953a7a0e072",
+    "puckworks/analysis/joint_clock_001_run.py": "dcb67b90b1db75f87974b6a668f307d844f158c3b1b028e81ff2819262bb099f"
+  },
+  "evaluator_sha256": "553773c1f72ebcef3a7d1fee118c3f7b9bddacb3aa301fe7817daad7d4d3f908",
+  "reporter_sha256": "15fd94addf11f9c803abc58571dcb635dcf8b5dd9da3fac88f73e7b7a8c7c2b3",
+  "inherited_arm_replay_exact": true,
+  "all_fit_condition_peak_pairs": 132,
+  "all_fit_peak_rows": 804,
+  "primary_peaks_reproduced_exactly": true,
+  "all_detection_step_agrees": true
+}

@@ -1,4 +1,5 @@
 """Paired reports from frozen replays; no fitting or parameter selection."""
+import ast
 import csv
 import hashlib
 import io
@@ -337,7 +338,20 @@ def main():
     global _ARGS
     _ARGS=args=E.parser().parse_args();data=R.load_data(args)
     index=R.read(args.work/'EVALUATION.json')
-    assert index['identity']==R.identity() and index['evaluator_sha256']==O.digest(E.__file__)
+    assert index['identity']==R.identity()
+    if index['evaluator_sha256']!=O.digest(E.__file__):
+        # A peak-table serialization repair may reuse unchanged numerical work.
+        archived=args.work/'EVALUATOR_EXECUTED.py'
+        assert O.digest(archived)==index['evaluator_sha256']
+        previous=ast.parse(archived.read_text());current=ast.parse(R.ROOT.joinpath(E.__file__).read_text())
+        for name in ('selected','peak','evaluate_case','evaluate_objective','evaluate_slice','write_slices'):
+            old=next(n for n in previous.body if isinstance(n,ast.FunctionDef) and n.name==name)
+            new=next(n for n in current.body if isinstance(n,ast.FunctionDef) and n.name==name)
+            assert ast.dump(old)==ast.dump(new), name
+        recovery=R.read(args.work/'PEAK_RECOVERY.json')
+        assert recovery['evaluation_sha256']==O.digest(args.work/'EVALUATION.json')
+        assert recovery['slices_sha256']==O.digest(args.work/'SLICES.json')
+        assert recovery['evaluator_sha256']==O.digest(E.__file__)
     freeze=R.read(args.work/'EVALUATION_FREEZE.json')
     assert freeze['identity']==R.identity()
     for path,digest in freeze['fit_sha256'].items():
