@@ -1,0 +1,28 @@
+{
+  "base_sha": "4c5ebab5df79929813949df7113c21290dde40cc",
+  "plan_commit": "5e5e8c6",
+  "dataset_id": "waszkiewicz2025/traces_per_brew",
+  "source": "Waszkiewicz et al., Zenodo 18046315",
+  "rights": "CC-BY-4.0; upstream code not ingested",
+  "access": "underlying original traces and retained native configurations read and authenticated; no catalog-only substitution",
+  "brews": 56,
+  "conditions": 11,
+  "ewp_checkout_head_read_only": "479783685360fdd31636890cf8e588a8fdd692d8",
+  "ewp_initial_worktree": "clean",
+  "input_sha256": {
+    "FORM_A_manifest": "aae7f9c9d1720eb07dd25659281de00fdeaa4b038acc293deacbaebbe3a4e2ff",
+    "native_source_inputs": "a4f186f1affd6a8267b79bced5152c4b8d111cede2e894d84e1166f7eac149d9",
+    "J1_manifest": "6f1d1dae6cdc7b165e0cbca8fad4778d3867f7c59ceb3b0cc8ca47f4258c3867",
+    "J1_fits": "db16270b818e0a8bb87e853725f89a3d4b8a8e90e9bf258b1020efa7cc465d67",
+    "C2_Mc_bank": "50d7d4f3e258ba63c5a860b9dd97870498bd6c2714d5f81243c0900dfaa9a41c",
+    "observation_manifest": "c4243fb9c21281e106e86bc12d8e98b1a9a4c99c61f148f53dc216c9af32e200",
+    "observation_windows": "90972f7a3ed7e12eef528826d54ccd82d627640908945e59fc059f8f75e914a6",
+    "replay_manifest": "442a7dd2444b1d3037d651de2a679c26937aa1411b7b4d133a834d5f7b1470f1",
+    "replay_levels": "1a75bd0a6936dfcaa209f513f25f5dfb1b54cb4188b75b47d2ccc899e0d6a004"
+  },
+  "decomposition_source_commit": "717d7494efa09de2bcd2249c7186dedb17fa3136",
+  "decomposition_observer_identical": true,
+  "decomposition_observer_sha256": "f3fe143ced513a8a704e635a93086255d302fa69a08fc9b39792acea257e9d3a",
+  "raw_authentication": "Every brew original_sha256 checked by inherited loader; configurations, onset and masks reconstructed",
+  "historical_fit_authentication": "SOURCE_FITS.json; original J1 manifest and pinned LC compact table; fixed Mc and training membership matched"
+}
