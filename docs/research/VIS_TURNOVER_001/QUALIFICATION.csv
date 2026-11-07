@@ -1,0 +1,47 @@
+upload_format,records,field,field_path,units,present_records,lineage_or_interpretation,credit
+VISUALIZER_BEANCONQUEROR,1004,reported_machine,normalized.machine,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,context_machine,normalized.context.machine,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,native_machine,payload.brewdata.machine,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,native_parser,payload.brewdata.parser,not assigned,1004,explicit parser only; hardware and sensors UNKNOWN,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,native_profile,payload.brewdata.profile,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,native_frames,payload.brewdata.frames,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,native_stage,payload.brewdata.stage,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,native_control_mode,payload.brewdata.control_mode,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,native_scale,payload.brewdata.scale,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,pressure_channel,normalized.hydraulic.pressure__Pa,Pa (native bar),0,container presence only; source semantics UNKNOWN,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,pressure_goal_channel,normalized.hydraulic.pressure_goal__Pa,Pa (native bar),0,container presence only; source semantics UNKNOWN,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,flow_goal_channel,normalized.hydraulic.flow_goal_reported__native,native units UNKNOWN,0,container presence only; source semantics UNKNOWN,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,flow_weight_channel,normalized.hydraulic.mass_flow_from_scale__kg_per_s,kg/s (native g/s),0,container presence only; source semantics UNKNOWN,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,weight_channel,normalized.hydraulic.weight__kg,kg (native g),0,container presence only; source semantics UNKNOWN,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,generic_state_channel,normalized.hydraulic.state_change,not assigned,0,container presence only; source semantics UNKNOWN,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,salted_user,normalized.hashed_user,not assigned,1004,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,dose,normalized.context.dose__kg,kg,SUPPRESSED,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,grinder_model,normalized.context.grinder_model,not assigned,1004,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,grinder_setting,normalized.context.grinder_setting,not assigned,SUPPRESSED,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,coffee_brand,payload.bean_brand,not assigned,SUPPRESSED,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,coffee_type,payload.bean_type,not assigned,1004,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,roast_date,payload.roast_date,not assigned,SUPPRESSED,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+VISUALIZER_BEANCONQUEROR,1004,roast_level,normalized.context.roast_level,not assigned,1004,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,reported_machine,normalized.machine,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,context_machine,normalized.context.machine,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,native_machine,payload.brewdata.machine,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,native_parser,payload.brewdata.parser,not assigned,0,explicit parser only; hardware and sensors UNKNOWN,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,native_profile,payload.brewdata.profile,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,native_frames,payload.brewdata.frames,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,native_stage,payload.brewdata.stage,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,native_control_mode,payload.brewdata.control_mode,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,native_scale,payload.brewdata.scale,not assigned,0,named path coverage only; no qualifying authority,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,pressure_channel,normalized.hydraulic.pressure__Pa,Pa (native bar),22165,container presence only; source semantics UNKNOWN,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,pressure_goal_channel,normalized.hydraulic.pressure_goal__Pa,Pa (native bar),SUPPRESSED,container presence only; source semantics UNKNOWN,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,flow_goal_channel,normalized.hydraulic.flow_goal_reported__native,native units UNKNOWN,SUPPRESSED,container presence only; source semantics UNKNOWN,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,flow_weight_channel,normalized.hydraulic.mass_flow_from_scale__kg_per_s,kg/s (native g/s),21011,container presence only; source semantics UNKNOWN,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,weight_channel,normalized.hydraulic.weight__kg,kg (native g),SUPPRESSED,container presence only; source semantics UNKNOWN,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,generic_state_channel,normalized.hydraulic.state_change,not assigned,20123,container presence only; source semantics UNKNOWN,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,salted_user,normalized.hashed_user,not assigned,22165,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,dose,normalized.context.dose__kg,kg,18059,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,grinder_model,normalized.context.grinder_model,not assigned,10452,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,grinder_setting,normalized.context.grinder_setting,not assigned,18269,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,coffee_brand,payload.bean_brand,not assigned,11325,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,coffee_type,payload.bean_type,not assigned,11286,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,roast_date,payload.roast_date,not assigned,6207,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
+UNRESOLVED,22165,roast_level,normalized.context.roast_level,not assigned,8457,context presence only; no matching performed,Data source: Visualizer; thanks to contributing users.
