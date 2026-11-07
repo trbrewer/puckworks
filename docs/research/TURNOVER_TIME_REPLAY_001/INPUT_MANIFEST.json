@@ -1,0 +1,89 @@
+{
+  "base_sha": "4c5ebab5df79929813949df7113c21290dde40cc",
+  "wasz_reference_sha": "c4b4a07e110a3ede5013fd876a02a58ee6456eab",
+  "vis_reference_sha": "d4386441fbc387c0a83219817dac6f4bce3b94a3",
+  "repository_inputs": {
+    "docs/research/JOINT_CLOCK_001/RUN_MANIFEST.json": "6f1d1dae6cdc7b165e0cbca8fad4778d3867f7c59ceb3b0cc8ca47f4258c3867",
+    "docs/research/JOINT_CLOCK_001/D0_REPLAY.json": "64bd69d82a232e6cc971d04468d22129f3573d0121e5cb4c5971d2a28cfcbf1b",
+    "docs/research/JOINT_CLOCK_001/DESCRIPTIVE_SWEEP.csv": "cb0e2c2fbf2d947142b192c774d8372f2d7de19a9dcda1dd82088b0cca2b7c00",
+    "docs/research/WETTING_SCREEN_001/RUN_MANIFEST.json": "57e7ac9529920b670a7733f6ab9f96591cf9707e93a54f2d903ec6ac8f90da40",
+    "docs/research/PRESSURE_PEAK_STAGE_D0/RESULT_TABLE.csv": "2496ede602402df970ad3e2905f90b0152a64d99c3bf02f21d881526b511ba99",
+    "puckworks/analysis/joint_clock_001.py": "6043f93a4291bc032e42506c880cf36ab286b59e03d4e55d7ed86869ca1a53c3",
+    "puckworks/analysis/joint_clock_001_run.py": "dcb67b90b1db75f87974b6a668f307d844f158c3b1b028e81ff2819262bb099f",
+    "puckworks/analysis/joint_clock_001_evaluate.py": "a8da60d387c2408c745e30be2919a5a4dc74916bf417a915a466bc0ece0a55c2",
+    "puckworks/analysis/wetting_screen_001.py": "8a280469638f7a850d341df93fc793e1933b32085d9543797c784f885a087193",
+    "puckworks/analysis/wetting_screen_001_run.py": "040cde93aa628d0f9226135be523977bc722e797303d1bace2e89925d89e7bf0",
+    "puckworks/analysis/pressure_peak_stage_d0.py": "8f4ac7139b875815ef694ef8c056a9360aa594d649b40ce097a9fee6edddfaf1",
+    "puckworks/analysis/wasz_turnover_time_001.py": "9b59fec8611d0465e5dc0f19a5837565d1a3c3b9dbb997b6886b76476815656d"
+  },
+  "wasz_inputs": {
+    "PER_BREW_BY_TIME.csv": "90972f7a3ed7e12eef528826d54ccd82d627640908945e59fc059f8f75e914a6",
+    "VIZ_SPEC.json": "c3e751944849f9d3920b325e5356a3c0d6bda2d6410b1b201b2ce2f07be6c888",
+    "TIME_SLOPES.csv": "4da242e9139a568a5d362ee5f122a09f52b92809249db003926761b0556023b7",
+    "CONDITION_MEANS_BY_TIME.csv": "e76af3f3fb40379ca15eed14033533e6b53dea732fe10058fa39a54bc49b8f9d",
+    "PLAN.md": "ad550abfbf933f96fa3904618847f23be0f8d4848d1023bb5dfe0f6a1e4c4f18",
+    "REPRODUCE.md": "ae481e11041ca6079c9228dca64fc3cd7ca11b91a8258e5643a06c76f159df49",
+    "AVAILABILITY.csv": "0694039406ae7c800ead848170923df088edc5ca478c97eff2a453ec28d84b80",
+    "STAGE_A_REFERENCE.csv": "049815b57f56d3b147eaca85f6ac85b4af405981cc6239f66f74e79bbdafbd28",
+    "REVIEW.md": "707127de23a1380848edb737e213634bd5490e6fa4fe8cdb0361b4af9bd59e10",
+    "SUMMARY.md": "e5786c87462d68dcbada1d5fa243e3b6376adc2b1219ef259ebfd379691aa03d",
+    "INPUT_MANIFEST.json": "c4243fb9c21281e106e86bc12d8e98b1a9a4c99c61f148f53dc216c9af32e200",
+    "RUN_RECEIPT.json": "5862c1dedb3d6158b44790cae851698963f97f4fe699d572718c39b16f08e5a9"
+  },
+  "vis_freeze_sha256": "c01fa80e0aadb0a80c3b5498d9955b56ddc94f9c3fd4ad3544e2739434fc1e51",
+  "vis_windows_sha256": "af474e0d964267e24f9d6c8c12e30edf4885662928786bce17a1639fde7c1b1a",
+  "vis_corpus_fold_sha256": "94aecc5707279b0ca17b35918215db662d3f34dcc2c49ddcf9362493345f4bab",
+  "joint_selected_fits": [
+    {
+      "key": "J1_lambda-1_DESCRIPTIVE_ALL",
+      "sha256": "90afc1409ca608fa75a96fa7e7042f1aed38edbab570b3dca790c28d6e107476"
+    },
+    {
+      "key": "J1_lambda-1_HYD-LOCO-1.0",
+      "sha256": "4688415d310ae89a555c7e73445b559fb2060f3f65e72d04bbf80bb9695e22fb"
+    },
+    {
+      "key": "J1_lambda-1_HYD-LOCO-11.0",
+      "sha256": "b26c639a86aadea1ec4043b17ed40135cc34b0f56836f4b019384a61f30bc37d"
+    },
+    {
+      "key": "J1_lambda-1_HYD-LOCO-13.0",
+      "sha256": "543aeea52c1814d277014244ec619e3a04abd4fefb741ee6521e81fc665b3b64"
+    },
+    {
+      "key": "J1_lambda-1_HYD-LOCO-2.0",
+      "sha256": "74b66834ef4e3fd4d47e86dca2f6b3e485e0d24722775396d7f72f85eb72fc34"
+    },
+    {
+      "key": "J1_lambda-1_HYD-LOCO-3.5",
+      "sha256": "a4c50a11ace0a5008c663bb9522c94ce9139b2b9d7d0d8e0003a00b0ccac8919"
+    },
+    {
+      "key": "J1_lambda-1_HYD-LOCO-4.0",
+      "sha256": "ca3fb03a05bb830f87f8549e4e1600b8de8293aaa77ddb5c6e984bfdfdf77b94"
+    },
+    {
+      "key": "J1_lambda-1_HYD-LOCO-5.0",
+      "sha256": "ab0e3edc8715725de3f1643c746e65936147867e74b360460695ff5f2654a5fb"
+    },
+    {
+      "key": "J1_lambda-1_HYD-LOCO-6.0",
+      "sha256": "991e3d6792afb1181036e7fcf616fdef4f2b23e89eef665e02fbaa1cb3c95500"
+    },
+    {
+      "key": "J1_lambda-1_HYD-LOCO-7.0",
+      "sha256": "21311b38907ac95fc43fe2fa8b5627a51b212a8543b8bbbfb8d30dad03a592c0"
+    },
+    {
+      "key": "J1_lambda-1_HYD-LOCO-8.0",
+      "sha256": "87ff9e46c9ded655eb6bf83bbc7b307e90f476653fb14117c719357df670cfb5"
+    },
+    {
+      "key": "J1_lambda-1_HYD-LOCO-9.0",
+      "sha256": "6bad6a07b413a317d36e15b45e58d957e35d637a95f1157fccb3ec859a81b70a"
+    }
+  ],
+  "source_inputs_sha256": "a4f186f1affd6a8267b79bced5152c4b8d111cede2e894d84e1166f7eac149d9",
+  "native_manifest_sha256": "aae7f9c9d1720eb07dd25659281de00fdeaa4b038acc293deacbaebbe3a4e2ff",
+  "draw_bank_sha256": "d599d80c854fd5a3cf9b9ca5d6fe1c617b222125bd1adcb36ad9edecd96801b6"
+}

@@ -1,0 +1,8 @@
+pressure_bin,release,scored_windows,percent_all_scored,distinct_shots,distinct_users,midpoint_q25_s,midpoint_median_s,midpoint_q75_s
+ALL_SCORED,released,118542,100.0,10231,315,,,
+P<9,whole_partition_withheld,,,,,,,
+9<=P<=10,whole_partition_withheld,,,,,,,
+10<P<=11,whole_partition_withheld,,,,,,,
+11<P<=12,whole_partition_withheld,,,,,,,
+12<P<=13,whole_partition_withheld,,,,,,,
+P>13,whole_partition_withheld,,,,,,,

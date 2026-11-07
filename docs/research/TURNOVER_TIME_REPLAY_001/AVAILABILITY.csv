@@ -1,0 +1,441 @@
+model,scope,scope_definition,clock,time_s,nominal_pressure_bar,intended_brews,observed_available,predicted_available,aggregate_available,status,unavailable_reasons
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,10,1.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,10,2.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,10,3.5,3,3,3,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,10,4.0,10,10,10,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,10,5.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,10,6.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,10,7.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,10,8.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,10,9.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,10,11.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,10,13.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,20,1.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,20,2.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,20,3.5,3,3,3,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,20,4.0,10,10,10,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,20,5.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,20,6.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,20,7.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,20,8.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,20,9.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,20,11.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,20,13.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,30,1.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,30,2.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,30,3.5,3,3,3,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,30,4.0,10,10,10,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,30,5.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,30,6.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,30,7.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,30,8.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,30,9.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,30,11.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,30,13.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,40,1.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,40,2.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,40,3.5,3,3,3,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,40,4.0,10,10,10,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,40,5.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,40,6.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,40,7.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,40,8.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,40,9.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,40,11.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,40,13.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,60,1.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,60,2.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,60,3.5,3,3,3,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,60,4.0,10,10,10,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,60,5.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,60,6.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,60,7.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,60,8.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,60,9.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,60,11.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,60,13.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,100,1.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,100,2.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,100,3.5,3,3,3,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,100,4.0,10,10,10,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,100,5.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,100,6.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,100,7.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,100,8.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,100,9.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,100,11.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,stable_pressure,100,13.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,10,1.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,10,2.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,10,3.5,3,3,3,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,10,4.0,10,10,10,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,10,5.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,10,6.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,10,7.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,10,8.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,10,9.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,10,11.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,10,13.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,20,1.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,20,2.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,20,3.5,3,3,3,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,20,4.0,10,10,10,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,20,5.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,20,6.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,20,7.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,20,8.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,20,9.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,20,11.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,20,13.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,30,1.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,30,2.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,30,3.5,3,3,3,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,30,4.0,10,10,10,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,30,5.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,30,6.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,30,7.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,30,8.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,30,9.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,30,11.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,30,13.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,40,1.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,40,2.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,40,3.5,3,3,3,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,40,4.0,10,10,10,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,40,5.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,40,6.0,6,6,6,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,40,7.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,40,8.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,40,9.0,5,5,5,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,40,11.0,4,4,4,True,complete,{}
+A-J1,LOCO,pooled different held-condition fits,onset,40,13.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,1.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,2.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,3.5,3,3,3,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,4.0,10,10,10,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,5.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,6.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,7.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,8.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,9.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,11.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,13.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,1.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,2.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,3.5,3,3,3,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,4.0,10,10,10,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,5.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,6.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,7.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,8.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,9.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,11.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,13.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,1.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,2.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,3.5,3,3,3,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,4.0,10,10,10,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,5.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,6.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,7.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,8.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,9.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,11.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,13.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,1.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,2.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,3.5,3,3,3,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,4.0,10,10,10,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,5.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,6.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,7.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,8.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,9.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,11.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,13.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,1.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,2.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,3.5,3,3,3,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,4.0,10,10,10,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,5.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,6.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,7.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,8.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,9.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,11.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,13.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,1.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,2.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,3.5,3,3,3,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,4.0,10,10,10,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,5.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,6.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,7.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,8.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,9.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,11.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,13.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,1.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,2.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,3.5,3,3,3,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,4.0,10,10,10,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,5.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,6.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,7.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,8.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,9.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,11.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,13.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,1.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,2.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,3.5,3,3,3,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,4.0,10,10,10,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,5.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,6.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,7.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,8.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,9.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,11.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,13.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,1.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,2.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,3.5,3,3,3,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,4.0,10,10,10,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,5.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,6.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,7.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,8.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,9.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,11.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,13.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,1.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,2.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,3.5,3,3,3,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,4.0,10,10,10,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,5.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,6.0,6,6,6,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,7.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,8.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,9.0,5,5,5,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,11.0,4,4,4,True,complete,{}
+A-J1,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,10,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,10,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,10,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,10,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,10,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,10,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,10,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,10,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,10,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,10,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,10,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,20,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,20,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,20,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,20,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,20,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,20,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,20,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,20,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,20,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,20,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,20,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,30,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,30,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,30,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,30,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,30,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,30,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,30,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,30,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,30,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,30,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,30,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,40,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,40,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,40,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,40,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,40,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,40,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,40,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,40,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,40,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,40,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,40,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,60,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,60,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,60,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,60,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,60,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,60,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,60,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,60,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,60,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,60,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,60,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,100,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,100,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,100,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,100,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,100,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,100,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,100,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,100,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,100,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,100,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,stable_pressure,100,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,10,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,10,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,10,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,10,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,10,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,10,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,10,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,10,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,10,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,10,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,10,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,20,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,20,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,20,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,20,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,20,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,20,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,20,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,20,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,20,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,20,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,20,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,30,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,30,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,30,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,30,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,30,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,30,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,30,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,30,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,30,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,30,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,30,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,40,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,40,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,40,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,40,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,40,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,40,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,40,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,40,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,40,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,40,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,LOCO,pooled different held-condition fits,onset,40,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,10,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,20,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,30,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,40,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,60,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,stable_pressure,100,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,10,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,20,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,30,13.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,1.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,2.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,3.5,3,3,3,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,4.0,10,10,10,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,5.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,6.0,6,6,6,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,7.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,8.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,9.0,5,5,5,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,11.0,4,4,4,True,complete,{}
+D0-R0-diagnostic,DESCRIPTIVE_ALL,one common in-sample parameter set,onset,40,13.0,6,6,6,True,complete,{}

@@ -1,0 +1,20 @@
+{
+  "role": "No-fit comparison of observed and frozen-model high-pressure slope time courses",
+  "producer": "puckworks.analysis.turnover_time_replay_001_report.figure",
+  "outputs": ["SLOPE_REPLAY.svg"],
+  "dataset_id": "waszkiewicz2025/traces_per_brew",
+  "source": "Waszkiewicz et al. (2025), Zenodo 18046315; authenticated 56-brew histories and frozen JOINT_CLOCK/D0 banks",
+  "rights": "CC-BY-4.0 source data; original figure, no source artwork",
+  "encodings": {
+    "panels": "Stable-pressure time; observed-onset time (both signals aligned by observed onset)",
+    "x": "Declared center of a fully supported 2-s native beverage-flow window (s)",
+    "y": "Unweighted slope across nominal 9/11/13-bar condition means against their matched measured line pressures (g/s/bar)",
+    "black": "Observed beverage-mass-derived flow slope",
+    "color": "A-J1 lambda=1; D0 diagnostic fresh-bed R0 beverage wrapper",
+    "solid_circles": "LOCO, pooled different held-condition parameter/Mc sets",
+    "dashed_squares": "DESCRIPTIVE_ALL, one common in-sample parameter/Mc set",
+    "shading": "Pointwise observed 95% whole-brew bootstrap interval; prediction and paired intervals are in CSVs",
+    "lines": "Connect declared time snapshots; not a fitted peak-time curve"
+  },
+  "ceiling": "Conditional frozen-predictor behavior on this rig; pressure slopes do not replace underlying trajectories; no identified mechanism, physical validation or cross-corpus agreement"
+}
