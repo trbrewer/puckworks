@@ -147,5 +147,6 @@ The local complete offline suite passed **8,123 tests**, with **33 skipped / 97
 deselected**, before the peak-metadata serialization repair. The repair has a
 focused regression test. The original 20 new tests also passed without JIT and
 on the declared minimum NumPy 2.0 / SciPy 1.13 environment. Registry: **66 PASS
-plus one acknowledged historical exception**. Final focused checks and required
-CI are reported with the draft PR. Independent review is in REVIEW.md.
+plus one acknowledged historical exception**. Final focused/inherited checks:
+**90 passed**. Required final-head CI is linked in the draft PR. Independent
+review is in REVIEW.md.
