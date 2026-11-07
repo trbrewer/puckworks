@@ -58,10 +58,13 @@ def bounds(model):
 
 
 @W.njit(cache=True)
-def liquid_only(time, cap, front, mc, gamma=0.):
+def liquid_only(time, cap, front, mc, gamma=0., gamma_p=0., pressure=None, exposure=None):
     """Exactly the nonnative hydraulic update in W._column; chemistry is passive."""
+    if gamma_p != 0. and pressure is None:
+        raise ValueError("Pressure fade requires pressure forcing")
     mass = np.zeros(len(time))
     flow = np.zeros(len(time))
+    pressure_time = 0.
     if front[0] == 1.:
         flow[0] = cap[0]/math.e
     for j in range(1, len(time)):
@@ -71,23 +74,37 @@ def liquid_only(time, cap, front, mc, gamma=0.):
             r = math.exp(-math.exp(-mass[j-1]/mc))
             if gamma != 0.:
                 r *= math.exp(-gamma*mass[j-1])
+            delta_phi = 0.
+            if pressure is not None:
+                delta_phi = .5*dt*(pressure[j-1]+pressure[j])
+            if gamma_p != 0.:
+                r *= math.exp(-gamma_p*pressure_time)
             mid = mass[j-1]+.25*dt*(cap[j-1]+cap[j])*r
             add = .5*dt*(cap[j-1]+cap[j])*math.exp(-math.exp(-mid/mc))
             if gamma != 0.:
                 add *= math.exp(-gamma*mid)
+            if gamma_p != 0.:
+                add *= math.exp(-gamma_p*(pressure_time+.5*delta_phi))
+            pressure_time += delta_phi
             mass[j] += add
             flow[j] = cap[j]*math.exp(-math.exp(-mass[j]/mc))
             if gamma != 0.:
                 flow[j] *= math.exp(-gamma*mass[j])
+            if gamma_p != 0.:
+                flow[j] *= math.exp(-gamma_p*pressure_time)
+        if exposure is not None:
+            exposure[j] = pressure_time
     return mass, flow
 
 
 class Prepared:
     """Pressure-only predictor with reusable chemistry prefixes for scale-lag search."""
     def __init__(self, source_t, source_p, theta, arm, wet, dt=.02, cells=256,
-                 horizon=100., r0=W.R0(), *, gamma=0.):
+                 horizon=100., r0=W.R0(), *, gamma=0., gamma_p=0.):
         if not math.isfinite(gamma) or gamma < 0.:
             raise ValueError("Fade gamma must be finite and nonnegative")
+        if not math.isfinite(gamma_p) or gamma_p < 0. or (gamma != 0. and gamma_p != 0.):
+            raise ValueError("Pressure fade must be nonnegative and separate from mass fade")
         if source_t[0] > 0. or source_t[-1] < horizon or horizon < 100.:
             raise ValueError("Predictor missing fixed pressure support")
         time = np.r_[np.arange(0., horizon, dt), horizon]
@@ -102,11 +119,13 @@ class Prepared:
             cap = W.capacity(theta, pressure)
         if not np.isfinite(cap).all():
             raise ValueError("Nonfinite capacity: unavailable prediction")
-        mass, flow = liquid_only(time, cap, front, theta[4], gamma)
+        exposure = np.zeros(len(time))
+        mass, flow = liquid_only(time, cap, front, theta[4], gamma, gamma_p, pressure, exposure)
         self.time, self.front, self.tb = time, front, tb
         self.cap, self.mc, self.mass, self.flow = cap, theta[4], mass, flow
         self.dt, self.cells, self.r0 = dt, cells, r0
         self.gamma = gamma
+        self.gamma_p, self.pressure, self.exposure = gamma_p, pressure, exposure
         self.prefix, self.prefix_n = None, 0
         self.column_calls = 0
 
@@ -115,9 +134,11 @@ class Prepared:
         if n <= self.prefix_n:
             return self.prefix
         r = self.r0
+        exposure = np.zeros(n)
         values = W._column(self.time[:n], self.cap[:n], self.front[:n], self.mc,
             self.cells, r.phi, r.rho, r.length, r.area, r.inventory_kg, r.rate,
-            r.capacity, r.diffusivity, r.length/r.native_cells, False, self.gamma)
+            r.capacity, r.diffusivity, r.length/r.native_cells, False, self.gamma,
+            self.gamma_p, self.pressure[:n], exposure)
         mass, solute, flow, stored, remaining, inlet_loss, c, solid, max_c, min_c = values
         if not all(np.isfinite(x).all() for x in (mass, solute, flow, stored, remaining)):
             raise ValueError("Nonfinite R0 column: unavailable prediction")
@@ -128,6 +149,8 @@ class Prepared:
             inlet_loss_g=inlet_loss, concentration=c, solid=solid,
             max_concentration=max_c, min_concentration=min_c,
             max_balance_error_g=float(np.max(np.abs(residual))), dt=self.dt, cells=self.cells)
+        if self.gamma_p != 0.:
+            self.prefix['pressure_exposure_bar_s'] = exposure
         self.prefix_n = n
         self.column_calls += 1
         return self.prefix
