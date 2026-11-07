@@ -1,0 +1,15 @@
+{
+  "scoring_source_commit": "40cd8860fc93c06db575fb60f6624e7c2eb94aa2",
+  "source_hashes": {
+    "puckworks/empirical/visualizer.py": "419b15eface9a82fe95efc87acbf025832911b393449b84d88165b027110bb22",
+    "puckworks/analysis/vis_predictor_001.py": "6d03056628baffd00224768318f8bbeb3b4c5a7b33c7eb6331957485f1f672de"
+  },
+  "private_predictions_sha256": "6cb7d6ef0c0e6318d1358b8d939554cba9258f485499871ec4f9c4243942feaf",
+  "aggregate_sha256": {
+    "SCORES.csv": "ea44308131e887571260fa80d9a0cbf774d627933137858aaf07e2b243b9df7a",
+    "CONTRASTS.csv": "251534d112ec840ed0f952498cae599336b25ab2c4aa0b783f09c64e13247873",
+    "BREAKDOWNS.csv": "de8612aefdea359e991f241a5e8d2ed842e4d00c9c67ea2d546df11333b28663",
+    "FITTED_PARAMETERS.csv": "62c57713d4cdee0f23de0ad8d757bf1510638ea5d8659a1c95f67c0e7af5285e"
+  },
+  "note": "Post-run artifact receipt; subsequent publication-only panel suppression and rendering corrections do not change these scored aggregates or private predictions."
+}

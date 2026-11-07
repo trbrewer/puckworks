@@ -1,0 +1,173 @@
+{
+  "metadata": {
+    "code_sha256": {
+      "puckworks/analysis/cor15_shape_001.py": "1e567b5d03b101302a317dc0b84516936220f7ce06696350e21fd1f81651df82",
+      "puckworks/analysis/pressure_peak_x1.py": "5a6ba598b90d6277458969414b590617e209da7a76266b5a3d373f7e05288708",
+      "puckworks/analysis/vis_predictor_001.py": "ee59e8f593d2d9ddb0a416463dad442ef8534ab7bb0c9e8920c6d5557e806fdc",
+      "puckworks/empirical/visualizer.py": "8292101450254a0a0c95af7171fccbd6922fb30c6ccd4aef6ad761043ed65db8"
+    },
+    "converged_starts": 16,
+    "core_hours": 0.0002970825111111111,
+    "corpus_fold_sha256": "ee751332d3f3f955f6cd3530a1e8e6c53f0b034dfc7a1ad5e667cf8adf406975",
+    "fold": "2",
+    "plan_sha256": "6c0bcd5494e61237fcbf8b5b225dbb550727250db4eb5f234b8427e262258071",
+    "pressure_range_bar": [
+      0.0,
+      15.000000000000002
+    ],
+    "role": "held_out_user_fold",
+    "selected_start": 0,
+    "selected_success": true,
+    "start_diagnostics": [
+      {
+        "core_hours": 1.3686710277777778e-05,
+        "evaluations": 1,
+        "iterations": 0,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 42.25805352629324,
+        "success": true
+      },
+      {
+        "core_hours": 9.129128722222222e-05,
+        "evaluations": 14,
+        "iterations": 13,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 42.25805352629324,
+        "success": true
+      },
+      {
+        "core_hours": 6.409815805555556e-05,
+        "evaluations": 15,
+        "iterations": 13,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 42.25805352629324,
+        "success": true
+      },
+      {
+        "core_hours": 1.2417181944444443e-05,
+        "evaluations": 2,
+        "iterations": 1,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 42.25805352629324,
+        "success": true
+      },
+      {
+        "core_hours": 8.364025277777777e-06,
+        "evaluations": 2,
+        "iterations": 1,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 42.25805352629324,
+        "success": true
+      },
+      {
+        "core_hours": 1.4134626944444446e-05,
+        "evaluations": 2,
+        "iterations": 1,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 42.25805352629324,
+        "success": true
+      },
+      {
+        "core_hours": 1.3028629444444447e-05,
+        "evaluations": 2,
+        "iterations": 1,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 42.25805352629324,
+        "success": true
+      },
+      {
+        "core_hours": 1.348906583333333e-05,
+        "evaluations": 2,
+        "iterations": 1,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 42.25805352629324,
+        "success": true
+      },
+      {
+        "core_hours": 7.489852500000005e-06,
+        "evaluations": 2,
+        "iterations": 1,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 81.30012525481496,
+        "success": true
+      },
+      {
+        "core_hours": 1.3563543611111111e-05,
+        "evaluations": 2,
+        "iterations": 1,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 81.30012525481496,
+        "success": true
+      },
+      {
+        "core_hours": 7.652575000000004e-06,
+        "evaluations": 2,
+        "iterations": 1,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 81.30012525481496,
+        "success": true
+      },
+      {
+        "core_hours": 7.200185833333328e-06,
+        "evaluations": 2,
+        "iterations": 1,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 81.30012525481496,
+        "success": true
+      },
+      {
+        "core_hours": 1.3029929444444445e-05,
+        "evaluations": 2,
+        "iterations": 1,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 81.30012525481496,
+        "success": true
+      },
+      {
+        "core_hours": 7.278310833333338e-06,
+        "evaluations": 2,
+        "iterations": 1,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 81.30012525481496,
+        "success": true
+      },
+      {
+        "core_hours": 6.778830277777773e-06,
+        "evaluations": 2,
+        "iterations": 1,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 81.30012525481496,
+        "success": true
+      },
+      {
+        "core_hours": 3.5795986111111093e-06,
+        "evaluations": 1,
+        "iterations": 0,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "objective": 81.30012525481496,
+        "success": true
+      }
+    ],
+    "starts": 16,
+    "starts_sha256": "fb3b0f5d4f69f7adc66fc03ce047e99760d84af3c989c7beea10a315f3737e27",
+    "training_objective_g_s": 42.25805352629324,
+    "training_shots": 8545,
+    "training_users": 254
+  },
+  "model": "T0",
+  "parameters": {
+    "Tc": 0.10000000000000002
+  },
+  "schema": "puckworks.reported-flow.v1",
+  "settings": {
+    "calibration_windows": 3,
+    "guard_s": 2.0,
+    "max_gap_s": 2.0,
+    "minimum_scored_windows": 3,
+    "onset_g": 1.0,
+    "quadrature_order": 16,
+    "scale_floor_g_s": 0.1,
+    "varying_bar": 2.0,
+    "window_s": 2.0
+  }
+}

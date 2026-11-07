@@ -1,0 +1,216 @@
+# Preserved execution repairs
+
+The plan/corpus/folds were committed at
+`24593a21bd7faf9a8aac84526c96424e98a711cb` before fitting and before any held-out
+scoring. The corpus/fold manifest and scientific settings remain frozen; the
+forced pre-score numerical amendment to PLAN.md is recorded below.
+
+## Large-array sort failure, before scoring
+
+The first fitting attempt used NumPy 2.5.4's default `unique(...,
+return_inverse=True)` sort. Constructing fold 2's pressure operator failed with
+`IndexError: index 149726304 is out of bounds for axis 0 with size 24345200`.
+The batch was stopped; source, logs, completed artifacts and active-process CPU
+accounting were preserved privately. No shape fit had completed, and no held-out
+prediction/score had been generated. Five designs had completed T0/R0/L0R fits
+(four outer folds and deployment); fold 2 failed before fitting.
+
+Repair: request indices as well as the inverse from `numpy.unique`, selecting its
+stable mergesort path, and assert exact reconstruction of every original pressure
+node. Every fold and deployment design then passed the full actual-covariate
+check. Sparse mean pressure agreed with direct native quadrature within
+1.60e-14 bar. All fifteen completed scalar-model training objectives replayed
+with **zero difference**; those artifacts are reused with their original source
+hashes. Interrupted shape starts are rerun under the same scheduled starts and
+settings. This is continuation of the declared fits, not another scientific
+campaign, added model or outcome-selected setting. The failed default-sort
+attempt remains part of the reported cost.
+
+## Numerical audit correction, before scoring
+
+The fresh read-only reviewer supplied a synthetic M0R example where using h(P)
+alone in the audit's calibration floor passed 4.37e-6 relative error, whereas
+using the full basis including R(M) yielded 1.07e-5 and correctly failed the
+frozen 1e-5 threshold. Apply the same start-mass recovery factor to both integrated
+bases before computing that floor/error. The threshold and prediction/fit
+operators are unchanged. A regression test reproduces the example. No actual
+audit, held-out score or recommendation had run before this correction.
+
+Focused verification after both corrections: **27 passed**; Ruff passed.
+The original full offline suite passed **8,089 tests**, with 33 skipped and 97
+excluded by the repository's ordinary quick selector. Final required hosted CI
+will test the completed head. EWP, snapshot bytes and historical results are
+unchanged. Individual data, interrupted starts and process details remain private.
+
+Two concurrent stable-sort design builds subsequently failed the new exact-inverse
+assertion (folds 2 and 3), before fitting in those invocations. The serial
+six-design checks had succeeded. Design construction was then serialized with a
+private POSIX lock while retaining parallel independent optimizer starts. Fold 2's
+retry passed; fold 3's failed as recorded below. Concurrency dependence is not
+established; the lower-level cause remains unresolved. No guard was weakened and
+no corpus, fold, model, start, bound, metric or audit threshold changed.
+
+The serial retry for fold 3 then failed sparse construction with
+`axis 0 index 1073768329 exceeds matrix dimension 114667`. Thus stable sorting
+alone was insufficient in that runtime. All remaining fitting was stopped again;
+completed models, source/logs and active-process CPU were preserved. Move execution
+to an isolated environment with the repository's declared minimum dependency lane:
+**NumPy 2.0.2 / SciPy 1.13.1**, replacing NumPy 2.5.4 / SciPy 1.18.1.
+No claim about the underlying library/hardware cause is established.
+
+In the minimum-dependency environment all six designs pass exact pressure-node
+reconstruction, native/sparse pressure means (<=1.60e-14 bar), and equality of
+flow, start mass, time and shot-index arrays with their inputs. All **22 completed
+shared fits** replay their training objective with zero difference; retain them,
+including their original artifact/source hashes. ENVIRONMENT.json identifies
+those artifacts and both runtimes. Remaining scheduled fits use the continuation
+runtime; model metadata records it. Starts, optimizer method/options, bounds,
+corpus, folds, target operator and all scoring rules stay fixed. Native/sparse
+pressure agreement and intact window arrays are now checked on every Design build.
+No actual numerical audit or held-out scoring occurred during either failed run.
+
+## Exact hashing removes the failing large-array sort
+
+The minimum-dependency continuation also encountered a fold-0 startup sort failure
+(`index 144268392 is out of bounds for axis 0 with size 25587296`). Replace the
+large-array sort with an exact Python-float dictionary mapping and an integer
+inverse array. This changes only the ordering of unique pressure columns, with
+no bins, rounding or quadrature change. All inverse/native-pressure/window-array
+checks remain enforced. Verified immutable designs already fitting can continue;
+only the failed startup is retried. No held-out score exists at this point.
+
+The fresh reviewer independently compared against an entirely undeduplicated
+operator on synthetic data across all eight models: maximum basis difference
+2.66e-15, basis-gradient 3.55e-15, objective 8.88e-16 and objective-gradient
+4.44e-16. No new defect was found. The final reproducible path uses exact hashing,
+serialized construction and the minimum-dependency environment. Large-sort failure
+root cause remains unresolved; neither NumPy version nor concurrency is claimed
+as an established cause.
+
+## Pressure underflow repair before any held-out scoring
+
+A completed pre-score AR candidate at n=368.6669272062016, Pd=100 bar,
+kappa=2/bar made the physical-unit pressure basis round to zero. The resulting
+zero-amplitude fallback was incorrect and could spuriously reduce training loss.
+Stop the batch; preserve its source, completed pressure artifacts, interrupted
+starts, logs and process CPU privately (`failed_underflow_attempt`). Retire **all
+pressure-shape fits** from that implementation, including the four previously
+replayed initial-runtime M0R artifacts. Their earlier replay established runtime
+agreement, not correctness of this underflow case. The 18 T0/R0/L0R artifacts
+remain subject to replay under the repaired operator.
+
+Pressure means now use log capacities and stable weighted log sums. For ordinary
+ranges an equivalent globally scaled sparse operation is used only if every
+positive-pressure window total exceeds 1e-250; otherwise row log-sum-exp is used.
+The direct least-squares numerator, denominator and derivative use extended
+precision and compensated summation. This preserves tiny informative calibration
+windows and cancellation between retained noisy increments. Pressure and recovery
+logs are normalized separately, and signed-log multiplication avoids intermediate
+ratio overflow. The independent integration audit uses log-scaled quadrature and
+the full start-mass recovery basis. No physical n upper bound is introduced.
+Numerical trial states outside the platform's extended floating range fail
+explicitly, rather than becoming false zero fits. Raw physical amplitudes can
+exceed floating range while normalized predictions remain finite.
+
+The fresh read-only reviewer supplied ordinary-pressure tiny-numerator and noisy
+cancellation counterexamples and an extreme tiny-pulse sparse example; all are now
+regression tests. The focused suite has **34 passing tests**, including analytic
+gradients, exact nesting, saved prediction and the full-recovery audit failure.
+This is a necessary numerical repair within the original fit campaign. Corpus,
+folds, engineering settings, optimizer settings, start schedules and scoring rules
+remain frozen. Re-execute the original pressure starts; do not use failed-fit
+parameters as new starts. All failed/aborted computation remains in cost reporting.
+No held-out score or prediction existed during these corrections.
+
+Final baseline replay: all **18** retained scalar/linear shared models agree
+under the repaired operator; largest training-objective difference
+**2.27e-13 g/s**. All six exact-hash designs pass integrity checks.
+
+## Selected-shape integration gate failure, before scoring
+
+All 42 shared fits completed under the log-domain repair. Before any held-out
+prediction, the independent audit rejected fold 2 AR (model SHA-256
+`08c05c7acbe9b6ff6dee5c7627e03f2ea93ae1d5d60a1d0c787376a93e17760e`):
+maximum full-basis relative discrepancy **1.7348707106801535e-5**, above the frozen
+**1e-5** tolerance. The native-interval GL16 approximation therefore needs numerical
+refinement. The tolerance is not relaxed. Preserve this complete failed pressure
+fit version, source and audit logs privately as `failed_quadrature_attempt`.
+No held-out scoring occurred. The full offline suite at this version passed
+**8,099 tests**, with 33 skipped and 97 deselected; this does not override the
+actual-data integration failure. Registry gates and README checks also passed.
+
+All pressure fits from this integration version are retired. T0/R0/L0R remain
+subject to equivalence replay because pressure integration is absent or linear.
+The forthcoming correction preserves observations, window endpoints, calibration,
+guard, corpus membership, folds, model families, starts, bounds and loss. Original
+failed computations and the audit failure remain in the execution-cost record.
+
+The recorded PLAN amendment uses equal-time subdivision at 0.1 bar (minimum
+allowed Pd), preserving native interval time mass and GL16 per piece. Saved
+artifacts explicitly bind the method. The previously failing actual AR shape
+now audits at **4.026030184039152e-9**, below the unchanged 1e-5 threshold.
+All 18 baseline models replay: maximum objective discrepancy **2.27e-13 g/s**;
+maximum native/refined mean-pressure discrepancy 3.74e-14 bar. The 38 focused tests
+and independent review pass. Original pressure starts are repeated without warm
+starts from failed fits. Execution uses eight independent starts per fold instead
+of four, with one BLAS thread per process; optimizer/settings/starts are unchanged
+and CV/deployment use identical execution settings. Audits run concurrently as
+models finish, and cannot authorize scoring until every required model passes.
+
+The refined implementation passes the full offline suite: **8,103 passed**,
+33 skipped, 97 deselected (2,237.07 seconds). Ruff passes. A fresh extraction
+again reproduces both frozen corpus/fold and window-cache hashes byte-for-byte.
+
+## Audit execution batching, before scoring
+
+The full-corpus audit worker raised `IndexError: index 33590542 is out of bounds
+for axis 0 with size 177396` while indexing candidate window ownership. Eleven
+models had returned passing checks; the worker failure returned no score or
+successful receipt. Preserve source, logs and partial results privately under
+`failed_audit_execution`. The underlying large-array failure cause remains
+unresolved; kernel diagnostics were unavailable. This is an execution failure,
+not an observed violation of the integration tolerance.
+
+Run the identical audit in batches of **complete shots**, targeting at most
+500,000 original pressure nodes per batch. A single larger shot stays intact;
+no calibration normalizer crosses a batch boundary. Candidate ownership, complete
+window coverage, native time mass and mean pressure are checked before integration.
+Design construction also checks row time mass and exact shot ownership, alongside
+its existing pressure-node, native-mean and window-array checks. No mathematical
+operator, model setting, parameter, start, observation, fold or tolerance changes.
+Repeat all 24 pressure audits and replay all 42 selected training objectives under
+the guarded Design before scoring. Retain the fitted artifacts if those checks
+pass; no refitting is caused by an audit execution exception alone.
+
+The independent reviewer found no operator/calibration defect in batching:
+**39 synthetic tests passed** (release-surface check omitted), and five different
+batch boundaries gave identical results for both a failing legacy full-recovery
+case and a passing refined case. Injected ownership corruption is rejected before
+indexing. The complete focused suite has **40 passing tests**; Ruff passes.
+Completed failed-audit CPU is recorded; unreturned worker CPU is unmetered.
+
+All 24 repeated pressure audits passed, with maximum full-basis relative error
+5.01243798077945e-7. All 42 selected training objectives replayed, with maximum
+discrepancy 2.2737367544323206e-13 g/s. The qualified artifacts and receipts were
+committed before the first held-out scoring invocation. No held-out score failed
+or was discarded, and there is one cached prediction version.
+
+## Release display correction after scoring
+
+The final read-only reviewer found that the aggregate-panel plot connected the
+last published early bin to the next published later bin across suppressed bins.
+Rendering now inserts NaN gaps on the original fixed time grid and explicitly
+labels gaps as suppressed. A labeled symmetric-log vertical axis displays both
+retained extreme negative and ordinary flows. This is a display-only correction:
+the frozen prediction cache, statistics, cohorts, model fits and all settings
+are unchanged.
+
+The reviewer then identified a distinction in the frozen panel linkage rule:
+many changed shots can span enough continuing users while fewer than ten actual
+contributor users depart. The publisher now checks actual entered/departed user
+sets separately from changed-shot support. A synthetic 20-shot/16-user change
+with only one departing contributor reproduces the defect. The failed panel and
+publisher source are retained privately. Regenerate only the aggregate display
+from the same cached predictions, suppressing additional unsafe bins. No scores,
+contrasts, fits, corpus/folds or model/scoring settings change. A diagnostic label
+was also corrected to 'negative native increment', matching its existing definition.

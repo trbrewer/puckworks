@@ -1,0 +1,60 @@
+{
+  "base_sha": "4c5ebab5df79929813949df7113c21290dde40cc",
+  "corpus_fold_sha256": "ee751332d3f3f955f6cd3530a1e8e6c53f0b034dfc7a1ad5e667cf8adf406975",
+  "folds": [
+    {
+      "fold": 0,
+      "shots": 1927,
+      "users": 64
+    },
+    {
+      "fold": 1,
+      "shots": 1565,
+      "users": 64
+    },
+    {
+      "fold": 2,
+      "shots": 2141,
+      "users": 64
+    },
+    {
+      "fold": 3,
+      "shots": 2999,
+      "users": 63
+    },
+    {
+      "fold": 4,
+      "shots": 2054,
+      "users": 63
+    }
+  ],
+  "seed": 20261105,
+  "settings": {
+    "calibration_windows": 3,
+    "guard_s": 2.0,
+    "max_gap_s": 2.0,
+    "minimum_scored_windows": 3,
+    "onset_g": 1.0,
+    "quadrature_order": 16,
+    "scale_floor_g_s": 0.1,
+    "varying_bar": 2.0,
+    "window_s": 2.0
+  },
+  "shots": 10686,
+  "snapshot": {
+    "files_verified": 465,
+    "integrity": {
+      "n_logical_records": 23169,
+      "n_missing_updated_at": 0,
+      "n_revisions": 0,
+      "n_same_timestamp_conflicts": 0,
+      "n_stored_versions": 23169
+    },
+    "inventory_identity": "f46181ee8c461fab055b73511148dd26888c7c5b3cb1bc908aad6ab9db2bb766",
+    "source_aggregate_sha256": "6769656c8555d940bf79a2243a784c38b63066d3fe231227628667d251ba4d5b"
+  },
+  "starts_sha256": "fb3b0f5d4f69f7adc66fc03ce047e99760d84af3c989c7beea10a315f3737e27",
+  "users": 318,
+  "windows": 177394,
+  "windows_sha256": "8cd8369cca2b12fd4a9e776ee58215f8634aee097d03dd5c46b2fa53cea6c935"
+}

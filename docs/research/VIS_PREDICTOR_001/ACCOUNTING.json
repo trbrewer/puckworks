@@ -1,0 +1,58 @@
+{
+  "completed_cv_shared_fits": 35,
+  "completed_deployment_shared_fits": 7,
+  "analytical_C0_models": 6,
+  "valid_model_optimizer_core_hours": {
+    "benchmark": 23.87109809450444,
+    "deployment": 5.301384791089722
+  },
+  "retired_completed_optimizer_core_hours": {
+    "benchmark": 16.76569742606972,
+    "deployment": 3.685258807246945
+  },
+  "retired_completed_shared_fit_artifacts": 43,
+  "aborted_process_core_hours": {
+    "aborted-quadrature-processes": {
+      "benchmark": 0.0,
+      "deployment": 0.0,
+      "unallocated": 1.018388888888889
+    },
+    "aborted-sort-processes": {
+      "benchmark": 0.5912111111111111,
+      "deployment": 0.14676388888888892,
+      "unallocated": 5.555555555555556e-06
+    },
+    "aborted-underflow-processes": {
+      "benchmark": 0.0,
+      "deployment": 0.0,
+      "unallocated": 1.0884583333333337
+    },
+    "aborted-environment-processes": {
+      "benchmark": 0.9731555555555554,
+      "deployment": 0.17707222222222221,
+      "unallocated": 5.555555555555556e-06
+    }
+  },
+  "preparation_verification_audit_prediction_core_hours": {
+    "pre_freeze_4point_preparation": 0.03242966273138889,
+    "preparation": 0.04080054219916667,
+    "reproduce-check_preparation": 0.04628128498083333,
+    "stable-sort-verification": 0.005669152334166667,
+    "min-env-verification": 0.0071669643425,
+    "log-domain-verification": 0.016418297992222223,
+    "refined-verification": 0.025079382511388887,
+    "selected-fit-verification": 0.029566127058333332,
+    "refined-actual-check": 0.03858495214222222,
+    "reproduce-refined_preparation": 0.04882315181972222,
+    "quadrature": 0.9746527567436111,
+    "deployment_quadrature": 0.1899710721041667,
+    "prediction_and_reconstruction": 0.00648367532138889,
+    "failed_large_array_audit_completed_work": 0.7776668317872223
+  },
+  "refined_fit_batch_wall_hours": 0.8515643979443445,
+  "failed_GL16_completed_batch_wall_hours": 0.5779566248920229,
+  "recorded_total_core_hours": 55.858094084090276,
+  "accounting_scope": "Recorded process CPU, not a complete host-level meter. Models deduplicated by content hash; completed-model worker CPU is separate from active interrupted workers.",
+  "excluded_unmetered": "Some failed startup/driver overhead, unreturned failed-audit worker CPU, an intermediate replay, report bootstrap, figures, interactive review, tests and hosted CI. Interrupted underflow CPU cannot be allocated between CV and deployment from the retained process record. Interrupted audit CPU is mixed across model roles; it includes completed work within those still-active audit processes.",
+  "deployment_excluded_from_benchmark_scoring_and_contrasts": true
+}

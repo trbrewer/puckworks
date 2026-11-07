@@ -1,0 +1,7 @@
+{
+  "criterion": "primary held-out user RMSE",
+  "deployment_refits_used_for_selection": false,
+  "model": "T0",
+  "private_predictions_sha256": "6cb7d6ef0c0e6318d1358b8d939554cba9258f485499871ec4f9c4243942feaf",
+  "rmse_g_s": 36.16842941355359
+}
