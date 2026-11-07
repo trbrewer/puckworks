@@ -145,8 +145,15 @@ and maximum training-objective difference **0.00119398**; no refitting.
 
 The local complete offline suite passed **8,123 tests**, with **33 skipped / 97
 deselected**, before the peak-metadata serialization repair. The repair has a
-focused regression test. The original 20 new tests also passed without JIT and
+focused regression test. All 21 new tests also passed without JIT and
 on the declared minimum NumPy 2.0 / SciPy 1.13 environment. Registry: **66 PASS
 plus one acknowledged historical exception**. Final focused/inherited checks:
 **90 passed**. Required final-head CI is linked in the draft PR. Independent
 review is in REVIEW.md.
+
+The first hosted CI run exposed an overstrict coordinate round-trip assertion:
+NumPy 2.4.6 returned one log/exp-transformed value one ulp from its input
+(absolute difference 3.47e-18). The assertion now uses `rtol=1e-14, atol=0`, as
+the adapter unit test already did. Frozen start/common-parameter equality,
+control objectives and zero-fade nesting checks are unchanged. This test-only
+portability correction changes no scientific code, fit, replay or result.

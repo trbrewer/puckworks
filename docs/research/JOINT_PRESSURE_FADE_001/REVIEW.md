@@ -38,3 +38,11 @@ all fit/condition pairs, and serialize NumPy comparison flags as built-in bool.
 No unresolved scientific or implementation findings remain. The reviewer made
 no edits, optimization calls or EWP writes. This closeout adds the review record
 and refreshes its receipt/documentation hashes; scientific artifacts are unchanged.
+
+The same independent reviewer checked the subsequent CI portability correction:
+only the log/exp coordinate round-trip assertion gains `rtol=1e-14, atol=0`,
+matching the existing adapter test. Frozen start/common parameters, gamma, Mc,
+embedding and control-reproduction checks remain exact. No scientific source
+or result changes, and the scientific review remains valid. The corrected
+focused/inherited suite has **90 passing tests**; all **21** pressure-fade tests
+pass without JIT and at minimum dependencies.

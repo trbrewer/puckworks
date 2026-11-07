@@ -115,7 +115,9 @@ def test_frozen_bank_common_coordinates_and_exact_embedding():
         common=[float(control[k]) for k in ('a','Pstar','n','Pd','tau0')]
         for r in own:
             p=json.loads(r['parameters'])
-            np.testing.assert_array_equal(F.physical(F.coordinates(p)),p)
+            # log/exp round trips can differ by an ulp across NumPy builds.
+            # The frozen common coordinates and zero embedding remain exact below.
+            np.testing.assert_allclose(F.physical(F.coordinates(p)),p,rtol=1e-14,atol=0)
             assert float(r['Mc_g'])==float(control['Mc_g'])
         for r,product in zip(own[:4],(0.,.05,.15,.30)):
             p=json.loads(r['parameters'])
