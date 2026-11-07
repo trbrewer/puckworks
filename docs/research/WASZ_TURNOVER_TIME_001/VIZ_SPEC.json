@@ -1,0 +1,19 @@
+{
+  "role": "No-fit description of measured pressure-flow evolution",
+  "producer": "puckworks.analysis.wasz_turnover_time_001.figure",
+  "outputs": ["FLOW_BY_PRESSURE.svg"],
+  "dataset_id": "waszkiewicz2025/traces_per_brew",
+  "source": "Waszkiewicz et al. (2025), Zenodo 18046315; authenticated native traces, same 56 distinct brews as Stage A and FORM_A",
+  "rights": "CC-BY-4.0 data; original figure, no source artwork or GPL program imported",
+  "observation": "2-s centered time averages of native 31-sample filtered mass derivative and matched line pressure",
+  "encodings": {
+    "x": "Condition-mean achieved line pressure (bar), same available brews as y",
+    "y": "Condition-mean beverage-mass-derived flow (g/s)",
+    "panels": "Since stable pressure; since detected Waszkiewicz onset",
+    "colors": "Declared window center; stable 100 s is black and heavier",
+    "lines": "Connections among observed nominal-condition means; not fitted curves",
+    "uncertainty": "Point estimates drawn; shared whole-brew bootstrap intervals and paired changes in CSVs",
+    "missingness": "Missing condition means break curves; all 110 actual condition-time cells have full support"
+  },
+  "ceiling": "Source-internal temporal description, not a located peak, common mechanism, puck pressure or validation"
+}
