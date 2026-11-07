@@ -168,6 +168,31 @@ def write_slices(data,args,rows):
     R.R.R.csv_write(R.OUT/'SLICE_SUMMARY.csv',summaries)
 
 
+def evaluate_peak_condition(job):
+    """Every selected PF vector at every condition; peak diagnostics, not extra LOCO scores."""
+    fold, pressure = job
+    fit=selected(_DATA,_ARGS.work,'A_J1_PF',fold)
+    sources=[s for s in _DATA['sources'] if s['nominal_pressure_bar']==pressure]
+    cpu=time.process_time();curves=[];rows=[]
+    common=dict(arm='A_J1_PF',scope='ALL_FIT_CONDITION_DIAGNOSTIC',fold=fold,
+        pressure_bar=pressure,gamma_P=fit['parameters'][4],Mc_g=fit['mc_fixed_g'],dt=.005,
+        condition_in_training=fit['held_condition_bar']!=pressure,
+        is_held_out_condition=fit['held_condition_bar']==pressure)
+    for s in sources:
+        predictor=F.prepare(s,fit['parameters'],fit['mc_fixed_g'],dt=.005)
+        pred=predictor.chemistry(s['predict_horizon_s'])
+        ct=_DATA['native'][s['brew']][0]
+        observed=T.beverage_observer(pred,ct)
+        curves.append((ct,observed))
+        rows.append(dict(**common,brew=s['brew'],**peak(ct,observed)))
+    start=max(t[0] for t,q in curves);end=min(t[-1] for t,q in curves)
+    grid=np.arange(np.ceil(start*10)/10,np.floor(end*10)/10+.01,.1)
+    average=np.mean([np.interp(grid,t,q) for t,q in curves],axis=0)
+    rows.append(dict(**common,brew='CONDITION_MEAN',
+        mean_support='0.1-s interpolation of native observed flows on common clean support',**peak(grid,average)))
+    return dict(rows=rows,cpu_seconds=time.process_time()-cpu)
+
+
 def parser():
     p=argparse.ArgumentParser(description=__doc__)
     for flag in ('ewp','native','raw','screen','joint','lc','wasz','replay','fade-evidence','work'):
@@ -197,6 +222,10 @@ def main():
         slices=list(pool.map(evaluate_slice,[(fold,value,'grid') for fold in data['reference'] for value in SLICE_GRID]+[(fold,None,'selected') for fold in data['reference']]))
     R.R.R.write_json(args.work/'SLICES.json',dict(identity=R.identity(),records=slices))
     write_slices(data,args,slices)
+    with ProcessPoolExecutor(max_workers=args.workers,mp_context=multiprocessing.get_context('fork')) as pool:
+        peaks=list(pool.map(evaluate_peak_condition,[(fold,p) for fold in data['reference'] for p in F.J.W.NOMINAL]))
+    R.R.R.write_json(args.work/'PEAKS_ALL_FITS.json',dict(identity=R.identity(),records=peaks))
+    R.R.R.csv_write(R.OUT/'PEAKS_ALL_FITS.csv',[row for result in peaks for row in result['rows']])
 
 
 if __name__=='__main__':

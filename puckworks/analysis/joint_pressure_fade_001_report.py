@@ -362,6 +362,17 @@ def main():
     paired,scores,ns,onsets,criteria,bank_hash=metric_tables(data,records);numerics+=ns
     fits,starts,ns=fit_tables(data,index);numerics+=ns
     curves,peaks=curves_and_peaks(data,records)
+    all_peak_index=R.read(args.work/'PEAKS_ALL_FITS.json')
+    assert all_peak_index['identity']==R.identity()
+    all_peaks=[r for result in all_peak_index['records'] for r in result['rows']]
+    assert len(all_peaks)==804 and len(all_peak_index['records'])==132
+    lookup={(r['fold'],r['pressure_bar'],r['brew']):r for r in all_peaks}
+    for r in peaks:
+        if r['arm']=='A_J1_PF':
+            full=lookup[r['fold'],r['pressure_bar'],r['brew']]
+            for field in ('maximum_g_s','maximum_times_s','boundary_left','boundary_right',
+                          'interior_peak_times_s','peak_status','horizon_start_s','horizon_end_s'):
+                assert r[field]==full[field], (r['fold'],r['brew'],field)
     for name,rows in [('FITS',fits),('STARTS',starts),('METRICS_PAIRED',paired),('METRICS',scores),
                       ('TRAJECTORY_COMPARISON',trajectory),('CROSS_CONDITION_LATE',late),('CONTRIBUTIONS',contributions),
                       ('NUMERICAL_SENSITIVITY',numerics),('FADE_FACTORS',fade_factors(data,index)),('ONSETS',onsets),('INHERITED_CRITERIA',criteria),('PEAKS',peaks)]:
@@ -377,6 +388,7 @@ def main():
         reference=R.read(args.work/'REFERENCE.json'),identity=R.identity(),
         evaluator_sha256=O.digest(E.__file__),reporter_sha256=O.digest(__file__),
         inherited_arm_replay_exact=True,
+        all_fit_condition_peak_pairs=132,all_fit_peak_rows=804,primary_peaks_reproduced_exactly=True,
         all_detection_step_agrees=all(r.get('detection_changed') is not True for r in numerics)))
 
 

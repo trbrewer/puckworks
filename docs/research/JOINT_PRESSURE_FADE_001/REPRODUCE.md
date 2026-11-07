@@ -91,6 +91,11 @@ exp(-gamma_P*P*40) for each fit at every constant nominal pressure, plus actual
 post-breakthrough recorded exposure increments over stable +60→100 s.
 FLOW.svg displays 4/6/9/11/13-bar observed and all-arm beverage flow at .005 s;
 LOCO and DESCRIPTIVE_ALL stay separate. VIZ_SPEC documents the encodings.
+PEAKS_ALL_FITS additionally covers all 12 selected pressure-fade vectors at all
+eleven conditions (672 brew and 132 condition-mean rows), using the same recorded
+forcing, native observer and .005-s integration. It labels whether each condition
+was in training. This is a frozen peak diagnostic, not additional held-out scores;
+the paired metrics still use only the original LOCO/descriptive assignments.
 
 Required checks:
 
