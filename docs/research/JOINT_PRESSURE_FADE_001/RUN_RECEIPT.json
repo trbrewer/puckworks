@@ -1,0 +1,134 @@
+{
+  "task": "PW-JOINT-PRESSURE-FADE-001",
+  "base_sha": "fa0b14003cb0d7c77a902e3adf1e6fd1a38bf120",
+  "plan_commit": "12887bab638ccc17cdb031cd19e4125513ac0bba",
+  "fitting_implementation_commit": "641d6301f1f2fdcf5444d8fdc018a442b34ea7a8",
+  "commands": [
+    {
+      "stage": "evaluate-1-time.txt",
+      "process_tree_cpu_seconds": 356.90999999999997,
+      "core_hours": 0.09914166666666666,
+      "exit_status": 1,
+      "timer_sha256": "66e8c89193f82d1a5e200e22519ca734dd7fec62cd55be3e469ec4d18bb69df3"
+    },
+    {
+      "stage": "fade-1-time.txt",
+      "process_tree_cpu_seconds": 110724.13,
+      "core_hours": 30.75670277777778,
+      "exit_status": 0,
+      "timer_sha256": "1a452c518fb9c5383d2215fdffb704aafcaa32ba23046743aeb2d855b15fe3fd"
+    },
+    {
+      "stage": "peaks-2-time.txt",
+      "process_tree_cpu_seconds": 94.7,
+      "core_hours": 0.026305555555555558,
+      "exit_status": 0,
+      "timer_sha256": "132057fa635dce2301460e1b5f1df1905db9ee3f949bba964dfdb17a3f04ce6b"
+    },
+    {
+      "stage": "reference-1-time.txt",
+      "process_tree_cpu_seconds": 18.65,
+      "core_hours": 0.0051805555555555554,
+      "exit_status": 0,
+      "timer_sha256": "aa4dca6fa7ff22a10227e0f1f30a46e3e6f7d97bdcf8548c677a29001401e342"
+    },
+    {
+      "stage": "reference-2-time.txt",
+      "process_tree_cpu_seconds": 18.89,
+      "core_hours": 0.0052472222222222226,
+      "exit_status": 0,
+      "timer_sha256": "82aa65dccc84170dc68324af67e0e841d3055c254cba88ad8ee9a8d25ba84b51"
+    },
+    {
+      "stage": "report-1-time.txt",
+      "process_tree_cpu_seconds": 16.009999999999998,
+      "core_hours": 0.004447222222222221,
+      "exit_status": 0,
+      "timer_sha256": "1666184eef7482507394ac7402720d8a0009022b96ff5ec25f7979a9116d2808"
+    }
+  ],
+  "scientific_cpu_seconds": 111229.29000000001,
+  "scientific_core_hours": 30.897025,
+  "failed_scientific_commands": 1,
+  "fit_problems": 12,
+  "scheduled_starts": 228,
+  "failed_starts": 0,
+  "evaluated_trials": 177304,
+  "reused_control_fits": 12,
+  "accounting_scope": "External GNU time user plus system CPU including descendants, both references, failed evaluation, peak-only recovery and report; per-start CPU not added again",
+  "excluded": "Source inspection/start-bank preparation, QA tests, independent review, figure preview and hosted CI",
+  "worker_counts": {
+    "reference": 12,
+    "fit": 96,
+    "evaluation": 32,
+    "peak_recovery": 32
+  },
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "packages": {
+    "numpy": "2.2.6",
+    "scipy": "1.18.1",
+    "numba": "0.68.1",
+    "matplotlib": "3.11.2"
+  },
+  "code_sha256": {
+    "puckworks/analysis/joint_pressure_fade_001.py": "9ef08e11f7d88c68cd811bd4ddb5f00828980b719a9116540bacb281ed824dc7",
+    "puckworks/analysis/joint_pressure_fade_001_evaluate.py": "553773c1f72ebcef3a7d1fee118c3f7b9bddacb3aa301fe7817daad7d4d3f908",
+    "puckworks/analysis/joint_pressure_fade_001_report.py": "15fd94addf11f9c803abc58571dcb635dcf8b5dd9da3fac88f73e7b7a8c7c2b3",
+    "puckworks/analysis/joint_pressure_fade_001_run.py": "c56330a0ee3f4c271d3d09d49d8ddb2d6eefc7b0d0acca315c9173f5fa238238",
+    "puckworks/analysis/joint_clock_001.py": "922c0cd4edf59cf0eb1feb89d4c6757e70e3ebe11b35fb29aa4d2c239d5f3581",
+    "puckworks/analysis/wetting_screen_001.py": "404e4619938e3c847b22603a837fe1bf1a53e676c7a5211e7184f953a7a0e072",
+    "puckworks/analysis/mass_fade_diagnostics_001.py": "0e6ff08e6f58f4999c5b32a423c6e6a83c2d5da69d38d149deb52a1e30de5632"
+  },
+  "original_evaluator_sha256": "c7ab13df79a89766aa5dcd5ca3ff4c6cbf87b89ca23fb99e81ec155139dda7a1",
+  "external_sha256": {
+    "REFERENCE-1.json": "2c40b5b89b153061b0f03efb5e81ec62389234446f07e3a9a524e138628ffed8",
+    "REFERENCE.json": "04a1b481f45b7d7a8c47ca8ad8f79ebc843bbb9c2a94461251436c5d2be9ea77",
+    "fade-FREEZE.json": "833befa5d211369194c3093f834406c3cc89febe031b9d72e357c6480b05885c",
+    "EVALUATION_FREEZE.json": "68d237f694d0d5216c376c7cb6a09460487e35e2cef3b0cd4aaf45c9ee9b107a",
+    "EVALUATION.json": "c297a30d21e100ab924bcfad46c3aad983f1798f43cbefd1513b636f1c39b7e5",
+    "SLICES.json": "effbb5891894793da11761ee6fbaa24bc577d247d446d7125cc324b2454e1e11",
+    "PEAKS_ALL_FITS.json": "a96b0ac74b48204aa9841a4bdfcd2b04c0d2bca12f49dd8138311017b5accb16",
+    "PEAK_RECOVERY.json": "07e07d13fd9f673fd63f1e03921986eb5e08d3847799db649645e7fdd8aba2ab",
+    "EVALUATOR_EXECUTED.py": "c7ab13df79a89766aa5dcd5ca3ff4c6cbf87b89ca23fb99e81ec155139dda7a1",
+    "recover_peaks.py": "54dbe954b761b8b6c4bb5d210b15a680eea5e7748e8c8c2b71a4af89466ec9ce"
+  },
+  "artifact_sha256": {
+    "CONTRIBUTIONS.csv": "ff3bf2e5c94204eef72933ccf963a4c7a5517e9e3fa6d6bc78b877b4b0099ddd",
+    "CROSS_CONDITION_LATE.csv": "453fd82861941ef770b264a0644e1099fb15b5276b658653dbc7277450654dbb",
+    "FADE_FACTORS.csv": "c8976347b51de987e219071b49ce563e6533cf791bc593f4c42ab3c57e066004",
+    "FITS.csv": "24e4b7540536cd30bae732e64637ca1c6983fda434fc8cc748a058bfb4068434",
+    "FLOW.svg": "f22415035b4cb7040cea6eeac32d5f23cc4d902bb3faac1ec777ae9a819220d0",
+    "GAMMA_P_SLICES.csv": "90b13390fd87f6cf4d08ab2e757d51cf6988d625ae246cf6127b2bebc879b163",
+    "INHERITED_CRITERIA.csv": "d0e341f83626c8a1ab2ac7a822a38b3844fb612424d77f3de8eed803248aafdd",
+    "INPUT_MANIFEST.json": "ee0b8578e41b1844994b83b28962be328ca8a3dad49500daa44da9bfc780c98e",
+    "METRICS.csv": "4bdb3e625445e21ea59da25cd6b7342ffc372bb9ce5e93cabd938fb3e14e95ab",
+    "METRICS_PAIRED.csv": "b48bf035f2c47c865041bab7bf85cd1217418841ebe6895670f6df50a51f9965",
+    "NUMERICAL_SENSITIVITY.csv": "d2fff4e442c0e1450ea966cba0b401262aeea263dae551f2091c3b13cb474a44",
+    "ONSETS.csv": "afc0fb1b038bff794d1fba0dcd345d29c743840673ab82eb9893379426bf29b4",
+    "PEAKS.csv": "2705b8926c9d7feaf152c9a4a3141ccb999f2c0b8145637e66fb93b959c6d440",
+    "PEAKS_ALL_FITS.csv": "c41d660090df690b8ea21de0b19f6dfaf60b95d92724120c16738f0129827bd4",
+    "PLAN.md": "2814742ae3332129f7a5d7320b1b1a66cb900be1396276001a4e5f593c851cb0",
+    "PREFIT_REVIEW.md": "ef359acb34f8079fcbf17de077101adf6d208d23346f6a22acdc26b4d14ed0a5",
+    "REPRODUCE.md": "0a3b0ba1bc53d09f5d5edccdc73e088eda7078535edc1fdaa64b8f19e771e65b",
+    "REVIEW.md": "3132185f3e4d23792b43252cc8707abae3f44f5860cb8c6984fdd13c5e445a19",
+    "SLICE_SUMMARY.csv": "be721cc2e615450ed754b87b22799c2751902870511ac522015bbe84212599c0",
+    "STARTS.csv": "a3a63b9983f4d48adf06f273bd0d425904db4c07b8533aff988101ffdb9219b8",
+    "START_BANK.csv": "2faa8e1c0665723663ec2ef44391efbae4960981c8deac60d2f2c9555de37d03",
+    "SUMMARY.md": "5d76ea7036e315c7f8b41e9ca6139e857b78baf0498c3468a6353d633e3c6e8a",
+    "TRAJECTORY_COMPARISON.csv": "632dc9bec2bcf54c0859af17662cfb73d0bf77bc4b60393a7f6c33a04ac36bf7",
+    "VERIFICATION.json": "aff12da1c0ea94b19588f48a4381d88df559f8f347e6102f0af8a283537ead29",
+    "VIZ_SPEC.json": "cc35486f003f4b1ddbabf3a3f43ea282f7960644fb19c58093adf464e6287b69"
+  },
+  "qa": {
+    "focused_combined": 90,
+    "offline_suite_passed": 8123,
+    "offline_suite_skipped": 33,
+    "offline_suite_deselected": 97,
+    "offline_suite_scope": "Before the metadata serialization repair; focused regression afterward and final-head CI",
+    "new_tests_nojit": 21,
+    "new_tests_minimum_dependencies": 21,
+    "registry_pass": 66,
+    "registry_acknowledged_exception": 1
+  },
+  "ewp_read_only_head": "479783685360fdd31636890cf8e588a8fdd692d8"
+}

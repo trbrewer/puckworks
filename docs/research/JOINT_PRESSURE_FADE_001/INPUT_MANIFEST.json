@@ -1,0 +1,52 @@
+{
+  "base_sha": "fa0b14003cb0d7c77a902e3adf1e6fd1a38bf120",
+  "mass_source_sha": "ec0dc887ca0f66338fe166cd4ed8e7cbf2994441",
+  "diagnostic_source_sha": "093b8b5e5a4c86ebf31bc48f46521441069072ec",
+  "mass_artifacts": {
+    "docs/research/JOINT_MASS_FADE_001/CONTRIBUTIONS.csv": "c79288bc21c7d9e5a3252047fc06ed2a3124eb23a858e638bf4f574c3fa7d91a",
+    "docs/research/JOINT_MASS_FADE_001/CROSS_CONDITION_LATE.csv": "becafe347a90111a679d599c1d4679540bfb8d8f6a9f1c3cda9b085b22b6a476",
+    "docs/research/JOINT_MASS_FADE_001/FITS.csv": "0b92f5104dee7a051c0e29a8896c5605a92da2beddd54ec31c87d55429d80f51",
+    "docs/research/JOINT_MASS_FADE_001/FLOW.svg": "485a7d96c878eadb7ae9aa68dd286b21907887a4f257340b5f40e694ff2d0bdc",
+    "docs/research/JOINT_MASS_FADE_001/INHERITED_CRITERIA.csv": "ec04ab3304176ec8c87ac5e8946e749cb572d101bf1da2a8dda463a3e860056c",
+    "docs/research/JOINT_MASS_FADE_001/METRICS.csv": "467ba70fdd047e232da2bd7485599a1c93f56e37714ad7924eaea844b727ee7f",
+    "docs/research/JOINT_MASS_FADE_001/METRICS_PAIRED.csv": "5d6648712372fb28a673339d762efdfa8a702c8a80135f863a867eedb0a722d7",
+    "docs/research/JOINT_MASS_FADE_001/NUMERICAL_SENSITIVITY.csv": "3962e3904c03e905f115ab9b65c50ed9f477c146a6ead428169526889e5889ad",
+    "docs/research/JOINT_MASS_FADE_001/ONSETS.csv": "9436c9ebd602c358ad898e66538efab0f3a4f694014581b18e0a226a17b70eba",
+    "docs/research/JOINT_MASS_FADE_001/PEAKS.csv": "d7b12b8dccae7265129e68e352da87cdaed5c55e724a3ec06836f0f02716c70b",
+    "docs/research/JOINT_MASS_FADE_001/STARTS.csv": "6052641fad805c7d0313b78778aa95ff724b171702d2aeae533d5b5d8ada2372",
+    "docs/research/JOINT_MASS_FADE_001/START_BANK.csv": "6dd4f9b9494d1182e2be9cb528b04e8571d628a97ecfc57c05b9924f2a068a5f",
+    "docs/research/JOINT_MASS_FADE_001/TRAJECTORY_COMPARISON.csv": "7fad68a2b470bd284850dae1e65d42ac15cfd0c0548234b0547c0d8610d7ea2c"
+  },
+  "external_freezes": {
+    "control-FREEZE.json": "a6b3ca1b1a104501c676cf009fc16ffbd714b62c5c2f9f90eab0d8d5e3f85d1d",
+    "fade-FREEZE.json": "8a6fe6150cc3bc61014660c4b47e22baea9dac31aef4fbaf5933da08521f7adc",
+    "EVALUATION_FREEZE.json": "6ca004481c1dbfb0134624b9d48a02023a52c17dba38fa8525ed179a93f38377",
+    "EVALUATION.json": "61a78636ffd8511532a5c0bd15e2295485463ac4bb4cba5eb6ea0b5edf227e20"
+  },
+  "source_fit_sha256": {
+    "fits/A_J1_F_DESCRIPTIVE_ALL.json": "c51689c21be86b2a009bd5bd0bc1deddac7d610efead351c40073211e3467b4a",
+    "fits/A_J1_F_HYD-LOCO-1.0.json": "a3a8df5b7ec7c632cfd52c31bbabaf51eb49b708c6c954462c5712a02c92e45e",
+    "fits/A_J1_F_HYD-LOCO-11.0.json": "cc7443c4f940edeb6013bc6fe687e7a28c29c59ea6e04fe88f1dc561d0eb4085",
+    "fits/A_J1_F_HYD-LOCO-13.0.json": "db7187b70a1fc61c38cbe6b1e62f4da4e678b7c12c5c4c74b2293508f771cdf1",
+    "fits/A_J1_F_HYD-LOCO-2.0.json": "21b1e8d91beba5d471682516aefe3ef7141c8fcf7601c3eb087c2c9bb34de81b",
+    "fits/A_J1_F_HYD-LOCO-3.5.json": "e43be6722c6c8c0cd965a9c8ffe8a28ea9b6dd4ad97eccdbd64d4d20e574d420",
+    "fits/A_J1_F_HYD-LOCO-4.0.json": "c6c1abfcf363d22655000c7fa3968fb22d848fd828762e1172d4e6e7196e4881",
+    "fits/A_J1_F_HYD-LOCO-5.0.json": "1e8b10c08f6b8cefb760b25fe9c2854421933a2400f932bf9eb9983bf7cad435",
+    "fits/A_J1_F_HYD-LOCO-6.0.json": "7e9e5d145644de2a6d1597420c4dfb4f9641e3b2e9a6da9b6d02311bea0ef426",
+    "fits/A_J1_F_HYD-LOCO-7.0.json": "0bfdc353dae244ce2a20a2d1fd4f52150bbf5f4d8bbb701f5f81d87f499a3c7d",
+    "fits/A_J1_F_HYD-LOCO-8.0.json": "196136c45f2151cdb075a7f18929b61d6e8d1e0715ee6fcd457b4d697dfaf025",
+    "fits/A_J1_F_HYD-LOCO-9.0.json": "08f93943cc8907fdd7c86d34a833adbc54233b26f6fa33c0ee8a0d7a3402afe0",
+    "fits/refreshed_A_J1_DESCRIPTIVE_ALL.json": "8b0b2fa65e658c34862029ab7d3d99cec4e7bf8c16f38ea631f7779c81fc6a7d",
+    "fits/refreshed_A_J1_HYD-LOCO-1.0.json": "f80af6d2422ebe600aabb97e05e853b3c4575d73dae8bada766afacea32b43e3",
+    "fits/refreshed_A_J1_HYD-LOCO-11.0.json": "f9858c9089f4d5347d87d9556f190d6ee9434e38760ce6491d8506af7f404e5c",
+    "fits/refreshed_A_J1_HYD-LOCO-13.0.json": "d929b9241b637aa08428a0b3d480ff4e4210cb0778d78191d015bfbecc2f1f70",
+    "fits/refreshed_A_J1_HYD-LOCO-2.0.json": "1f0c704b9d4592439b5c8053bb88c9ade0ea96703c5dc4758d22f6ecf275b6ae",
+    "fits/refreshed_A_J1_HYD-LOCO-3.5.json": "db5ff98f840551bfc6d4c1729a3cc9adb300054f959311b4457283316242d91b",
+    "fits/refreshed_A_J1_HYD-LOCO-4.0.json": "14c2965d0939bcc9f1b57014e09f33f0a80f729fec12c72991ada7d2ccc8b113",
+    "fits/refreshed_A_J1_HYD-LOCO-5.0.json": "f820f768aa9621e81d1f60de9c7e9913852b8ee0fc956ba54cc56d0feac788a9",
+    "fits/refreshed_A_J1_HYD-LOCO-6.0.json": "ed8e9f1346499869c139b517c57b9ee7b1a583bffa4e696777b361c64183d7fb",
+    "fits/refreshed_A_J1_HYD-LOCO-7.0.json": "8b5d7555adfc3b4e1d56cb6e01c634fb64823641377cc83c2751115bdb54f772",
+    "fits/refreshed_A_J1_HYD-LOCO-8.0.json": "09590dc8154f51585b2f06834b30d16c22d4c9d393a3197fc977d3a1c6195069",
+    "fits/refreshed_A_J1_HYD-LOCO-9.0.json": "10ef3e657a67d80ba7d384e524f3fbbb8c94851264cc9b29f53e1361dc5a4705"
+  }
+}
