@@ -1,0 +1,11 @@
+{
+  "producer": "puckworks.analysis.wasz_3p5_endpoint_consistency_001.figure",
+  "artifact": "ENDPOINT_PRESSURE.svg",
+  "inputs": ["ENDPOINT_PAIRS.csv"],
+  "scope": "All 56 brews; unchanged endpoint_100s flow versus matching line pressure at stable-pressure t=100 s",
+  "badge": "DESCRIPTIVE_RECORD_CHECK",
+  "evidence_strength": "Source-internal previously exposed observations; no model scoring",
+  "fidelity_ceiling": "No model curve, imposed linearity, causal attribution or physical validation",
+  "highlight": "Three nominal-3.5-bar brews; every other brew retained",
+  "uncertainty": "Individual brew points, no fitted curve or interval"
+}

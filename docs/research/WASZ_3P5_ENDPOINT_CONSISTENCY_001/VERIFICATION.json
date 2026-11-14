@@ -1,0 +1,47 @@
+{
+  "base": "4c5ebab5df79929813949df7113c21290dde40cc",
+  "lc_pin": "0e1944de72819f0a058b99b6c0b2879e2d4ffde6",
+  "ewp_pin": "67bead2a25bd7e61c16c4fe2c104d885d8d26dd9",
+  "raw_audit_completed_before_preprocessing": true,
+  "brews": 56,
+  "conditions": 11,
+  "alias_exclusion": {
+    "12-8-6_alt": "12-8-6"
+  },
+  "endpoint_pairs": 56,
+  "endpoint_target_unchanged": true,
+  "saved_observed_flows_onsets_identical": true,
+  "primary_reporting_trace_and_mask_identical": true,
+  "max_sci_md_010_pressure_difference_bar": 0.0,
+  "max_sci_md_010_flow_difference_g_s": 0.0,
+  "raw_fields": [
+    "U",
+    "m",
+    "p1",
+    "p2",
+    "t",
+    "v1",
+    "v2"
+  ],
+  "model_fits": 0,
+  "model_evaluations": 0,
+  "model_scores": 0,
+  "process_cpu_seconds_inside_run": 1.707032135,
+  "source_attribution": "Waszkiewicz et al. (2025), Zenodo 18046315 v1.0.1, CC-BY-4.0",
+  "scope": "Same campaign; no causal or physical-validation claim",
+  "focused_checks": "11 passed",
+  "registry_gates": "66 PASS, 1 ACKNOWLEDGED_EXCEPTION",
+  "configured_lint": "ruff check puckworks/ tests/: passed",
+  "broader_lint": "ruff check . found four pre-existing F401 imports in unchanged docs/research/espresso_programme_review_20261001/{archived_checks/functional_checks.py,replay/balance.py}; not the CI lint scope",
+  "base_quick_suite_reused": {
+    "base": "4c5ebab5df79929813949df7113c21290dde40cc",
+    "passed": 8065,
+    "skipped": 33,
+    "deselected": 97
+  },
+  "plan_commit": "389506deca7fc7087a5430b6c7619ef7882fe1c1",
+  "timed_audit_figure_cpu_seconds": 7.94,
+  "timed_audit_figure_core_hours": 0.0022055555555555557,
+  "ci": "See final draft PR checks and closeout for exact head/run links",
+  "figure_preview": "Same figure rendered natively by Matplotlib and visually inspected"
+}

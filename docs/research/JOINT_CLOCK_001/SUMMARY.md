@@ -30,6 +30,8 @@ F and O use the declared fixed fitting support/normalizations; held-out conditio
 
 **τ0 point estimates:** DESCRIPTIVE_ALL across weights **11.60–13.58 s**; ordinary folds at λ=1 **13.14–13.96 s**. These come from overlapping training sets, are not uncertainty intervals, and are not a measured wetting duration. [Fits](FITS.csv).
 
+The [LC_JOINT_TRANSFER_001 frozen f=0 diagnostic](https://github.com/trbrewer/puckworks/blob/0e1944de72819f0a058b99b6c0b2879e2d4ffde6/docs/research/LC_JOINT_TRANSFER_001/SUMMARY.md) found better feasible A-J1 solutions in **11/48 fits**, including the primary **9- and 11-bar folds**.
+
 J2 provides no resolved incremental onset gain at the primary weight, and its front/lag decomposition is weakly identified. Some sensitivity comparisons improve flow (λ=0.05 J2−J1 primary trace −0.01045 [−0.01889, −0.00208] g/s), without resolving the full-cohort problem. Primary J2 bed/scale primary-flow RMSE is **0.2638/0.2744**; **fitted scale lag; physical mechanism unidentified**. [Details](RESULTS.md).
 
 **Distinct extrema:** primary descriptive J0/J1/J2 100-s flow peaks **5.113/6.566/6.577 bar** (numerical interpolation, no statistical interval); nominal peak grades all **MEETS**. J2 front minimum is **3.5 bar on-grid** (Pw=3.597); detector minimum ties **4/5 bar**, while its held-out minimum is **6 bar**, observed **3.5**. J0/J1 fronts are pressure-flat. [All extrema/ties/boundaries](EXTREMA.csv).
