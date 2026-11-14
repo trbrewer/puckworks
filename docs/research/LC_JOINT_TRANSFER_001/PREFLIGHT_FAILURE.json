@@ -1,0 +1,13 @@
+{
+  "attempt": "initial reference replay, before any optimizer start",
+  "status": "failed",
+  "error": "BrokenProcessPool: worker terminated abruptly",
+  "cause": "Historical trial histories retained in parent data; replay succeeded after discarding unused histories and reducing replay workers 48 to 24. Exact process-termination cause not established.",
+  "log_sha256": "9a8cd02d6bcc535507333eac525344079fcced5842bed267e03319f221d64670",
+  "optimizer_starts": 0,
+  "fit_problems_started": 0,
+  "observed_parent_cpu_seconds_lower_bound": 38.0,
+  "total_cpu_seconds": null,
+  "cpu_qualification": "The first preflight attempt was not wrapped in a process-tree CPU timer. Its total CPU is unavailable; do not include an invented estimate. All subsequent stages are timed with /usr/bin/time -v, and scientific optimizer attempts also retain per-start process CPU.",
+  "repair": "Retain only saved fit identity, parameters, objective, fold, Mc and training IDs; all historical trial files untouched."
+}

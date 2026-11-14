@@ -1,0 +1,43 @@
+{
+  "base": "4c5ebab5df79929813949df7113c21290dde40cc",
+  "ewp_remote_main": "67bead2a25bd7e61c16c4fe2c104d885d8d26dd9",
+  "ewp_reference_checkout": "479783685360fdd31636890cf8e588a8fdd692d8",
+  "later_change_reconciliation": "Only independent cup-time increment files differ since PW reviewed pin; FORM_A bytes at EWP reference checkout match remote main.",
+  "source_histories": 56,
+  "conditions": 11,
+  "source_access": "Underlying source files authenticated, not catalog-only",
+  "reference_fits_replayed": 48,
+  "reference_case_pairs_replayed": 316,
+  "max_reference_trace_difference_g_s": 0.0,
+  "reference_replay_sha256": "f5b4a6bc25990207b69ea18171bdb68950ee86f5457df5d018fabe88fd62f307",
+  "source_inputs_sha256": "a4f186f1affd6a8267b79bced5152c4b8d111cede2e894d84e1166f7eac149d9",
+  "primary_records_sha256": {
+    "docs/research/JOINT_CLOCK_001/PLAN.md": "cc18832335c03fa19ebaf9d359dcdb1360802e6f0f30bf2888d8f4432a43ccd8",
+    "docs/research/JOINT_CLOCK_001/METHODS.md": "1fc11539d2910c12159099a5df07ceeaecb62e61e106ad7a895c829d2a71ec27",
+    "docs/research/JOINT_CLOCK_001/SUMMARY.md": "efa38a284b91228235c80d35f814dfbd1b897cb0456e8bd94aa5d729f66786ca",
+    "docs/research/JOINT_CLOCK_001/FITS.csv": "db16270b818e0a8bb87e853725f89a3d4b8a8e90e9bf258b1020efa7cc465d67",
+    "docs/research/JOINT_CLOCK_001/OPTIMIZER_STARTS.csv": "e8caf2f3c02e828dae63e05062282a52c3a1cf00548677da7ac356ad21a69365",
+    "docs/research/PRESSURE_PEAK_STAGE_C3E/PLAN.md": "4dd98413d5187459bf0b8d6df2659309468a8efd7fc3c58df4a468a32e1108bc",
+    "docs/research/PRESSURE_PEAK_STAGE_C3E/SUMMARY.md": "a9cbbe1497e9674771fca8362afe45fb2bcce4f91b89ab368c0662321308d1c8",
+    "docs/research/PRESSURE_PEAK_STAGE_C3E/RESULT_TABLE.csv": "0dd34a214bcb587aae321d741154f2d30f3337c4a4df9e732953122f952ca718",
+    "docs/research/PRESSURE_PEAK_STAGE_D0/SUMMARY.md": "615093945f1ecbc2dac04f06ff2696e41811cd384be14a6c49e06cb205f92cf7",
+    "docs/research/PRESSURE_PEAK_STAGE_D0/RESULT_TABLE.csv": "2496ede602402df970ad3e2905f90b0152a64d99c3bf02f21d881526b511ba99",
+    "docs/research/COR15_SHAPE_001/PLAN.md": "2c8a16cd58fa5c6e46927d36605e4185e2661e1dd003c06eba83e1bafc925e16",
+    "docs/research/COR15_SHAPE_001/SUMMARY.md": "0df3939aaaf515134cc2b28a7434fe309a02d152ad7365e04985c496dbc8c90a",
+    "docs/research/COR15_SHAPE_001/SOURCE_RECONCILIATION.md": "09f468468f754e0321c4cb72e2b3d2760dacf762ad3fc812e4a9bf046eefeff5",
+    "docs/research/COR15_SHAPE_001/RESULT.json": "6627892e3826d2676e9534e1ac8e0099891475d7b107577bbe557f32444a0395",
+    "docs/research/COR15_SHAPE_001/REPRODUCTION.json": "d540dfcfad24a9754bb69071271c4bc9e08432fd693ea41c167e14ee2875e400"
+  },
+  "cor15_pdf_sha256": "a67e855f52472589dd35c878a16a6825866a5a901958a1ea46752c50138b800f",
+  "cor15_image_sha256": "e6b76d91b7da590c7ed424c14cf1616be6a7fe57332ca3630902ad6c121b1e9e",
+  "independent_campaign_count_change": 0,
+  "licenses": [
+    "Waszkiewicz Zenodo 18046315 CC-BY-4.0",
+    "Corrochano doi:10.1016/j.jfoodeng.2014.11.006 CC-BY-3.0"
+  ],
+  "inherited_late_trend_support": "All 56 weighted late-window timestamps lie strictly within original clean horizons; maximum excess -0.0010000000000047748 s.",
+  "fixed_Mc_examples_g": {
+    "DESCRIPTIVE_ALL": 28.709461834955388,
+    "HYD-LOCO-3.5": 30.362786572117216
+  }
+}

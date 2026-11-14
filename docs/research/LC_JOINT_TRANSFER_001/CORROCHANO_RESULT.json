@@ -1,0 +1,166 @@
+{
+  "shapes_sha256": "6ace610e9d98ab37c334726ace113d7e676307b23bd6fbfa4fe80776aa7c444e",
+  "input_sha256": {
+    "puckworks/data/romancorrochano2015/fig10_shape/coordinates.csv": "7edf50d79fa361a06aca4c31ce0ef770e1f2a4a3f6c651b2a5cc2cd9277957a8",
+    "puckworks/data/romancorrochano2015/fig10_shape/contract.json": "a9d2029365a3bb0cfc4e38ecb146408b578ca64b8dbf88dbcc8543b824b98db5",
+    "puckworks/analysis/cor15_shape_001.py": "1e567b5d03b101302a317dc0b84516936220f7ce06696350e21fd1f81651df82"
+  },
+  "points": 108,
+  "series": 12,
+  "realizations": 4096,
+  "seed": 20261104,
+  "contrasts": [
+    {
+      "weight": 0.05,
+      "series": "POOLED",
+      "left": "LC-J1",
+      "right": "A-J1",
+      "D": 0.006552373468287268,
+      "reading_lower_95": 0.005974086322959608,
+      "reading_upper_95": 0.007136243435196986,
+      "realizations": 4096,
+      "interval_scope": "graphical readings conditional on frozen Waszkiewicz shape; not population confidence",
+      "S2_definition": "fixed central mean(Q squared); equal mean over series"
+    },
+    {
+      "weight": 0.05,
+      "series": "POOLED",
+      "left": "LC-J1",
+      "right": "L0",
+      "D": 0.032952568696099895,
+      "reading_lower_95": 0.032163811395273655,
+      "reading_upper_95": 0.03376004204163185,
+      "realizations": 4096,
+      "interval_scope": "graphical readings conditional on frozen Waszkiewicz shape; not population confidence",
+      "S2_definition": "fixed central mean(Q squared); equal mean over series"
+    },
+    {
+      "weight": 0.05,
+      "series": "POOLED",
+      "left": "A-J1",
+      "right": "L0",
+      "D": 0.026400195227812628,
+      "reading_lower_95": 0.02567026180583437,
+      "reading_upper_95": 0.02714016037997175,
+      "realizations": 4096,
+      "interval_scope": "graphical readings conditional on frozen Waszkiewicz shape; not population confidence",
+      "S2_definition": "fixed central mean(Q squared); equal mean over series"
+    },
+    {
+      "weight": 0.5,
+      "series": "POOLED",
+      "left": "LC-J1",
+      "right": "A-J1",
+      "D": 3.742599023080954e-05,
+      "reading_lower_95": 3.6356647561235024e-05,
+      "reading_upper_95": 3.8568561394164324e-05,
+      "realizations": 4096,
+      "interval_scope": "graphical readings conditional on frozen Waszkiewicz shape; not population confidence",
+      "S2_definition": "fixed central mean(Q squared); equal mean over series"
+    },
+    {
+      "weight": 0.5,
+      "series": "POOLED",
+      "left": "LC-J1",
+      "right": "L0",
+      "D": 0.02630476616779814,
+      "reading_lower_95": 0.025576342859761913,
+      "reading_upper_95": 0.02704394157831727,
+      "realizations": 4096,
+      "interval_scope": "graphical readings conditional on frozen Waszkiewicz shape; not population confidence",
+      "S2_definition": "fixed central mean(Q squared); equal mean over series"
+    },
+    {
+      "weight": 0.5,
+      "series": "POOLED",
+      "left": "A-J1",
+      "right": "L0",
+      "D": 0.026267340177567332,
+      "reading_lower_95": 0.025538734260268803,
+      "reading_upper_95": 0.027006284842216413,
+      "realizations": 4096,
+      "interval_scope": "graphical readings conditional on frozen Waszkiewicz shape; not population confidence",
+      "S2_definition": "fixed central mean(Q squared); equal mean over series"
+    },
+    {
+      "weight": 1.0,
+      "series": "POOLED",
+      "left": "LC-J1",
+      "right": "A-J1",
+      "D": 0.0,
+      "reading_lower_95": 0.0,
+      "reading_upper_95": 0.0,
+      "realizations": 4096,
+      "interval_scope": "graphical readings conditional on frozen Waszkiewicz shape; not population confidence",
+      "S2_definition": "fixed central mean(Q squared); equal mean over series"
+    },
+    {
+      "weight": 1.0,
+      "series": "POOLED",
+      "left": "LC-J1",
+      "right": "L0",
+      "D": 0.026332021667415353,
+      "reading_lower_95": 0.02560326128901523,
+      "reading_upper_95": 0.0270709665845285,
+      "realizations": 4096,
+      "interval_scope": "graphical readings conditional on frozen Waszkiewicz shape; not population confidence",
+      "S2_definition": "fixed central mean(Q squared); equal mean over series"
+    },
+    {
+      "weight": 1.0,
+      "series": "POOLED",
+      "left": "A-J1",
+      "right": "L0",
+      "D": 0.026332021667415353,
+      "reading_lower_95": 0.02560326128901523,
+      "reading_upper_95": 0.0270709665845285,
+      "realizations": 4096,
+      "interval_scope": "graphical readings conditional on frozen Waszkiewicz shape; not population confidence",
+      "S2_definition": "fixed central mean(Q squared); equal mean over series"
+    },
+    {
+      "weight": 2.0,
+      "series": "POOLED",
+      "left": "LC-J1",
+      "right": "A-J1",
+      "D": 0.0014227136440337935,
+      "reading_lower_95": 0.0012215433835707878,
+      "reading_upper_95": 0.0016309256082623744,
+      "realizations": 4096,
+      "interval_scope": "graphical readings conditional on frozen Waszkiewicz shape; not population confidence",
+      "S2_definition": "fixed central mean(Q squared); equal mean over series"
+    },
+    {
+      "weight": 2.0,
+      "series": "POOLED",
+      "left": "LC-J1",
+      "right": "L0",
+      "D": 0.03278787883553559,
+      "reading_lower_95": 0.031961950355564636,
+      "reading_upper_95": 0.03361894653568826,
+      "realizations": 4096,
+      "interval_scope": "graphical readings conditional on frozen Waszkiewicz shape; not population confidence",
+      "S2_definition": "fixed central mean(Q squared); equal mean over series"
+    },
+    {
+      "weight": 2.0,
+      "series": "POOLED",
+      "left": "A-J1",
+      "right": "L0",
+      "D": 0.031365165191501794,
+      "reading_lower_95": 0.030528664093506252,
+      "reading_upper_95": 0.03220454715054281,
+      "realizations": 4096,
+      "interval_scope": "graphical readings conditional on frozen Waszkiewicz shape; not population confidence",
+      "S2_definition": "fixed central mean(Q squared); equal mean over series"
+    }
+  ],
+  "historical_D0_reproduced": true,
+  "draws": {
+    "file": "CORROCHANO_READING_DRAWS.npz",
+    "sha256": "969414c8aee9ac8d2f9fd3f566c0f6a9c91eaea4854a82d681cfc3871bdea584"
+  },
+  "cpu_seconds": 61.354921362000006,
+  "source_license": "CC-BY-3.0",
+  "limitations": "Upstream-meter Q, corrected bed pressure; constant series recovery absorbed into target-fitted amplitude. A-480 lowest 1.41 bar versus others .23-.42; no common-pressure lowest-point comparison. All points below Waszkiewicz peak; no high-pressure/onset test."
+}

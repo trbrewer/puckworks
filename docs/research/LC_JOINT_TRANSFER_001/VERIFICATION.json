@@ -1,0 +1,103 @@
+{
+  "task": "PW-LC-JOINT-TRANSFER-001",
+  "status": "local focused verification and independent read-only review complete; required PR CI reported by GitHub checks",
+  "focused": {
+    "passed": 20,
+    "log_sha256": "e5fa0f35b31756789d626fca5d11aaf1565de6f6c9338df6651fbfefe8c5738f",
+    "tests": [
+      "tests/test_lc_joint_transfer_001.py",
+      "tests/test_lc_joint_transfer_001_artifacts.py"
+    ],
+    "coverage": [
+      "Exact f=0 nesting; f=1, n=1 and tau0=0 limits at rtol=1e-12, atol=0",
+      "Six-coordinate order, transforms and unbounded n",
+      "Whole-condition folds, matching Mc and matching ordinary C3E seed; all 19 starts retained",
+      "Inherited observer, censoring and missing-support behavior",
+      "Frozen score arithmetic, detection counts and f=0 feasibility",
+      "Corrochano Pa/bar mapping, one positive Q-space amplitude, fixed S2 and equal-series paired differences"
+    ]
+  },
+  "baseline_quick": {
+    "passed": 8065,
+    "skipped": 33,
+    "deselected": 97,
+    "wall_seconds": 1782.64,
+    "log_sha256": "3b3785db4a1ee6bf389cd3a9f8b9d0f8ad2b32bb862d7b906614c6e1fdd546ad"
+  },
+  "ruff": {
+    "status": "passed",
+    "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+  },
+  "registry_and_generated_checks": "Passed; full commands and log hashes in PREFIT_VERIFICATION.json",
+  "fitting_identity_unchanged": true,
+  "fit_problems": 48,
+  "scheduled_starts": 912,
+  "failed_starts": 0,
+  "unsuccessful_optimizer_returns": 0,
+  "start_objective_disagreement_fits": 48,
+  "source_replay": {
+    "saved_A_fits": 48,
+    "case_pairs": 316,
+    "maximum_trace_difference_g_s": 0.0,
+    "reference_replay_sha256": "f5b4a6bc25990207b69ea18171bdb68950ee86f5457df5d018fabe88fd62f307"
+  },
+  "csv_row_counts": {
+    "PAIRED_COMPARISONS.csv": 16,
+    "LOW_PRESSURE.csv": 8,
+    "NUMERICAL_BY_CASE.csv": 632,
+    "CORROCHANO_PAIRED.csv": 156,
+    "CORROCHANO_RESIDUALS.csv": 1296,
+    "FOLD_ISOLATION.csv": 48,
+    "MC_PROVENANCE.csv": 12,
+    "NUMERICAL_SCORES.csv": 32,
+    "OPTIMIZER_STARTS.csv": 912,
+    "SCORES.csv": 8,
+    "FLOW_BY_PRESSURE.csv": 88,
+    "EXTREMA.csv": 8,
+    "CORROCHANO_SERIES.csv": 144,
+    "ONSET_BY_BREW.csv": 448,
+    "FLOW_BY_BREW.csv": 448,
+    "DESCRIPTIVE_SWEEP.csv": 184,
+    "CAPACITY_CURVES.csv": 12528,
+    "HISTORICAL_CONTEXT.csv": 14,
+    "CORROCHANO_D0_CONTEXT.csv": 12,
+    "DESCRIPTIVE_CAPACITY.csv": 8,
+    "LOSS_BY_PRESSURE.csv": 176,
+    "LATE_TRENDS.csv": 88,
+    "FITS.csv": 48,
+    "ONSET_BY_PRESSURE.csv": 88,
+    "PAIRED_PRESSURE.csv": 176
+  },
+  "figures": {
+    "COMPARISON": "inspected",
+    "CORROCHANO": "inspected; coincident primary shapes explicitly annotated"
+  },
+  "numerical": {
+    "case_pairs": 632,
+    "detection_changes": 0,
+    "maximum_onset_change_s": 0.09999999999999964,
+    "maximum_endpoint_change_g_s": 3.8396279600227956e-08,
+    "maximum_common_trace_change_g_s": 8.005412267531042e-07
+  },
+  "preservation": {
+    "EWP": "read-only",
+    "production_defaults": "unchanged",
+    "historical_results": "unchanged",
+    "independent_campaign_count_change": 0
+  },
+  "required_pr_checks": "quick-pr Python 3.10/3.11/3.12/3.13 and generated-artifacts; exact head/run status is reported in the draft PR and closeout response",
+  "svg_serialization": {
+    "initial_staged_diff_check": "failed on Matplotlib-generated trailing spaces",
+    "repair": "strip trailing spaces in both SVG writers and current SVGs; XML structure and attribute/text tokens verified unchanged",
+    "final_diff_check": "passed against actual base"
+  },
+  "independent_review": {
+    "session": "/root/independent_review",
+    "fresh": true,
+    "read_only": true,
+    "head": "07154ed258e84448cf1a639a8c44a1cf8226010e",
+    "actionable_findings": 0,
+    "repairs_requested": 0,
+    "record": "REVIEW.md"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "shapes": [
+    {
+      "model": "A-J1",
+      "weight": 0.05,
+      "n": 1.9222502590952792,
+      "Pd_bar": 3.6111014617845605,
+      "Pstar_bar": 23.92692380136603,
+      "f": 0.0,
+      "source_fit_sha256": "d674ac223e929b011dd58cb19fdcbd9813a41d8093b1d6d1dc3859cec271d755",
+      "fold": "DESCRIPTIVE_ALL"
+    },
+    {
+      "model": "LC-J1",
+      "weight": 0.05,
+      "n": 3.7275021588337793,
+      "Pd_bar": 3.8424423402871772,
+      "Pstar_bar": 20.900035143564672,
+      "f": 0.3650644555510564,
+      "source_fit_sha256": "729a821161f97ba0e1655b11d6247371b40dd83251e7570d35a0093ab206d9bd",
+      "fold": "DESCRIPTIVE_ALL"
+    },
+    {
+      "model": "A-J1",
+      "weight": 0.5,
+      "n": 1.9226216277098287,
+      "Pd_bar": 3.5707192623550044,
+      "Pstar_bar": 25.419056745266303,
+      "f": 0.0,
+      "source_fit_sha256": "f602f097f7a16eace3e39a9fec9f9fadfba2006c8f3abf7db25a20469fbde5a0",
+      "fold": "DESCRIPTIVE_ALL"
+    },
+    {
+      "model": "LC-J1",
+      "weight": 0.5,
+      "n": 1.9247607557595448,
+      "Pd_bar": 3.575080725690658,
+      "Pstar_bar": 25.191344365038436,
+      "f": 0.0010790791144219512,
+      "source_fit_sha256": "ea73350151204195c307923fa67744645a392dd560f49d57eb98d9a9258ca1e6",
+      "fold": "DESCRIPTIVE_ALL"
+    },
+    {
+      "model": "A-J1",
+      "weight": 1.0,
+      "n": 1.920913460187377,
+      "Pd_bar": 3.60143863762865,
+      "Pstar_bar": 24.476563932499058,
+      "f": 0.0,
+      "source_fit_sha256": "90afc1409ca608fa75a96fa7e7042f1aed38edbab570b3dca790c28d6e107476",
+      "fold": "DESCRIPTIVE_ALL"
+    },
+    {
+      "model": "LC-J1",
+      "weight": 1.0,
+      "n": 1.920913460187377,
+      "Pd_bar": 3.60143863762865,
+      "Pstar_bar": 24.476563932499058,
+      "f": 0.0,
+      "source_fit_sha256": "6eeaac4d83db15554dc591ae898363d049c773946c6906aa9e398bb9e367bbbb",
+      "fold": "DESCRIPTIVE_ALL"
+    },
+    {
+      "model": "A-J1",
+      "weight": 2.0,
+      "n": 2.1339838214674822,
+      "Pd_bar": 3.1586861088756453,
+      "Pstar_bar": 20.67291259864757,
+      "f": 0.0,
+      "source_fit_sha256": "6177fb91076bc63fff9845a94c48802ef020bd3d06d1af8ef2aef5c233139870",
+      "fold": "DESCRIPTIVE_ALL"
+    },
+    {
+      "model": "LC-J1",
+      "weight": 2.0,
+      "n": 2.2578303432802276,
+      "Pd_bar": 3.9426437279996804,
+      "Pstar_bar": 12.803885562628942,
+      "f": 0.09371918725286284,
+      "source_fit_sha256": "b7f19a7256c937e3db81b6a8bdf9a5a5ebd202de3213ef17ec2d2860dd451223",
+      "fold": "DESCRIPTIVE_ALL"
+    }
+  ],
+  "scope": "Frozen before any Corrochano calculation; no external shape fitting",
+  "fit_freeze_sha256": "0fa0a8e3bf81cb7905fae88b7e5fe47d16dc0d1d1dea0e61fa41cfb713744cd2"
+}

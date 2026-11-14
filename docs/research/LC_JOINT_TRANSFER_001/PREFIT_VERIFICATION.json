@@ -1,0 +1,122 @@
+{
+  "focused_tests": 17,
+  "status": "passed",
+  "log_sha256": "d009dafa39078ade5ab5dbf56660a7bfe812c25aff84157692baee2fc48cd790",
+  "initial_test_attempt": {
+    "passed": 12,
+    "failed": 2,
+    "log_sha256": "adcc300ace246b01cbbe50d9ddc2303f8c5246f16fb722d364e1ae6c89f2922c",
+    "finding": "Algebraically identical C3E log-power evaluation perturbed near-zero mass-balance residual diagnostics at f=0. Capacity/flow nesting passed; tiny diagnostic relative differences did not.",
+    "repair": "Exact nested boundaries evaluate through inherited J1 capacity expression. The rtol=1e-12, atol=0 contract was not relaxed."
+  },
+  "reference_replay": "48 saved fits and 316 case pairs reproduced at .005/.02 s; maximum trace difference zero",
+  "registry_gates": "passed",
+  "registry_log_sha256": "84a2094e42d4a220c258ff65aab3de84c3404bb1b987f84a3fd98d3e18b6aa66",
+  "source_identity": {
+    "docs/research/LC_JOINT_TRANSFER_001/PLAN.md": "9edc4427649a2d37fa549d839e13ae11aff1cadca89fd45b39a6034e0e3a391c",
+    "puckworks/analysis/lc_joint_transfer_001_run.py": "aaba8c195877c1e65135651e81ab786ec5a75ac3cc7b02f446b72a74e909555e",
+    "puckworks/analysis/lc_joint_transfer_001.py": "a78a6c5bedc8b4782e6b2aeefb0bd097b15a5c695b9fe380bdde5c52a1de35d2",
+    "puckworks/analysis/joint_clock_001.py": "6043f93a4291bc032e42506c880cf36ab286b59e03d4e55d7ed86869ca1a53c3",
+    "puckworks/analysis/joint_clock_001_run.py": "dcb67b90b1db75f87974b6a668f307d844f158c3b1b028e81ff2819262bb099f",
+    "puckworks/analysis/wetting_screen_001.py": "8a280469638f7a850d341df93fc793e1933b32085d9543797c784f885a087193",
+    "puckworks/analysis/pressure_peak_stage_c3e.py": "3b16e19cd53a53d08aeb068574a8f2237d709bd6020f51b3184d07804133ad56"
+  },
+  "optimizer_starts_before_spec_commit": 0,
+  "prefit_spec_commit": "34b180a6326dba74e36fa1b178ecc7899868e5fe",
+  "baseline_quick": {
+    "passed": 8065,
+    "skipped": 33,
+    "deselected": 97,
+    "wall_seconds": 1782.64,
+    "log_sha256": "3b3785db4a1ee6bf389cd3a9f8b9d0f8ad2b32bb862d7b906614c6e1fdd546ad"
+  },
+  "ruff": "passed",
+  "generated_checks": [
+    {
+      "command": [
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "returncode": 0,
+      "wall_seconds": 0.37712110485881567
+    },
+    {
+      "command": [
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "returncode": 0,
+      "wall_seconds": 0.3959600096568465
+    },
+    {
+      "command": [
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "returncode": 0,
+      "wall_seconds": 0.45967549784108996
+    },
+    {
+      "command": [
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "returncode": 0,
+      "wall_seconds": 0.38097168738022447
+    },
+    {
+      "command": [
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "returncode": 0,
+      "wall_seconds": 0.5753331822343171
+    },
+    {
+      "command": [
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "returncode": 0,
+      "wall_seconds": 0.7434887061826885
+    },
+    {
+      "command": [
+        "puckworks.paper3.claim_coverage"
+      ],
+      "returncode": 0,
+      "wall_seconds": 11.722589407116175
+    },
+    {
+      "command": [
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "returncode": 0,
+      "wall_seconds": 3.2604331942275167
+    },
+    {
+      "command": [
+        "puckworks.paper3.evidence_graph",
+        "--reconcile"
+      ],
+      "returncode": 0,
+      "wall_seconds": 0.3699453896842897
+    },
+    {
+      "command": [
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "returncode": 0,
+      "wall_seconds": 0.3784265723079443
+    },
+    {
+      "command": [
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "returncode": 0,
+      "wall_seconds": 0.42344006011262536
+    }
+  ],
+  "deterministic_archive_verification": "passed"
+}
